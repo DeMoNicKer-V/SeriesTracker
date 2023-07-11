@@ -65,7 +65,7 @@
                 Stroke="{AppThemeBinding Light=Black, Dark=White}"
                 BackgroundColor="{AppThemeBinding Light=Black, Dark=White}"
                 HorizontalOptions="End" VerticalOptions="End" HeightRequest="60" WidthRequest="60">
-                    <Button BackgroundColor="{AppThemeBinding Light=Black, Dark=White}"
+                    <Button BackgroundColor="{AppThemeBinding Light=Black, Dark=White}" Command="{Binding AddSeriesCommand}"
                     Text="+" FontSize="35" Margin="0,-5,0,0" FontAttributes="Bold" TextColor="{AppThemeBinding Light=White, Dark=Black}"></Button>
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="20" />

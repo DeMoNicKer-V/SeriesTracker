@@ -1,4 +1,5 @@
 ﻿using SeriesTracker.Services;
+using SeriesTracker.Views;
 
 namespace SeriesTracker;
 
@@ -22,7 +23,9 @@ public partial class App : Application
     public App()
 	{
 		InitializeComponent();
-
-		MainPage = new AppShell();
+        Routing.RegisterRoute(nameof(ActiveSeriesPage), typeof(ActiveSeriesPage));
+        Routing.RegisterRoute(nameof(NewSeriesPage), typeof(NewSeriesPage));
+        Routing.RegisterRoute(nameof(EditSeriesPage), typeof(EditSeriesPage));
+        MainPage = new AppShell();
 	}
 }

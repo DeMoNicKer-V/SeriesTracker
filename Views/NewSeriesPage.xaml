@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SeriesTracker.Views.NewSeriesPage"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vModels="clr-namespace:SeriesTracker.ViewModels"
+             xmlns:Models="clr-namespace:SeriesTracker.Models"             
+             Shell.FlyoutBehavior="Disabled" 
+             Shell.TabBarIsVisible="False" 
+             Shell.NavBarIsVisible="True"
+             BackgroundColor="{AppThemeBinding Light=#ffffff, Dark=#121212}"
+             Shell.BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark=#121212}"
+             Title="Новый тайтл">
+    <ScrollView>
+        <StackLayout Margin="20">
+            <StackLayout VerticalOptions="FillAndExpand">
+
+                <StackLayout Spacing="5" 
+                       
+                         VerticalOptions="FillAndExpand"
+                         Orientation="Vertical"
+                         >
+                    <Editor Text="{Binding Series.name, Mode=TwoWay}"
+                        Placeholder="Название тайтла"
+                    FontSize="Title" VerticalTextAlignment="Center"
+                    HorizontalOptions="FillAndExpand"
+                            HeightRequest="110"
+                            >
+                    </Editor>
+                    <Image Source="no_image.png"
+                        HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand">
+                    </Image>
+                </StackLayout>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" VerticalOptions="End">
+                <Grid RowDefinitions="*" ColumnDefinitions="*,*"
+                  ColumnSpacing="50"
+                  VerticalOptions="Center"
+                  HorizontalOptions="CenterAndExpand">
+                    <ImageButton Source="add.png" HeightRequest="40" WidthRequest="40" 
+                                        HorizontalOptions="Center" VerticalOptions="Center"
+                                        Grid.Column="0" IsVisible="true" 
+                                       >
+                        <ImageButton.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        </ImageButton.Behaviors>
+                    </ImageButton>
+
+
+                    <ImageButton Grid.Column="1" Source="cancel.png" HeightRequest="40"
+                                 WidthRequest="40"
+                                 HorizontalOptions="Center" VerticalOptions="Center" >
+                        <ImageButton.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        </ImageButton.Behaviors>
+                    </ImageButton>
+                </Grid>
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

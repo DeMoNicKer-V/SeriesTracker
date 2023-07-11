@@ -10,6 +10,7 @@ using Org.W3c.Dom;
 using static Android.Media.MediaRouter;
 using static Android.Provider.ContactsContract.CommonDataKinds;
 using SeriesTracker.Models;
+using SeriesTracker.Views;
 
 namespace SeriesTracker.ViewModels;
 public partial class ActiveSeriesPageViewModel: BaseSeriesModel
@@ -55,6 +56,6 @@ public partial class ActiveSeriesPageViewModel: BaseSeriesModel
     [RelayCommand]
     private async void OnAddSeries()
     {
-        //await Shell.Current.GoToAsync(nameof(DetailNotePage));
+        await Shell.Current.GoToAsync(nameof(NewSeriesPage));
     }
 }
