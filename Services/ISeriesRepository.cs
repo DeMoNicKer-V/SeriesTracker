@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SeriesTracker.Models;
-using static Android.Provider.ContactsContract.CommonDataKinds;
 
 namespace SeriesTracker.Services;
 internal interface ISeriesRepository

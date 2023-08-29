@@ -27,10 +27,56 @@
                             HeightRequest="110"
                             >
                     </Editor>
-                    <Image Source="no_image.png"
-                        HorizontalOptions="FillAndExpand"
-                    VerticalOptions="FillAndExpand">
-                    </Image>
+
+                    <StackLayout Orientation="Horizontal" Margin="5" Padding="5">
+                        <Label Text="Тип тайтла:"></Label>
+                        <Picker Title="Выберите тип"
+                            HorizontalOptions="FillAndExpand" 
+                                HorizontalTextAlignment="Center" 
+                                Margin="0, -12, 0, 0">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>TV</x:String>
+                                    <x:String>OVA</x:String>
+                                    <x:String>ONA</x:String>
+                                    <x:String>Special</x:String>
+                                    <x:String>П/ф</x:String>
+                                    <x:String>К/ф</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </StackLayout>
+                    
+                    <StackLayout Orientation="Horizontal">
+                        <StackLayout Orientation="Horizontal" Margin="5" Padding="5">
+                            <Label Text="Начальная серия:"></Label>
+                            <Entry Keyboard="Numeric" HorizontalTextAlignment="Center"  Margin="0, -12, 0, 0" MaxLength="4"></Entry>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal" Margin="5" Padding="5">
+                            <Label Text="Последняя серия:"></Label>
+                            <Entry Keyboard="Numeric" HorizontalTextAlignment="Center"  Margin="0, -12, 0, 0" MaxLength="4"></Entry>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="5" Padding="5">
+                        <Label Text="Текущая серия:"></Label>
+                        <Entry Keyboard="Numeric" HorizontalTextAlignment="Center"  Margin="0, -12, 0, 0" MaxLength="4"></Entry>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" Margin="5" Padding="5">
+                        <StackLayout Orientation="Horizontal" Margin="5" Padding="5">
+                            <Label Text="Наличие сезонов:"></Label>
+                            <CheckBox Margin="0, -12, 0, 0" CheckedChanged="CheckBox_CheckedChanged"></CheckBox>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal" Margin="5" Padding="5">
+                            <Label x:Name="seasonLabel" IsEnabled="False" 
+                                   Text="Сезон:"></Label>
+                            <Entry x:Name="seasonEntry" IsEnabled="False" 
+                                   Keyboard="Numeric" HorizontalTextAlignment="Center"  Margin="0, -12, 0, 0" MaxLength="4"></Entry>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="5" Padding="5">
+                        <Label Text="Год Выхода:"></Label>
+                        <Entry Keyboard="Numeric" HorizontalTextAlignment="Center"  Margin="0, -12, 0, 0" MaxLength="4"></Entry>
+                    </StackLayout>
                 </StackLayout>
             </StackLayout>
             <StackLayout Orientation="Horizontal" VerticalOptions="End">

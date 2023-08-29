@@ -5,10 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.Input;
-using IntelliJ.Lang.Annotations;
-using Org.W3c.Dom;
-using static Android.Media.MediaRouter;
-using static Android.Provider.ContactsContract.CommonDataKinds;
 using SeriesTracker.Models;
 using SeriesTracker.Views;
 
