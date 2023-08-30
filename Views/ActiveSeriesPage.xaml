@@ -1,79 +1,145 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SeriesTracker.Views.ActiveSeriesPage"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:vModels="clr-namespace:SeriesTracker.ViewModels"
-             Title="ActiveSeriesPage">
+<ContentPage
+    x:Class="SeriesTracker.Views.ActiveSeriesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:SeriesTracker.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vModels="clr-namespace:SeriesTracker.ViewModels"
+    Title="ActiveSeriesPage"
+    BackgroundColor="{AppThemeBinding Light=#ffffff,
+                                      Dark=#121212}"
+    Shell.BackgroundColor="{AppThemeBinding Light={StaticResource Primary},
+                                            Dark=#121212}">
     <ContentPage.Behaviors>
-        <toolkit:StatusBarBehavior x:Name="noteStatus" StatusBarColor="{AppThemeBinding Light={StaticResource Primary}, Dark=#121212}" StatusBarStyle="Default">
-        </toolkit:StatusBarBehavior>
+        <toolkit:StatusBarBehavior
+            x:Name="SeriesStatus"
+            StatusBarColor="{AppThemeBinding Light={StaticResource Primary},
+                                             Dark=#121212}"
+            StatusBarStyle="Default" />
     </ContentPage.Behaviors>
     <Shell.TitleView>
         <toolkit:DockLayout>
-            <Label x:Name="titleLabel" toolkit:DockLayout.DockPosition="Left" Text="Сейчас смотрю" HorizontalOptions="Start" TextColor="White" FontSize="Title" Margin="10"></Label>
+            <Label
+                x:Name="titleLabel"
+                Margin="10"
+                toolkit:DockLayout.DockPosition="Left"
+                FontSize="Title"
+                HorizontalOptions="Start"
+                Text="Сейчас смотрю"
+                TextColor="White" />
         </toolkit:DockLayout>
     </Shell.TitleView>
     <StackLayout>
-        <RefreshView Command="{Binding LoadSeriesCommand}"
-                     IsRefreshing="{Binding IsBusy}">
+        <RefreshView Command="{Binding LoadSeriesCommand}" IsRefreshing="{Binding IsBusy}">
             <toolkit:DockLayout>
-
-
-                <CollectionView toolkit:DockLayout.DockPosition="Top">
+                <CollectionView
+                    Margin="15"
+                    toolkit:DockLayout.DockPosition="None"
+                    HorizontalScrollBarVisibility="Never"
+                    ItemsSource="{Binding seriesList}"
+                    VerticalScrollBarVisibility="Never">
                     <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Border Stroke="{AppThemeBinding Light=#f7f7f7, Dark=#1e1e1e}" BackgroundColor="{AppThemeBinding Light=#f7f7f7, Dark=#1e1e1e}">
+                        <DataTemplate x:DataType="models:Series">
+                            <Border
+                                Margin="0,10,0,0"
+                                BackgroundColor="{AppThemeBinding Light=#f7f7f7,
+                                                                  Dark=#1e1e1e}"
+                                Stroke="{AppThemeBinding Light=#f7f7f7,
+                                                         Dark=#1e1e1e}">
                                 <Border.StrokeShape>
-                                    <RoundRectangle CornerRadius="5" />
+                                    <RoundRectangle CornerRadius="10" />
                                 </Border.StrokeShape>
-                                <Grid Padding="5" Margin="10">
+                                <Grid Margin="10" Padding="5">
+
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
 
-                                    <Border Stroke="Blue" Grid.Row="0" HorizontalOptions="Start">
+                                    <Border
+                                        Grid.Row="0"
+                                        HorizontalOptions="Start"
+                                        Stroke="#f7f7f7">
                                         <Border.StrokeShape>
                                             <RoundRectangle CornerRadius="3" />
                                         </Border.StrokeShape>
-                                        <Label Padding="2"
-                           BackgroundColor="Blue"
-                           TextColor="{AppThemeBinding Light=White, Dark=Black}" FontAttributes="Bold"
-                       Text="1 Сезон"/>
+                                        <Label
+                                            Padding="2"
+                                            BackgroundColor="#f7f7f7"
+                                            FontAttributes="Bold"
+                                            FontFamily="NunitoRegular"
+                                            Text="{Binding seriesSeason}"
+                                            TextColor="{AppThemeBinding Light=Red,
+                                                                        Dark=Black}" />
                                     </Border>
-                                    <Label Grid.Row="1"
-                       Text="Наруто"
-                           FontSize="20"
-                       FontAttributes="Bold"
-                       LineBreakMode="TailTruncation" TextColor="{AppThemeBinding Light=Black, Dark=White}"/>
-                                    <Image Source="no_image.png"></Image>
-                                    <Label Grid.Row="3" FontSize="11"  Margin="0,10,0,0"
-                       Text="101"
-                       FontAttributes="Italic"
-                       VerticalOptions="End" TextColor="#929292"/>
+                                    <Label
+                                        Grid.Row="1"
+                                        FontAttributes="Bold"
+                                        FontFamily="NunitoRegular"
+                                        FontSize="20"
+                                        LineBreakMode="TailTruncation"
+                                        Text="{Binding seriesName}"
+                                        TextColor="{AppThemeBinding Light=Black,
+                                                                    Dark=White}" />
+                                    <Label
+                                        Grid.Row="2"
+                                        Margin="0,10,0,0"
+                                        FontFamily="NunitoRegular"
+                                        FontSize="16"
+                                        LineBreakMode="CharacterWrap"
+                                        MaxLines="10"
+                                        Text="{Binding startEpisode}"
+                                        TextColor="{AppThemeBinding Light=Black,
+                                                                    Dark=White}" />
+                                    <Label
+                                        Grid.Row="3"
+                                        Margin="0,10,0,0"
+                                        FontAttributes="Italic"
+                                        FontFamily="NunitoRegular"
+                                        FontSize="11"
+                                        Text="{Binding lastEpisode}"
+                                        TextColor="#929292"
+                                        VerticalOptions="End" />
                                 </Grid>
                             </Border>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                
-                <Border Margin="20" toolkit:DockLayout.DockPosition="Bottom"
-                Stroke="{AppThemeBinding Light=Black, Dark=White}"
-                BackgroundColor="{AppThemeBinding Light=Black, Dark=White}"
-                HorizontalOptions="End" VerticalOptions="End" HeightRequest="60" WidthRequest="60">
-                    <Button BackgroundColor="{AppThemeBinding Light=Black, Dark=White}" Command="{Binding AddSeriesCommand}"
-                    Text="+" FontSize="35" Margin="0,-5,0,0" FontAttributes="Bold" TextColor="{AppThemeBinding Light=White, Dark=Black}"></Button>
+
+                <Border
+                    Margin="20"
+                    toolkit:DockLayout.DockPosition="Bottom"
+                    BackgroundColor="{AppThemeBinding Light=Black,
+                                                      Dark=White}"
+                    HeightRequest="60"
+                    HorizontalOptions="End"
+                    Stroke="{AppThemeBinding Light=Black,
+                                             Dark=White}"
+                    VerticalOptions="End"
+                    WidthRequest="60">
+                    <Button
+                        Margin="0,-5,0,0"
+                        BackgroundColor="{AppThemeBinding Light=Black,
+                                                          Dark=White}"
+                        Command="{Binding AddSeriesCommand}"
+                        FontAttributes="Bold"
+                        FontSize="35"
+                        Text="+"
+                        TextColor="{AppThemeBinding Light=White,
+                                                    Dark=Black}" />
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="20" />
                     </Border.StrokeShape>
-                    <Border.Shadow Brush="{AppThemeBinding Light=Black, Dark=White}"
-                Offset="20,20"
-                Radius="20"
-                Opacity="0.7" />
+                    <Border.Shadow
+                        Brush="{AppThemeBinding Light=Black,
+                                                Dark=White}"
+                        Opacity="0.7"
+                        Radius="20"
+                        Offset="20,20" />
                 </Border>
 
             </toolkit:DockLayout>

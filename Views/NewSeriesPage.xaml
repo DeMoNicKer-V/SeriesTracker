@@ -1,107 +1,235 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SeriesTracker.Views.NewSeriesPage"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             xmlns:vModels="clr-namespace:SeriesTracker.ViewModels"
-             xmlns:Models="clr-namespace:SeriesTracker.Models"             
-             Shell.FlyoutBehavior="Disabled" 
-             Shell.TabBarIsVisible="False" 
-             Shell.NavBarIsVisible="True"
-             BackgroundColor="{AppThemeBinding Light=#ffffff, Dark=#121212}"
-             Shell.BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark=#121212}"
-             Title="Новый тайтл">
+<ContentPage
+    x:Class="SeriesTracker.Views.NewSeriesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:Models="clr-namespace:SeriesTracker.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vModels="clr-namespace:SeriesTracker.ViewModels"
+    Title="Новый тайтл"
+    BackgroundColor="{AppThemeBinding Light=#ffffff,
+                                      Dark=#121212}"
+    Shell.BackgroundColor="{AppThemeBinding Light={StaticResource Primary},
+                                            Dark=#121212}"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.NavBarIsVisible="True"
+    Shell.TabBarIsVisible="False">
+
+    <ContentPage.Resources>
+        <Style x:Key="InvalidEntryStyle" TargetType="Entry">
+            <Setter Property="TextColor" Value="Red" />
+        </Style>
+    </ContentPage.Resources>
+
+
     <ScrollView>
         <StackLayout Margin="20">
             <StackLayout VerticalOptions="FillAndExpand">
 
-                <StackLayout Spacing="5" 
-                       
-                         VerticalOptions="FillAndExpand"
-                         Orientation="Vertical"
-                         >
-                    <Editor Text="{Binding Series.name, Mode=TwoWay}"
+                <StackLayout
+                    Orientation="Vertical"
+                    Spacing="5"
+                    VerticalOptions="FillAndExpand">
+                    <Editor
+                        x:Name="nameEditor"
+                        FontSize="Title"
+                        HeightRequest="110"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
                         Placeholder="Название тайтла"
-                    FontSize="Title" VerticalTextAlignment="Center"
-                    HorizontalOptions="FillAndExpand"
-                            HeightRequest="110"
-                            >
+                        Text="{Binding Series.seriesName, Mode=TwoWay}"
+                        VerticalTextAlignment="Center">
+                        <Editor.Keyboard>
+                            <Keyboard x:FactoryMethod="Create">
+                                <x:Arguments>
+                                    <KeyboardFlags>Suggestions,CapitalizeSentence</KeyboardFlags>
+                                </x:Arguments>
+                            </Keyboard>
+                        </Editor.Keyboard>
+                        <Editor.Behaviors>
+                            <toolkit:TextValidationBehavior
+                                x:Name="nameValidator"
+                                Flags="ValidateOnValueChanged,ValidateOnAttaching"
+                                InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                MinimumLength="1" />
+                        </Editor.Behaviors>
                     </Editor>
 
-                    <StackLayout Orientation="Horizontal" Margin="5" Padding="5">
-                        <Label Text="Тип тайтла:"></Label>
-                        <Picker Title="Выберите тип"
-                            HorizontalOptions="FillAndExpand" 
-                                HorizontalTextAlignment="Center" 
-                                Margin="0, -12, 0, 0">
-                            <Picker.ItemsSource>
-                                <x:Array Type="{x:Type x:String}">
-                                    <x:String>TV</x:String>
-                                    <x:String>OVA</x:String>
-                                    <x:String>ONA</x:String>
-                                    <x:String>Special</x:String>
-                                    <x:String>П/ф</x:String>
-                                    <x:String>К/ф</x:String>
-                                </x:Array>
-                            </Picker.ItemsSource>
-                        </Picker>
-                    </StackLayout>
-                    
                     <StackLayout Orientation="Horizontal">
-                        <StackLayout Orientation="Horizontal" Margin="5" Padding="5">
-                            <Label Text="Начальная серия:"></Label>
-                            <Entry Keyboard="Numeric" HorizontalTextAlignment="Center"  Margin="0, -12, 0, 0" MaxLength="4"></Entry>
+                        <StackLayout
+                            Margin="5"
+                            Padding="5"
+                            Orientation="Horizontal">
+                            <Label
+                                BindingContext="{x:Reference startEntry}"
+                                Text="Начальная серия:"
+                                TextColor="{Binding TextColor}" />
+                            <Entry
+                                x:Name="startEntry"
+                                Margin="0,-12,0,0"
+                                HorizontalTextAlignment="Center"
+                                Keyboard="Numeric"
+                                MaxLength="4"
+                                Text="{Binding Series.startEpisode, Mode=TwoWay}"
+                                TextChanged="startEntry_TextChanged">
+                                <Entry.Behaviors>
+                                    <toolkit:CharactersValidationBehavior
+                                        CharacterType="Digit"
+                                        Flags="ValidateOnValueChanged"
+                                        InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                        RegexPattern="^0{1}$|^[1-9][0-9]*$" />
+                                </Entry.Behaviors>
+                            </Entry>
                         </StackLayout>
-                        <StackLayout Orientation="Horizontal" Margin="5" Padding="5">
-                            <Label Text="Последняя серия:"></Label>
-                            <Entry Keyboard="Numeric" HorizontalTextAlignment="Center"  Margin="0, -12, 0, 0" MaxLength="4"></Entry>
+                        <StackLayout
+                            Margin="5"
+                            Padding="5"
+                            Orientation="Horizontal">
+                            <Label
+                                BindingContext="{x:Reference lastEntry}"
+                                Text="Последняя серия:"
+                                TextColor="{Binding TextColor}" />
+                            <Entry
+                                x:Name="lastEntry"
+                                Margin="0,-12,0,0"
+                                HorizontalTextAlignment="Center"
+                                Keyboard="Numeric"
+                                MaxLength="4"
+                                Text="{Binding Series.lastEpisode, Mode=TwoWay}"
+                                TextChanged="lastEntry_TextChanged">
+                                <Entry.Behaviors>
+                                    <toolkit:CharactersValidationBehavior
+                                        CharacterType="Digit"
+                                        Flags="ValidateOnValueChanged"
+                                        InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                        RegexPattern="^0{1}$|^[1-9][0-9]*$" />
+                                </Entry.Behaviors>
+                            </Entry>
                         </StackLayout>
                     </StackLayout>
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="5" Padding="5">
-                        <Label Text="Текущая серия:"></Label>
-                        <Entry Keyboard="Numeric" HorizontalTextAlignment="Center"  Margin="0, -12, 0, 0" MaxLength="4"></Entry>
+                    <StackLayout
+                        Margin="5"
+                        Padding="5"
+                        HorizontalOptions="Center"
+                        Orientation="Horizontal">
+                        <Label
+                            BindingContext="{x:Reference currentEntry}"
+                            Text="Текущая серия:"
+                            TextColor="{Binding TextColor}" />
+                        <Entry
+                            x:Name="currentEntry"
+                            Margin="0,-12,0,0"
+                            HorizontalTextAlignment="Center"
+                            Keyboard="Numeric"
+                            MaxLength="4"
+                            Text="{Binding Series.currentEpisode, Mode=TwoWay}"
+                            TextChanged="currentEntry_TextChanged">
+                            <Entry.Behaviors>
+                                <toolkit:CharactersValidationBehavior
+                                    CharacterType="Digit"
+                                    Flags="ValidateOnValueChanged"
+                                    InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                    RegexPattern="^0{1}$|^[1-9][0-9]*$" />
+                            </Entry.Behaviors>
+                        </Entry>
                     </StackLayout>
-                    <StackLayout Orientation="Horizontal" Margin="5" Padding="5">
-                        <StackLayout Orientation="Horizontal" Margin="5" Padding="5">
-                            <Label Text="Наличие сезонов:"></Label>
-                            <CheckBox Margin="0, -12, 0, 0" CheckedChanged="CheckBox_CheckedChanged"></CheckBox>
+                    <StackLayout
+                        Margin="5"
+                        Padding="5"
+                        Orientation="Horizontal">
+                        <StackLayout
+                            Margin="5"
+                            Padding="5"
+                            Orientation="Horizontal">
+                            <Label Text="Наличие сезонов:" />
+                            <CheckBox Margin="0,-12,0,0" CheckedChanged="CheckBox_CheckedChanged" />
                         </StackLayout>
-                        <StackLayout Orientation="Horizontal" Margin="5" Padding="5">
-                            <Label x:Name="seasonLabel" IsEnabled="False" 
-                                   Text="Сезон:"></Label>
-                            <Entry x:Name="seasonEntry" IsEnabled="False" 
-                                   Keyboard="Numeric" HorizontalTextAlignment="Center"  Margin="0, -12, 0, 0" MaxLength="4"></Entry>
+                        <StackLayout
+                            Margin="5"
+                            Padding="5"
+                            Orientation="Horizontal">
+                            <Label
+                                x:Name="seasonLabel"
+                                BindingContext="{x:Reference seasonEntry}"
+                                IsEnabled="False"
+                                Text="Сезон:"
+                                TextColor="{Binding TextColor}" />
+                            <Entry
+                                x:Name="seasonEntry"
+                                Margin="0,-12,0,0"
+                                HorizontalTextAlignment="Center"
+                                IsEnabled="False"
+                                Keyboard="Numeric"
+                                MaxLength="4"
+                                Text="{Binding Series.seriesSeason, Mode=TwoWay}">
+                                <Entry.Behaviors>
+                                    <toolkit:CharactersValidationBehavior
+                                        CharacterType="Digit"
+                                        Flags="ValidateOnValueChanged"
+                                        InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                        RegexPattern="^0{1}$|^[1-9][0-9]*$" />
+                                </Entry.Behaviors>
+                            </Entry>
                         </StackLayout>
                     </StackLayout>
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="5" Padding="5">
-                        <Label Text="Год Выхода:"></Label>
-                        <Entry Keyboard="Numeric" HorizontalTextAlignment="Center"  Margin="0, -12, 0, 0" MaxLength="4"></Entry>
+                    <StackLayout
+                        Margin="5"
+                        Padding="5"
+                        HorizontalOptions="Center"
+                        Orientation="Horizontal">
+                        <Label
+                            BindingContext="{x:Reference releaseEntry}"
+                            Text="Год Выхода:"
+                            TextColor="{Binding TextColor}" />
+                        <Entry
+                            x:Name="releaseEntry"
+                            Margin="0,-12,0,0"
+                            HorizontalTextAlignment="Center"
+                            Keyboard="Numeric"
+                            MaxLength="4"
+                            Text="{Binding Series.releaseYear, Mode=TwoWay}">
+                            <Entry.Behaviors>
+                                <toolkit:CharactersValidationBehavior
+                                    CharacterType="Digit"
+                                    Flags="ValidateOnValueChanged"
+                                    InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                    MinimumLength="4"
+                                    RegexPattern="^[1-9][0-9]*$" />
+                            </Entry.Behaviors>
+                        </Entry>
                     </StackLayout>
                 </StackLayout>
             </StackLayout>
+
             <StackLayout Orientation="Horizontal" VerticalOptions="End">
-                <Grid RowDefinitions="*" ColumnDefinitions="*,*"
-                  ColumnSpacing="50"
-                  VerticalOptions="Center"
-                  HorizontalOptions="CenterAndExpand">
-                    <ImageButton Source="add.png" HeightRequest="40" WidthRequest="40" 
-                                        HorizontalOptions="Center" VerticalOptions="Center"
-                                        Grid.Column="0" IsVisible="true" 
-                                       >
-                        <ImageButton.Behaviors>
-                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
-                        </ImageButton.Behaviors>
-                    </ImageButton>
-
-
-                    <ImageButton Grid.Column="1" Source="cancel.png" HeightRequest="40"
-                                 WidthRequest="40"
-                                 HorizontalOptions="Center" VerticalOptions="Center" >
-                        <ImageButton.Behaviors>
-                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
-                        </ImageButton.Behaviors>
-                    </ImageButton>
-                </Grid>
+                <Border
+                    Margin="0,10,0,0"
+                    BackgroundColor="{AppThemeBinding Light=Black,
+                                                      Dark=White}"
+                    HeightRequest="75"
+                    HorizontalOptions="FillAndExpand"
+                    Stroke="{AppThemeBinding Light=Black,
+                                             Dark=White}"
+                    VerticalOptions="End">
+                    <Button
+                        x:Name="saveBtn"
+                        BackgroundColor="{AppThemeBinding Light=Black,
+                                                          Dark=White}"
+                        Command="{Binding SaveSeriesCommand}"
+                        FontSize="20"
+                        Text="Сохранить"
+                        TextColor="{AppThemeBinding Light=White,
+                                                    Dark=Black}" />
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="5" />
+                    </Border.StrokeShape>
+                    <Border.Shadow
+                        Brush="{AppThemeBinding Light=Black,
+                                                Dark=White}"
+                        Opacity="0.7"
+                        Radius="20"
+                        Offset="20,20" />
+                </Border>
             </StackLayout>
         </StackLayout>
     </ScrollView>

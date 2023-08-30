@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using SQLite;
 
 namespace SeriesTracker.Models;
@@ -24,13 +26,32 @@ public partial class Series
         get; set;
     } = 1;
 
-    public int endEpisode
+    public int lastEpisode
     {
         get; set;
-    }
+    } = 10;
 
     public int currentEpisode
     {
         get; set;
     } = 1;
+    public int seriesSeason
+    {
+        get; set;
+    } = 0;
+
+    public int releaseYear
+    {
+        get; set;
+    } = 2023;
+
+    public (bool IsValid, string? ErrorMessage) Validate()
+    {
+        if (string.IsNullOrWhiteSpace(seriesName))
+        {
+            return (false, $"{nameof(seriesName)} is required.");
+        }
+        return (true, null);
+    }
 }
+
