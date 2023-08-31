@@ -71,8 +71,8 @@
                                 Keyboard="Numeric"
                                 MaxLength="4"
                                 Text="{Binding Series.startEpisode, Mode=TwoWay}"
-                                Unfocused="startEntry_Unfocused"
-                                TextChanged="startEntry_TextChanged">
+                                TextChanged="startEntry_TextChanged"
+                                Unfocused="startEntry_Unfocused">
                                 <Entry.Behaviors>
                                     <toolkit:CharactersValidationBehavior
                                         CharacterType="Digit"
@@ -97,8 +97,8 @@
                                 Keyboard="Numeric"
                                 MaxLength="4"
                                 Text="{Binding Series.lastEpisode, Mode=TwoWay}"
-                                Unfocused="lastEntry_Unfocused"
-                                TextChanged="lastEntry_TextChanged">
+                                TextChanged="lastEntry_TextChanged"
+                                Unfocused="lastEntry_Unfocused">
                                 <Entry.Behaviors>
                                     <toolkit:CharactersValidationBehavior
                                         CharacterType="Digit"
@@ -125,8 +125,8 @@
                             Keyboard="Numeric"
                             MaxLength="4"
                             Text="{Binding Series.currentEpisode, Mode=TwoWay}"
-                            Unfocused="currentEntry_Unfocused"
-                            TextChanged="currentEntry_TextChanged">
+                            TextChanged="currentEntry_TextChanged"
+                            Unfocused="currentEntry_Unfocused">
                             <Entry.Behaviors>
                                 <toolkit:CharactersValidationBehavior
                                     CharacterType="Digit"
@@ -164,7 +164,8 @@
                                 IsEnabled="False"
                                 Keyboard="Numeric"
                                 MaxLength="4"
-                                Text="{Binding Series.seriesSeason, Mode=TwoWay}">
+                                Text="{Binding Series.seriesSeason, Mode=TwoWay}"
+                                TextChanged="seasonEntry_TextChanged">
                                 <Entry.Behaviors>
                                     <toolkit:CharactersValidationBehavior
                                         CharacterType="Digit"
@@ -190,7 +191,9 @@
                             HorizontalTextAlignment="Center"
                             Keyboard="Numeric"
                             MaxLength="4"
-                            Text="{Binding Series.releaseYear, Mode=TwoWay}">
+                            Text="{Binding Series.releaseYear, Mode=TwoWay}"
+                            TextChanged="releaseEntry_TextChanged"
+                            Unfocused="releaseEntry_Unfocused">
                             <Entry.Behaviors>
                                 <toolkit:CharactersValidationBehavior
                                     CharacterType="Digit"

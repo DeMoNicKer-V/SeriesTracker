@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using SQLite;
+﻿using SQLite;
 
 namespace SeriesTracker.Models;
+
 public partial class Series
 {
     [PrimaryKey, AutoIncrement]
@@ -21,7 +15,17 @@ public partial class Series
         get; set;
     }
 
+    public int seriesSeason
+    {
+        get; set;
+    } = 0;
+
     public int startEpisode
+    {
+        get; set;
+    } = 1;
+
+    public int currentEpisode
     {
         get; set;
     } = 1;
@@ -31,35 +35,38 @@ public partial class Series
         get; set;
     } = 10;
 
-    public int currentEpisode
-    {
-        get; set;
-    } = 1;
-    public int seriesSeason
-    {
-        get; set;
-    } = 0;
-
     public int releaseYear
     {
         get; set;
-    } = 2023;
+    } = DateTime.Now.Year;
 
     public (bool IsValid, string? ErrorMessage) Validate()
     {
         if (string.IsNullOrWhiteSpace(seriesName))
         {
-            return (false, "Название обязательное поле.");
+            return (false, "Название обязательное поле!");
         }
-        else if (startEpisode < 0 & startEpisode > lastEpisode) 
+        else if (startEpisode < 0 & startEpisode > lastEpisode)
         {
-            return (false, "Первая серия должна быть меньше, чем последняя");
+            return (false, "Первая серия должна быть меньше, чем последняя!");
         }
         else if (lastEpisode < startEpisode)
         {
-            return (false, "Последняя серия должна быть больше или равна первой");
+            return (false, "Последняя серия должна быть больше или равна стартовой!");
+        }
+        else if (currentEpisode < startEpisode | currentEpisode > lastEpisode)
+        {
+            return (false, "Текущая серия не должа выходить за пределы стартовой и последней серий!");
+        }
+        else if (new[] { startEpisode, lastEpisode, currentEpisode, seriesSeason }.Min() < 0 )
+        {
+            return (false, "Все числовые значения не должны отрицательными!");
+        }
+        else if (releaseYear < 1961)
+        {
+            return (false, "Некорректный год выхода!");
         }
         return (true, null);
     }
-}
 
+}

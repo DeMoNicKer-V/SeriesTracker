@@ -1,16 +1,10 @@
-using CommunityToolkit.Maui.Converters;
 using SeriesTracker.Models;
 using SeriesTracker.ViewModels;
-using System.Numerics;
 
 namespace SeriesTracker.Views;
 
 public partial class NewSeriesPage : ContentPage
 {
-    public Series Series
-    {
-        get; set;
-    }
     public NewSeriesPage()
     {
         InitializeComponent();
@@ -28,6 +22,11 @@ public partial class NewSeriesPage : ContentPage
         }
     }
 
+    public Series Series
+    {
+        get; set;
+    }
+
     private void ChangeSeasonEnabled(bool checkFlag)
     {
         seasonLabel.IsEnabled = checkFlag;
@@ -37,7 +36,6 @@ public partial class NewSeriesPage : ContentPage
             seasonEntry.Text = "0";
         }
         else { seasonEntry.Text = "1"; }
-
     }
 
     private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
@@ -45,38 +43,9 @@ public partial class NewSeriesPage : ContentPage
         ChangeSeasonEnabled(e.Value);
     }
 
-    private void startEntry_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        if (e.NewTextValue.Length > 0)
-        {
-            currentEntry.Text = e.NewTextValue;
-        }
-    }
-
-    private void startEntry_Unfocused(object sender, FocusEventArgs e)
-    {
-        if (string.IsNullOrEmpty(currentEntry.Text))
-        {
-            currentEntry.Text = "0";
-        }
-    }
-
     private void currentEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
-
-        if (!string.IsNullOrEmpty(currentEntry.Text))
-        {
-            if (Convert.ToInt32(currentEntry.Text) < Convert.ToInt32(startEntry.Text))
-            {
-                currentEntry.Text = startEntry.Text;
-                return;
-            }
-            else if (Convert.ToInt32(currentEntry.Text) > Convert.ToInt32(lastEntry.Text))
-            {
-                currentEntry.Text = lastEntry.Text;
-                return;
-            }
-        }
+        RemoveSignsTextChanged(sender, e);
     }
 
     private void currentEntry_Unfocused(object sender, FocusEventArgs e)
@@ -85,11 +54,27 @@ public partial class NewSeriesPage : ContentPage
         {
             currentEntry.Text = startEntry.Text;
         }
+        else
+        if (!Enumerable.Range(Convert.ToInt32(startEntry.Text), Convert.ToInt32(lastEntry.Text))
+            .Contains(Convert.ToInt32(currentEntry.Text)))
+        {
+            currentEntry.Text = startEntry.Text;
+            return;
+        }
     }
 
     private void lastEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
-        if (!string.IsNullOrEmpty(lastEntry.Text))
+        RemoveSignsTextChanged(sender, e);
+    }
+
+    private void lastEntry_Unfocused(object sender, FocusEventArgs e)
+    {
+        if (string.IsNullOrEmpty(lastEntry.Text))
+        {
+            lastEntry.Text = startEntry.Text;
+        }
+        else if (!string.IsNullOrEmpty(lastEntry.Text))
         {
             if (Convert.ToInt32(startEntry.Text) > Convert.ToInt32(lastEntry.Text))
             {
@@ -99,12 +84,54 @@ public partial class NewSeriesPage : ContentPage
         }
     }
 
-    private void lastEntry_Unfocused(object sender, FocusEventArgs e)
+    private void releaseEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
-        if (string.IsNullOrEmpty(lastEntry.Text))
+        RemoveSignsTextChanged(sender, e);
+    }
+
+    private void releaseEntry_Unfocused(object sender, FocusEventArgs e)
+    {
+        if (string.IsNullOrEmpty(releaseEntry.Text) | releaseEntry.Text.Length < 4)
         {
-            lastEntry.Text = startEntry.Text;
+            releaseEntry.Text = DateTime.Now.Year.ToString();
         }
     }
 
+    private void RemoveSignsTextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (!string.IsNullOrWhiteSpace(e.NewTextValue))
+        {
+            bool isValid = e.NewTextValue.ToCharArray().All(x => char.IsDigit(x)); //Make sure all characters are numbers
+
+            ((Entry)sender).Text = isValid ? e.NewTextValue : e.NewTextValue.Remove(e.NewTextValue.Length - 1);
+        }
+    }
+
+    private void seasonEntry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        RemoveSignsTextChanged(sender, e);
+    }
+
+    private void startEntry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        RemoveSignsTextChanged(sender, e);
+    }
+
+    private void startEntry_Unfocused(object sender, FocusEventArgs e)
+    {
+        if (string.IsNullOrEmpty(startEntry.Text))
+        {
+            startEntry.Text = "0";
+        }
+        else
+        {
+            currentEntry.Text = startEntry.Text;
+
+            if (Convert.ToInt32(startEntry.Text) > Convert.ToInt32(lastEntry.Text))
+            {
+                lastEntry.Text = startEntry.Text;
+                return;
+            }
+        }
+    }
 }
