@@ -28,7 +28,7 @@ namespace SeriesTracker.ViewModels
             var (isValid, errorMessage) = newSeries.Validate();
             if (!isValid)
             {
-                await Shell.Current.DisplayAlert("Validation Error", errorMessage, "Ok");
+                await Shell.Current.DisplayAlert("Ошибка ввода данных", errorMessage, "Ok");
                 return;
             }
             await App.SeriesService.AddUpdateSeriesAsync(newSeries);

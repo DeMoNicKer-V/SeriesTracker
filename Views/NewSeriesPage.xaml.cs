@@ -1,3 +1,4 @@
+using CommunityToolkit.Maui.Converters;
 using SeriesTracker.Models;
 using SeriesTracker.ViewModels;
 using System.Numerics;
@@ -35,6 +36,7 @@ public partial class NewSeriesPage : ContentPage
         {
             seasonEntry.Text = "0";
         }
+        else { seasonEntry.Text = "1"; }
 
     }
 
@@ -48,6 +50,14 @@ public partial class NewSeriesPage : ContentPage
         if (e.NewTextValue.Length > 0)
         {
             currentEntry.Text = e.NewTextValue;
+        }
+    }
+
+    private void startEntry_Unfocused(object sender, FocusEventArgs e)
+    {
+        if (string.IsNullOrEmpty(currentEntry.Text))
+        {
+            currentEntry.Text = "0";
         }
     }
 
@@ -69,6 +79,14 @@ public partial class NewSeriesPage : ContentPage
         }
     }
 
+    private void currentEntry_Unfocused(object sender, FocusEventArgs e)
+    {
+        if (string.IsNullOrEmpty(currentEntry.Text))
+        {
+            currentEntry.Text = startEntry.Text;
+        }
+    }
+
     private void lastEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (!string.IsNullOrEmpty(lastEntry.Text))
@@ -80,4 +98,13 @@ public partial class NewSeriesPage : ContentPage
             }
         }
     }
+
+    private void lastEntry_Unfocused(object sender, FocusEventArgs e)
+    {
+        if (string.IsNullOrEmpty(lastEntry.Text))
+        {
+            lastEntry.Text = startEntry.Text;
+        }
+    }
+
 }

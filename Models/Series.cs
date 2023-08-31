@@ -49,7 +49,15 @@ public partial class Series
     {
         if (string.IsNullOrWhiteSpace(seriesName))
         {
-            return (false, $"{nameof(seriesName)} is required.");
+            return (false, "Название обязательное поле.");
+        }
+        else if (startEpisode < 0 & startEpisode > lastEpisode) 
+        {
+            return (false, "Первая серия должна быть меньше, чем последняя");
+        }
+        else if (lastEpisode < startEpisode)
+        {
+            return (false, "Последняя серия должна быть больше или равна первой");
         }
         return (true, null);
     }

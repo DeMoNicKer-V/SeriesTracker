@@ -71,6 +71,7 @@
                                 Keyboard="Numeric"
                                 MaxLength="4"
                                 Text="{Binding Series.startEpisode, Mode=TwoWay}"
+                                Unfocused="startEntry_Unfocused"
                                 TextChanged="startEntry_TextChanged">
                                 <Entry.Behaviors>
                                     <toolkit:CharactersValidationBehavior
@@ -96,6 +97,7 @@
                                 Keyboard="Numeric"
                                 MaxLength="4"
                                 Text="{Binding Series.lastEpisode, Mode=TwoWay}"
+                                Unfocused="lastEntry_Unfocused"
                                 TextChanged="lastEntry_TextChanged">
                                 <Entry.Behaviors>
                                     <toolkit:CharactersValidationBehavior
@@ -123,6 +125,7 @@
                             Keyboard="Numeric"
                             MaxLength="4"
                             Text="{Binding Series.currentEpisode, Mode=TwoWay}"
+                            Unfocused="currentEntry_Unfocused"
                             TextChanged="currentEntry_TextChanged">
                             <Entry.Behaviors>
                                 <toolkit:CharactersValidationBehavior
