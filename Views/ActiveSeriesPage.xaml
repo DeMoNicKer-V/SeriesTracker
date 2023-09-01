@@ -69,17 +69,17 @@
                                         Grid.Column="0"
                                         Grid.ColumnSpan="5"
                                         HorizontalOptions="Start"
-                                        Stroke="#f7f7f7">
+                                        Stroke="Black">
                                         <Border.StrokeShape>
                                             <RoundRectangle CornerRadius="3" />
                                         </Border.StrokeShape>
                                         <Label
                                             Padding="2"
-                                            BackgroundColor="#f7f7f7"
+                                            BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type vModels:ActiveSeriesPageViewModel}}, Path=GetRandomColor}"
                                             FontAttributes="Bold"
                                             FontFamily="NunitoRegular"
                                             Text="{Binding GetTitleDescription}"
-                                            TextColor="{AppThemeBinding Light=Red,
+                                            TextColor="{AppThemeBinding Light=White,
                                                                         Dark=Black}" />
                                     </Border>
                                     <Label

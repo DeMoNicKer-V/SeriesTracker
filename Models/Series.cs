@@ -40,6 +40,11 @@ public partial class Series
         get; set;
     } = DateTime.Now.Year;
 
+    public bool isOver
+    {
+        get; set;
+    } = false;
+
     public (bool IsValid, string? ErrorMessage) Validate()
     {
         if (string.IsNullOrWhiteSpace(seriesName))
