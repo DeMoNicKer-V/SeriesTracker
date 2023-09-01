@@ -39,14 +39,12 @@
                     HorizontalScrollBarVisibility="Never"
                     ItemsSource="{Binding seriesList}"
                     VerticalScrollBarVisibility="Never">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:Series">
-                            <Border
-                                Margin="0,10,0,0"
-                                BackgroundColor="{AppThemeBinding Light=#f7f7f7,
-                                                                  Dark=#1e1e1e}"
-                                Stroke="{AppThemeBinding Light=#f7f7f7,
-                                                         Dark=#1e1e1e}">
+                            <Border BackgroundColor="{AppThemeBinding Light=#f7f7f7, Dark=#1e1e1e}" Stroke="{AppThemeBinding Light=#f7f7f7, Dark=#1e1e1e}">
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="10" />
                                 </Border.StrokeShape>
@@ -58,9 +56,18 @@
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
 
                                     <Border
                                         Grid.Row="0"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="5"
                                         HorizontalOptions="Start"
                                         Stroke="#f7f7f7">
                                         <Border.StrokeShape>
@@ -71,12 +78,14 @@
                                             BackgroundColor="#f7f7f7"
                                             FontAttributes="Bold"
                                             FontFamily="NunitoRegular"
-                                            Text="{Binding seriesSeason}"
+                                            Text="{Binding GetTitleDescription}"
                                             TextColor="{AppThemeBinding Light=Red,
                                                                         Dark=Black}" />
                                     </Border>
                                     <Label
                                         Grid.Row="1"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="5"
                                         FontAttributes="Bold"
                                         FontFamily="NunitoRegular"
                                         FontSize="20"
@@ -86,21 +95,88 @@
                                                                     Dark=White}" />
                                     <Label
                                         Grid.Row="2"
+                                        Grid.Column="0"
                                         Margin="0,10,0,0"
                                         FontFamily="NunitoRegular"
                                         FontSize="16"
+                                        HorizontalOptions="Center"
                                         LineBreakMode="CharacterWrap"
                                         MaxLines="10"
                                         Text="{Binding startEpisode}"
                                         TextColor="{AppThemeBinding Light=Black,
                                                                     Dark=White}" />
                                     <Label
+                                        Grid.Row="2"
+                                        Grid.Column="1"
+                                        Margin="0,10,0,0"
+                                        FontFamily="NunitoRegular"
+                                        FontSize="25"
+                                        HorizontalOptions="Center"
+                                        LineBreakMode="CharacterWrap"
+                                        MaxLines="10"
+                                        Text="-"
+                                        TextColor="{AppThemeBinding Light=Black,
+                                                                    Dark=White}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:ActiveSeriesPageViewModel}}, Path=DecEpisodeCommand}"
+                                                CommandParameter="{Binding .}"
+                                                NumberOfTapsRequired="1" />
+                                        </Label.GestureRecognizers>
+
+                                    </Label>
+                                    <Label
+                                        Grid.Row="2"
+                                        Grid.Column="2"
+                                        Margin="0,10,0,0"
+                                        FontFamily="NunitoRegular"
+                                        FontSize="16"
+                                        HorizontalOptions="Center"
+                                        LineBreakMode="CharacterWrap"
+                                        MaxLines="10"
+                                        Text="{Binding currentEpisode}"
+                                        TextColor="{AppThemeBinding Light=Black,
+                                                                    Dark=White}" />
+                                    <Label
+                                        Grid.Row="2"
+                                        Grid.Column="3"
+                                        Margin="0,10,0,0"
+                                        FontFamily="NunitoRegular"
+                                        FontSize="25"
+                                        HorizontalOptions="Center"
+                                        LineBreakMode="CharacterWrap"
+                                        MaxLines="10"
+                                        Text="+"
+                                        TextColor="{AppThemeBinding Light=Black,
+                                                                    Dark=White}">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:ActiveSeriesPageViewModel}}, Path=IncEpisodeCommand}"
+                                                CommandParameter="{Binding .}"
+                                                NumberOfTapsRequired="1" />
+                                        </Label.GestureRecognizers>
+
+                                    </Label>
+                                    <Label
+                                        Grid.Row="2"
+                                        Grid.Column="4"
+                                        Margin="0,10,0,0"
+                                        FontFamily="NunitoRegular"
+                                        FontSize="16"
+                                        HorizontalOptions="Center"
+                                        LineBreakMode="CharacterWrap"
+                                        MaxLines="10"
+                                        Text="{Binding lastEpisode}"
+                                        TextColor="{AppThemeBinding Light=Black,
+                                                                    Dark=White}" />
+                                    <Label
                                         Grid.Row="3"
+                                        Grid.ColumnSpan="6"
                                         Margin="0,10,0,0"
                                         FontAttributes="Italic"
                                         FontFamily="NunitoRegular"
                                         FontSize="11"
-                                        Text="{Binding lastEpisode}"
+                                        Text="Дата добавления"
                                         TextColor="#929292"
                                         VerticalOptions="End" />
                                 </Grid>

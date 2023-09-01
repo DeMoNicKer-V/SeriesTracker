@@ -58,7 +58,7 @@ public partial class Series
         {
             return (false, "Текущая серия не должа выходить за пределы стартовой и последней серий!");
         }
-        else if (new[] { startEpisode, lastEpisode, currentEpisode, seriesSeason }.Min() < 0 )
+        else if (new[] { startEpisode, lastEpisode, currentEpisode, seriesSeason }.Min() < 0)
         {
             return (false, "Все числовые значения не должны отрицательными!");
         }
@@ -69,4 +69,15 @@ public partial class Series
         return (true, null);
     }
 
+    public string GetTitleDescription
+    {
+        get
+        {
+            if (seriesSeason > 0)
+            {
+                return $"Сезон {seriesSeason}-й, год выхода - {releaseYear}";
+            }
+            return $"Год выхода - {releaseYear}";
+        }
+    }
 }

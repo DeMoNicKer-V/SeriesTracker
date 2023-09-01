@@ -50,6 +50,34 @@ public partial class ActiveSeriesPageViewModel: BaseSeriesModel
     }
 
     [RelayCommand]
+    private async void OnIncEpisode(Series series)
+    {
+        if (series == null | series.currentEpisode == series.lastEpisode)
+        {
+            await Shell.Current.DisplayAlert("Текущий объект", ":(", "Ok");
+            return;
+
+        }
+        series.currentEpisode += 1;
+        await App.SeriesService.AddUpdateSeriesAsync(series);
+        OnAppearing();
+    }
+
+    [RelayCommand]
+    private async void OnDecEpisode(Series series)
+    {
+        if (series == null | series.currentEpisode == series.startEpisode)
+        {
+            await Shell.Current.DisplayAlert("Текущий объект", ":(", "Ok");
+            return;
+
+        }
+        series.currentEpisode -= 1;
+        await App.SeriesService.AddUpdateSeriesAsync(series);
+        OnAppearing();
+    }
+
+    [RelayCommand]
     private async void OnAddSeries()
     {
         await Shell.Current.GoToAsync(nameof(NewSeriesPage));
