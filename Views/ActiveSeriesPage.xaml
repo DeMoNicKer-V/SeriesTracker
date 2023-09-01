@@ -64,24 +64,17 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
 
-                                    <Border
+
+                                    <Label
+                                        x:Name="descriptionLabel"
                                         Grid.Row="0"
                                         Grid.Column="0"
                                         Grid.ColumnSpan="5"
-                                        HorizontalOptions="Start"
-                                        Stroke="Black">
-                                        <Border.StrokeShape>
-                                            <RoundRectangle CornerRadius="3" />
-                                        </Border.StrokeShape>
-                                        <Label
-                                            Padding="2"
-                                            BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type vModels:ActiveSeriesPageViewModel}}, Path=GetRandomColor}"
-                                            FontAttributes="Bold"
-                                            FontFamily="NunitoRegular"
-                                            Text="{Binding GetTitleDescription}"
-                                            TextColor="{AppThemeBinding Light=White,
-                                                                        Dark=Black}" />
-                                    </Border>
+                                        Padding="2"
+                                        FontAttributes="Bold"
+                                        FontFamily="NunitoRegular"
+                                        Text="{Binding GetTitleDescription}"
+                                        TextColor="{Binding Source={RelativeSource AncestorType={x:Type vModels:ActiveSeriesPageViewModel}}, Path=GetRandomColor}" />
                                     <Label
                                         Grid.Row="1"
                                         Grid.Column="0"
@@ -114,16 +107,16 @@
                                         HorizontalOptions="Center"
                                         LineBreakMode="CharacterWrap"
                                         MaxLines="10"
-                                        Text="-"
-                                        TextColor="{AppThemeBinding Light=Black,
-                                                                    Dark=White}">
+                                        Text="-">
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:ActiveSeriesPageViewModel}}, Path=DecEpisodeCommand}"
                                                 CommandParameter="{Binding .}"
                                                 NumberOfTapsRequired="1" />
                                         </Label.GestureRecognizers>
-
+                                        <Label.TextColor>
+                                            <Binding Path="TextColor" Source="{x:Reference descriptionLabel}" />
+                                        </Label.TextColor>
                                     </Label>
                                     <Label
                                         Grid.Row="2"
@@ -146,16 +139,16 @@
                                         HorizontalOptions="Center"
                                         LineBreakMode="CharacterWrap"
                                         MaxLines="10"
-                                        Text="+"
-                                        TextColor="{AppThemeBinding Light=Black,
-                                                                    Dark=White}">
+                                        Text="+">
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:ActiveSeriesPageViewModel}}, Path=IncEpisodeCommand}"
                                                 CommandParameter="{Binding .}"
                                                 NumberOfTapsRequired="1" />
                                         </Label.GestureRecognizers>
-
+                                        <Label.TextColor>
+                                            <Binding Path="TextColor" Source="{x:Reference descriptionLabel}" />
+                                        </Label.TextColor>
                                     </Label>
                                     <Label
                                         Grid.Row="2"
