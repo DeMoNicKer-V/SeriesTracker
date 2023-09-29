@@ -7,9 +7,18 @@
     xmlns:view="clr-namespace:SeriesTracker.Views"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate view:ActiveSeriesPage}"
-        Route="MainPage" />
-
+    <TabBar>
+        <ShellContent
+            Title="Смотрю"
+            ContentTemplate="{DataTemplate view:ActiveSeriesPage}"
+            Route="MainPage" />
+        <ShellContent
+            Title="Просмотрено"
+            ContentTemplate="{DataTemplate view:ViewedSeriesPage}"
+            Route="SecondPage" />
+        <ShellContent
+            Title="Информация"
+            ContentTemplate="{DataTemplate view:SettingsPage}"
+            Route="SettingsPage" />
+    </TabBar>
 </Shell>

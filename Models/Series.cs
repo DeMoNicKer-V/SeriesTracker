@@ -1,4 +1,5 @@
 ﻿using SQLite;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SeriesTracker.Models;
 
@@ -39,6 +40,11 @@ public partial class Series
     {
         get; set;
     } = DateTime.Now.Year;
+
+    public string addedDate
+    {
+        get; set;
+    }
 
     public bool isOver
     {
@@ -83,6 +89,18 @@ public partial class Series
                 return $"Сезон {seriesSeason}-й, год выхода - {releaseYear}";
             }
             return $"Год выхода - {releaseYear}";
+        }
+    }
+
+    public string getFormatDate
+    {
+        get
+        {
+            if (addedDate != null)
+            {
+                return System.String.Format($"Дата добавления: {DateTime.Parse(addedDate):f}");
+            }
+            return addedDate;
         }
     }
 }

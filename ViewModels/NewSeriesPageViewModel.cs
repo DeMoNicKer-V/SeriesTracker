@@ -31,6 +31,7 @@ namespace SeriesTracker.ViewModels
                 await Shell.Current.DisplayAlert("Ошибка ввода данных", errorMessage, "Ok");
                 return;
             }
+            newSeries.addedDate = DateTime.Now.ToString();
             await App.SeriesService.AddUpdateSeriesAsync(newSeries);
 
             await Shell.Current.GoToAsync("..");

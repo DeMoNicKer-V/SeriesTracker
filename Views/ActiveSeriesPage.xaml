@@ -172,7 +172,7 @@
                                         FontAttributes="Italic"
                                         FontFamily="NunitoRegular"
                                         FontSize="11"
-                                        Text="Дата добавления"
+                                        Text="{Binding getFormatDate}"
                                         TextColor="#929292"
                                         VerticalOptions="End" />
                                 </Grid>
