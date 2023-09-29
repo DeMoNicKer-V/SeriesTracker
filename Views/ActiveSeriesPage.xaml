@@ -44,10 +44,11 @@
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:Series">
-                            <Border BackgroundColor="{AppThemeBinding Light=#f7f7f7, Dark=#1e1e1e}" Stroke="{AppThemeBinding Light=#f7f7f7, Dark=#1e1e1e}">
+                            <Border BackgroundColor="{AppThemeBinding Light=#f7f7f7, Dark=#1e1e1e}">
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="10" />
                                 </Border.StrokeShape>
+
                                 <Grid Margin="10" Padding="5">
 
                                     <Grid.RowDefinitions>
@@ -101,9 +102,10 @@
                                     <Label
                                         Grid.Row="2"
                                         Grid.Column="1"
-                                        Margin="0,10,0,0"
+                                        Margin="0,0,0,0"
+                                        FontAttributes="Bold"
                                         FontFamily="NunitoRegular"
-                                        FontSize="25"
+                                        FontSize="30"
                                         HorizontalOptions="Center"
                                         LineBreakMode="CharacterWrap"
                                         MaxLines="10"
@@ -133,9 +135,10 @@
                                     <Label
                                         Grid.Row="2"
                                         Grid.Column="3"
-                                        Margin="0,10,0,0"
+                                        Margin="0,0,0,0"
+                                        FontAttributes="Bold"
                                         FontFamily="NunitoRegular"
-                                        FontSize="25"
+                                        FontSize="30"
                                         HorizontalOptions="Center"
                                         LineBreakMode="CharacterWrap"
                                         MaxLines="10"
@@ -173,6 +176,17 @@
                                         TextColor="#929292"
                                         VerticalOptions="End" />
                                 </Grid>
+                                <Border.Stroke>
+                                    <LinearGradientBrush EndPoint="0,1">
+                                        <GradientStop Offset="0.1" Color="{AppThemeBinding Light=#f7f7f7, Dark=#1e1e1e}" />
+                                        <GradientStop>
+                                            <GradientStop.Color>
+                                                <Binding Path="TextColor" Source="{x:Reference descriptionLabel}" />
+                                            </GradientStop.Color>
+                                            <GradientStop.Offset>1.0</GradientStop.Offset>
+                                        </GradientStop>
+                                    </LinearGradientBrush>
+                                </Border.Stroke>
                             </Border>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
