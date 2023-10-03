@@ -76,25 +76,24 @@
                                         FontFamily="NunitoRegular"
                                         Text="{Binding GetTitleDescription}"
                                         TextColor="{Binding Source={RelativeSource AncestorType={x:Type vModels:ActiveSeriesPageViewModel}}, Path=GetRandomColor}" />
-                                    <Label
+                                    <ImageButton
                                         x:Name="menuLabel"
                                         Grid.Row="0"
                                         Grid.Column="5"
                                         Padding="2"
-                                        FontAttributes="Italic"
-                                        FontFamily="NunitoRegular"
-                                        FontSize="11"
-                                        Text="Дополнительно">
-                                        <Label.TextColor>
-                                            <Binding Path="TextColor" Source="{x:Reference descriptionLabel}" />
-                                        </Label.TextColor>
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer
-           Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:ActiveSeriesPageViewModel}}, Path=AdditionalActionCommand}"
-           CommandParameter="{Binding .}"
-           NumberOfTapsRequired="1" />
-                                        </Label.GestureRecognizers>
-                                    </Label>
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:ActiveSeriesPageViewModel}}, Path=AdditionalActionCommand}"
+                                        CommandParameter="{Binding .}"
+                                        HeightRequest="30"
+                                        Source="dots.png"
+                                        WidthRequest="30">
+                                        <ImageButton.Behaviors>
+                                            <toolkit:IconTintColorBehavior>
+                                                <toolkit:IconTintColorBehavior.TintColor>
+                                                    <Binding Path="TextColor" Source="{x:Reference descriptionLabel}" />
+                                                </toolkit:IconTintColorBehavior.TintColor>
+                                            </toolkit:IconTintColorBehavior>
+                                        </ImageButton.Behaviors>
+                                    </ImageButton>
                                     <Label
                                         Grid.Row="1"
                                         Grid.Column="0"

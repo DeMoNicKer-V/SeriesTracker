@@ -70,12 +70,28 @@
                                         x:Name="descriptionLabel"
                                         Grid.Row="0"
                                         Grid.Column="0"
-                                        Grid.ColumnSpan="5"
+                                        Grid.ColumnSpan="4"
                                         Padding="2"
                                         FontAttributes="Bold"
                                         FontFamily="NunitoRegular"
                                         Text="{Binding GetTitleDescription}"
                                         TextColor="{Binding Source={RelativeSource AncestorType={x:Type vModels:ViewedSeriesPageViewModel}}, Path=GetRandomColor}" />
+                                    <ImageButton
+                                        x:Name="menuLabel"
+                                        Grid.Row="0"
+                                        Grid.Column="5"
+                                        Padding="2"
+                                        HeightRequest="30"
+                                        Source="dots.png"
+                                        WidthRequest="30">
+                                        <ImageButton.Behaviors>
+                                            <toolkit:IconTintColorBehavior>
+                                                <toolkit:IconTintColorBehavior.TintColor>
+                                                    <Binding Path="TextColor" Source="{x:Reference descriptionLabel}" />
+                                                </toolkit:IconTintColorBehavior.TintColor>
+                                            </toolkit:IconTintColorBehavior>
+                                        </ImageButton.Behaviors>
+                                    </ImageButton>
                                     <Label
                                         Grid.Row="1"
                                         Grid.Column="0"
