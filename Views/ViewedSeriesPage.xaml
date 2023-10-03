@@ -65,7 +65,6 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
 
-
                                     <Label
                                         x:Name="descriptionLabel"
                                         Grid.Row="0"
@@ -81,6 +80,8 @@
                                         Grid.Row="0"
                                         Grid.Column="5"
                                         Padding="2"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:ViewedSeriesPageViewModel}}, Path=AdditionalActionCommand}"
+                                        CommandParameter="{Binding .}"
                                         HeightRequest="30"
                                         Source="dots.png"
                                         WidthRequest="30">

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using SeriesTracker.Models;
+using SeriesTracker.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -53,9 +54,40 @@ namespace SeriesTracker.ViewModels
             get;
         }
 
+        public int ActionIndex(string action)
+        {
+            switch (action)
+            {
+                case "Удалить": return 0;
+                case "Delete": return 0;
+                case "Возобновить просмотр": return 1;
+                case "Resume viewing": return 1;
+                case "Редактировать": return 2;
+                case "Edit": return 2;
+            }
+            return -1;
+        }
+
         public void OnAppearing()
         {
             IsBusy = true;
+        }
+
+        [RelayCommand]
+        private async void AdditionalAction(Series series)
+        {
+            string action = await Shell.Current.DisplayActionSheet(series.seriesName, "Закрыть", "Удалить", "Возобновить просмотр", "Редактировать");
+            if (action != null)
+            {
+                switch (ActionIndex(action))
+                {
+                    case 0: await App.SeriesService.DeleteSeriesAsync(series.seriesId); OnAppearing(); return;
+                    case 1: series.isOver = false; await App.SeriesService.AddUpdateSeriesAsync(series); OnAppearing(); return;
+                    case 2: await Shell.Current.GoToAsync(nameof(NewSeriesPage)); return;
+                }
+            }
+
+            return;
         }
 
         [RelayCommand]
