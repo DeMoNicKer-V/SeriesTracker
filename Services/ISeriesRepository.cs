@@ -10,6 +10,6 @@ internal interface ISeriesRepository
 {
     Task<bool> AddUpdateSeriesAsync(Series series);
     Task<bool> DeleteSeriesAsync(int seriesId);
-    Task<Series> GetSeriesAsync(int seriesId);
-    Task<IEnumerable<Series>> GetSeriesAsync();
+    Task<Series> GetSeriesAsyncById(int seriesId);
+    Task<IEnumerable<Series>> GetSeriesAsync(bool overFlag);
 }

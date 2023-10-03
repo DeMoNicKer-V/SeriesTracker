@@ -7,13 +7,15 @@ namespace SeriesTracker.ViewModels;
 
 public partial class ActiveSeriesPageViewModel : BaseSeriesModel
 {
+    private int randomNumber;
+
     public ActiveSeriesPageViewModel(INavigation navigation)
     {
         seriesList = new ObservableCollection<Series>();
         Navigation = navigation;
     }
 
-    public List<Color> colorList { get; } = new List<Color>() { 
+    public List<Color> colorList { get; } = new List<Color>() {
         Color.FromArgb("#42A5F5"),
         Color.FromArgb("#EC407A"),
         Color.FromArgb("#26C6DA"),
@@ -33,8 +35,6 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         Color.FromArgb("#FF8A80"),
         Color.FromArgb("#FF80AB") };
 
-    private int randomNumber;
-
     public Color GetRandomColor
     {
         get
@@ -49,9 +49,40 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         get;
     }
 
+    public int ActionIndex(string action)
+    {
+        switch (action)
+        {
+            case "Удалить": return 0;
+            case "Delete": return 0;
+            case "Закончить просмотр": return 1;
+            case "Finish viewing": return 1;
+            case "Редактировать": return 2;
+            case "Edit": return 2;
+        }
+        return -1;
+    }
+
     public void OnAppearing()
     {
         IsBusy = true;
+    }
+
+    [RelayCommand]
+    private async void AdditionalAction(Series series)
+    {
+        string action = await Shell.Current.DisplayActionSheet(series.seriesName, "Закрыть", "Удалить", "Закончить просмотр", "Редактировать");
+        if (action != null)
+        {
+            switch (ActionIndex(action))
+            {
+                case 0: await App.SeriesService.DeleteSeriesAsync(series.seriesId); OnAppearing(); return;
+                case 1: series.isOver = true; await App.SeriesService.AddUpdateSeriesAsync(series); OnAppearing(); return;
+                case 2: await Shell.Current.GoToAsync(nameof(NewSeriesPage)); return;
+            }
+        }
+
+        return;
     }
 
     [RelayCommand]
@@ -61,7 +92,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         try
         {
             seriesList.Clear();
-            var newSeriesList = await App.SeriesService.GetSeriesAsync();
+            var newSeriesList = await App.SeriesService.GetSeriesAsync(false);
             foreach (var item in newSeriesList)
             {
                 seriesList.Add(item);

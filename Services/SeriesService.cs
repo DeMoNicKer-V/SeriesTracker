@@ -35,13 +35,13 @@ public class SeriesService : ISeriesRepository
         return await Task.FromResult(true);
     }
 
-    public async Task<Series> GetSeriesAsync(int seriesId)
+    public async Task<Series> GetSeriesAsyncById(int seriesId)
     {
         return await _database.Table<Series>().Where(n => n.seriesId == seriesId).FirstOrDefaultAsync();
     }
 
-    public async Task<IEnumerable<Series>> GetSeriesAsync()
+    public async Task<IEnumerable<Series>> GetSeriesAsync(bool overFlag)
     {
-        return await Task.FromResult(await _database.Table<Series>().ToListAsync());
+        return await Task.FromResult(await _database.Table<Series>().Where(s => s.isOver == overFlag).ToListAsync());
     }
 }

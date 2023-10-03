@@ -1,12 +1,197 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SeriesTracker.Views.ViewedSeriesPage"
-             Title="ViewedSeriesPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+<ContentPage
+    x:Class="SeriesTracker.Views.ViewedSeriesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:SeriesTracker.Models"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vModels="clr-namespace:SeriesTracker.ViewModels"
+    Title="ViewedSeriesPage"
+    BackgroundColor="{AppThemeBinding Light=#ffffff,
+                                      Dark=#121212}"
+    Shell.BackgroundColor="{AppThemeBinding Light={StaticResource Primary},
+                                            Dark=#121212}">
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior
+            x:Name="SeriesStatus"
+            StatusBarColor="{AppThemeBinding Light={StaticResource Primary},
+                                             Dark=#121212}"
+            StatusBarStyle="Default" />
+    </ContentPage.Behaviors>
+    <Shell.TitleView>
+        <toolkit:DockLayout>
+            <Label
+                x:Name="titleLabel"
+                Margin="10"
+                toolkit:DockLayout.DockPosition="Left"
+                FontSize="Title"
+                HorizontalOptions="Start"
+                Text="Просмотрено"
+                TextColor="White" />
+        </toolkit:DockLayout>
+    </Shell.TitleView>
+    <StackLayout>
+        <RefreshView Command="{Binding LoadSeriesCommand}" IsRefreshing="{Binding IsBusy}">
+            <toolkit:DockLayout>
+                <CollectionView
+                    Margin="15"
+                    toolkit:DockLayout.DockPosition="None"
+                    HorizontalScrollBarVisibility="Never"
+                    ItemsSource="{Binding seriesList}"
+                    VerticalScrollBarVisibility="Never">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Series">
+                            <Border BackgroundColor="{AppThemeBinding Light=#f7f7f7, Dark=#1e1e1e}">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
+
+                                <Grid Margin="10" Padding="5">
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+
+                                    <Label
+                                        x:Name="descriptionLabel"
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="5"
+                                        Padding="2"
+                                        FontAttributes="Bold"
+                                        FontFamily="NunitoRegular"
+                                        Text="{Binding GetTitleDescription}"
+                                        TextColor="{Binding Source={RelativeSource AncestorType={x:Type vModels:ViewedSeriesPageViewModel}}, Path=GetRandomColor}" />
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="5"
+                                        FontAttributes="Bold"
+                                        FontFamily="NunitoRegular"
+                                        FontSize="20"
+                                        LineBreakMode="TailTruncation"
+                                        Text="{Binding seriesName}"
+                                        TextColor="{AppThemeBinding Light=Black,
+                                                                    Dark=White}" />
+                                    <Label
+                                        Grid.Row="2"
+                                        Grid.Column="0"
+                                        Margin="0,10,0,0"
+                                        FontFamily="NunitoRegular"
+                                        FontSize="16"
+                                        HorizontalOptions="Center"
+                                        LineBreakMode="CharacterWrap"
+                                        MaxLines="10"
+                                        Text="{Binding startEpisode}"
+                                        TextColor="{AppThemeBinding Light=Black,
+                                                                    Dark=White}" />
+                                    <Label
+                                        Grid.Row="2"
+                                        Grid.Column="1"
+                                        Margin="0,0,0,0"
+                                        FontAttributes="Bold"
+                                        FontFamily="NunitoRegular"
+                                        FontSize="30"
+                                        HorizontalOptions="Center"
+                                        LineBreakMode="CharacterWrap"
+                                        MaxLines="10"
+                                        Text="-">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:ViewedSeriesPageViewModel}}, Path=DecEpisodeCommand}"
+                                                CommandParameter="{Binding .}"
+                                                NumberOfTapsRequired="1" />
+                                        </Label.GestureRecognizers>
+                                        <Label.TextColor>
+                                            <Binding Path="TextColor" Source="{x:Reference descriptionLabel}" />
+                                        </Label.TextColor>
+                                    </Label>
+                                    <Label
+                                        Grid.Row="2"
+                                        Grid.Column="2"
+                                        Margin="0,10,0,0"
+                                        FontFamily="NunitoRegular"
+                                        FontSize="16"
+                                        HorizontalOptions="Center"
+                                        LineBreakMode="CharacterWrap"
+                                        MaxLines="10"
+                                        Text="{Binding currentEpisode}"
+                                        TextColor="{AppThemeBinding Light=Black,
+                                                                    Dark=White}" />
+                                    <Label
+                                        Grid.Row="2"
+                                        Grid.Column="3"
+                                        Margin="0,0,0,0"
+                                        FontAttributes="Bold"
+                                        FontFamily="NunitoRegular"
+                                        FontSize="30"
+                                        HorizontalOptions="Center"
+                                        LineBreakMode="CharacterWrap"
+                                        MaxLines="10"
+                                        Text="+">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:ViewedSeriesPageViewModel}}, Path=IncEpisodeCommand}"
+                                                CommandParameter="{Binding .}"
+                                                NumberOfTapsRequired="1" />
+                                        </Label.GestureRecognizers>
+                                        <Label.TextColor>
+                                            <Binding Path="TextColor" Source="{x:Reference descriptionLabel}" />
+                                        </Label.TextColor>
+                                    </Label>
+                                    <Label
+                                        Grid.Row="2"
+                                        Grid.Column="4"
+                                        Margin="0,10,0,0"
+                                        FontFamily="NunitoRegular"
+                                        FontSize="16"
+                                        HorizontalOptions="Center"
+                                        LineBreakMode="CharacterWrap"
+                                        MaxLines="10"
+                                        Text="{Binding lastEpisode}"
+                                        TextColor="{AppThemeBinding Light=Black,
+                                                                    Dark=White}" />
+                                    <Label
+                                        Grid.Row="3"
+                                        Grid.ColumnSpan="5"
+                                        Margin="0,10,0,0"
+                                        FontAttributes="Italic"
+                                        FontFamily="NunitoRegular"
+                                        FontSize="11"
+                                        Text="{Binding getFormatDate}"
+                                        TextColor="#929292"
+                                        VerticalOptions="End" />
+                                </Grid>
+                                <Border.Stroke>
+                                    <LinearGradientBrush EndPoint="0,1">
+                                        <GradientStop Offset="0.1" Color="{AppThemeBinding Light=#f7f7f7, Dark=#1e1e1e}" />
+                                        <GradientStop>
+                                            <GradientStop.Color>
+                                                <Binding Path="TextColor" Source="{x:Reference descriptionLabel}" />
+                                            </GradientStop.Color>
+                                            <GradientStop.Offset>1.0</GradientStop.Offset>
+                                        </GradientStop>
+                                    </LinearGradientBrush>
+                                </Border.Stroke>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </toolkit:DockLayout>
+        </RefreshView>
+    </StackLayout>
 </ContentPage>
