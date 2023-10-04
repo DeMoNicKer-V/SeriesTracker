@@ -15,10 +15,22 @@ namespace SeriesTracker.Services
 
         private SettingsService()
         {
-            Theme = Theme.System;
+            Theme = SelectTheme(Preferences.Get("AppTheme", "Unspecified"));
+        }
+
+        private Theme SelectTheme(string preferenceValue)
+        {
+            switch (preferenceValue)
+            {
+                case "Unspecified": return Theme.System;
+                case "Dark": return Theme.Dark;
+                case "Light": return Theme.Light;
+                default: return Theme.System;
+            }
         }
 
         [ObservableProperty]
         private Theme _theme;
     }
+
 }

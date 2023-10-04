@@ -1,3 +1,5 @@
+using SeriesTracker.Services;
+
 namespace SeriesTracker.Views;
 
 public partial class SettingsPage : ContentPage
@@ -33,5 +35,10 @@ public partial class SettingsPage : ContentPage
             Shell.Current.DisplayAlert("Произошла ошибка", "Пожалуйста, проверьте Интернет соединение.", "Ок");
             return;
         }
+    }
+
+    private void Picker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        Preferences.Set("AppTheme", SettingsService.Instance.Theme.AppTheme.ToString());
     }
 }
