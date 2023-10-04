@@ -1,5 +1,6 @@
 ﻿using SeriesTracker.Services;
 using SeriesTracker.Views;
+using System.ComponentModel;
 
 namespace SeriesTracker;
 
@@ -25,7 +26,30 @@ public partial class App : Application
 		InitializeComponent();
         Routing.RegisterRoute(nameof(ActiveSeriesPage), typeof(ActiveSeriesPage));
         Routing.RegisterRoute(nameof(NewSeriesPage), typeof(NewSeriesPage));
+        Routing.RegisterRoute(nameof(ViewedSeriesPage), typeof(ViewedSeriesPage));
+        Routing.RegisterRoute(nameof(SettingsPage), typeof(SettingsPage));
         Routing.RegisterRoute(nameof(EditSeriesPage), typeof(EditSeriesPage));
         MainPage = new AppShell();
-	}
+
+        SetTheme();
+
+        // subscribe to changes in the settings
+        SettingsService.Instance.PropertyChanged += OnSettingsPropertyChanged;
+    }
+
+
+    private void OnSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(SettingsService.Theme))
+        {
+            SetTheme();
+        }
+    }
+
+    private void SetTheme()
+    {
+        UserAppTheme = SettingsService.Instance?.Theme != null
+                     ? SettingsService.Instance.Theme.AppTheme
+                     : AppTheme.Unspecified;
+    }
 }
