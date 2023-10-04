@@ -72,13 +72,13 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     private async void AdditionalAction(Series series)
     {
         string action = await Shell.Current.DisplayActionSheet(series.seriesName, "Закрыть", "Удалить", "Закончить просмотр", "Редактировать");
-        if (action != null)
+        if (action != null | series != null)
         {
             switch (ActionIndex(action))
             {
                 case 0: await App.SeriesService.DeleteSeriesAsync(series.seriesId); OnAppearing(); return;
                 case 1: series.isOver = true; await App.SeriesService.AddUpdateSeriesAsync(series); OnAppearing(); return;
-                case 2: await Shell.Current.GoToAsync(nameof(NewSeriesPage)); return;
+                case 2: await Navigation.PushAsync(new NewSeriesPage(series)); return;
             }
         }
 
@@ -118,7 +118,6 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     {
         if (series == null | series.currentEpisode == series.startEpisode)
         {
-            await Shell.Current.DisplayAlert("Текущий объект", ":(", "Ok");
             return;
         }
         series.currentEpisode -= 1;
@@ -129,9 +128,21 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     [RelayCommand]
     private async void OnIncEpisode(Series series)
     {
-        if (series == null | series.currentEpisode == series.lastEpisode)
+        if (series == null)
         {
-            await Shell.Current.DisplayAlert("Текущий объект", ":(", "Ok");
+            return;
+        }
+        else if (series.currentEpisode == series.lastEpisode)
+        {
+            bool action = await Shell.Current.DisplayAlert($"{series.seriesName} - конец?",
+                "Похоже, что вы посмотрели все эпизоды. Пометить данный сериал как просмотренный?", "Да", "Нет");
+            if (action) 
+            { 
+                series.isOver = true; 
+                await App.SeriesService.AddUpdateSeriesAsync(series); 
+                OnAppearing(); 
+                return; 
+            }
             return;
         }
         series.currentEpisode += 1;

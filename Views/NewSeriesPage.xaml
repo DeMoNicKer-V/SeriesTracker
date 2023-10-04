@@ -6,7 +6,7 @@
     xmlns:Models="clr-namespace:SeriesTracker.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vModels="clr-namespace:SeriesTracker.ViewModels"
-    Title="Новый тайтл"
+    Title="Данные сериала"
     BackgroundColor="{AppThemeBinding Light=#ffffff,
                                       Dark=#121212}"
     Shell.BackgroundColor="{AppThemeBinding Light={StaticResource Primary},
@@ -145,7 +145,10 @@
                             Padding="5"
                             Orientation="Horizontal">
                             <Label Text="Наличие сезонов:" />
-                            <CheckBox Margin="0,-12,0,0" CheckedChanged="CheckBox_CheckedChanged" />
+                            <CheckBox
+                                x:Name="seasonCheckBox"
+                                Margin="0,-12,0,0"
+                                CheckedChanged="CheckBox_CheckedChanged" />
                         </StackLayout>
                         <StackLayout
                             Margin="5"

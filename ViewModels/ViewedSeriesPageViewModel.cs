@@ -77,13 +77,13 @@ namespace SeriesTracker.ViewModels
         private async void AdditionalAction(Series series)
         {
             string action = await Shell.Current.DisplayActionSheet(series.seriesName, "Закрыть", "Удалить", "Возобновить просмотр", "Редактировать");
-            if (action != null)
+            if (action != null | series != null)
             {
                 switch (ActionIndex(action))
                 {
                     case 0: await App.SeriesService.DeleteSeriesAsync(series.seriesId); OnAppearing(); return;
                     case 1: series.isOver = false; await App.SeriesService.AddUpdateSeriesAsync(series); OnAppearing(); return;
-                    case 2: await Shell.Current.GoToAsync(nameof(NewSeriesPage)); return;
+                    case 2: await Navigation.PushAsync(new NewSeriesPage(series)); return;
                 }
             }
 
@@ -110,32 +110,6 @@ namespace SeriesTracker.ViewModels
             {
                 IsBusy = false;
             }
-        }
-
-        [RelayCommand]
-        private async void OnDecEpisode(Series series)
-        {
-            if (series == null | series.currentEpisode == series.startEpisode)
-            {
-                await Shell.Current.DisplayAlert("Текущий объект", ":(", "Ok");
-                return;
-            }
-            series.currentEpisode -= 1;
-            await App.SeriesService.AddUpdateSeriesAsync(series);
-            OnAppearing();
-        }
-
-        [RelayCommand]
-        private async void OnIncEpisode(Series series)
-        {
-            if (series == null | series.currentEpisode == series.lastEpisode)
-            {
-                await Shell.Current.DisplayAlert("Текущий объект", ":(", "Ok");
-                return;
-            }
-            series.currentEpisode += 1;
-            await App.SeriesService.AddUpdateSeriesAsync(series);
-            OnAppearing();
         }
     }
 }

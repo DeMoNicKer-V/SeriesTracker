@@ -19,6 +19,7 @@ public partial class NewSeriesPage : ContentPage
         if (series != null)
         {
             ((NewSeriesPageViewModel)BindingContext).Series = series;
+            if (Convert.ToInt32(seasonEntry.Text) > 0) { seasonCheckBox.IsChecked = true; }
         }
     }
 

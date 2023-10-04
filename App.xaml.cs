@@ -28,7 +28,6 @@ public partial class App : Application
         Routing.RegisterRoute(nameof(NewSeriesPage), typeof(NewSeriesPage));
         Routing.RegisterRoute(nameof(ViewedSeriesPage), typeof(ViewedSeriesPage));
         Routing.RegisterRoute(nameof(SettingsPage), typeof(SettingsPage));
-        Routing.RegisterRoute(nameof(EditSeriesPage), typeof(EditSeriesPage));
         MainPage = new AppShell();
 
         SetTheme();
