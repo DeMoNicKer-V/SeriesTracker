@@ -47,8 +47,8 @@
                             BindingContext="{Binding Source={x:Static models:Theme.AvailableThemes}}"
                             ItemDisplayBinding="{Binding DisplayName}"
                             ItemsSource="{Binding Source={x:Static models:Theme.AvailableThemes}}"
-                            SelectedItem="{Binding Path=Theme, Source={x:Static settings:SettingsService.Instance}}"
                             SelectedIndexChanged="Picker_SelectedIndexChanged"
+                            SelectedItem="{Binding Path=Theme, Source={x:Static settings:SettingsService.Instance}}"
                             VerticalOptions="Center" />
                     </HorizontalStackLayout>
 
@@ -292,8 +292,59 @@
                         <Label
                             Grid.Row="0"
                             Grid.Column="1"
-                            FontSize="13"
-                            Text="Разработано в рамках дипломного проекта"
+                            FontSize="16"
+                            HorizontalTextAlignment="Center"
+                            Text="Экспортировать данные"
+                            VerticalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SaveFileCommand}" NumberOfTapsRequired="1" />
+                            </Label.GestureRecognizers>
+
+                        </Label>
+                    </Grid>
+                </Border>
+            </StackLayout>
+            <StackLayout>
+                <Border
+                    Margin="20,10,20,10"
+                    BackgroundColor="{AppThemeBinding Light=#f7f7f7,
+                                                      Dark=#1e1e1e}"
+                    HeightRequest="50"
+                    Stroke="{AppThemeBinding Light=#f7f7f7,
+                                             Dark=#1e1e1e}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="5" />
+                    </Border.StrokeShape>
+                    <Grid
+                        Margin="5"
+                        Padding="5"
+                        ColumnSpacing="10"
+                        RowSpacing="-10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            HeightRequest="20"
+                            HorizontalOptions="Center"
+                            Source="diploma.png"
+                            VerticalOptions="Center"
+                            WidthRequest="20">
+                            <Image.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
+                            </Image.Behaviors>
+                        </Image>
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            FontSize="16"
+                            HorizontalTextAlignment="Center"
+                            Text="Импортировать данные"
                             VerticalTextAlignment="Center" />
                     </Grid>
                 </Border>

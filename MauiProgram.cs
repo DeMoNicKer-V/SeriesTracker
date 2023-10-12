@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.Storage;
+using SeriesTracker.Views;
 
 namespace SeriesTracker;
 public static class MauiProgram
@@ -16,6 +18,9 @@ public static class MauiProgram
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
+
+        builder.Services.AddSingleton<IFileSaver>(FileSaver.Default);
+        builder.Services.AddTransient<SettingsPage>();
         return builder.Build();
     }
 }

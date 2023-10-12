@@ -1,4 +1,5 @@
 ﻿using SQLite;
+using System.Text.Json.Serialization;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SeriesTracker.Models;
@@ -80,6 +81,8 @@ public partial class Series
         return (true, null);
     }
 
+
+    [JsonIgnore]
     public string GetTitleDescription
     {
         get
@@ -92,6 +95,7 @@ public partial class Series
         }
     }
 
+    [JsonIgnore]
     public string getFormatDate
     {
         get

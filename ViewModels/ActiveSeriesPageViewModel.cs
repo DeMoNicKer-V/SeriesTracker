@@ -35,6 +35,16 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         Color.FromArgb("#FF8A80"),
         Color.FromArgb("#FF80AB") };
 
+    public string GetTitleDescription(Series series)
+    {
+        
+            if (series.seriesSeason > 0)
+            {
+                return $"Сезон {series.seriesSeason}-й, год выхода - {series.releaseYear}";
+            }
+            return $"Год выхода - {series.releaseYear}";
+        
+    }
     public Color GetRandomColor
     {
         get
