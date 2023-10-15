@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Text;
 using System.Collections.ObjectModel;
 using SeriesTracker.Models;
+using System;
 
 namespace SeriesTracker.Views;
 
@@ -84,8 +85,11 @@ public partial class SettingsPage : ContentPage
                     using (var reader = new StreamReader(stream))
                     {
                         string jsonfileData = reader.ReadToEnd();
-                        await Shell.Current.DisplayAlert("Произошла ошибка", jsonfileData, "Ок");
+                        var list = JsonSerializer.Deserialize<List<Series>>(jsonfileData);
+                        await Shell.Current.DisplayAlert("Произошла ошибка", list[0].seriesName, "Ок");
                     }
+             
+
                 }
             }
 
