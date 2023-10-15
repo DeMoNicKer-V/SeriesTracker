@@ -7,7 +7,9 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+#if ANDROID
 using static Android.Media.MediaRouter;
+#endif
 
 namespace SeriesTracker.ViewModels
 {

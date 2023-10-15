@@ -280,11 +280,11 @@
                         <Image
                             Grid.Row="0"
                             Grid.Column="0"
-                            HeightRequest="20"
+                            HeightRequest="30"
                             HorizontalOptions="Center"
-                            Source="diploma.png"
+                            Source="exportjson.png"
                             VerticalOptions="Center"
-                            WidthRequest="20">
+                            WidthRequest="30">
                             <Image.Behaviors>
                                 <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
                             </Image.Behaviors>
@@ -297,7 +297,7 @@
                             Text="Экспортировать данные"
                             VerticalTextAlignment="Center">
                             <Label.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding SaveFileCommand}" NumberOfTapsRequired="1" />
+                                <TapGestureRecognizer Command="{Binding ExportDataCommand}" NumberOfTapsRequired="1" />
                             </Label.GestureRecognizers>
 
                         </Label>
@@ -330,11 +330,11 @@
                         <Image
                             Grid.Row="0"
                             Grid.Column="0"
-                            HeightRequest="20"
+                            HeightRequest="30"
                             HorizontalOptions="Center"
-                            Source="diploma.png"
+                            Source="importjson.png"
                             VerticalOptions="Center"
-                            WidthRequest="20">
+                            WidthRequest="30">
                             <Image.Behaviors>
                                 <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
                             </Image.Behaviors>
@@ -345,7 +345,12 @@
                             FontSize="16"
                             HorizontalTextAlignment="Center"
                             Text="Импортировать данные"
-                            VerticalTextAlignment="Center" />
+                            VerticalTextAlignment="Center" >
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding PickAndShowCommand}" NumberOfTapsRequired="1" />
+                            </Label.GestureRecognizers>
+
+                        </Label>
                     </Grid>
                 </Border>
             </StackLayout>

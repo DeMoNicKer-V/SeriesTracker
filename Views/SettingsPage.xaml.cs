@@ -28,7 +28,7 @@ public partial class SettingsPage : ContentPage
     }
 
     [RelayCommand]
-    private async Task SaveFile()
+    private async Task ExportData()
     {
         IsBusy = true;
         try
@@ -42,18 +42,63 @@ public partial class SettingsPage : ContentPage
             var json = JsonSerializer.Serialize(seriesList);
 
             using var stream = new MemoryStream(Encoding.Default.GetBytes(json));
-            var path = await fileSaver.SaveAsync("SeriesTrackerJson.json", stream, cancellationTokenSource.Token);
-            await Shell.Current.DisplayAlert("Файл экспортирован", "Данные были сохранены в файл формата JSON.", "Ок");
+            var path = await fileSaver.SaveAsync("SeriesTrackerData.json", stream, cancellationTokenSource.Token);
         }
         catch (Exception)
         {
-            await Shell.Current.DisplayAlert("Произошла ошибка", "Пожалуйста, проверьте Интернет соединение.", "Ок");
+            await Shell.Current.DisplayAlert("Произошла ошибка", "Пожалуйста, проверьте наличиние экспортируемых данных. Также имя файла должно быть корректным", "Ок");
         }
         finally
         {
             IsBusy = false;
         }
     }
+
+
+    [RelayCommand]
+    private async Task<FileResult> PickAndShow()
+    {
+        try
+        {
+            var customFileType = new FilePickerFileType(
+                new Dictionary<DevicePlatform, IEnumerable<string>>
+                {
+                    { DevicePlatform.iOS, new[] { "application/json" } }, // UTType values
+                    { DevicePlatform.Android, new[] { "application/json" } }, // MIME type
+                    { DevicePlatform.WinUI, new[] { "application/json" } }, // file extension
+                    { DevicePlatform.Tizen, new[] { "application/json" } },
+                    { DevicePlatform.macOS, new[] { "application/json" } }, // UTType values
+                });
+
+            PickOptions options = new()
+            {
+                PickerTitle = "Пожалуйста, выбирите файл с данными!",
+                FileTypes = customFileType,
+            };
+            var result = await FilePicker.Default.PickAsync(options);
+            if (result != null)
+            {
+                if (result.FileName.EndsWith("json", StringComparison.OrdinalIgnoreCase))
+                {
+                    using var stream = await result.OpenReadAsync();
+                    using (var reader = new StreamReader(stream))
+                    {
+                        string jsonfileData = reader.ReadToEnd();
+                        await Shell.Current.DisplayAlert("Произошла ошибка", jsonfileData, "Ок");
+                    }
+                }
+            }
+
+            return result;
+        }
+        catch (Exception ex)
+        {
+            // The user canceled or something went wrong
+        }
+
+        return null;
+    }
+
     private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
         try

@@ -52,6 +52,7 @@
 	  <None Remove="Resources\Images\add.png" />
 	  <None Remove="Resources\Images\cancel.png" />
 	  <None Remove="Resources\Images\delete.png" />
+	  <None Remove="Resources\Images\exportjson.png" />
 	</ItemGroup>
 
 	<ItemGroup>
