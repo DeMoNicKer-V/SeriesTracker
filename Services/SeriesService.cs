@@ -44,4 +44,9 @@ public class SeriesService : ISeriesRepository
     {
         return await Task.FromResult(await _database.Table<Series>().Where(s => s.isOver == overFlag).ToListAsync());
     }
+
+    public async Task<IEnumerable<Series>> GetAllSeriesAsync()
+    {
+        return await Task.FromResult(await _database.Table<Series>().ToListAsync());
+    }
 }

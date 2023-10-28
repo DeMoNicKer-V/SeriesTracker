@@ -1,26 +1,24 @@
 using CommunityToolkit.Maui.Storage;
 using CommunityToolkit.Mvvm.Input;
+using SeriesTracker.Models;
 using SeriesTracker.Services;
 using SeriesTracker.ViewModels;
-using System.Text.Json;
 using System.Text;
-using System.Collections.ObjectModel;
-using SeriesTracker.Models;
-using System;
+using System.Text.Json;
 
 namespace SeriesTracker.Views;
 
 public partial class SettingsPage : ContentPage
 {
-    SettingsPageViewModel settingsPageViewModel;
-    IFileSaver fileSaver;
-    CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+    private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+    private IFileSaver fileSaver;
+    private SettingsPageViewModel settingsPageViewModel;
     public SettingsPage(IFileSaver fileSaver)
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         seriesList = new List<Series>();
         BindingContext = this;
-        this.fileSaver = fileSaver; 
+        this.fileSaver = fileSaver;
     }
 
     public List<Series> seriesList
@@ -31,15 +29,9 @@ public partial class SettingsPage : ContentPage
     [RelayCommand]
     private async Task ExportData()
     {
-        IsBusy = true;
         try
         {
-            seriesList.Clear();
-            var newSeriesList = await App.SeriesService.GetSeriesAsync(false);
-            foreach (var item in newSeriesList)
-            {
-                seriesList.Add(item);
-            }
+            await GetSeriesList();
             var json = JsonSerializer.Serialize(seriesList);
 
             using var stream = new MemoryStream(Encoding.Default.GetBytes(json));
@@ -47,14 +39,29 @@ public partial class SettingsPage : ContentPage
         }
         catch (Exception)
         {
-            await Shell.Current.DisplayAlert("Произошла ошибка", "Пожалуйста, проверьте наличиние экспортируемых данных. Также имя файла должно быть корректным", "Ок");
-        }
-        finally
-        {
-            IsBusy = false;
+            await Shell.Current.DisplayAlert("Произошла ошибка", "Пожалуйста, проверьте наличие экспортируемых данных. Также имя файла должно быть корректным", "Ок");
         }
     }
 
+    private async Task GetSeriesList()
+    {
+        IsBusy = true;
+        try
+            {
+                seriesList.Clear();
+                var newSeriesList = await App.SeriesService.GetAllSeriesAsync();
+                foreach (var item in newSeriesList)
+                {
+                    seriesList.Add(item);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        finally { IsBusy = false; }
+
+    }
 
     [RelayCommand]
     private async Task<FileResult> PickAndShow()
@@ -64,11 +71,11 @@ public partial class SettingsPage : ContentPage
             var customFileType = new FilePickerFileType(
                 new Dictionary<DevicePlatform, IEnumerable<string>>
                 {
-                    { DevicePlatform.iOS, new[] { "application/json" } }, // UTType values
-                    { DevicePlatform.Android, new[] { "application/json" } }, // MIME type
-                    { DevicePlatform.WinUI, new[] { "application/json" } }, // file extension
+                    { DevicePlatform.iOS, new[] { "application/json" } },
+                    { DevicePlatform.Android, new[] { "application/json" } },
+                    { DevicePlatform.WinUI, new[] { "application/json" } },
                     { DevicePlatform.Tizen, new[] { "application/json" } },
-                    { DevicePlatform.macOS, new[] { "application/json" } }, // UTType values
+                    { DevicePlatform.macOS, new[] { "application/json" } },
                 });
 
             PickOptions options = new()
@@ -81,15 +88,24 @@ public partial class SettingsPage : ContentPage
             {
                 if (result.FileName.EndsWith("json", StringComparison.OrdinalIgnoreCase))
                 {
+                    await GetSeriesList();
+
                     using var stream = await result.OpenReadAsync();
                     using (var reader = new StreamReader(stream))
                     {
                         string jsonfileData = reader.ReadToEnd();
-                        var list = JsonSerializer.Deserialize<List<Series>>(jsonfileData);
-                        await Shell.Current.DisplayAlert("Произошла ошибка", list[0].seriesName, "Ок");
-                    }
-             
+                        var pSeriesList = JsonSerializer.Deserialize<List<Series>>(jsonfileData);
+                        var resultList = pSeriesList.Except(seriesList, new SeriesComparer()).ToList();
+                      
 
+
+                        foreach (Series series in resultList)
+                        {
+                            await App.SeriesService.AddUpdateSeriesAsync(series);
+
+                        }
+                    }
+                    //await Shell.Current.DisplayAlert("Данные импортированы", $"Кол-во импортированных сериалов: {pSeriesList.Count}", "Ок");
                 }
             }
 
@@ -101,6 +117,11 @@ public partial class SettingsPage : ContentPage
         }
 
         return null;
+    }
+
+    private void Picker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        Preferences.Set("AppTheme", SettingsService.Instance.Theme.AppTheme.ToString());
     }
 
     private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
@@ -131,8 +152,18 @@ public partial class SettingsPage : ContentPage
         }
     }
 
-    private void Picker_SelectedIndexChanged(object sender, EventArgs e)
+    public class SeriesComparer : IEqualityComparer<Series>
     {
-        Preferences.Set("AppTheme", SettingsService.Instance.Theme.AppTheme.ToString());
+        public bool Equals(Series x, Series y)
+        {
+            // Проверка на равенство по нескольким полям
+            return x.seriesName == y.seriesName && x.seriesSeason == y.seriesSeason;
+        }
+
+        public int GetHashCode(Series obj)
+        {
+            // Хэш-функция
+            return (obj.seriesName + obj.seriesSeason.ToString()).GetHashCode();
+        }
     }
 }

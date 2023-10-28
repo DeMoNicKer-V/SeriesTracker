@@ -6,7 +6,7 @@ namespace SeriesTracker.Models;
 
 public partial class Series
 {
-    [PrimaryKey, AutoIncrement]
+    [PrimaryKey, AutoIncrement, JsonIgnore]
     public int seriesId
     {
         get; set;
