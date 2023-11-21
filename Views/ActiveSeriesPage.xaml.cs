@@ -16,4 +16,12 @@ public partial class ActiveSeriesPage : ContentPage
         base.OnAppearing();
         activeSeriesPageViewModel.OnAppearing();
     }
+
+    private void searchBar_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (!string.IsNullOrWhiteSpace(e.OldTextValue) & string.IsNullOrWhiteSpace(e.NewTextValue))
+        {
+            OnAppearing();
+        }
+    }
 }

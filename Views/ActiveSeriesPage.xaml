@@ -34,11 +34,23 @@
         <RefreshView Command="{Binding LoadSeriesCommand}" IsRefreshing="{Binding IsBusy}">
             <toolkit:DockLayout>
                 <CollectionView
+                    x:Name="seriesCollection"
                     Margin="15"
                     toolkit:DockLayout.DockPosition="None"
                     HorizontalScrollBarVisibility="Never"
-                    ItemsSource="{Binding seriesList}"
+                    ItemsSource="{Binding SeriesList}"
                     VerticalScrollBarVisibility="Never">
+                    <CollectionView.Header>
+
+                        <SearchBar
+                            x:Name="searchBar"
+                            Placeholder="Найти сериал"
+                            SearchCommand="{Binding PerformSearch}"
+                            SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
+                            TextChanged="searchBar_TextChanged" />
+
+
+                    </CollectionView.Header>
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
                     </CollectionView.ItemsLayout>
@@ -208,6 +220,26 @@
                             </Border>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
+                    <!-- <CollectionView.EmptyView>
+                        <ContentView>
+                            <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                                <Label
+                                    Margin="10,25,10,10"
+                                    FontAttributes="Bold"
+                                    FontSize="18"
+                                    HorizontalOptions="Fill"
+                                    HorizontalTextAlignment="Center"
+                                    Text="No results matched your filter." />
+                                <Label
+                                    FontAttributes="Italic"
+                                    FontSize="12"
+                                    HorizontalOptions="Fill"
+                                    HorizontalTextAlignment="Center"
+                                    Text="Try a broader filter?" />
+                            </StackLayout>
+                        </ContentView>
+                    </CollectionView.EmptyView>
+                    -->
                 </CollectionView>
 
 

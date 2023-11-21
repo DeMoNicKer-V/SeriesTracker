@@ -1,17 +1,20 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using Android.App.AppSearch;
+using CommunityToolkit.Maui.Core.Extensions;
+using CommunityToolkit.Mvvm.Input;
 using SeriesTracker.Models;
 using SeriesTracker.Views;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Input;
 
 namespace SeriesTracker.ViewModels;
 
 public partial class ActiveSeriesPageViewModel : BaseSeriesModel
 {
-    private int randomNumber;
 
     public ActiveSeriesPageViewModel(INavigation navigation)
     {
-        seriesList = new ObservableCollection<Series>();
         Navigation = navigation;
     }
 
@@ -35,6 +38,15 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         Color.FromArgb("#FF8A80"),
         Color.FromArgb("#FF80AB") };
 
+
+
+    public ICommand PerformSearch => new Command<string>((string query) =>
+    {
+        if (string.IsNullOrWhiteSpace(query)) return;
+    var normalizedQuery = query?.ToLower() ?? "";
+    SeriesList = SeriesList.Where(item => item.seriesName.ToLowerInvariant().Contains(normalizedQuery)).ToObservableCollection();
+    });
+
     public string GetTitleDescription(Series series)
     {
         
@@ -49,14 +61,23 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     {
         get
         {
-            randomNumber = new Random().Next(0, 18);
-            return colorList[randomNumber];
+            return colorList[new Random().Next(0, 18)];
         }
     }
 
-    public ObservableCollection<Series> seriesList
+    private ObservableCollection<Series> seriesList = new ObservableCollection<Series>();
+
+    public ObservableCollection<Series> SeriesList
     {
-        get;
+        get
+        {
+            return seriesList;
+        }
+        set
+        {
+            seriesList = value;
+            OnPropertyChanged();
+        }
     }
 
     public int ActionIndex(string action)
@@ -101,11 +122,14 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         IsBusy = true;
         try
         {
-            seriesList.Clear();
+            SeriesList.Clear();
             var newSeriesList = await App.SeriesService.GetSeriesAsync(false);
-            foreach (var item in newSeriesList)
+            if (newSeriesList != null && newSeriesList.Count() > 0)
             {
-                seriesList.Add(item);
+                foreach (var item in newSeriesList)
+                {
+                    SeriesList.Add(item);
+                }
             }
         }
         catch (Exception)
