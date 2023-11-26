@@ -54,12 +54,16 @@
 	  <None Remove="Resources\Images\circumference.png" />
 	  <None Remove="Resources\Images\delete.png" />
 	  <None Remove="Resources\Images\exportjson.png" />
+	  <None Remove="Resources\Images\friren.jpg" />
+	  <None Remove="Resources\Images\gallery.png" />
 	  <None Remove="Resources\Images\icnsearch.png" />
+	  <None Remove="Resources\Images\poster.jpg" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="5.3.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+		<PackageReference Include="InputKit.Maui" Version="4.3.5" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.6" />
@@ -70,6 +74,9 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Views\ActiveSeriesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\DetailSeriesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\NewSeriesPage.xaml">

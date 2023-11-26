@@ -10,7 +10,7 @@
     <TabBar>
         <ShellContent
             Title="Смотрю"
-            ContentTemplate="{DataTemplate view:ActiveSeriesPage}"
+            ContentTemplate="{DataTemplate view:DetailSeriesPage}"
             Icon="play_screen.png"
             Route="MainPage" />
         <ShellContent

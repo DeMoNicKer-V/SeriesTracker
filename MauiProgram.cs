@@ -2,6 +2,7 @@
 using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Storage;
 using SeriesTracker.Views;
+using InputKit.Handlers;
 
 namespace SeriesTracker;
 public static class MauiProgram
@@ -9,7 +10,11 @@ public static class MauiProgram
     public static MauiApp CreateMauiApp()
     {
         var builder = MauiApp.CreateBuilder();
-        builder.UseMauiApp<App>().ConfigureFonts(fonts =>
+        builder.UseMauiApp<App>().ConfigureMauiHandlers(handlers =>
+        {
+            // Add following line:
+            handlers.AddInputKitHandlers(); // 👈
+        }).ConfigureFonts(fonts =>
         {
             fonts.AddFont("Nunito-Regular.ttf", "NunitoRegular");
             fonts.AddFont("Nunito-Bold.ttf", "NunitoBold");

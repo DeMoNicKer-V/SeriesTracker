@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SeriesTracker.Views.DetailSeriesPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:SeriesTracker.Controls"
+    xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+
+    <VerticalStackLayout>
+
+        <Border
+            Margin="15"
+            HeightRequest="320"
+            HorizontalOptions="Center"
+            WidthRequest="240">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10" />
+            </Border.StrokeShape>
+            <Image Aspect="Fill" Source="poster.jpg" />
+        </Border>
+        <VerticalStackLayout Margin="10,-5,10,10" HorizontalOptions="Center">
+            <Label
+                FontAttributes="Bold"
+                FontFamily="NunitoRegular"
+                FontSize="22"
+                HorizontalTextAlignment="Center"
+                Text="Богиня благословляет этот прекрасный мир!" />
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Label
+                    FontFamily="NunitoItalic"
+                    FontSize="14"
+                    Text="Сезон 1 " />
+                <Label
+                    FontFamily="NunitoItalic"
+                    FontSize="14"
+                    Text="(13 эп.), " />
+                <Label
+                    FontFamily="NunitoItalic"
+                    FontSize="14"
+                    Text="2014 год" />
+            </HorizontalStackLayout>
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <controls:RatingView
+                    ItemCount="10"
+                    ItemSize="20"
+                    ItemSpacing="6"
+                    RatedFillColor="Yellow"
+                    StrokeColor="Black"
+                    StrokeWidth="1"
+                    UnRatedFillColor="LightGrey">
+                    <controls:RatingView.Value>
+                        <Binding Path="Value" Source="{x:Reference mySlider}" />
+                    </controls:RatingView.Value>
+                </controls:RatingView>
+                <Label
+                    x:Name="myLabel"
+                    Margin="0,-5,0,0"
+                    FontFamily="NunitoItalic"
+                    FontSize="10">
+                    <Label.Text>
+                        <Binding Path="Value" Source="{x:Reference mySlider}" />
+                    </Label.Text>
+                </Label>
+            </HorizontalStackLayout>
+            <StackLayout
+                Padding="10,0"
+                Spacing="12"
+                VerticalOptions="CenterAndExpand">
+
+                <Slider
+                    x:Name="mySlider"
+                    Maximum="10.0"
+                    Minimum="0.0"
+                    ValueChanged="Slider_ValueChanged" />
+
+
+            </StackLayout>
+        </VerticalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>
