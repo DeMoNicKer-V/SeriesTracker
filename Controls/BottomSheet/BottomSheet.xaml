@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="SeriesTracker.Controls.BottomSheet.BottomSheet"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+    <VerticalStackLayout Margin="0,50,0,0">
+        <ImageButton
+            x:Name="CloseButton"
+            Clicked="CloseButton_Clicked"
+            HeightRequest="24"
+            HorizontalOptions="Center"
+            Source="cross.png"
+            WidthRequest="24">
+            <ImageButton.Behaviors>
+                <toolkit:IconTintColorBehavior TintColor="Gray" />
+            </ImageButton.Behaviors>
+        </ImageButton>
+        <Border
+            x:Name="myBorder"
+            Margin="15,2,15,15"
+            BackgroundColor="{AppThemeBinding Light=#f7f7f7,
+                                              Dark=#1e1e1e}">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10" />
+            </Border.StrokeShape>
+
+            <Grid
+                Padding="10"
+                BackgroundColor="White"
+                VerticalOptions="EndAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <!-- <Label
+                    x:Name="TitleLabel"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="0,10,0,20"
+                    FontSize="20"
+                    HorizontalOptions="Center"
+                    TextColor="Black" />-->
+                <Image
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    HeightRequest="24"
+                    Source="vision.png"
+                    WidthRequest="24" />
+                <Button
+                    x:Name="DetachButton"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    BackgroundColor="Transparent"
+                    Clicked="DetachButton_Clicked"
+                    HorizontalOptions="Start"
+                    Text="Открепить"
+                    TextColor="Gray" />
+                <Image
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    HeightRequest="24"
+                    Source="edit.png"
+                    WidthRequest="24" />
+                <Button
+                    x:Name="EditButton"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    BackgroundColor="Transparent"
+                    Clicked="EditButton_Clicked"
+                    HorizontalOptions="Start"
+                    Text="Изменить"
+                    TextColor="Gray" />
+                <Line
+                    Grid.Row="2"
+                    Grid.ColumnSpan="2"
+                    HorizontalOptions="StartAndExpand"
+                    Stroke="Gray"
+                    X2="{Binding Width, Source={x:Reference myBorder}}" />
+                <Image
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    HeightRequest="24"
+                    Source="delete.png"
+                    WidthRequest="24">
+                    <Image.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="Red" />
+                    </Image.Behaviors>
+                </Image>
+                <Button
+                    x:Name="DeleteButton"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    BackgroundColor="Transparent"
+                    Clicked="DeleteButton_Clicked"
+                    HorizontalOptions="Start"
+                    Text="Удалить"
+                    TextColor="Red" />
+
+            </Grid>
+        </Border>
+    </VerticalStackLayout>
+</ContentView>
