@@ -3,186 +3,251 @@
     x:Class="SeriesTracker.Views.DetailSeriesPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:cProgressBar="clr-namespace:SeriesTracker.Controls.CircularProgressBar"
     xmlns:controls="clr-namespace:SeriesTracker.Controls"
     xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
     xmlns:local="clr-namespace:SeriesTracker.Controls.BottomSheet"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
 
-    <VerticalStackLayout>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="340" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="260" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Border
-                Grid.Row="0"
-                Grid.Column="1"
-                Margin="15"
-                HorizontalOptions="Fill"
-                VerticalOptions="Fill">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="10" />
-                </Border.StrokeShape>
-                <Image Aspect="Fill" Source="poster.jpg" />
-            </Border>
-            <ImageButton
-                x:Name="menuLabel"
-                Grid.Row="0"
-                Grid.Column="2"
-                Margin="10,20,0,0"
-                Padding="2"
-                Clicked="OpenButton_Clicked"
-                HeightRequest="30"
-                HorizontalOptions="Start"
-                Rotation="90"
-                Source="dots.png"
-                VerticalOptions="Start"
-                WidthRequest="30">
-                <ImageButton.Behaviors>
-                    <toolkit:IconTintColorBehavior TintColor="WhiteSmoke" />
-                </ImageButton.Behaviors>
-            </ImageButton>
-        </Grid>
-        <VerticalStackLayout Margin="10,-5,10,10" HorizontalOptions="Center">
-            <Label
-                FontAttributes="Bold"
-                FontFamily="NunitoRegular"
-                FontSize="22"
-                HorizontalTextAlignment="Center"
-                Text="Богиня благословляет этот прекрасный мир!" />
-            <HorizontalStackLayout HorizontalOptions="Center">
-                <Label
-                    FontFamily="NunitoItalic"
-                    FontSize="14"
-                    Text="Сезон 1 " />
-                <Label
-                    FontFamily="NunitoItalic"
-                    FontSize="14"
-                    Text="(13 эп.), " />
-                <Label
-                    FontFamily="NunitoItalic"
-                    FontSize="14"
-                    Text="2014 год" />
+    <ScrollView x:Name="baseContainer">
+        <VerticalStackLayout>
+            <Grid x:Name="gridContainer">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="340" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="260" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="15"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10" />
+                    </Border.StrokeShape>
+                    <Image Aspect="Fill" Source="poster.jpg" />
+                </Border>
                 <ImageButton
-                    x:Name="ratingButton"
-                    Margin="3,-1,0,0"
-                    Clicked="ratingButton_Clicked"
-                    HeightRequest="18"
-                    Source="ratestar.png"
-                    VerticalOptions="Center"
-                    WidthRequest="18">
+                    x:Name="menuLabel"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Margin="10,20,0,0"
+                    Padding="2"
+                    Clicked="OpenButton_Clicked"
+                    HeightRequest="30"
+                    HorizontalOptions="Start"
+                    Rotation="90"
+                    Source="dots.png"
+                    VerticalOptions="Start"
+                    WidthRequest="30">
                     <ImageButton.Behaviors>
-                        <toolkit:IconTintColorBehavior x:Name="ratingTintColor" TintColor="LightGrey" />
+                        <toolkit:IconTintColorBehavior TintColor="WhiteSmoke" />
                     </ImageButton.Behaviors>
                 </ImageButton>
-                <Label
-                    x:Name="myLabel2"
-                    Margin="2,-5,0,0"
-                    FontFamily="NunitoItalic"
-                    FontSize="10"
-                    Text="?" />
-            </HorizontalStackLayout>
-            <toolkit:Expander x:Name="ratingExpander">
-                <VerticalStackLayout>
 
-                    <Grid Margin="5" Padding="5">
 
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="20" />
-                            <RowDefinition Height="30" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="25" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="25" />
-                        </Grid.ColumnDefinitions>
-                        <HorizontalStackLayout
-                            Grid.Row="0"
-                            Grid.ColumnSpan="3"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center">
-                            <controls:RatingView
-                                ItemCount="10"
-                                ItemSize="20"
-                                ItemSpacing="6"
-                                RatedFillColor="Yellow"
-                                StrokeColor="Black"
-                                StrokeWidth="1"
-                                UnRatedFillColor="LightGrey">
-                                <controls:RatingView.Value>
-                                    <Binding Path="Value" Source="{x:Reference mySlider}" />
-                                </controls:RatingView.Value>
-                            </controls:RatingView>
-                            <Label
-                                x:Name="myLabel"
-                                Margin="0,-5,0,0"
-                                FontFamily="NunitoItalic"
-                                FontSize="10">
-                                <Label.Text>
-                                    <Binding Path="Value" Source="{x:Reference mySlider}" />
-                                </Label.Text>
-                            </Label>
-                        </HorizontalStackLayout>
+                <VerticalStackLayout
+                    Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    Margin="10,-5,10,10"
+                    HorizontalOptions="Center"
+                    VerticalOptions="StartAndExpand">
+                    <Label
+                        FontAttributes="Bold"
+                        FontFamily="NunitoRegular"
+                        FontSize="22"
+                        HorizontalTextAlignment="Center"
+                        Text="Богиня благословляет этот прекрасный мир!" />
+                    <HorizontalStackLayout HorizontalOptions="Center">
+                        <Label
+                            FontFamily="NunitoItalic"
+                            FontSize="14"
+                            Text="Сезон 1 " />
+                        <Label
+                            FontFamily="NunitoItalic"
+                            FontSize="14"
+                            Text="(13 эп.), " />
+                        <Label
+                            FontFamily="NunitoItalic"
+                            FontSize="14"
+                            Text="2014 год" />
                         <ImageButton
-                            x:Name="cancelButton"
-                            Grid.Row="1"
-                            Grid.Column="0"
+                            x:Name="ratingButton"
                             Margin="3,-1,0,0"
-                            Clicked="cancelButton_Clicked"
+                            Clicked="ratingButton_Clicked"
                             HeightRequest="18"
-                            HorizontalOptions="Center"
-                            Source="cross.png"
+                            Source="ratestar.png"
                             VerticalOptions="Center"
                             WidthRequest="18">
                             <ImageButton.Behaviors>
-                                <toolkit:IconTintColorBehavior TintColor="Red" />
+                                <toolkit:IconTintColorBehavior x:Name="ratingTintColor" TintColor="LightGrey" />
                             </ImageButton.Behaviors>
                         </ImageButton>
+                        <Label
+                            x:Name="myLabel2"
+                            Margin="2,-5,0,0"
+                            FontFamily="NunitoItalic"
+                            FontSize="10"
+                            Text="?" />
+                    </HorizontalStackLayout>
+                    <toolkit:Expander x:Name="ratingExpander">
+                        <VerticalStackLayout>
 
-                        <Slider
-                            x:Name="mySlider"
-                            Grid.Row="1"
-                            Grid.Column="1"
+                            <Grid Margin="5" Padding="5">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="25" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="25" />
+                                </Grid.ColumnDefinitions>
+                                <HorizontalStackLayout
+                                    Grid.Row="0"
+                                    Grid.ColumnSpan="3"
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center">
+                                    <controls:RatingView
+                                        ItemCount="10"
+                                        ItemSize="20"
+                                        ItemSpacing="6"
+                                        RatedFillColor="Yellow"
+                                        StrokeColor="Black"
+                                        StrokeWidth="1"
+                                        UnRatedFillColor="LightGrey">
+                                        <controls:RatingView.Value>
+                                            <Binding Path="Value" Source="{x:Reference mySlider}" />
+                                        </controls:RatingView.Value>
+                                    </controls:RatingView>
+                                    <Label
+                                        x:Name="myLabel"
+                                        Margin="0,-5,0,0"
+                                        FontFamily="NunitoItalic"
+                                        FontSize="10">
+                                        <Label.Text>
+                                            <Binding Path="Value" Source="{x:Reference mySlider}" />
+                                        </Label.Text>
+                                    </Label>
+                                </HorizontalStackLayout>
+                                <ImageButton
+                                    x:Name="cancelButton"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="3,-1,0,0"
+                                    Clicked="cancelButton_Clicked"
+                                    HeightRequest="18"
+                                    HorizontalOptions="Center"
+                                    Source="cross.png"
+                                    VerticalOptions="Center"
+                                    WidthRequest="18">
+                                    <ImageButton.Behaviors>
+                                        <toolkit:IconTintColorBehavior TintColor="Red" />
+                                    </ImageButton.Behaviors>
+                                </ImageButton>
+
+                                <Slider
+                                    x:Name="mySlider"
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    HorizontalOptions="Fill"
+                                    Maximum="10.0"
+                                    Minimum="0.0"
+                                    ValueChanged="Slider_ValueChanged" />
+
+                                <ImageButton
+                                    x:Name="likeButton"
+                                    Grid.Row="1"
+                                    Grid.Column="2"
+                                    Margin="3,-1,0,0"
+                                    Clicked="likeButton_Clicked"
+                                    HeightRequest="18"
+                                    HorizontalOptions="Center"
+                                    Source="favorite.png"
+                                    VerticalOptions="Center"
+                                    WidthRequest="18">
+                                    <ImageButton.Behaviors>
+                                        <toolkit:IconTintColorBehavior TintColor="Pink" />
+                                    </ImageButton.Behaviors>
+                                </ImageButton>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </toolkit:Expander>
+                    <StackLayout Margin="5">
+                        <Line
                             HorizontalOptions="Fill"
-                            Maximum="10.0"
-                            Minimum="0.0"
-                            ValueChanged="Slider_ValueChanged" />
-
-                        <ImageButton
-                            x:Name="likeButton"
-                            Grid.Row="1"
-                            Grid.Column="2"
-                            Margin="3,-1,0,0"
-                            Clicked="likeButton_Clicked"
-                            HeightRequest="18"
-                            HorizontalOptions="Center"
-                            Source="favorite.png"
-                            VerticalOptions="Center"
-                            WidthRequest="18">
-                            <ImageButton.Behaviors>
-                                <toolkit:IconTintColorBehavior TintColor="Pink" />
-                            </ImageButton.Behaviors>
-                        </ImageButton>
-                    </Grid>
+                            Stroke="Gray"
+                            X2="{Binding Width, Source={RelativeSource Self}}" />
+                    </StackLayout>
                 </VerticalStackLayout>
-            </toolkit:Expander>
+
+
+                <toolkit:Expander
+                    x:Name="descriptionExpander"
+                    Grid.Row="2"
+                    Grid.ColumnSpan="3"
+                    Padding="10,0,10,10"
+                    ExpandedChanged="Expander_ExpandedChanged"
+                    VerticalOptions="CenterAndExpand">
+                    <toolkit:Expander.Header>
+                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
+                            <Label
+                                x:Name="descriptionCaption"
+                                FontAttributes="Italic"
+                                FontFamily="NunitoItalic"
+                                FontSize="14"
+                                Text="Открыть описание" />
+                            <Image
+                                x:Name="descriptionImage"
+                                HeightRequest="20"
+                                Source="downarrow.png"
+                                WidthRequest="20">
+                                <Image.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="Red" />
+                                </Image.Behaviors>
+                            </Image>
+                        </HorizontalStackLayout>
+                    </toolkit:Expander.Header>
+                    <Label
+                        x:Name="descriptionText"
+                        FontAutoScalingEnabled="True"
+                        FontSize="Body"
+                        HorizontalOptions="FillAndExpand"
+                        Text="Казума Сато умер…. Но не успел он как следует загрустить по этому поводу, как перед ним возникла юная девушка, представившаяся богиней по имени Аква. Она объяснила, что парню предоставляется второй шанс – новая жизнь, да не простая – он отправится спасать МИР, правда, не свой, а альтернативный. Самое-то для человека, посвятившего всё своё свободное время в прошлой жизни видеоиграм. Согласился и славно, богиня Аква рада.… Один из бонусов – можно взять в новый мир одну способность или нечто материальное вроде оружия. Казума наш, совершенно неожиданно даже для себя, что уж там говорить, предпочёл взять с собой саму Акву. Выбор есть выбор, отказаться ну никак нельзя. И отправляются богиня и юный герой рука об руку в Неизведанный мир!"
+                        VerticalOptions="FillAndExpand" />
+                </toolkit:Expander>
+
+
+                <local:BottomSheet
+                    x:Name="BottomSheet"
+                    Title="Example BottomSheet"
+                    Grid.Row="3"
+                    Grid.ColumnSpan="3"
+                    CloseCommand="{Binding CloseCommand}"
+                    DeleteCommand="{Binding DeleteCommand}"
+                    DetachCommand="{Binding DetachCommand}"
+                    EditCommand="{Binding EditCommand}"
+                    IsVisible="false"
+                    VerticalOptions="EndAndExpand" />
+
+            </Grid>
+
+            <cProgressBar:CircularProgressBar
+                Progress="40"
+                ProgressColor="Green"
+                ProgressLeftColor="LightGreen"
+                Size="50"
+                TextColor="DarkGreen"
+                Thickness="4" />
         </VerticalStackLayout>
-        <StackLayout VerticalOptions="CenterAndExpand">
-            <!--  middle controls  -->
-        </StackLayout>
-        <StackLayout VerticalOptions="End">
-            <local:BottomSheet
-                x:Name="BottomSheet"
-                Title="Example BottomSheet"
-                CloseCommand="{Binding CloseCommand}"
-                DeleteCommand="{Binding DeleteCommand}"
-                DetachCommand="{Binding DetachCommand}"
-                EditCommand="{Binding EditCommand}"
-                IsVisible="false" />
-        </StackLayout>
-    </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

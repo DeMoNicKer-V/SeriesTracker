@@ -54,6 +54,7 @@
 	  <None Remove="Resources\Images\circumference.png" />
 	  <None Remove="Resources\Images\cross.png" />
 	  <None Remove="Resources\Images\delete.png" />
+	  <None Remove="Resources\Images\downArrow.png" />
 	  <None Remove="Resources\Images\edit.png" />
 	  <None Remove="Resources\Images\exportjson.png" />
 	  <None Remove="Resources\Images\favorite.png" />
@@ -81,6 +82,9 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Controls\BottomSheet\BottomSheet.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Controls\CircularProgressBar\CircularProgressBar.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ActiveSeriesPage.xaml">
