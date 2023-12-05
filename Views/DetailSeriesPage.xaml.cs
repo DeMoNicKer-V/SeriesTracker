@@ -22,18 +22,19 @@ public partial class DetailSeriesPage : ContentPage
         mySlider.Value = 0;
     }
 
-    private void Expander_ExpandedChanged(object sender, CommunityToolkit.Maui.Core.ExpandedChangedEventArgs e)
+    private async void Expander_ExpandedChanged(object sender, CommunityToolkit.Maui.Core.ExpandedChangedEventArgs e)
     {
         if (descriptionExpander.IsExpanded)
         {
             OnCloseCommand();
             descriptionCaption.Text = "Скрыть описание";
-            descriptionImage.RotateXTo(180, 200);
+            await descriptionImage.RotateXTo(180, 200);
+            await baseContainer.ScrollToAsync(gridContainer, ScrollToPosition.End, true);
         }
         else
         {
             descriptionCaption.Text = "Открыть описание";
-            descriptionImage.RotateXTo(0, 200);
+            await descriptionImage.RotateXTo(0, 200);
         }
     }
 

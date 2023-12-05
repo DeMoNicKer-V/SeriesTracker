@@ -8,16 +8,16 @@ namespace SeriesTracker.Controls.CircularProgressBar
 {
     public class CircularProgressBarDrawable : BindableObject, IDrawable
     {
-        public static readonly BindableProperty ProgressProperty = BindableProperty.Create(nameof(Progress), typeof(int), typeof(CircularProgressBarDrawable));
+        public static readonly BindableProperty ProgressProperty = BindableProperty.Create(nameof(Progress), typeof(float), typeof(CircularProgressBarDrawable));
         public static readonly BindableProperty SizeProperty = BindableProperty.Create(nameof(Size), typeof(int), typeof(CircularProgressBarDrawable));
         public static readonly BindableProperty ThicknessProperty = BindableProperty.Create(nameof(Thickness), typeof(int), typeof(CircularProgressBarDrawable));
         public static readonly BindableProperty ProgressColorProperty = BindableProperty.Create(nameof(ProgressColor), typeof(Color), typeof(CircularProgressBarDrawable));
         public static readonly BindableProperty ProgressLeftColorProperty = BindableProperty.Create(nameof(ProgressLeftColor), typeof(Color), typeof(CircularProgressBarDrawable));
         public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(CircularProgressBarDrawable));
 
-        public int Progress
+        public float Progress
         {
-            get => (int)GetValue(ProgressProperty);
+            get => (float)GetValue(ProgressProperty);
             set => SetValue(ProgressProperty, value);
         }
 
@@ -51,6 +51,15 @@ namespace SeriesTracker.Controls.CircularProgressBar
             set { SetValue(TextColorProperty, value); }
         }
 
+        private Tuple<Color,Color> GetColorByProgress(float progessValue) 
+        { 
+            switch (progessValue) 
+            { 
+                case < 40: return Tuple.Create(Colors.Red, Colors.DarkRed);
+                case < 75: return Tuple.Create(Colors.Yellow, Colors.Orange);
+                default: return Tuple.Create(Colors.LightGreen, Colors.DarkGreen); ;   
+            }
+        }
         public void Draw(ICanvas canvas, RectF dirtyRect)
         {
             float effectiveSize = Size - Thickness;
@@ -66,31 +75,33 @@ namespace SeriesTracker.Controls.CircularProgressBar
                 Progress = 100;
             }
 
+            Tuple<Color, Color> twoColors = GetColorByProgress(Progress);
             if (Progress < 100)
             {
                 float angle = GetAngle(Progress);
-
-                canvas.StrokeColor = ProgressLeftColor;
+                canvas.StrokeColor = twoColors.Item1;
                 canvas.StrokeSize = Thickness;
                 canvas.DrawEllipse(x, y, effectiveSize, effectiveSize);
 
                 // Draw arc
-                canvas.StrokeColor = ProgressColor;
+                canvas.StrokeColor = twoColors.Item2;
                 canvas.StrokeSize = Thickness;
                 canvas.DrawArc(x, y, effectiveSize, effectiveSize, 90, angle, true, false);
             }
             else
             {
                 // Draw circle
-                canvas.StrokeColor = ProgressColor;
+                canvas.StrokeColor = twoColors.Item2;
                 canvas.StrokeSize = Thickness;
                 canvas.DrawEllipse(x, y, effectiveSize, effectiveSize);
             }
 
             // Make the percentage always the same size in relation to the size of the progress bar
-            float fontSize = effectiveSize / 2.86f;
+            float fontSize = effectiveSize / 3.3f;
             canvas.FontSize = fontSize;
-            canvas.FontColor = TextColor;
+            canvas.FontColor = twoColors.Item2;
+
+            //canvas.FontColor = TextColor; //unlock if you want use the property
 
             // Vertical text align the text, and we need a correction factor of around 1.15 to have it aligned properly
             // Note: The VerticalAlignment.Center property of the DrawString method seems to have no effect
@@ -98,7 +109,7 @@ namespace SeriesTracker.Controls.CircularProgressBar
             canvas.DrawString($"{Progress}%", x, verticalPosition, effectiveSize, effectiveSize / 4, HorizontalAlignment.Center, VerticalAlignment.Center);
         }
 
-        private float GetAngle(int progress)
+        private float GetAngle(float progress)
         {
             float factor = 90f / 25f;
 

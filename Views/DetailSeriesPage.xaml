@@ -7,13 +7,24 @@
     xmlns:controls="clr-namespace:SeriesTracker.Controls"
     xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
     xmlns:local="clr-namespace:SeriesTracker.Controls.BottomSheet"
-    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Title=""
+    BackgroundColor="{AppThemeBinding Light=#E3E3E3,
+                                      Dark=#121212}">
 
-    <ScrollView x:Name="baseContainer">
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior
+            x:Name="noteStatus"
+            StatusBarColor="{AppThemeBinding Light=#E3E3E3,
+                                             Dark=#121212}"
+            StatusBarStyle="Default" />
+    </ContentPage.Behaviors>
+    <ScrollView x:Name="baseContainer" VerticalScrollBarVisibility="Never">
         <VerticalStackLayout>
             <Grid x:Name="gridContainer">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="340" />
+                    <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
@@ -190,10 +201,124 @@
                     </StackLayout>
                 </VerticalStackLayout>
 
+                <Grid Grid.Row="2" Grid.ColumnSpan="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="15" />
+                        <RowDefinition Height="70" />
+                        <RowDefinition Height="40" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="24"
+                        VerticalOptions="End" />
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        BackgroundColor="WhiteSmoke"
+                        HeightRequest="50"
+                        HorizontalOptions="End"
+                        Stroke="LightGreen"
+                        StrokeShape="RoundRectangle 50"
+                        StrokeThickness="4"
+                        VerticalOptions="Center"
+                        WidthRequest="50">
+                        <Image
+                            HeightRequest="20"
+                            Source="plus.png"
+                            WidthRequest="20">
+                            <Image.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="Green" />
+                            </Image.Behaviors>
+                        </Image>
+                    </Border>
+
+                    <Line
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        HorizontalOptions="Center"
+                        Stroke="Gray"
+                        StrokeThickness="4"
+                        VerticalOptions="Center"
+                        X2="70" />
+                    <cProgressBar:CircularProgressBar
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Margin="3"
+                        HorizontalOptions="Center"
+                        Progress="69.1"
+                        Size="50"
+                        Thickness="4"
+                        VerticalOptions="Center" />
+                    <Line
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        HorizontalOptions="Center"
+                        Stroke="Gray"
+                        StrokeThickness="4"
+                        VerticalOptions="Center"
+                        X2="70" />
+                    <Border
+                        Grid.Row="1"
+                        Grid.Column="4"
+                        BackgroundColor="WhiteSmoke"
+                        HeightRequest="50"
+                        HorizontalOptions="Start"
+                        Stroke="Gray"
+                        StrokeShape="RoundRectangle 50"
+                        StrokeThickness="4"
+                        VerticalOptions="Center"
+                        WidthRequest="50">
+                        <Image
+                            HeightRequest="20"
+                            Source="eye.png"
+                            WidthRequest="20">
+                            <Image.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="Grey" />
+                            </Image.Behaviors>
+                        </Image>
+                    </Border>
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="-35,0,0,0"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="Добавлено"
+                        VerticalOptions="Start" />
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="12"
+                        VerticalOptions="Start" />
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="3"
+                        Grid.ColumnSpan="2"
+                        Margin="35,0,0,0"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="Еще смотрю"
+                        VerticalOptions="Start" />
+
+                </Grid>
 
                 <toolkit:Expander
                     x:Name="descriptionExpander"
-                    Grid.Row="2"
+                    Grid.Row="3"
                     Grid.ColumnSpan="3"
                     Padding="10,0,10,10"
                     ExpandedChanged="Expander_ExpandedChanged"
@@ -230,7 +355,7 @@
                 <local:BottomSheet
                     x:Name="BottomSheet"
                     Title="Example BottomSheet"
-                    Grid.Row="3"
+                    Grid.Row="4"
                     Grid.ColumnSpan="3"
                     CloseCommand="{Binding CloseCommand}"
                     DeleteCommand="{Binding DeleteCommand}"
@@ -240,14 +365,6 @@
                     VerticalOptions="EndAndExpand" />
 
             </Grid>
-
-            <cProgressBar:CircularProgressBar
-                Progress="40"
-                ProgressColor="Green"
-                ProgressLeftColor="LightGreen"
-                Size="50"
-                TextColor="DarkGreen"
-                Thickness="4" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

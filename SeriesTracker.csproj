@@ -51,17 +51,20 @@
 	<ItemGroup>
 	  <None Remove="Resources\Images\add.png" />
 	  <None Remove="Resources\Images\cancel.png" />
+	  <None Remove="Resources\Images\circle.png" />
 	  <None Remove="Resources\Images\circumference.png" />
 	  <None Remove="Resources\Images\cross.png" />
 	  <None Remove="Resources\Images\delete.png" />
 	  <None Remove="Resources\Images\downArrow.png" />
 	  <None Remove="Resources\Images\edit.png" />
 	  <None Remove="Resources\Images\exportjson.png" />
+	  <None Remove="Resources\Images\eye.png" />
 	  <None Remove="Resources\Images\favorite.png" />
 	  <None Remove="Resources\Images\friren.jpg" />
 	  <None Remove="Resources\Images\gallery.png" />
 	  <None Remove="Resources\Images\icnsearch.png" />
 	  <None Remove="Resources\Images\like.png" />
+	  <None Remove="Resources\Images\plus.png" />
 	  <None Remove="Resources\Images\poster.jpg" />
 	  <None Remove="Resources\Images\ratestar.png" />
 	  <None Remove="Resources\Images\star.png" />
