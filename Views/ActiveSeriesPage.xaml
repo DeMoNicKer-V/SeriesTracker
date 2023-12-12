@@ -60,7 +60,12 @@
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="10" />
                                 </Border.StrokeShape>
-
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:ActiveSeriesPageViewModel}}, Path=DetailViewCommand}"
+                                        CommandParameter="{Binding .}"
+                                        NumberOfTapsRequired="1" />
+                                </Border.GestureRecognizers>
                                 <Grid Margin="10" Padding="5">
 
                                     <Grid.RowDefinitions>
@@ -76,7 +81,6 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-
 
                                     <Label
                                         x:Name="descriptionLabel"

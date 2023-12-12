@@ -117,6 +117,12 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     }
 
     [RelayCommand]
+    private async Task DetailView(Series series)
+    {
+        await Navigation.PushAsync(new DetailSeriesPage(series));
+    }
+
+    [RelayCommand]
     private async Task LoadSeries()
     {
         IsBusy = true;

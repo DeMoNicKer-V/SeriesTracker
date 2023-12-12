@@ -41,4 +41,12 @@ public class MainActivity : MauiAppCompatActivity
 
         return base.DispatchTouchEvent(e);
     }
+
+   /* protected override void OnCreate(Bundle savedInstanceState)
+    {
+        base.OnCreate(savedInstanceState);
+        this.Window.DecorView.SystemUiVisibility = (StatusBarVisibility)
+            (SystemUiFlags.ImmersiveSticky | SystemUiFlags.HideNavigation |
+             SystemUiFlags.Fullscreen | SystemUiFlags.Immersive);
+    }*/
 }

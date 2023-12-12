@@ -50,6 +50,7 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\add.png" />
+	  <None Remove="Resources\Images\backarrow.png" />
 	  <None Remove="Resources\Images\cancel.png" />
 	  <None Remove="Resources\Images\circle.png" />
 	  <None Remove="Resources\Images\circumference.png" />
@@ -64,9 +65,11 @@
 	  <None Remove="Resources\Images\gallery.png" />
 	  <None Remove="Resources\Images\icnsearch.png" />
 	  <None Remove="Resources\Images\like.png" />
+	  <None Remove="Resources\Images\myanimelist.png" />
 	  <None Remove="Resources\Images\plus.png" />
 	  <None Remove="Resources\Images\poster.jpg" />
 	  <None Remove="Resources\Images\ratestar.png" />
+	  <None Remove="Resources\Images\shikimori.png" />
 	  <None Remove="Resources\Images\star.png" />
 	  <None Remove="Resources\Images\vision.png" />
 	</ItemGroup>
@@ -88,6 +91,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Controls\CircularProgressBar\CircularProgressBar.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Controls\MaterialEntry\MaterialEntry.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ActiveSeriesPage.xaml">

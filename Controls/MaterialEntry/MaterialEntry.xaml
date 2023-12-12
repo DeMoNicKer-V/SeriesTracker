@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="SeriesTracker.Controls.MaterialEntry.MaterialEntry"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:SeriesTracker.Controls.MaterialEntry">
+    <Grid WidthRequest="200">
+        <Label
+            x:Name="MELabel"
+            BackgroundColor="{AppThemeBinding Light={StaticResource White},
+                                              Dark={StaticResource Black}}"
+            HorizontalOptions="Center"
+            InputTransparent="True"
+            Text="{Binding Label}"
+            VerticalOptions="Center">
+            <Label.Triggers>
+                <DataTrigger
+                    Binding="{Binding Source={x:Reference MEEntry}, Path=IsFocused}"
+                    TargetType="Label"
+                    Value="True">
+                    <Setter Property="TextColor" Value="{StaticResource Primary}" />
+                </DataTrigger>
+                <DataTrigger
+                    Binding="{Binding Source={x:Reference MEEntry}, Path=IsFocused}"
+                    TargetType="Label"
+                    Value="False">
+                    <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                </DataTrigger>
+            </Label.Triggers>
+        </Label>
+        <Border
+            x:Name="MEBorder"
+            BackgroundColor="Transparent"
+            HorizontalOptions="Center"
+            StrokeShape="RoundRectangle 5"
+            VerticalOptions="Center">
+            <Border.Triggers>
+                <DataTrigger
+                    Binding="{Binding Source={x:Reference MEEntry}, Path=IsFocused}"
+                    TargetType="Border"
+                    Value="True">
+                    <Setter Property="Stroke" Value="{StaticResource Primary}" />
+                    <Setter Property="StrokeThickness" Value="3" />
+                </DataTrigger>
+                <DataTrigger
+                    Binding="{Binding Source={x:Reference MEEntry}, Path=IsFocused}"
+                    TargetType="Border"
+                    Value="False">
+                    <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                    <Setter Property="StrokeThickness" Value="1" />
+                </DataTrigger>
+            </Border.Triggers>
+            <Border.Padding>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On Platform="Android" Value="10,0,10,0" />
+                </OnPlatform>
+            </Border.Padding>
+            <controls:BorderlessEntry
+                x:Name="MEEntry"
+                Focused="MEEntry_Focused"
+                HeightRequest="{OnPlatform iOS=40,
+                                           MacCatalyst=40}"
+                HorizontalOptions="Center"
+                Text="{Binding Text}"
+                Unfocused="MEEntry_Unfocused"
+                VerticalOptions="Center"
+                WidthRequest="200">
+                <controls:BorderlessEntry.Margin>
+                    <OnPlatform x:TypeArguments="Thickness">
+                        <On Platform="iOS" Value="20,0,20,0" />
+                        <On Platform="MacCatalyst" Value="20,0,20,0" />
+                    </OnPlatform>
+                </controls:BorderlessEntry.Margin>
+
+            </controls:BorderlessEntry>
+        </Border>
+    </Grid>
+</ContentView>

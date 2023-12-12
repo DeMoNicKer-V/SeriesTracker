@@ -22,6 +22,16 @@ public partial class Series
         get; set;
     } = 0;
 
+    public string seriesDescription
+    {
+        get; set;
+    } = "Описание отсутствует";
+
+    public float seriesRating
+    {
+        get; set;
+    }
+
     public int startEpisode
     {
         get; set;
@@ -31,6 +41,11 @@ public partial class Series
     {
         get; set;
     } = 1;
+
+    public string imagePath
+    {
+        get; set;
+    }
 
     public int lastEpisode
     {
@@ -92,6 +107,32 @@ public partial class Series
                 return $"Сезон {seriesSeason}-й, год выхода - {releaseYear}";
             }
             return $"Год выхода - {releaseYear}";
+        }
+    }
+
+    [JsonIgnore]
+    public string GetSubDescription
+    {
+        get
+        {
+            if (seriesSeason > 0)
+            {
+                return $"Сезон {seriesSeason}-й ({lastEpisode} эп.), {releaseYear} год";
+            }
+            return $"{lastEpisode} эп., {releaseYear} год";
+        }
+    }
+
+    [JsonIgnore]
+    public string getAddedDate
+    {
+        get
+        {
+            if (addedDate != null)
+            {
+                return System.String.Format($"{DateTime.Parse(addedDate):d}");
+            }
+            return addedDate;
         }
     }
 

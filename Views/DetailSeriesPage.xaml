@@ -9,13 +9,17 @@
     xmlns:local="clr-namespace:SeriesTracker.Controls.BottomSheet"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     Title=""
-    BackgroundColor="{AppThemeBinding Light=#E3E3E3,
-                                      Dark=#121212}">
-
+    BackgroundColor="{AppThemeBinding Light=#F5F5F5,
+                                      Dark=#121212}"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.TabBarIsVisible="False">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsEnabled="False" IsVisible="False" />
+    </Shell.BackButtonBehavior>
     <ContentPage.Behaviors>
         <toolkit:StatusBarBehavior
             x:Name="noteStatus"
-            StatusBarColor="{AppThemeBinding Light=#E3E3E3,
+            StatusBarColor="{AppThemeBinding Light=#1C466D,
                                              Dark=#121212}"
             StatusBarStyle="Default" />
     </ContentPage.Behaviors>
@@ -34,6 +38,21 @@
                     <ColumnDefinition Width="260" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+                <ImageButton
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="10,20,0,0"
+                    Padding="2"
+                    Command="{Binding BackCommand}"
+                    HeightRequest="30"
+                    HorizontalOptions="Start"
+                    Source="backarrow.png"
+                    VerticalOptions="Start"
+                    WidthRequest="30">
+                    <ImageButton.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="Black" />
+                    </ImageButton.Behaviors>
+                </ImageButton>
                 <Border
                     Grid.Row="0"
                     Grid.Column="1"
@@ -43,7 +62,7 @@
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="10" />
                     </Border.StrokeShape>
-                    <Image Aspect="Fill" Source="poster.jpg" />
+                    <Image Aspect="Fill" Source="{Binding Series.imagePath}" />
                 </Border>
                 <ImageButton
                     x:Name="menuLabel"
@@ -59,7 +78,7 @@
                     VerticalOptions="Start"
                     WidthRequest="30">
                     <ImageButton.Behaviors>
-                        <toolkit:IconTintColorBehavior TintColor="WhiteSmoke" />
+                        <toolkit:IconTintColorBehavior TintColor="Black" />
                     </ImageButton.Behaviors>
                 </ImageButton>
 
@@ -75,20 +94,13 @@
                         FontFamily="NunitoRegular"
                         FontSize="22"
                         HorizontalTextAlignment="Center"
-                        Text="Богиня благословляет этот прекрасный мир!" />
+                        Text="{Binding Series.seriesName}"
+                        TextColor="#1C466D" />
                     <HorizontalStackLayout HorizontalOptions="Center">
                         <Label
                             FontFamily="NunitoItalic"
                             FontSize="14"
-                            Text="Сезон 1 " />
-                        <Label
-                            FontFamily="NunitoItalic"
-                            FontSize="14"
-                            Text="(13 эп.), " />
-                        <Label
-                            FontFamily="NunitoItalic"
-                            FontSize="14"
-                            Text="2014 год" />
+                            Text="{Binding Series.GetSubDescription}" />
                         <ImageButton
                             x:Name="ratingButton"
                             Margin="3,-1,0,0"
@@ -197,13 +209,13 @@
                         <Line
                             HorizontalOptions="Fill"
                             Stroke="Gray"
-                            X2="{Binding Width, Source={RelativeSource Self}}" />
+                            X2="350" />
                     </StackLayout>
                 </VerticalStackLayout>
 
                 <Grid Grid.Row="2" Grid.ColumnSpan="3">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="15" />
+                        <RowDefinition Height="20" />
                         <RowDefinition Height="70" />
                         <RowDefinition Height="40" />
                     </Grid.RowDefinitions>
@@ -215,12 +227,32 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
+
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="-25,0,0,0"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="Добавлено"
+                        VerticalOptions="End" />
                     <Label
                         Grid.Row="0"
                         Grid.Column="2"
+                        Margin="0,0,0,0"
                         HorizontalOptions="Center"
                         HorizontalTextAlignment="Center"
-                        Text="24"
+                        Text="{Binding Series.lastEpisode}"
+                        VerticalOptions="End" />
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="3"
+                        Grid.ColumnSpan="2"
+                        Margin="25,0,0,0"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="Просмотрено"
                         VerticalOptions="End" />
                     <Border
                         Grid.Row="1"
@@ -252,11 +284,11 @@
                         VerticalOptions="Center"
                         X2="70" />
                     <cProgressBar:CircularProgressBar
+                        x:Name="episodeProgress"
                         Grid.Row="1"
                         Grid.Column="2"
                         Margin="3"
                         HorizontalOptions="Center"
-                        Progress="69.1"
                         Size="50"
                         Thickness="4"
                         VerticalOptions="Center" />
@@ -292,23 +324,24 @@
                         Grid.Row="2"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        Margin="-35,0,0,0"
+                        Margin="-35,-10,0,0"
                         HorizontalOptions="Center"
                         HorizontalTextAlignment="Center"
-                        Text="Добавлено"
+                        Text="{Binding Series.getAddedDate}"
                         VerticalOptions="Start" />
                     <Label
                         Grid.Row="2"
                         Grid.Column="2"
+                        Margin="0,-10,0,0"
                         HorizontalOptions="Center"
                         HorizontalTextAlignment="Center"
-                        Text="12"
+                        Text="{Binding Series.currentEpisode}"
                         VerticalOptions="Start" />
                     <Label
                         Grid.Row="2"
                         Grid.Column="3"
                         Grid.ColumnSpan="2"
-                        Margin="35,0,0,0"
+                        Margin="35,-10,0,0"
                         HorizontalOptions="Center"
                         HorizontalTextAlignment="Center"
                         Text="Еще смотрю"
@@ -346,8 +379,8 @@
                         x:Name="descriptionText"
                         FontAutoScalingEnabled="True"
                         FontSize="Body"
-                        HorizontalOptions="FillAndExpand"
-                        Text="Казума Сато умер…. Но не успел он как следует загрустить по этому поводу, как перед ним возникла юная девушка, представившаяся богиней по имени Аква. Она объяснила, что парню предоставляется второй шанс – новая жизнь, да не простая – он отправится спасать МИР, правда, не свой, а альтернативный. Самое-то для человека, посвятившего всё своё свободное время в прошлой жизни видеоиграм. Согласился и славно, богиня Аква рада.… Один из бонусов – можно взять в новый мир одну способность или нечто материальное вроде оружия. Казума наш, совершенно неожиданно даже для себя, что уж там говорить, предпочёл взять с собой саму Акву. Выбор есть выбор, отказаться ну никак нельзя. И отправляются богиня и юный герой рука об руку в Неизведанный мир!"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="{Binding Series.seriesDescription}"
                         VerticalOptions="FillAndExpand" />
                 </toolkit:Expander>
 

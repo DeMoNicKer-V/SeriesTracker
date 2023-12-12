@@ -1,3 +1,6 @@
+using SeriesTracker.Models;
+using SeriesTracker.ViewModels;
+
 namespace SeriesTracker.Views;
 
 public partial class DetailSeriesPage : ContentPage
@@ -5,17 +8,34 @@ public partial class DetailSeriesPage : ContentPage
     public DetailSeriesPage()
     {
         InitializeComponent();
-        EditCommand = new Command(OnEditCommand);
-        CloseCommand = new Command(OnCloseCommand);
-        DeleteCommand = new Command(OnDeleteCommand);
-        DetachCommand = new Command(OnDetachCommand);
-        BindingContext = this;
+        this.BindingContext = new DetailSeriesPageViewModel();
     }
 
-    public Command CloseCommand { get; }
+    public DetailSeriesPage(Series series)
+    {
+        InitializeComponent();
+        this.BindingContext = new DetailSeriesPageViewModel();
+
+        if (series != null)
+        {
+            ((DetailSeriesPageViewModel)BindingContext).Series = series;
+            var seriesProgress = ((double)series.currentEpisode / (double)series.lastEpisode) * 100.0;
+            episodeProgress.Progress = (float)Math.Round(seriesProgress);
+        }
+    }
+
+   /* public Command CloseCommand { get; }
+
     public Command DeleteCommand { get; }
+
     public Command DetachCommand { get; }
-    public Command EditCommand { get; }
+
+    public Command EditCommand { get; }*/
+
+    public Series Series
+    {
+        get; set;
+    }
     private void cancelButton_Clicked(object sender, EventArgs e)
     {
         ratingExpander.IsExpanded = false;
@@ -51,7 +71,7 @@ public partial class DetailSeriesPage : ContentPage
         await BottomSheet.TranslateTo(0, 300, 300);
         BottomSheet.IsVisible = false;
     }
-
+/*
     private async void OnDeleteCommand()
     {
         await DisplayAlert("Удалить", "aa", "aaa");
@@ -66,7 +86,7 @@ public partial class DetailSeriesPage : ContentPage
     {
         await DisplayAlert("Изменить", "aa", "aaa");
     }
-
+   */
     private void OpenButton_Clicked(object sender, EventArgs e)
     {
         descriptionExpander.IsExpanded = false;
