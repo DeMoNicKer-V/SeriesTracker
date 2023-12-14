@@ -135,4 +135,18 @@ public partial class NewSeriesPage : ContentPage
             }
         }
     }
+
+    private async void descriptionExpander_ExpandedChanged(object sender, CommunityToolkit.Maui.Core.ExpandedChangedEventArgs e)
+    {
+        if (descriptionExpander.IsExpanded)
+        {
+            descriptionCaption.Text = "Скрыть описание";
+            await descriptionImage.RotateXTo(180, 200);
+        }
+        else
+        {
+            descriptionCaption.Text = "Открыть описание";
+            await descriptionImage.RotateXTo(0, 200);
+        }
+    }
 }

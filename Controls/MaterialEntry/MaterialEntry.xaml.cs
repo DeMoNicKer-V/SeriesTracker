@@ -17,8 +17,8 @@ public partial class MaterialEntry : ContentView
 
         if (DeviceInfo.Current.Platform == DevicePlatform.Android)
         {
-            _yScale = -18;
-            _xScale = -50;
+            _yScale = 27;
+            _xScale = 0;
         }
         else if (DeviceInfo.Current.Platform == DevicePlatform.WinUI)
         {
@@ -34,18 +34,9 @@ public partial class MaterialEntry : ContentView
         MEEntry.ZIndex = 2;
         MEBorder.ZIndex = 2;
         MELabel.ZIndex = 3;
-
-        BindingContext = this;
-    }
-    public static readonly BindableProperty StrokeColorProperty = BindableProperty.Create(nameof(StrokeColor), typeof(Color), typeof(MaterialEntry), null);
-
-    public Color StrokeColor
-    {
-        get => (Color)GetValue(StrokeColorProperty);
-        set => SetValue(StrokeColorProperty, value);
     }
 
-    public static readonly BindableProperty TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(MaterialEntry), null);
+    public static readonly BindableProperty TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(MaterialEntry), null, BindingMode.TwoWay);
     public string Text
     {
         get => (string)GetValue(TextProperty);
@@ -62,7 +53,7 @@ public partial class MaterialEntry : ContentView
     private void MEEntry_Focused(object sender, FocusEventArgs e)
     {
         //MELabel.IsVisible = false;
-        MEBorder.Stroke = StrokeColor;
+        MEBorder.Stroke = (Color)_primary;
         MELabel.TextColor = (Color)_primary;
         ScaleLabelDown();
     }
@@ -80,6 +71,7 @@ public partial class MaterialEntry : ContentView
             {
                 MELabel.TranslateTo(_xScale, _yScale + 2, 50, Easing.Default);
             }
+            MELabel.TextColor = (Color)_primary;
         }
     }
 
@@ -88,6 +80,7 @@ public partial class MaterialEntry : ContentView
         MELabel.ScaleTo(0.8, 250, Easing.Linear);
         MELabel.TranslateTo(_xScale, _yScale, 250, Easing.Linear);
         MELabel.ZIndex = 3;
+        MEEntry.WidthRequest = 50;
     }
 
     private void ScaleLabelUp()
@@ -95,5 +88,14 @@ public partial class MaterialEntry : ContentView
         MELabel.ZIndex = 1;
         MELabel.ScaleTo(1, 250, Easing.Linear);
         MELabel.TranslateTo(0, 0, 250, Easing.Linear);
+        MEEntry.WidthRequest = 90;
     }
+
+    private void MEEntry_Loaded(object sender, EventArgs e)
+    {
+        if (!string.IsNullOrWhiteSpace(MEEntry.Text))
+        {
+            ScaleLabelDown();
+        }
+        }
 }

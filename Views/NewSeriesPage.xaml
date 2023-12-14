@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:Models="clr-namespace:SeriesTracker.Models"
+    xmlns:controls="clr-namespace:SeriesTracker.Controls.MaterialEntry"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vModels="clr-namespace:SeriesTracker.ViewModels"
     Title="Данные сериала"
@@ -30,6 +31,7 @@
                 <Grid x:Name="gridContainer">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="220" />
+                        <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
@@ -116,6 +118,86 @@
                                 MinimumLength="1" />
                         </Editor.Behaviors>
                     </Editor>
+
+                    <toolkit:Expander
+                        x:Name="descriptionExpander"
+                        Grid.Row="3"
+                        Grid.ColumnSpan="3"
+                        Padding="10,0,10,10"
+                        ExpandedChanged="descriptionExpander_ExpandedChanged"
+                        VerticalOptions="CenterAndExpand">
+                        <toolkit:Expander.Header>
+                            <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
+                                <Label
+                                    x:Name="descriptionCaption"
+                                    FontAttributes="Italic"
+                                    FontFamily="NunitoItalic"
+                                    FontSize="14"
+                                    Text="Открыть описание" />
+                                <Image
+                                    x:Name="descriptionImage"
+                                    HeightRequest="20"
+                                    Source="downarrow.png"
+                                    WidthRequest="20">
+                                    <Image.Behaviors>
+                                        <toolkit:IconTintColorBehavior TintColor="Red" />
+                                    </Image.Behaviors>
+                                </Image>
+                            </HorizontalStackLayout>
+                        </toolkit:Expander.Header>
+                        <Editor
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="3"
+                            AutoSize="TextChanges"
+                            FontSize="13"
+                            HorizontalOptions="FillAndExpand"
+                            MinimumHeightRequest="250"
+                            Placeholder="Описание тайтла..."
+                            VerticalTextAlignment="Start">
+                            <Editor.Keyboard>
+                                <Keyboard x:FactoryMethod="Create">
+                                    <x:Arguments>
+                                        <KeyboardFlags>Suggestions,CapitalizeSentence</KeyboardFlags>
+                                    </x:Arguments>
+                                </Keyboard>
+                            </Editor.Keyboard>
+                            <Editor.Behaviors>
+                                <toolkit:TextValidationBehavior
+                                    Flags="ValidateOnValueChanged,ValidateOnAttaching"
+                                    InvalidStyle="{StaticResource InvalidEntryStyle}"
+                                    MinimumLength="1" />
+                            </Editor.Behaviors>
+                        </Editor>
+                    </toolkit:Expander>
+                </Grid>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+
+                    <controls:MaterialEntry
+                        x:Name="aaa"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        HorizontalOptions="Center"
+                        Label="Начальная серия"
+                        Text="{Binding Series.startEpisode, Mode=TwoWay}" />
+
+                    <controls:MaterialEntry
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        HorizontalOptions="Center"
+                        Label="Последняя серия"
+                        Text="{Binding Series.lastEpisode, Mode=TwoWay}" />
                 </Grid>
 
 
