@@ -15,8 +15,10 @@ namespace SeriesTracker.ViewModels
 {
     public partial class NewSeriesPageViewModel : BaseSeriesModel
     {
+        public Command BackCommand { get; }
         public NewSeriesPageViewModel()
         {
+            BackCommand = new Command(OnBackCommand);
             Series = new Series();
         }
 
@@ -36,6 +38,10 @@ namespace SeriesTracker.ViewModels
             newSeries.addedDate = DateTime.Now.ToString();
             await App.SeriesService.AddUpdateSeriesAsync(newSeries);
 
+            await Shell.Current.GoToAsync("..");
+        }
+        private async void OnBackCommand()
+        {
             await Shell.Current.GoToAsync("..");
         }
     }
