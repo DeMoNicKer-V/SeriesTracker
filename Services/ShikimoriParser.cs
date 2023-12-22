@@ -37,7 +37,7 @@ namespace SeriesTracker.Services
             IBrowsingContext context = BrowsingContext.New(config);
             var doc = await context.OpenAsync(BaseUrl);
 
-            var title = doc.QuerySelector("#animes_show > section > div > header > h1").TextContent.ToString();
+            var title = doc.QuerySelector("#animes_show > section > div > header > h1").TextContent.ToString().Split("/").First().Trim();
             var year = "";
             try
             {

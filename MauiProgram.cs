@@ -18,9 +18,19 @@ public static class MauiProgram
             fonts.AddFont("Nunito-Bold.ttf", "NunitoBold");
             fonts.AddFont("Nunito-Italic.ttf", "NunitoItalic");
         }).UseMauiCommunityToolkit();
+        Microsoft.Maui.Handlers.EditorHandler.Mapper.AppendToMapping("Borderless", (handler, view) =>
+        {
+            if (view is Editor)
+            {
+#if ANDROID
+				handler.PlatformView.Background = null;
+				handler.PlatformView.SetBackgroundColor(Android.Graphics.Color.Transparent);
+#endif
+            }
+        });
         Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("Borderless", (handler, view) =>
         {
-            if (view is BorderlessEntry)
+            if (view is BorderlessEntry || view is Entry)
             {
 #if ANDROID
 				handler.PlatformView.Background = null;
