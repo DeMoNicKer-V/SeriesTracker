@@ -239,6 +239,7 @@
                                 HorizontalOptions="FillAndExpand"
                                 MinimumHeightRequest="200"
                                 Placeholder="Описание сериала..."
+                                Text="{Binding Series.seriesDescription, Mode=TwoWay}"
                                 Unfocused="descriptionEditor_Unfocused"
                                 VerticalTextAlignment="Start">
                                 <Editor.Keyboard>
@@ -273,6 +274,7 @@
                     </Grid.ColumnDefinitions>
 
                     <controls:MaterialEntry
+                        TextChanged="startEntry_TextChanged"
                         x:Name="startEntry"
                         Grid.Row="0"
                         Grid.Column="0"
@@ -286,9 +288,11 @@
                         Grid.Column="1"
                         HorizontalOptions="Center"
                         Label="Текущая серия"
-                        Text="{Binding Series.currentEpisode, Mode=TwoWay}" />
+                        Text="{Binding Series.currentEpisode, Mode=TwoWay}"
+                        TextChanged="currentEntry_TextChanged" />
 
                     <controls:MaterialEntry
+                        TextChanged="lastEntry_TextChanged"
                         x:Name="lastEntry"
                         Grid.Row="0"
                         Grid.Column="2"

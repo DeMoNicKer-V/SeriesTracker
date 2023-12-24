@@ -1,9 +1,12 @@
 using AngleSharp;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Core.Platform;
 using SeriesTracker.Models;
 using SeriesTracker.Services;
 using SeriesTracker.ViewModels;
+using static System.Net.Mime.MediaTypeNames;
+using System.Threading;
 
 namespace SeriesTracker.Views;
 
@@ -49,12 +52,24 @@ public partial class NewSeriesPage : ContentPage
     {
         if (!String.IsNullOrWhiteSpace(url))
         {
-            saveBtn.IsEnabled = false;
-            posterImage.Source = string.Empty;
-            ChangePosterAttributes();
+
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
             switch (url.Contains("shikimori"))
             {
                 case true:
+                    if (!aaa.Text.Contains(url))
+                    {
+                        
+
+                        var toast = Toast.Make("Неправильная ссылка", ToastDuration.Short, 14);
+
+                        await toast.Show(cancellationTokenSource.Token);
+                        return;
+                    }
+                    saveBtn.IsEnabled = false;
+                    posterImage.Source = string.Empty;
+                    ChangePosterAttributes();
+
                     shikimoriParser.BaseUrl = aaa.Text;
                     aaa.Text = string.Empty;
                     siteEntry.IsVisible = false;
@@ -63,6 +78,18 @@ public partial class NewSeriesPage : ContentPage
                     break;
 
                 case false:
+                    if (!aaa.Text.Contains(url))
+                    {
+
+
+                        var toast = Toast.Make("Неправильная ссылка", ToastDuration.Short, 14);
+
+                        await toast.Show(cancellationTokenSource.Token);
+                        return;
+                    }
+                    saveBtn.IsEnabled = false;
+                    posterImage.Source = string.Empty;
+                    ChangePosterAttributes();
                     malParser.BaseUrl = aaa.Text;
                     aaa.Text = string.Empty;
                     siteEntry.IsVisible = false;
@@ -148,6 +175,7 @@ public partial class NewSeriesPage : ContentPage
         {
             descriptionCaption.Text = "Открыть описание";
             await descriptionImage.RotateXTo(0, 200);
+            await descriptionEditor.HideKeyboardAsync(CancellationToken.None);
         }
     }
 
@@ -157,7 +185,7 @@ public partial class NewSeriesPage : ContentPage
         {
             return;
         }
-        url = "myanimelist";
+        url = "https://myanimelist.net/anime/";
         siteEntry.IsVisible = true;
         await Browser.Default.OpenAsync("https://myanimelist.net/anime.php", BrowserLaunchMode.SystemPreferred);
     }
@@ -168,14 +196,18 @@ public partial class NewSeriesPage : ContentPage
         {
             return;
         }
-        url = "shikimori";
+        url = "https://shikimori.one/animes/";
         siteEntry.IsVisible = true;
         await Browser.Default.OpenAsync("https://shikimori.one/animes", BrowserLaunchMode.SystemPreferred);
     }
 
     private void ImageButton_Clicked_2(object sender, EventArgs e)
     {
-        siteEntry.IsVisible = false;
+        if (!string.IsNullOrWhiteSpace(aaa.Text))
+        {
+            aaa.Text = string.Empty;
+        }
+        else siteEntry.IsVisible = false;
     }
 
     private void nameEditor_Focused(object sender, FocusEventArgs e)
@@ -222,8 +254,8 @@ public partial class NewSeriesPage : ContentPage
         {
             PickOptions options = new()
             {
-                PickerTitle = "Пожалуйста, выбирите файл с данными!",
-                FileTypes = FilePickerFileType.Png,
+                PickerTitle = "Пожалуйста, выбирите изображение для сериала!",
+                FileTypes = FilePickerFileType.Images,
             };
             var result = await FilePicker.Default.PickAsync(options);
             if (result != null)
@@ -237,5 +269,32 @@ public partial class NewSeriesPage : ContentPage
         {
             // The user canceled or something went wrong
         }
+    }
+
+    private void currentEntry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(e.NewTextValue))
+        { 
+            currentEntry.HasError = true;
+        }
+        else currentEntry.HasError = false;
+    }
+
+    private void lastEntry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(e.NewTextValue))
+        {
+            lastEntry.HasError = true;
+        }
+        else lastEntry.HasError = false;
+    }
+
+    private void startEntry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(e.NewTextValue))
+        {
+            startEntry.HasError = true;
+        }
+        else startEntry.HasError = false;
     }
 }

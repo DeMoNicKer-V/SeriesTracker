@@ -25,7 +25,7 @@ public partial class Series
     public string seriesDescription
     {
         get; set;
-    } = "Описание отсутствует";
+    }
 
     public float seriesRating
     {

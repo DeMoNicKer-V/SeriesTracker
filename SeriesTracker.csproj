@@ -59,6 +59,7 @@
 	  <None Remove="Resources\Images\delete.png" />
 	  <None Remove="Resources\Images\downArrow.png" />
 	  <None Remove="Resources\Images\edit.png" />
+	  <None Remove="Resources\Images\exclamation.png" />
 	  <None Remove="Resources\Images\exportjson.png" />
 	  <None Remove="Resources\Images\eye.png" />
 	  <None Remove="Resources\Images\favorite.png" />

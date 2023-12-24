@@ -34,6 +34,7 @@ public partial class MaterialEntry : ContentView
         MEEntry.ZIndex = 2;
         MEBorder.ZIndex = 2;
         MELabel.ZIndex = 3;
+        warning.ZIndex = 3;
     }
 
     public static readonly BindableProperty TextProperty = BindableProperty.Create(nameof(Text), typeof(string), typeof(MaterialEntry), null, BindingMode.TwoWay);
@@ -50,6 +51,18 @@ public partial class MaterialEntry : ContentView
         set => SetValue(LabelProperty, value);
     }
 
+    public static readonly BindableProperty HasErrorProperty = BindableProperty.Create(nameof(HasError), typeof(bool), typeof(MaterialEntry), null, BindingMode.TwoWay);
+    public bool HasError
+    {
+        get => (bool)GetValue(HasErrorProperty);
+        set => SetValue(HasErrorProperty, value);
+    }
+    public event EventHandler<TextChangedEventArgs> TextChanged;
+    protected virtual void OnTextChanged(TextChangedEventArgs e)
+    {
+        EventHandler<TextChangedEventArgs> handler = TextChanged;
+        handler?.Invoke(this, e);
+    }
     private void MEEntry_Focused(object sender, FocusEventArgs e)
     {
         //MELabel.IsVisible = false;
@@ -62,7 +75,7 @@ public partial class MaterialEntry : ContentView
     {
         if (string.IsNullOrWhiteSpace(MEEntry.Text))
         {
-            //MELabel.IsVisible = true;
+            warning.TranslateTo(-50, -18, 250, Easing.Linear);
             ScaleLabelUp();
         }
         else
@@ -71,16 +84,16 @@ public partial class MaterialEntry : ContentView
             {
                 MELabel.TranslateTo(_xScale, _yScale + 2, 50, Easing.Default);
             }
-            MELabel.TextColor = (Color)_primary;
         }
     }
 
     private void ScaleLabelDown()
     {
-        MELabel.ScaleTo(0.8, 250, Easing.Linear);
+        MELabel.ScaleTo(0.85, 250, Easing.Linear);
         MELabel.TranslateTo(_xScale, _yScale, 250, Easing.Linear);
         MELabel.ZIndex = 3;
         MEEntry.WidthRequest = 50;
+        warning.TranslateTo(-35, -18, 250, Easing.Linear);
     }
 
     private void ScaleLabelUp()
@@ -98,4 +111,9 @@ public partial class MaterialEntry : ContentView
             ScaleLabelDown();
         }
         }
+
+    private void MEEntry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        OnTextChanged(e);
+    }
 }

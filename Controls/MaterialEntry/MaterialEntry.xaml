@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:SeriesTracker.Controls.MaterialEntry"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Name="this">
     <Grid WidthRequest="200">
         <Label
@@ -31,6 +32,23 @@
             </Label.Triggers>
         </Label>
         <Border
+            x:Name="warning"
+            BackgroundColor="{AppThemeBinding Light={StaticResource White},
+                                              Dark={StaticResource Black}}"
+            HeightRequest="21"
+            IsVisible="{Binding Source={x:Reference this}, Path=HasError}"
+            StrokeShape="RoundRectangle 50"
+            WidthRequest="21">
+            <Image
+                HeightRequest="21"
+                Source="exclamation.png"
+                WidthRequest="21">
+                <Image.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                </Image.Behaviors>
+            </Image>
+        </Border>
+        <Border
             x:Name="MEBorder"
             BackgroundColor="Transparent"
             HorizontalOptions="Center"
@@ -42,7 +60,7 @@
                     TargetType="Border"
                     Value="True">
                     <Setter Property="Stroke" Value="{StaticResource Primary}" />
-                    <Setter Property="StrokeThickness" Value="3" />
+                    <Setter Property="StrokeThickness" Value="2" />
                 </DataTrigger>
                 <DataTrigger
                     Binding="{Binding Source={x:Reference MEEntry}, Path=IsFocused}"
@@ -57,7 +75,7 @@
                     <On Platform="Android" Value="10,0,10,0" />
                 </OnPlatform>
             </Border.Padding>
-            <controls:BorderlessEntry Loaded="MEEntry_Loaded"
+            <controls:BorderlessEntry
                 x:Name="MEEntry"
                 Focused="MEEntry_Focused"
                 HeightRequest="{OnPlatform iOS=40,
@@ -65,8 +83,10 @@
                 HorizontalOptions="Center"
                 HorizontalTextAlignment="Center"
                 Keyboard="Numeric"
+                Loaded="MEEntry_Loaded"
                 MaxLength="4"
                 Text="{Binding Source={x:Reference this}, Path=Text}"
+                TextChanged="MEEntry_TextChanged"
                 TextColor="Purple"
                 Unfocused="MEEntry_Unfocused"
                 VerticalOptions="Center"

@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Mvvm.Input;
 using SeriesTracker.Models;
 using System;
 using System.Collections.Generic;
@@ -23,7 +25,7 @@ namespace SeriesTracker.ViewModels
         }
 
         [RelayCommand]
-        public async void SaveSeries()
+        public async Task SaveSeries()
         {
             var newSeries = Series;
             if (newSeries is null)
@@ -32,7 +34,7 @@ namespace SeriesTracker.ViewModels
             var (isValid, errorMessage) = newSeries.Validate();
             if (!isValid)
             {
-                await Shell.Current.DisplayAlert("Ошибка ввода данных", errorMessage, "Ok");
+                await NewSeriesPageViewModel.ShowToast(errorMessage);
                 return;
             }
             newSeries.addedDate = DateTime.Now.ToString();
@@ -43,6 +45,16 @@ namespace SeriesTracker.ViewModels
         private async void OnBackCommand()
         {
             await Shell.Current.GoToAsync("..");
+        }
+
+        private static async Task ShowToast(string text)
+        {
+
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+            var toast = Toast.Make(text, ToastDuration.Short, 14);
+
+            await toast.Show(cancellationTokenSource.Token);
         }
     }
 }
