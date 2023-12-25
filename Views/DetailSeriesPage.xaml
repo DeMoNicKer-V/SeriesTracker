@@ -15,13 +15,6 @@
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsEnabled="False" IsVisible="False" />
     </Shell.BackButtonBehavior>
-    <ContentPage.Behaviors>
-        <toolkit:StatusBarBehavior
-            x:Name="noteStatus"
-            StatusBarColor="{AppThemeBinding Light=#1C466D,
-                                             Dark=#121212}"
-            StatusBarStyle="Default" />
-    </ContentPage.Behaviors>
     <ScrollView x:Name="baseContainer" VerticalScrollBarVisibility="Never">
         <VerticalStackLayout>
             <Grid x:Name="gridContainer">

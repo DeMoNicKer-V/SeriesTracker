@@ -52,17 +52,20 @@
 	  <None Remove="Resources\Images\add.png" />
 	  <None Remove="Resources\Images\addposter.png" />
 	  <None Remove="Resources\Images\backarrow.png" />
+	  <None Remove="Resources\Images\bookmark.png" />
 	  <None Remove="Resources\Images\cancel.png" />
 	  <None Remove="Resources\Images\circle.png" />
 	  <None Remove="Resources\Images\circumference.png" />
 	  <None Remove="Resources\Images\cross.png" />
 	  <None Remove="Resources\Images\delete.png" />
+	  <None Remove="Resources\Images\dot.png" />
 	  <None Remove="Resources\Images\downArrow.png" />
 	  <None Remove="Resources\Images\edit.png" />
 	  <None Remove="Resources\Images\exclamation.png" />
 	  <None Remove="Resources\Images\exportjson.png" />
 	  <None Remove="Resources\Images\eye.png" />
 	  <None Remove="Resources\Images\favorite.png" />
+	  <None Remove="Resources\Images\filter.png" />
 	  <None Remove="Resources\Images\friren.jpg" />
 	  <None Remove="Resources\Images\gallery.png" />
 	  <None Remove="Resources\Images\icnsearch.png" />
@@ -71,6 +74,7 @@
 	  <None Remove="Resources\Images\plus.png" />
 	  <None Remove="Resources\Images\poster.jpg" />
 	  <None Remove="Resources\Images\ratestar.png" />
+	  <None Remove="Resources\Images\search.png" />
 	  <None Remove="Resources\Images\shikimori.png" />
 	  <None Remove="Resources\Images\star.png" />
 	  <None Remove="Resources\Images\vision.png" />
@@ -103,6 +107,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\DetailSeriesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\NewPage1.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\NewSeriesPage.xaml">

@@ -21,7 +21,14 @@ public partial class ActiveSeriesPage : ContentPage
     {
         if (!string.IsNullOrWhiteSpace(e.OldTextValue) & string.IsNullOrWhiteSpace(e.NewTextValue))
         {
+            searchbarClearBtn.IsVisible = false;
             OnAppearing();
         }
+        else searchbarClearBtn.IsVisible = true;
+    }
+
+    private void searchbarClearBtn_Clicked(object sender, EventArgs e)
+    {
+        searchBar.Text = string.Empty;
     }
 }

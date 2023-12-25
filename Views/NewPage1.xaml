@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SeriesTracker.Views.NewPage1"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Title=""
+    BackgroundColor="{AppThemeBinding Light=#fafafa,
+                                      Dark={StaticResource DarkBackground}}"
+    Shell.FlyoutBehavior="Disabled">
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior
+            x:Name="SeriesStatus"
+            StatusBarColor="{AppThemeBinding Light={StaticResource Primary},
+                                             Dark={StaticResource PrimaryDark}}"
+            StatusBarStyle="Default" />
+
+    </ContentPage.Behaviors>
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsEnabled="False" IsVisible="False" />
+    </Shell.BackButtonBehavior>
+    <Border
+        Margin="10"
+        BackgroundColor="{AppThemeBinding Light=#F3F3F3,
+                                          Dark=#181818}"
+        HeightRequest="200">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="10" />
+        </Border.StrokeShape>
+        <Grid Margin="5" Padding="5">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="25" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="130" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="20" />
+            </Grid.ColumnDefinitions>
+
+            <Border
+                Grid.Row="0"
+                Grid.RowSpan="4"
+                Grid.Column="0"
+                Margin="0,0,10,0"
+                HorizontalOptions="Fill"
+                VerticalOptions="Fill">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <Image Aspect="Fill" Source="poster.png" />
+            </Border>
+            <Label
+                Grid.Row="0"
+                Grid.Column="1"
+                Grid.ColumnSpan="3"
+                FontAttributes="Bold"
+                FontSize="16"
+                LineBreakMode="TailTruncation"
+                MaxLines="2"
+                Text="Богиня бгагословляет этот прекрасный мир!"
+                VerticalOptions="Center" />
+            <ImageButton
+                Grid.Row="0"
+                Grid.Column="4"
+                Margin="0,5,0,0"
+                HeightRequest="15"
+                HorizontalOptions="End"
+                Rotation="90"
+                Source="dots.png"
+                VerticalOptions="Start"
+                WidthRequest="15">
+                <ImageButton.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                </ImageButton.Behaviors>
+            </ImageButton>
+            <Label
+                Grid.Row="1"
+                Grid.Column="1"
+                Text="Сезон 1"
+                VerticalOptions="Center" />
+            <Label
+                Grid.Row="2"
+                Grid.Column="1"
+                Text="7 из 13 эп."
+                VerticalOptions="Center" />
+            <HorizontalStackLayout
+                Grid.Row="2"
+                Grid.Column="2"
+                Grid.ColumnSpan="3"
+                HorizontalOptions="Start"
+                VerticalOptions="Center">
+                <Image
+                    HeightRequest="15"
+                    Source="dot.png"
+                    VerticalOptions="Center"
+                    WidthRequest="15">
+                    <Image.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                    </Image.Behaviors>
+                </Image>
+                <Label Margin="0,0,2,0" Text="4.8" />
+                <Image
+                    HeightRequest="12"
+                    Source="ratestar.png"
+                    WidthRequest="12">
+                    <Image.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="Grey" />
+                    </Image.Behaviors>
+                </Image>
+
+                <Image
+                    HeightRequest="15"
+                    Source="dot.png"
+                    VerticalOptions="Center"
+                    WidthRequest="15">
+                    <Image.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                    </Image.Behaviors>
+                </Image>
+                <ImageButton
+                    HeightRequest="15"
+                    Source="bookmark.png"
+                    VerticalOptions="Center"
+                    WidthRequest="15">
+                    <ImageButton.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="Grey" />
+                    </ImageButton.Behaviors>
+                </ImageButton>
+            </HorizontalStackLayout>
+            <Label
+                Grid.Row="3"
+                Grid.Column="1"
+                Grid.ColumnSpan="4"
+                FontSize="14"
+                LineBreakMode="TailTruncation"
+                MaxLines="4"
+                Text="Богиня Богиня бгагословляет этот прекрасный мир Богиня бгагословляет этот прекрасный мир Богиня бгагословляет этот прекрасный мир Богиня бгагословляет этот прекрасный мир Богиня бгагословляет этот прекрасный мир Богиня бгагословляет этот прекрасный мир"
+                VerticalOptions="Center" />
+        </Grid>
+        <Border.Stroke>
+            <LinearGradientBrush EndPoint="0,1">
+                <GradientStop Offset="0.1" Color="{AppThemeBinding Light=#F3F3F3, Dark=#181818}" />
+                <GradientStop Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}">
+                    <GradientStop.Offset>1.0</GradientStop.Offset>
+                </GradientStop>
+            </LinearGradientBrush>
+        </Border.Stroke>
+    </Border>
+</ContentPage>

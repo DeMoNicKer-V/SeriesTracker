@@ -4,6 +4,8 @@
 
     <Color x:Key="myColor">#31081E</Color>
     <Color x:Key="Primary">#A2253E</Color>
+    <Color x:Key="PrimaryDark">#B67A20</Color>
+    <Color x:Key="DarkBackground">#212121</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
     <Color x:Key="Tertiary">#2B0B98</Color>
     <Color x:Key="White">#FAFAFA</Color>

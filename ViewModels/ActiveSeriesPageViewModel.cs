@@ -129,6 +129,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         {
             SeriesList.Clear();
             var newSeriesList = await App.SeriesService.GetSeriesAsync(false);
+            newSeriesList = newSeriesList.OrderBy(f => f.isFavourite);
             if (newSeriesList != null && newSeriesList.Count() > 0)
             {
                 foreach (var item in newSeriesList)
@@ -161,6 +162,17 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         }
         series.currentEpisode -= 1;
         await App.SeriesService.AddUpdateSeriesAsync(series);
+        OnAppearing();
+    }
+
+    [RelayCommand]
+    private async void SetFavourite(Series series)
+    {
+        if (series == null)
+        {
+            return;
+        }
+        series.isFavourite = !series.isFavourite;
         OnAppearing();
     }
 

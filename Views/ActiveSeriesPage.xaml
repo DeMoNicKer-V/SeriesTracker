@@ -6,221 +6,231 @@
     xmlns:models="clr-namespace:SeriesTracker.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vModels="clr-namespace:SeriesTracker.ViewModels"
-    Title="ActiveSeriesPage"
+    Title=""
     BackgroundColor="{AppThemeBinding Light=#ffffff,
                                       Dark=#121212}"
     Shell.BackgroundColor="{AppThemeBinding Light={StaticResource Primary},
-                                            Dark=#121212}">
+                                            Dark=#121212}"
+    Shell.FlyoutBehavior="Disabled">
     <ContentPage.Behaviors>
         <toolkit:StatusBarBehavior
             x:Name="SeriesStatus"
             StatusBarColor="{AppThemeBinding Light={StaticResource Primary},
                                              Dark=#121212}"
             StatusBarStyle="Default" />
+
     </ContentPage.Behaviors>
-    <Shell.TitleView>
-        <toolkit:DockLayout>
-            <Label
-                x:Name="titleLabel"
-                Margin="10"
-                toolkit:DockLayout.DockPosition="Left"
-                FontSize="Title"
-                HorizontalOptions="Start"
-                Text="Сейчас смотрю"
-                TextColor="White" />
-        </toolkit:DockLayout>
-    </Shell.TitleView>
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsEnabled="False" IsVisible="False" />
+    </Shell.BackButtonBehavior>
     <StackLayout>
         <RefreshView Command="{Binding LoadSeriesCommand}" IsRefreshing="{Binding IsBusy}">
             <toolkit:DockLayout>
                 <CollectionView
                     x:Name="seriesCollection"
-                    Margin="15"
                     toolkit:DockLayout.DockPosition="None"
                     HorizontalScrollBarVisibility="Never"
                     ItemsSource="{Binding SeriesList}"
                     VerticalScrollBarVisibility="Never">
                     <CollectionView.Header>
+                        <Border
+                            Margin="10,10,10,-10"
+                            Padding="5"
+                            BackgroundColor="Transparent"
+                            Stroke="transparent">
+                            <Grid HorizontalOptions="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="45" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="35" />
+                                    <ColumnDefinition Width="230" />
+                                    <ColumnDefinition Width="35" />
+                                    <ColumnDefinition Width="35" />
+                                </Grid.ColumnDefinitions>
+                                <Image
+                                    Grid.Column="0"
+                                    Margin="0,0,10,0"
+                                    HeightRequest="25"
+                                    Source="search.png"
+                                    WidthRequest="25" />
+                                <Entry
+                                    x:Name="searchBar"
+                                    Grid.Column="1"
+                                    FontSize="16"
+                                    Placeholder="Найти сериал"
+                                    ReturnCommand="{Binding PerformSearch}"
+                                    ReturnCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
+                                    TextChanged="searchBar_TextChanged"
+                                    VerticalTextAlignment="Center" />
+                                <ImageButton
+                                    x:Name="searchbarClearBtn"
+                                    Grid.Column="2"
+                                    Clicked="searchbarClearBtn_Clicked"
+                                    HeightRequest="25"
+                                    IsVisible="false"
+                                    Source="cross.png"
+                                    WidthRequest="25" />
+                                <ImageButton
+                                    Grid.Column="3"
+                                    HeightRequest="25"
+                                    Source="filter.png"
+                                    WidthRequest="25" />
+                            </Grid>
 
-                        <SearchBar
-                            x:Name="searchBar"
-                            Placeholder="Найти сериал"
-                            SearchCommand="{Binding PerformSearch}"
-                            SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
-                            TextChanged="searchBar_TextChanged" />
+                        </Border>
+
+
 
 
                     </CollectionView.Header>
                     <CollectionView.ItemsLayout>
-                        <LinearItemsLayout ItemSpacing="10" Orientation="Vertical" />
+                        <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:Series">
-                            <Border BackgroundColor="{AppThemeBinding Light=#f7f7f7, Dark=#1e1e1e}">
+                            <Border
+                                Margin="10"
+                                BackgroundColor="{AppThemeBinding Light=#F3F3F3,
+                                                                  Dark=#181818}"
+                                HeightRequest="200">
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="10" />
                                 </Border.StrokeShape>
+                                <Grid Margin="5" Padding="5">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="20" />
+                                        <RowDefinition Height="25" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="130" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="20" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border
+                                        Grid.Row="0"
+                                        Grid.RowSpan="4"
+                                        Grid.Column="0"
+                                        Margin="0,0,10,0"
+                                        HorizontalOptions="Fill"
+                                        VerticalOptions="Fill">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="10" />
+                                        </Border.StrokeShape>
+                                        <Image Aspect="Fill" Source="{Binding imagePath}" />
+                                    </Border>
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Grid.ColumnSpan="3"
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        LineBreakMode="TailTruncation"
+                                        MaxLines="2"
+                                        Text="{Binding seriesName}"
+                                        VerticalOptions="Center" />
+                                    <ImageButton
+                                        x:Name="menuButton"
+                                        Grid.Row="0"
+                                        Grid.Column="4"
+                                        Margin="0,5,0,0"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:ActiveSeriesPageViewModel}}, Path=AdditionalActionCommand}"
+                                        CommandParameter="{Binding .}"
+                                        HeightRequest="15"
+                                        HorizontalOptions="End"
+                                        Rotation="90"
+                                        Source="dots.png"
+                                        VerticalOptions="Start"
+                                        WidthRequest="15">
+                                        <ImageButton.Behaviors>
+                                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                                        </ImageButton.Behaviors>
+                                    </ImageButton>
+                                    <HorizontalStackLayout
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        HorizontalOptions="Start"
+                                        VerticalOptions="Center">
+                                        <Label Text="Сезон: " VerticalOptions="Center" />
+                                        <Label Text="{Binding seriesSeason}" />
+                                    </HorizontalStackLayout>
+                                    <Label
+                                        Grid.Row="2"
+                                        Grid.Column="1"
+                                        Text="{Binding getFomattedEpisodes}"
+                                        VerticalOptions="Center" />
+                                    <HorizontalStackLayout
+                                        Grid.Row="2"
+                                        Grid.Column="2"
+                                        Grid.ColumnSpan="3"
+                                        HorizontalOptions="Start"
+                                        VerticalOptions="Center">
+                                        <Image
+                                            HeightRequest="15"
+                                            Source="dot.png"
+                                            VerticalOptions="Center"
+                                            WidthRequest="15">
+                                            <Image.Behaviors>
+                                                <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                                            </Image.Behaviors>
+                                        </Image>
+                                        <Label Margin="0,0,2,0" Text="{Binding seriesRating}" />
+                                        <Image
+                                            HeightRequest="12"
+                                            Source="ratestar.png"
+                                            WidthRequest="12">
+                                            <Image.Behaviors>
+                                                <toolkit:IconTintColorBehavior TintColor="Grey" />
+                                            </Image.Behaviors>
+                                        </Image>
+
+                                        <Image
+                                            HeightRequest="15"
+                                            IsVisible="{Binding isFavourite}"
+                                            Source="dot.png"
+                                            VerticalOptions="Center"
+                                            WidthRequest="15">
+                                            <Image.Behaviors>
+                                                <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                                            </Image.Behaviors>
+                                        </Image>
+                                        <Image
+                                            x:Name="favouriteBtn"
+                                            HeightRequest="15"
+                                            IsVisible="false"
+                                            Source="bookmark.png"
+                                            VerticalOptions="Center"
+                                            WidthRequest="15" />
+                                    </HorizontalStackLayout>
+                                    <Label
+                                        Grid.Row="3"
+                                        Grid.Column="1"
+                                        Grid.ColumnSpan="4"
+                                        FontSize="14"
+                                        LineBreakMode="TailTruncation"
+                                        MaxLines="4"
+                                        Text="{Binding seriesDescription}"
+                                        VerticalOptions="Center" />
+                                </Grid>
+                                <Border.Stroke>
+                                    <LinearGradientBrush EndPoint="0,1">
+                                        <GradientStop Offset="0.1" Color="{AppThemeBinding Light=#F3F3F3, Dark=#181818}" />
+                                        <GradientStop Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}">
+                                            <GradientStop.Offset>1.0</GradientStop.Offset>
+                                        </GradientStop>
+                                    </LinearGradientBrush>
+                                </Border.Stroke>
                                 <Border.GestureRecognizers>
                                     <TapGestureRecognizer
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:ActiveSeriesPageViewModel}}, Path=DetailViewCommand}"
                                         CommandParameter="{Binding .}"
                                         NumberOfTapsRequired="1" />
                                 </Border.GestureRecognizers>
-                                <Grid Margin="10" Padding="5">
-
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <Label
-                                        x:Name="descriptionLabel"
-                                        Grid.Row="0"
-                                        Grid.Column="0"
-                                        Grid.ColumnSpan="5"
-                                        Padding="2"
-                                        FontAttributes="Bold"
-                                        FontFamily="NunitoRegular"
-                                        Text="{Binding GetTitleDescription}"
-                                        TextColor="{Binding Source={RelativeSource AncestorType={x:Type vModels:ActiveSeriesPageViewModel}}, Path=GetRandomColor}" />
-                                    <ImageButton
-                                        x:Name="menuLabel"
-                                        Grid.Row="0"
-                                        Grid.Column="5"
-                                        Padding="2"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:ActiveSeriesPageViewModel}}, Path=AdditionalActionCommand}"
-                                        CommandParameter="{Binding .}"
-                                        HeightRequest="30"
-                                        Source="dots.png"
-                                        WidthRequest="30">
-                                        <ImageButton.Behaviors>
-                                            <toolkit:IconTintColorBehavior>
-                                                <toolkit:IconTintColorBehavior.TintColor>
-                                                    <Binding Path="TextColor" Source="{x:Reference descriptionLabel}" />
-                                                </toolkit:IconTintColorBehavior.TintColor>
-                                            </toolkit:IconTintColorBehavior>
-                                        </ImageButton.Behaviors>
-                                    </ImageButton>
-                                    <Label
-                                        Grid.Row="1"
-                                        Grid.Column="0"
-                                        Grid.ColumnSpan="5"
-                                        FontAttributes="Bold"
-                                        FontFamily="NunitoRegular"
-                                        FontSize="20"
-                                        LineBreakMode="TailTruncation"
-                                        Text="{Binding seriesName}"
-                                        TextColor="{AppThemeBinding Light=Black,
-                                                                    Dark=White}" />
-                                    <Label
-                                        Grid.Row="2"
-                                        Grid.Column="0"
-                                        Margin="0,10,0,0"
-                                        FontFamily="NunitoRegular"
-                                        FontSize="16"
-                                        HorizontalOptions="Center"
-                                        LineBreakMode="CharacterWrap"
-                                        MaxLines="10"
-                                        Text="{Binding startEpisode}"
-                                        TextColor="{AppThemeBinding Light=Black,
-                                                                    Dark=White}" />
-                                    <Label
-                                        Grid.Row="2"
-                                        Grid.Column="1"
-                                        Margin="0,0,0,0"
-                                        FontAttributes="Bold"
-                                        FontFamily="NunitoRegular"
-                                        FontSize="30"
-                                        HorizontalOptions="Center"
-                                        LineBreakMode="CharacterWrap"
-                                        MaxLines="10"
-                                        Text="-">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer
-                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:ActiveSeriesPageViewModel}}, Path=DecEpisodeCommand}"
-                                                CommandParameter="{Binding .}"
-                                                NumberOfTapsRequired="1" />
-                                        </Label.GestureRecognizers>
-                                        <Label.TextColor>
-                                            <Binding Path="TextColor" Source="{x:Reference descriptionLabel}" />
-                                        </Label.TextColor>
-                                    </Label>
-                                    <Label
-                                        Grid.Row="2"
-                                        Grid.Column="2"
-                                        Margin="0,10,0,0"
-                                        FontFamily="NunitoRegular"
-                                        FontSize="16"
-                                        HorizontalOptions="Center"
-                                        LineBreakMode="CharacterWrap"
-                                        MaxLines="10"
-                                        Text="{Binding currentEpisode}"
-                                        TextColor="{AppThemeBinding Light=Black,
-                                                                    Dark=White}" />
-                                    <Label
-                                        Grid.Row="2"
-                                        Grid.Column="3"
-                                        Margin="0,0,0,0"
-                                        FontAttributes="Bold"
-                                        FontFamily="NunitoRegular"
-                                        FontSize="30"
-                                        HorizontalOptions="Center"
-                                        LineBreakMode="CharacterWrap"
-                                        MaxLines="10"
-                                        Text="+">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer
-                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:ActiveSeriesPageViewModel}}, Path=IncEpisodeCommand}"
-                                                CommandParameter="{Binding .}"
-                                                NumberOfTapsRequired="1" />
-                                        </Label.GestureRecognizers>
-                                        <Label.TextColor>
-                                            <Binding Path="TextColor" Source="{x:Reference descriptionLabel}" />
-                                        </Label.TextColor>
-                                    </Label>
-                                    <Label
-                                        Grid.Row="2"
-                                        Grid.Column="4"
-                                        Margin="0,10,0,0"
-                                        FontFamily="NunitoRegular"
-                                        FontSize="16"
-                                        HorizontalOptions="Center"
-                                        LineBreakMode="CharacterWrap"
-                                        MaxLines="10"
-                                        Text="{Binding lastEpisode}"
-                                        TextColor="{AppThemeBinding Light=Black,
-                                                                    Dark=White}" />
-                                    <Label
-                                        Grid.Row="3"
-                                        Grid.ColumnSpan="5"
-                                        Margin="0,10,0,0"
-                                        FontAttributes="Italic"
-                                        FontFamily="NunitoRegular"
-                                        FontSize="11"
-                                        Text="{Binding getFormatDate}"
-                                        TextColor="#929292"
-                                        VerticalOptions="End" />
-                                </Grid>
-                                <Border.Stroke>
-                                    <LinearGradientBrush EndPoint="0,1">
-                                        <GradientStop Offset="0.1" Color="{AppThemeBinding Light=#f7f7f7, Dark=#1e1e1e}" />
-                                        <GradientStop>
-                                            <GradientStop.Color>
-                                                <Binding Path="TextColor" Source="{x:Reference descriptionLabel}" />
-                                            </GradientStop.Color>
-                                            <GradientStop.Offset>1.0</GradientStop.Offset>
-                                        </GradientStop>
-                                    </LinearGradientBrush>
-                                </Border.Stroke>
                             </Border>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

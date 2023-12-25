@@ -67,6 +67,11 @@ public partial class Series
         get; set;
     } = false;
 
+    public bool isFavourite
+    {
+        get; set;
+    } = false;
+
     public (bool IsValid, string? ErrorMessage) Validate()
     {
         if (string.IsNullOrWhiteSpace(seriesName))
@@ -133,6 +138,18 @@ public partial class Series
                 return System.String.Format($"{DateTime.Parse(addedDate):d}");
             }
             return addedDate;
+        }
+    }
+
+    [JsonIgnore]
+    public string getFomattedEpisodes
+    {
+        get
+        {
+            /*if (currentEpisode == startEpisode)
+                return System.String.Format($"{0} из {lastEpisode} эп.");
+            else*/ return System.String.Format($"{currentEpisode} из {lastEpisode} эп.");
+
         }
     }
 
