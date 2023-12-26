@@ -3,6 +3,7 @@
     x:Class="SeriesTracker.Views.DetailSeriesPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:BlurBehavior="clr-namespace:SeriesTracker.Behaviors"
     xmlns:cProgressBar="clr-namespace:SeriesTracker.Controls.CircularProgressBar"
     xmlns:controls="clr-namespace:SeriesTracker.Controls"
     xmlns:local="clr-namespace:SeriesTracker.Controls.BottomSheet"
@@ -19,7 +20,7 @@
         <VerticalStackLayout>
             <Grid x:Name="gridContainer">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="340" />
+                    <RowDefinition Height="370" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
@@ -27,9 +28,26 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="260" />
+                    <ColumnDefinition Width="280" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+                <Image
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Aspect="Fill"
+                    Source="{Binding Series.imagePath}">
+                    <Image.Behaviors>
+                        <BlurBehavior:BlurBehavior Radius="65" />
+                    </Image.Behaviors>
+                    <Image.Shadow>
+                        <Shadow
+                            Brush="WhiteSmoke"
+                            Opacity="0.5"
+                            Radius="15"
+                            Offset="0,0" />
+                    </Image.Shadow>
+                </Image>
                 <ImageButton
                     Grid.Row="0"
                     Grid.Column="0"
@@ -49,7 +67,9 @@
                     Grid.Row="0"
                     Grid.Column="1"
                     Margin="15"
+                    BackgroundColor="Transparent"
                     HorizontalOptions="Fill"
+                    Stroke="transparent"
                     VerticalOptions="Fill">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="10" />

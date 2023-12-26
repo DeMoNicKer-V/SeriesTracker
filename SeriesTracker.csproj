@@ -66,8 +66,7 @@
 	  <None Remove="Resources\Images\eye.png" />
 	  <None Remove="Resources\Images\favorite.png" />
 	  <None Remove="Resources\Images\filter.png" />
-	  <None Remove="Resources\Images\friren.jpg" />
-	  <None Remove="Resources\Images\gallery.png" />
+	  <None Remove="Resources\Images\fon.jpg" />
 	  <None Remove="Resources\Images\icnsearch.png" />
 	  <None Remove="Resources\Images\like.png" />
 	  <None Remove="Resources\Images\myanimelist.png" />

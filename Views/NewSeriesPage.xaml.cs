@@ -7,6 +7,7 @@ using SeriesTracker.Services;
 using SeriesTracker.ViewModels;
 using static System.Net.Mime.MediaTypeNames;
 using System.Threading;
+using static Android.Renderscripts.ScriptGroup;
 
 namespace SeriesTracker.Views;
 
@@ -252,6 +253,17 @@ public partial class NewSeriesPage : ContentPage
     {
         try
         {
+            bool displayResult = await DisplayAlert("Поиск изображения", "Искать изображение в интеренте?", "Да", "Нет");
+            if (displayResult == true)
+            {
+                if (string.IsNullOrWhiteSpace(nameEditor.Text))
+                {
+                    await DisplayAlert("Пусто", "Для поиска заполните название сериала", "Оk");
+                    return;
+                }
+               string name = nameEditor.Text.Replace(" ", "%20") + " постер";
+               await Task.Run(async () => await Browser.Default.OpenAsync("https://yandex.by/images/search?text=" + name, BrowserLaunchMode.SystemPreferred));
+            }
             PickOptions options = new()
             {
                 PickerTitle = "Пожалуйста, выбирите изображение для сериала!",
@@ -262,8 +274,8 @@ public partial class NewSeriesPage : ContentPage
             {
                 posterImage.Source = result.FullPath;
                 ((NewSeriesPageViewModel)BindingContext).Series.imagePath = result.FullPath;
+                ChangePosterAttributes();
             }
-            ChangePosterAttributes();
         }
         catch (Exception ex)
         {

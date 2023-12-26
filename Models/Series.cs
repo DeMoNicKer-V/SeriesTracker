@@ -74,7 +74,7 @@ public partial class Series
 
     public (bool IsValid, string? ErrorMessage) Validate()
     {
-        if (string.IsNullOrWhiteSpace(seriesName))
+        if (string.IsNullOrWhiteSpace(seriesName)) 
         {
             return (false, "Название обязательное поле!");
         }
@@ -125,6 +125,19 @@ public partial class Series
                 return $"Сезон {seriesSeason}-й ({lastEpisode} эп.), {releaseYear} год";
             }
             return $"{lastEpisode} эп., {releaseYear} год";
+        }
+    }
+
+    [JsonIgnore]
+    public string getIsRated
+    {
+        get
+        {
+            if (seriesRating == 0)
+            {
+                return "(?)";
+            }
+            return seriesRating.ToString();
         }
     }
 

@@ -17,35 +17,6 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         Navigation = navigation;
     }
 
-    public List<Color> colorList { get; } = new List<Color>() {
-        Color.FromArgb("#42A5F5"),
-        Color.FromArgb("#EC407A"),
-        Color.FromArgb("#26C6DA"),
-        Color.FromArgb("#AB47BC"),
-        Color.FromArgb("#EF5350"),
-        Color.FromArgb("#D59E17"),
-        Color.FromArgb("#FFA726"),
-        Color.FromArgb("#66BB6A"),
-        Color.FromArgb("#8D6E63"),
-        Color.FromArgb("#78909C"),
-        Color.FromArgb("#26A69A"),
-        Color.FromArgb("#5C6BC0"),
-        Color.FromArgb("#7E57C2"),
-        Color.FromArgb("#FF7043"),
-        Color.FromArgb("#00C853"),
-        Color.FromArgb("#8BC34A"),
-        Color.FromArgb("#FF8A80"),
-        Color.FromArgb("#FF80AB") };
-
-
-
-    public ICommand PerformSearch => new Command<string>((string query) =>
-    {
-        if (string.IsNullOrWhiteSpace(query)) return;
-    var normalizedQuery = query?.ToLower() ?? "";
-    SeriesList = SeriesList.Where(item => item.seriesName.ToLowerInvariant().Contains(normalizedQuery)).ToObservableCollection();
-    });
-
     public string GetTitleDescription(Series series)
     {
         
@@ -56,16 +27,22 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
             return $"Год выхода - {series.releaseYear}";
         
     }
-    public Color GetRandomColor
+
+    private ObservableCollection<Series> seriesList = new ObservableCollection<Series>();
+    private ObservableCollection<Series> filterList = new ObservableCollection<Series>();
+
+    public ObservableCollection<Series> FilterList
     {
         get
         {
-            return colorList[new Random().Next(0, 18)];
+            return filterList;
+        }
+        set
+        {
+            filterList = value;
+            OnPropertyChanged();
         }
     }
-
-    private ObservableCollection<Series> seriesList = new ObservableCollection<Series>();
-
     public ObservableCollection<Series> SeriesList
     {
         get
@@ -127,6 +104,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         IsBusy = true;
         try
         {
+            FilterList.Clear();
             SeriesList.Clear();
             var newSeriesList = await App.SeriesService.GetSeriesAsync(false);
             newSeriesList = newSeriesList.OrderBy(f => f.isFavourite);
@@ -137,6 +115,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
                     SeriesList.Add(item);
                 }
             }
+            FilterList = SeriesList;
         }
         catch (Exception)
         {

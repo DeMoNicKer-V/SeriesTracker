@@ -16,9 +16,8 @@
         <toolkit:StatusBarBehavior
             x:Name="SeriesStatus"
             StatusBarColor="{AppThemeBinding Light={StaticResource Primary},
-                                             Dark=#121212}"
+                                             Dark={StaticResource PrimaryDark}}"
             StatusBarStyle="Default" />
-
     </ContentPage.Behaviors>
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsEnabled="False" IsVisible="False" />
@@ -57,11 +56,11 @@
                                 <Entry
                                     x:Name="searchBar"
                                     Grid.Column="1"
+                                    Completed="searchBar_Completed"
                                     FontSize="16"
                                     Placeholder="Найти сериал"
-                                    ReturnCommand="{Binding PerformSearch}"
-                                    ReturnCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
                                     TextChanged="searchBar_TextChanged"
+                                    Unfocused="searchBar_Unfocused"
                                     VerticalTextAlignment="Center" />
                                 <ImageButton
                                     x:Name="searchbarClearBtn"
@@ -100,8 +99,9 @@
                                 <Grid Margin="5" Padding="5">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="20" />
+                                        <RowDefinition Height="Auto" />
                                         <RowDefinition Height="25" />
+                                        <RowDefinition Height="1" />
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
@@ -114,7 +114,7 @@
 
                                     <Border
                                         Grid.Row="0"
-                                        Grid.RowSpan="4"
+                                        Grid.RowSpan="5"
                                         Grid.Column="0"
                                         Margin="0,0,10,0"
                                         HorizontalOptions="Fill"
@@ -155,6 +155,7 @@
                                         Grid.Row="1"
                                         Grid.Column="1"
                                         HorizontalOptions="Start"
+                                        IsVisible="{Binding seriesSeason}"
                                         VerticalOptions="Center">
                                         <Label Text="Сезон: " VerticalOptions="Center" />
                                         <Label Text="{Binding seriesSeason}" />
@@ -179,7 +180,11 @@
                                                 <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
                                             </Image.Behaviors>
                                         </Image>
-                                        <Label Margin="0,0,2,0" Text="{Binding seriesRating}" />
+                                        <Label
+                                            Margin="0,0,2,0"
+                                            FontAttributes="Italic"
+                                            FontSize="12"
+                                            Text="{Binding getIsRated}" />
                                         <Image
                                             HeightRequest="12"
                                             Source="ratestar.png"
@@ -189,33 +194,41 @@
                                             </Image.Behaviors>
                                         </Image>
 
-                                        <Image
-                                            HeightRequest="15"
-                                            IsVisible="{Binding isFavourite}"
-                                            Source="dot.png"
-                                            VerticalOptions="Center"
-                                            WidthRequest="15">
-                                            <Image.Behaviors>
-                                                <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
-                                            </Image.Behaviors>
-                                        </Image>
-                                        <Image
-                                            x:Name="favouriteBtn"
-                                            HeightRequest="15"
-                                            IsVisible="false"
-                                            Source="bookmark.png"
-                                            VerticalOptions="Center"
-                                            WidthRequest="15" />
+                                        <HorizontalStackLayout IsVisible="{Binding isFavourite}">
+                                            <Image
+                                                HeightRequest="15"
+                                                Source="dot.png"
+                                                VerticalOptions="Center"
+                                                WidthRequest="15">
+                                                <Image.Behaviors>
+                                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                                                </Image.Behaviors>
+                                            </Image>
+                                            <ImageButton
+                                                x:Name="favouriteBtn"
+                                                HeightRequest="15"
+                                                IsVisible="true"
+                                                Source="bookmark.png"
+                                                VerticalOptions="Center"
+                                                WidthRequest="15" />
+                                        </HorizontalStackLayout>
                                     </HorizontalStackLayout>
-                                    <Label
+                                    <Line
                                         Grid.Row="3"
                                         Grid.Column="1"
                                         Grid.ColumnSpan="4"
+                                        BackgroundColor="{StaticResource Primary}"
+                                        HorizontalOptions="Fill" />
+                                    <Label
+                                        Grid.Row="4"
+                                        Grid.Column="1"
+                                        Grid.ColumnSpan="4"
+                                        Margin="0,5,0,0"
                                         FontSize="14"
                                         LineBreakMode="TailTruncation"
                                         MaxLines="4"
                                         Text="{Binding seriesDescription}"
-                                        VerticalOptions="Center" />
+                                        VerticalOptions="StartAndExpand" />
                                 </Grid>
                                 <Border.Stroke>
                                     <LinearGradientBrush EndPoint="0,1">

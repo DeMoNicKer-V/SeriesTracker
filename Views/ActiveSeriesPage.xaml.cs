@@ -1,4 +1,7 @@
+using CommunityToolkit.Maui.Core.Extensions;
+using CommunityToolkit.Maui.Core.Platform;
 using SeriesTracker.ViewModels;
+using static Android.App.DownloadManager;
 
 namespace SeriesTracker.Views;
 
@@ -22,7 +25,9 @@ public partial class ActiveSeriesPage : ContentPage
         if (!string.IsNullOrWhiteSpace(e.OldTextValue) & string.IsNullOrWhiteSpace(e.NewTextValue))
         {
             searchbarClearBtn.IsVisible = false;
-            OnAppearing();
+            seriesCollection.ItemsSource = activeSeriesPageViewModel.SeriesList;
+
+
         }
         else searchbarClearBtn.IsVisible = true;
     }
@@ -30,5 +35,18 @@ public partial class ActiveSeriesPage : ContentPage
     private void searchbarClearBtn_Clicked(object sender, EventArgs e)
     {
         searchBar.Text = string.Empty;
+    }
+
+    private void searchBar_Completed(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(searchBar.Text)) return;
+        var normalizedQuery = searchBar.Text?.ToLower() ?? "";
+        activeSeriesPageViewModel.FilterList = activeSeriesPageViewModel.SeriesList.Where(item => item.seriesName.ToLowerInvariant().Contains(normalizedQuery)).ToObservableCollection();
+        seriesCollection.ItemsSource = activeSeriesPageViewModel.FilterList;
+    }
+
+    private async void searchBar_Unfocused(object sender, FocusEventArgs e)
+    {
+       await searchBar.HideKeyboardAsync(CancellationToken.None);
     }
 }
