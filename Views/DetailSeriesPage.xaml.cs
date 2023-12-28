@@ -19,8 +19,8 @@ public partial class DetailSeriesPage : ContentPage
         if (series != null)
         {
             ((DetailSeriesPageViewModel)BindingContext).Series = series;
-            var seriesProgress = ((double)series.currentEpisode / (double)series.lastEpisode) * 100.0;
-            episodeProgress.Progress = (float)Math.Round(seriesProgress);
+            /*var seriesProgress = ((double)series.currentEpisode / (double)series.lastEpisode) * 100.0;
+            episodeProgress.Progress = (float)Math.Round(seriesProgress);*/
         }
     }
 
@@ -113,5 +113,20 @@ public partial class DetailSeriesPage : ContentPage
         double step = 0.5;
         Slider slider = (Slider)sender;
         slider.Value = Math.Round(e.NewValue / step) * step;
+    }
+
+    private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    {
+        editEpisodeEntry.IsVisible = !editEpisodeEntry.IsVisible;
+        if (editEpisodeEntry.IsVisible)
+        {
+            editEpisodeEntry.Focus();
+        }
+    }
+
+    private void episodeEntry_Completed(object sender, EventArgs e)
+    {
+        editEpisodeEntry.IsVisible = false;
+        episodeEntry.Text = string.Empty;
     }
 }

@@ -159,9 +159,9 @@ public partial class Series
     {
         get
         {
-            /*if (currentEpisode == startEpisode)
+            if (currentEpisode == startEpisode)
                 return System.String.Format($"{0} из {lastEpisode} эп.");
-            else*/ return System.String.Format($"{currentEpisode} из {lastEpisode} эп.");
+            else return System.String.Format($"{currentEpisode} из {lastEpisode} эп.");
 
         }
     }

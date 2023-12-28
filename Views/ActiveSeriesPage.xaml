@@ -79,9 +79,6 @@
 
                         </Border>
 
-
-
-
                     </CollectionView.Header>
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout ItemSpacing="5" Orientation="Vertical" />
@@ -92,7 +89,7 @@
                                 Margin="10"
                                 BackgroundColor="{AppThemeBinding Light=#F3F3F3,
                                                                   Dark=#181818}"
-                                HeightRequest="200">
+                                HeightRequest="195">
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="10" />
                                 </Border.StrokeShape>
