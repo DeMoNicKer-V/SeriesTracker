@@ -7,7 +7,6 @@ using SeriesTracker.Services;
 using SeriesTracker.ViewModels;
 using static System.Net.Mime.MediaTypeNames;
 using System.Threading;
-using static Android.Renderscripts.ScriptGroup;
 
 namespace SeriesTracker.Views;
 

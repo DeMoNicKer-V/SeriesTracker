@@ -124,7 +124,7 @@ public partial class Series
             {
                 return $"Сезон {seriesSeason}-й ({lastEpisode} эп.), {releaseYear} год";
             }
-            return $"{lastEpisode} эп., {releaseYear} год";
+            return $"{lastEpisode} эпизодов, {releaseYear} год";
         }
     }
 

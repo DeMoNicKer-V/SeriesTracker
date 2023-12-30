@@ -1,7 +1,6 @@
 using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Maui.Core.Platform;
 using SeriesTracker.ViewModels;
-using static Android.App.DownloadManager;
 
 namespace SeriesTracker.Views;
 

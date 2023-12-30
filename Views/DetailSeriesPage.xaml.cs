@@ -1,3 +1,5 @@
+using AngleSharp.Common;
+using CommunityToolkit.Maui.Behaviors;
 using SeriesTracker.Models;
 using SeriesTracker.ViewModels;
 
@@ -5,32 +7,25 @@ namespace SeriesTracker.Views;
 
 public partial class DetailSeriesPage : ContentPage
 {
+    DetailSeriesPageViewModel detailSeriesPageView;
     public DetailSeriesPage()
     {
         InitializeComponent();
-        this.BindingContext = new DetailSeriesPageViewModel();
+        this.BindingContext = detailSeriesPageView = new DetailSeriesPageViewModel();
     }
 
     public DetailSeriesPage(Series series)
     {
         InitializeComponent();
-        this.BindingContext = new DetailSeriesPageViewModel();
+        this.BindingContext = detailSeriesPageView = new DetailSeriesPageViewModel();
 
         if (series != null)
         {
-            ((DetailSeriesPageViewModel)BindingContext).Series = series;
-            /*var seriesProgress = ((double)series.currentEpisode / (double)series.lastEpisode) * 100.0;
-            episodeProgress.Progress = (float)Math.Round(seriesProgress);*/
+            detailSeriesPageView.Series = series;
+            if (!series.isFavourite) { favoriteImage.Behaviors.Add(new IconTintColorBehavior { TintColor = Color.FromArgb("#ACACAC") }); }
+            if (series.seriesRating < 0.5) { ratingImage.Behaviors.Add(new IconTintColorBehavior { TintColor = Color.FromArgb("#ACACAC") }); }
         }
     }
-
-   /* public Command CloseCommand { get; }
-
-    public Command DeleteCommand { get; }
-
-    public Command DetachCommand { get; }
-
-    public Command EditCommand { get; }*/
 
     public Series Series
     {
@@ -61,8 +56,9 @@ public partial class DetailSeriesPage : ContentPage
     private void likeButton_Clicked(object sender, EventArgs e)
     {
         ratingExpander.IsExpanded = false;
-        ratingTintColor.TintColor = Colors.Yellow;
-        myLabel2.Text = mySlider.Value.ToString();
+        OnAppearing();
+        //ratingTintColor.TintColor = Colors.Yellow;
+        // myLabel2.Text = mySlider.Value.ToString();
     }
 
     private async void OnCloseCommand()
@@ -90,12 +86,11 @@ public partial class DetailSeriesPage : ContentPage
     private void OpenButton_Clicked(object sender, EventArgs e)
     {
         descriptionExpander.IsExpanded = false;
+        editEpisodeEntry.IsVisible = false;
+        editEpisodeEntry.Text = string.Empty;
+        placeHolder.IsVisible = true;
+        editEpisodeEntry.Unfocus();
         ShowBottomSheet();
-    }
-
-    private void ratingButton_Clicked(object sender, EventArgs e)
-    {
-        ratingExpander.IsExpanded = !ratingExpander.IsExpanded;
     }
 
     private async void ShowBottomSheet()
@@ -108,6 +103,12 @@ public partial class DetailSeriesPage : ContentPage
         await BottomSheet.TranslateTo(0, 0, 300);
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        detailSeriesPageView.OnAppearing();
+    }
+
     private void Slider_ValueChanged(object sender, ValueChangedEventArgs e)
     {
         double step = 0.5;
@@ -118,15 +119,40 @@ public partial class DetailSeriesPage : ContentPage
     private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
         editEpisodeEntry.IsVisible = !editEpisodeEntry.IsVisible;
+        placeHolder.IsVisible = !placeHolder.IsVisible;
         if (editEpisodeEntry.IsVisible)
         {
             editEpisodeEntry.Focus();
         }
+        else editEpisodeEntry.Unfocus();
     }
 
     private void episodeEntry_Completed(object sender, EventArgs e)
     {
         editEpisodeEntry.IsVisible = false;
-        episodeEntry.Text = string.Empty;
+        placeHolder.IsVisible = true;
+        editEpisodeEntry.Text = string.Empty;
+    }
+
+    private void TapGestureRecognizer_Tapped_1(object sender, TappedEventArgs e)
+    {
+        ratingExpander.IsExpanded = !ratingExpander.IsExpanded;
+    }
+
+    void ReloadPage() 
+    {
+        
+            Behavior toRemove = favoriteImage.Behaviors.FirstOrDefault(b => b is IconTintColorBehavior);
+            if (toRemove != null)
+            {
+                favoriteImage.Behaviors.Remove(toRemove);
+            }
+        
+        else { favoriteImage.Behaviors.Add(new IconTintColorBehavior { TintColor = Color.FromArgb("#ACACAC") }); }
+    }
+    private void TapGestureRecognizer_Tapped_2(object sender, TappedEventArgs e)
+    {
+        detailSeriesPageView.Series.isFavourite = !detailSeriesPageView.Series.isFavourite;
+        ReloadPage();
     }
 }

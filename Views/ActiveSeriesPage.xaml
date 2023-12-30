@@ -180,8 +180,13 @@
                                         <Label
                                             Margin="0,0,2,0"
                                             FontAttributes="Italic"
-                                            FontSize="12"
-                                            Text="{Binding getIsRated}" />
+                                            FontSize="12">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span FontAttributes="Italic" Text="{Binding getIsRated}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
                                         <Image
                                             HeightRequest="12"
                                             Source="ratestar.png"
@@ -214,7 +219,8 @@
                                         Grid.Row="3"
                                         Grid.Column="1"
                                         Grid.ColumnSpan="4"
-                                        BackgroundColor="{StaticResource Primary}"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource Primary},
+                                                                          Dark={StaticResource PrimaryDark}}"
                                         HorizontalOptions="Fill" />
                                     <Label
                                         Grid.Row="4"

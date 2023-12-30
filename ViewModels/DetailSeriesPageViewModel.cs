@@ -29,6 +29,20 @@ namespace SeriesTracker.ViewModels
             Series = new Series(); 
         }
 
+        public void OnAppearing()
+        {
+            IsBusy = true;
+        }
+
+        [CommunityToolkit.Mvvm.Input.RelayCommand]
+        public async Task SaveSeries()
+        {
+            var newSeries = Series;
+            if (newSeries is null)
+                return;
+            await App.SeriesService.AddUpdateSeriesAsync(newSeries);
+        }
+
         private async void OnCloseCommand()
         {
             // Скрываем BottomSheet с анимацией

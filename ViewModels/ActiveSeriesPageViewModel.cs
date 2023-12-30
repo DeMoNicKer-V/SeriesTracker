@@ -107,7 +107,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
             FilterList.Clear();
             SeriesList.Clear();
             var newSeriesList = await App.SeriesService.GetSeriesAsync(false);
-            newSeriesList = newSeriesList.OrderBy(f => f.isFavourite);
+            newSeriesList = newSeriesList.OrderByDescending(f => f.isFavourite);
             if (newSeriesList != null && newSeriesList.Count() > 0)
             {
                 foreach (var item in newSeriesList)

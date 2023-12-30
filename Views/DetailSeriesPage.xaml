@@ -7,11 +7,12 @@
     xmlns:cProgressBar="clr-namespace:SeriesTracker.Controls.CircularProgressBar"
     xmlns:controls="clr-namespace:SeriesTracker.Controls"
     xmlns:local="clr-namespace:SeriesTracker.Controls.BottomSheet"
+    xmlns:mEntry="clr-namespace:SeriesTracker.Controls.MaterialEntry"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     Title=""
-    BackgroundColor="{AppThemeBinding Light=#ffffff,
+    BackgroundColor="{AppThemeBinding Light={StaticResource Black},
                                       Dark=#121212}"
-    Shell.BackgroundColor="{AppThemeBinding Light={StaticResource Primary},
+    Shell.BackgroundColor="{AppThemeBinding Light={StaticResource Black},
                                             Dark=#121212}"
     Shell.FlyoutBehavior="Disabled"
     Shell.TabBarIsVisible="False">
@@ -22,7 +23,7 @@
         <VerticalStackLayout>
             <Grid x:Name="gridContainer">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="370" />
+                    <RowDefinition Height="360" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
@@ -30,7 +31,7 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="280" />
+                    <ColumnDefinition Width="270" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Image
@@ -38,33 +39,68 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
                     Aspect="Fill"
+                    Opacity="0.8"
                     Source="{Binding Series.imagePath}">
                     <Image.Behaviors>
                         <BlurBehavior:BlurBehavior Radius="65" />
                     </Image.Behaviors>
-                    <Image.Shadow>
-                        <Shadow
-                            Brush="WhiteSmoke"
-                            Opacity="0.5"
-                            Radius="15"
-                            Offset="0,0" />
-                    </Image.Shadow>
                 </Image>
-                <ImageButton
+                <Border
                     Grid.Row="0"
                     Grid.Column="0"
-                    Margin="10,20,0,0"
-                    Padding="2"
-                    Command="{Binding BackCommand}"
-                    HeightRequest="30"
+                    Margin="0,15,0,0"
+                    Padding="10"
+                    Background="#212121"
+                    HorizontalOptions="End"
+                    Opacity="0.6"
+                    Stroke="Transparent"
+                    VerticalOptions="Start">
+                    <ImageButton
+                        Command="{Binding BackCommand}"
+                        HeightRequest="15"
+                        HorizontalOptions="Center"
+                        Source="backarrow.png"
+                        VerticalOptions="Start"
+                        WidthRequest="15">
+                        <ImageButton.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="#999999" />
+                        </ImageButton.Behaviors>
+                    </ImageButton>
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="5" />
+                    </Border.StrokeShape>
+                </Border>
+                <Border
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Margin="0,15,0,0"
+                    Padding="10"
+                    Background="#212121"
                     HorizontalOptions="Start"
-                    Source="backarrow.png"
-                    VerticalOptions="Start"
-                    WidthRequest="30">
-                    <ImageButton.Behaviors>
-                        <toolkit:IconTintColorBehavior TintColor="Black" />
-                    </ImageButton.Behaviors>
-                </ImageButton>
+                    Opacity="0.6"
+                    Stroke="Transparent"
+                    VerticalOptions="Start">
+                    <HorizontalStackLayout>
+                        <Label
+                            x:Name="myLabel2"
+                            Margin="0,0,5,0"
+                            FontFamily="NunitoItalic"
+                            FontSize="12"
+                            Text="{Binding Series.seriesRating}" />
+                        <Image
+                            x:Name="ratingImage"
+                            HeightRequest="15"
+                            Source="ratestar.png"
+                            VerticalOptions="Center"
+                            WidthRequest="15" />
+                    </HorizontalStackLayout>
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="5" />
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_1" />
+                    </Border.GestureRecognizers>
+                </Border>
                 <Border
                     Grid.Row="0"
                     Grid.Column="1"
@@ -78,23 +114,7 @@
                     </Border.StrokeShape>
                     <Image Aspect="Fill" Source="{Binding Series.imagePath}" />
                 </Border>
-                <ImageButton
-                    x:Name="menuLabel"
-                    Grid.Row="0"
-                    Grid.Column="2"
-                    Margin="10,20,0,0"
-                    Padding="2"
-                    Clicked="OpenButton_Clicked"
-                    HeightRequest="30"
-                    HorizontalOptions="Start"
-                    Rotation="90"
-                    Source="dots.png"
-                    VerticalOptions="Start"
-                    WidthRequest="30">
-                    <ImageButton.Behaviors>
-                        <toolkit:IconTintColorBehavior TintColor="Black" />
-                    </ImageButton.Behaviors>
-                </ImageButton>
+
 
 
                 <VerticalStackLayout
@@ -109,37 +129,12 @@
                         FontSize="22"
                         HorizontalTextAlignment="Center"
                         Text="{Binding Series.seriesName}"
-                        TextColor="{AppThemeBinding Light={StaticResource Primary},
-                                                    Dark={StaticResource PrimaryDark}}" />
-                    <HorizontalStackLayout HorizontalOptions="Center">
-                        <Label
-                            FontFamily="NunitoItalic"
-                            FontSize="14"
-                            Text="{Binding Series.GetSubDescription}" />
-                        <ImageButton
-                            x:Name="ratingButton"
-                            Margin="3,-1,0,0"
-                            Clicked="ratingButton_Clicked"
-                            HeightRequest="18"
-                            Source="ratestar.png"
-                            VerticalOptions="Center"
-                            WidthRequest="18">
-                            <ImageButton.Behaviors>
-                                <toolkit:IconTintColorBehavior x:Name="ratingTintColor" TintColor="LightGrey" />
-                            </ImageButton.Behaviors>
-                        </ImageButton>
-                        <Label
-                            x:Name="myLabel2"
-                            Margin="2,-5,0,0"
-                            FontFamily="NunitoItalic"
-                            FontSize="10"
-                            Text="?" />
-                    </HorizontalStackLayout>
+                        TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                    Dark={StaticResource White}}" />
+
                     <toolkit:Expander x:Name="ratingExpander">
                         <VerticalStackLayout>
-
                             <Grid Margin="5" Padding="5">
-
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="20" />
                                     <RowDefinition Height="30" />
@@ -189,7 +184,7 @@
                                     VerticalOptions="Center"
                                     WidthRequest="18">
                                     <ImageButton.Behaviors>
-                                        <toolkit:IconTintColorBehavior TintColor="Red" />
+                                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
                                     </ImageButton.Behaviors>
                                 </ImageButton>
 
@@ -200,7 +195,8 @@
                                     HorizontalOptions="Fill"
                                     Maximum="10.0"
                                     Minimum="0.0"
-                                    ValueChanged="Slider_ValueChanged" />
+                                    ValueChanged="Slider_ValueChanged"
+                                    Value="{Binding Series.seriesRating, Mode=TwoWay}" />
 
                                 <ImageButton
                                     x:Name="likeButton"
@@ -208,13 +204,14 @@
                                     Grid.Column="2"
                                     Margin="3,-1,0,0"
                                     Clicked="likeButton_Clicked"
+                                    Command="{Binding SaveSeriesCommand}"
                                     HeightRequest="18"
                                     HorizontalOptions="Center"
-                                    Source="favorite.png"
+                                    Source="accept.png"
                                     VerticalOptions="Center"
                                     WidthRequest="18">
                                     <ImageButton.Behaviors>
-                                        <toolkit:IconTintColorBehavior TintColor="Pink" />
+                                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
                                     </ImageButton.Behaviors>
                                 </ImageButton>
                             </Grid>
@@ -223,8 +220,7 @@
                     <StackLayout Margin="5">
                         <Line
                             HorizontalOptions="Fill"
-                            Stroke="{AppThemeBinding Light={StaticResource Primary},
-                                                     Dark={StaticResource PrimaryDark}}"
+                            Stroke="#999999"
                             StrokeThickness="1.2"
                             X2="350" />
                     </StackLayout>
@@ -233,7 +229,7 @@
                 <Grid
                     Grid.Row="2"
                     Grid.ColumnSpan="3"
-                    Margin="10,0,10,0">
+                    Margin="15,0,15,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40" />
                         <RowDefinition Height="30" />
@@ -244,6 +240,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="30" />
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="30" />
                     </Grid.ColumnDefinitions>
 
                     <HorizontalStackLayout
@@ -255,9 +252,10 @@
                             BackgroundColor="Transparent"
                             Stroke="{StaticResource Gray300}"
                             StrokeThickness="1">
-                            <HorizontalStackLayout Padding="5" HorizontalOptions="Start">
+                            <HorizontalStackLayout Padding="5,0,5,0" HorizontalOptions="Start">
                                 <Label Text="Избранное" VerticalTextAlignment="Center" />
                                 <Image
+                                    x:Name="favoriteImage"
                                     HeightRequest="15"
                                     Source="bookmark.png"
                                     WidthRequest="15" />
@@ -265,14 +263,37 @@
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="5" />
                             </Border.StrokeShape>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding SaveSeriesCommand}"
+                                    NumberOfTapsRequired="1"
+                                    Tapped="TapGestureRecognizer_Tapped_2" />
+                            </Border.GestureRecognizers>
                         </Border>
                         <Border
                             BackgroundColor="Transparent"
                             Stroke="{StaticResource Gray300}"
                             StrokeThickness="1.2">
-                            <HorizontalStackLayout Padding="5" HorizontalOptions="Start">
+                            <HorizontalStackLayout Padding="5,0,5,0">
                                 <Label Text="Просмотрено: " VerticalTextAlignment="Center" />
-                                <Label Text="{Binding Series.getFomattedEpisodes}" VerticalTextAlignment="Center" />
+                                <Label
+                                    x:Name="placeHolder"
+                                    Text="{Binding Series.currentEpisode}"
+                                    VerticalTextAlignment="Center" />
+                                <Entry
+                                    x:Name="editEpisodeEntry"
+                                    Margin="0,0,0,-1"
+                                    Completed="episodeEntry_Completed"
+                                    HorizontalTextAlignment="Center"
+                                    IsVisible="false"
+                                    Keyboard="Numeric"
+                                    MaxLength="4"
+                                    Text="{Binding Series.currentEpisode, Mode=TwoWay}"
+                                    VerticalOptions="Center"
+                                    VerticalTextAlignment="End" />
+                                <Label Text=" из " VerticalTextAlignment="Center" />
+                                <Label Text="{Binding Series.lastEpisode}" VerticalTextAlignment="Center" />
+                                <Label Text=" эп." VerticalTextAlignment="Center" />
                             </HorizontalStackLayout>
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="5" />
@@ -282,32 +303,31 @@
                             </Border.GestureRecognizers>
                         </Border>
 
-                        <Border
-                            x:Name="editEpisodeEntry"
-                            BackgroundColor="Transparent"
-                            IsVisible="false"
-                            Stroke="{StaticResource Gray300}"
-                            StrokeThickness="1.2">
-                            <Entry
-                                x:Name="episodeEntry"
-                                Completed="episodeEntry_Completed"
-                                HorizontalTextAlignment="Center"
-                                Keyboard="Numeric"
-                                MaxLength="4"
-                                VerticalOptions="Center"
-                                VerticalTextAlignment="Center" />
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="5" />
-                            </Border.StrokeShape>
-                        </Border>
+
                     </HorizontalStackLayout>
+                    <ImageButton
+                        x:Name="menuLabel"
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Margin="10,0,0,0"
+                        Clicked="OpenButton_Clicked"
+                        HeightRequest="20"
+                        HorizontalOptions="End"
+                        Rotation="90"
+                        Source="dots.png"
+                        VerticalOptions="Center"
+                        WidthRequest="20">
+                        <ImageButton.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                        </ImageButton.Behaviors>
+                    </ImageButton>
                     <Image
                         Grid.Row="1"
                         Grid.Column="0"
                         Margin="0,0,5,0"
                         HeightRequest="25"
                         HorizontalOptions="Center"
-                        Source="episode.png"
+                        Source="about.png"
                         WidthRequest="25">
                         <Image.Behaviors>
                             <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
@@ -316,53 +336,59 @@
                     <Label
                         Grid.Row="1"
                         Grid.Column="1"
+                        Grid.ColumnSpan="2"
                         HorizontalOptions="Start"
-                        Text="25 эп. по ~24 мин."
+                        Text="{Binding Series.GetSubDescription, Mode=OneWay}"
                         VerticalTextAlignment="Center" />
-                    <Image
+                    <HorizontalStackLayout
                         Grid.Row="2"
                         Grid.Column="0"
-                        Margin="0,0,5,0"
-                        HeightRequest="23"
-                        HorizontalOptions="Center"
-                        Source="calendar.png"
-                        WidthRequest="23">
-                        <Image.Behaviors>
-                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
-                        </Image.Behaviors>
-                    </Image>
-                    <Label
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        HorizontalOptions="Start"
-                        Text="12 сентрября, 2018 год"
-                        VerticalTextAlignment="Center" />
-                    <Image
+                        Grid.ColumnSpan="2"
+                        HorizontalOptions="FillAndExpand">
+                        <Label
+                            Margin="0,0,5,0"
+                            FontAttributes="Italic"
+                            FontSize="11"
+                            HorizontalOptions="Start"
+                            Text="Добавлено:"
+                            VerticalTextAlignment="Center" />
+                        <Label
+                            Grid.ColumnSpan="2"
+                            FontAttributes="Italic"
+                            FontSize="11"
+                            HorizontalOptions="Start"
+                            Text="22 декабря, 2023 года"
+                            VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout
                         Grid.Row="3"
                         Grid.Column="0"
-                        Margin="0,0,5,0"
-                        HeightRequest="23"
-                        HorizontalOptions="Center"
-                        Source="endcalendar.png"
-                        WidthRequest="23">
-                        <Image.Behaviors>
-                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
-                        </Image.Behaviors>
-                    </Image>
-                    <Label
-                        Grid.Row="3"
-                        Grid.Column="1"
-                        HorizontalOptions="Start"
-                        Text="Не просмотрено"
-                        VerticalTextAlignment="Center" />
+                        Grid.ColumnSpan="2"
+                        Margin="0,-10,0,0"
+                        HorizontalOptions="FillAndExpand">
+                        <Label
+                            Margin="0,0,5,0"
+                            FontAttributes="Italic"
+                            FontSize="11"
+                            HorizontalOptions="Start"
+                            Text="Просмотрено:"
+                            VerticalTextAlignment="Center" />
+                        <Label
+                            Grid.ColumnSpan="2"
+                            FontAttributes="Italic"
+                            FontSize="11"
+                            HorizontalOptions="Start"
+                            Text="смотрю"
+                            VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
+
                 </Grid>
 
                 <toolkit:Expander
                     x:Name="descriptionExpander"
                     Grid.Row="3"
                     Grid.ColumnSpan="3"
-                    Margin="0,-15,0,0"
-                    Padding="10,0,10,10"
+                    Margin="15,-15,15,5"
                     ExpandedChanged="Expander_ExpandedChanged"
                     VerticalOptions="CenterAndExpand">
                     <toolkit:Expander.Header>
@@ -387,8 +413,9 @@
                     <Label
                         x:Name="descriptionText"
                         FontAutoScalingEnabled="True"
-                        FontSize="Body"
+                        FontSize="14"
                         HorizontalOptions="CenterAndExpand"
+                        HorizontalTextAlignment="Start"
                         Text="{Binding Series.seriesDescription}"
                         VerticalOptions="FillAndExpand" />
                 </toolkit:Expander>

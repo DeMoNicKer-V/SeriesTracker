@@ -63,6 +63,12 @@ public partial class MaterialEntry : ContentView
         EventHandler<TextChangedEventArgs> handler = TextChanged;
         handler?.Invoke(this, e);
     }
+    public event EventHandler<EventArgs> Completed;
+    protected virtual void OnCompleted(EventArgs e)
+    {
+        EventHandler<EventArgs> handler = Completed;
+        handler?.Invoke(this, e);
+    }
     private void MEEntry_Focused(object sender, FocusEventArgs e)
     {
         //MELabel.IsVisible = false;
@@ -85,6 +91,8 @@ public partial class MaterialEntry : ContentView
                 MELabel.TranslateTo(_xScale, _yScale + 2, 50, Easing.Default);
             }
         }
+        MEEntry.IsEnabled = false;
+        MEEntry.IsEnabled = true;
     }
 
     private void ScaleLabelDown()
@@ -115,5 +123,10 @@ public partial class MaterialEntry : ContentView
     private void MEEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
         OnTextChanged(e);
+    }
+
+    private void MEEntry_Completed(object sender, EventArgs e)
+    {
+        OnCompleted(e);
     }
 }
