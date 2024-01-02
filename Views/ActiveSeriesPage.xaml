@@ -12,13 +12,7 @@
     Shell.BackgroundColor="{AppThemeBinding Light={StaticResource Primary},
                                             Dark=#121212}"
     Shell.FlyoutBehavior="Disabled">
-    <ContentPage.Behaviors>
-        <toolkit:StatusBarBehavior
-            x:Name="SeriesStatus"
-            StatusBarColor="{AppThemeBinding Light={StaticResource Primary},
-                                             Dark={StaticResource PrimaryDark}}"
-            StatusBarStyle="Default" />
-    </ContentPage.Behaviors>
+
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsEnabled="False" IsVisible="False" />
     </Shell.BackButtonBehavior>
@@ -148,53 +142,27 @@
                                             <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
                                         </ImageButton.Behaviors>
                                     </ImageButton>
-                                    <HorizontalStackLayout
-                                        Grid.Row="1"
-                                        Grid.Column="1"
-                                        HorizontalOptions="Start"
-                                        IsVisible="{Binding seriesSeason}"
-                                        VerticalOptions="Center">
-                                        <Label Text="Сезон: " VerticalOptions="Center" />
-                                        <Label Text="{Binding seriesSeason}" />
-                                    </HorizontalStackLayout>
-                                    <Label
-                                        Grid.Row="2"
-                                        Grid.Column="1"
-                                        Text="{Binding getFomattedEpisodes}"
-                                        VerticalOptions="Center" />
+
                                     <HorizontalStackLayout
                                         Grid.Row="2"
-                                        Grid.Column="2"
+                                        Grid.Column="1"
                                         Grid.ColumnSpan="3"
                                         HorizontalOptions="Start"
                                         VerticalOptions="Center">
-                                        <Image
-                                            HeightRequest="15"
-                                            Source="dot.png"
-                                            VerticalOptions="Center"
-                                            WidthRequest="15">
-                                            <Image.Behaviors>
-                                                <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
-                                            </Image.Behaviors>
-                                        </Image>
-                                        <Label
-                                            Margin="0,0,2,0"
-                                            FontAttributes="Italic"
-                                            FontSize="12">
-                                            <Label.FormattedText>
-                                                <FormattedString>
-                                                    <Span FontAttributes="Italic" Text="{Binding getIsRated}" />
-                                                </FormattedString>
-                                            </Label.FormattedText>
-                                        </Label>
-                                        <Image
-                                            HeightRequest="12"
-                                            Source="ratestar.png"
-                                            WidthRequest="12">
-                                            <Image.Behaviors>
-                                                <toolkit:IconTintColorBehavior TintColor="Grey" />
-                                            </Image.Behaviors>
-                                        </Image>
+                                        <HorizontalStackLayout IsVisible="{Binding seriesSeason}">
+                                            <Label Text="{Binding seriesSeason, StringFormat='Сезон: {0}'}" VerticalOptions="Center" />
+                                            <Image
+                                                HeightRequest="15"
+                                                Source="dot.png"
+                                                VerticalOptions="Center"
+                                                WidthRequest="15">
+                                                <Image.Behaviors>
+                                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                                                </Image.Behaviors>
+                                            </Image>
+                                        </HorizontalStackLayout>
+                                        <Label Text="{Binding getFomattedEpisodes}" VerticalOptions="Center" />
+
 
                                         <HorizontalStackLayout IsVisible="{Binding isFavourite}">
                                             <Image
@@ -229,7 +197,7 @@
                                         Margin="0,5,0,0"
                                         FontSize="14"
                                         LineBreakMode="TailTruncation"
-                                        MaxLines="4"
+                                        MaxLines="5"
                                         Text="{Binding seriesDescription}"
                                         VerticalOptions="StartAndExpand" />
                                 </Grid>

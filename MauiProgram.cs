@@ -3,6 +3,7 @@ using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Storage;
 using SeriesTracker.Views;
 using SeriesTracker.Controls.MaterialEntry;
+using Microsoft.Maui.LifecycleEvents;
 
 namespace SeriesTracker;
 public static class MauiProgram
@@ -17,6 +18,17 @@ public static class MauiProgram
             fonts.AddFont("Nunito-Regular.ttf", "NunitoRegular");
             fonts.AddFont("Nunito-Bold.ttf", "NunitoBold");
             fonts.AddFont("Nunito-Italic.ttf", "NunitoItalic");
+        }).ConfigureLifecycleEvents(events =>
+        {
+#if ANDROID
+            events.AddAndroid(android => android.OnCreate((activity, bundle) => MakeStatusBarTranslucent(activity)));
+            static void MakeStatusBarTranslucent(Android.App.Activity activity)
+            {
+                activity.Window.SetFlags(Android.Views.WindowManagerFlags.LayoutNoLimits, Android.Views.WindowManagerFlags.LayoutNoLimits);
+                activity.Window.ClearFlags(Android.Views.WindowManagerFlags.TranslucentStatus);
+                activity.Window.SetStatusBarColor(Android.Graphics.Color.Transparent);
+            }
+#endif
         }).UseMauiCommunityToolkit();
         Microsoft.Maui.Handlers.EditorHandler.Mapper.AppendToMapping("Borderless", (handler, view) =>
         {

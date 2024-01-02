@@ -1,5 +1,6 @@
 using AngleSharp.Common;
 using CommunityToolkit.Maui.Behaviors;
+using CommunityToolkit.Maui.Core.Platform;
 using SeriesTracker.Models;
 using SeriesTracker.ViewModels;
 
@@ -23,7 +24,7 @@ public partial class DetailSeriesPage : ContentPage
         {
             detailSeriesPageView.Series = series;
             if (!series.isFavourite) { favoriteImage.Behaviors.Add(new IconTintColorBehavior { TintColor = Color.FromArgb("#ACACAC") }); }
-            if (series.seriesRating < 0.5) { ratingImage.Behaviors.Add(new IconTintColorBehavior { TintColor = Color.FromArgb("#ACACAC") }); }
+            if (series.seriesRating < 0.5) { myLabel2.IsVisible = false; ratingImage.Behaviors.Add(new IconTintColorBehavior { TintColor = Color.FromArgb("#ACACAC") }); }
         }
     }
 
@@ -56,7 +57,8 @@ public partial class DetailSeriesPage : ContentPage
     private void likeButton_Clicked(object sender, EventArgs e)
     {
         ratingExpander.IsExpanded = false;
-        OnAppearing();
+        ReloadPage2();
+        myLabel2.Text = mySlider.Value.ToString();
         //ratingTintColor.TintColor = Colors.Yellow;
         // myLabel2.Text = mySlider.Value.ToString();
     }
@@ -64,7 +66,7 @@ public partial class DetailSeriesPage : ContentPage
     private async void OnCloseCommand()
     {
         // Скрываем BottomSheet с анимацией
-        await BottomSheet.TranslateTo(0, 300, 300);
+        await BottomSheet.TranslateTo(0, 300, 200);
         BottomSheet.IsVisible = false;
     }
 /*
@@ -86,21 +88,26 @@ public partial class DetailSeriesPage : ContentPage
     private void OpenButton_Clicked(object sender, EventArgs e)
     {
         descriptionExpander.IsExpanded = false;
+        ratingExpander.IsExpanded = false;
         editEpisodeEntry.IsVisible = false;
-        editEpisodeEntry.Text = string.Empty;
+        editEpisodeEntry.Text = placeHolder.Text;
         placeHolder.IsVisible = true;
         editEpisodeEntry.Unfocus();
-        ShowBottomSheet();
+        if (!BottomSheet.IsVisible)
+        {
+            ShowBottomSheet();
+        }
+        else { OnCloseCommand(); }
     }
 
     private async void ShowBottomSheet()
     {
         // Показываем BottomSheet с анимацией
-        await BottomSheet.TranslateTo(0, 300, 300);
+        await BottomSheet.TranslateTo(0, 200, 200);
         BottomSheet.IsVisible = true;
 
         // Скрываем BottomSheet с анимацией
-        await BottomSheet.TranslateTo(0, 0, 300);
+        await BottomSheet.TranslateTo(0, 30, 200);
     }
 
     protected override void OnAppearing()
@@ -123,6 +130,7 @@ public partial class DetailSeriesPage : ContentPage
         if (editEpisodeEntry.IsVisible)
         {
             editEpisodeEntry.Focus();
+            editEpisodeEntry.CursorPosition = editEpisodeEntry.Text.Length;
         }
         else editEpisodeEntry.Unfocus();
     }
@@ -131,14 +139,27 @@ public partial class DetailSeriesPage : ContentPage
     {
         editEpisodeEntry.IsVisible = false;
         placeHolder.IsVisible = true;
-        editEpisodeEntry.Text = string.Empty;
+        editEpisodeEntry.Text = placeHolder.Text;
     }
 
     private void TapGestureRecognizer_Tapped_1(object sender, TappedEventArgs e)
     {
         ratingExpander.IsExpanded = !ratingExpander.IsExpanded;
+        OnCloseCommand();
     }
 
+    void ReloadPage2()
+    {
+
+        Behavior toRemove = ratingImage.Behaviors.FirstOrDefault(b => b is IconTintColorBehavior);
+        if (mySlider.Value > 0.5)
+        {
+            ratingImage.Behaviors.Remove(toRemove);
+            myLabel2.IsVisible = true;
+        }
+
+        else { myLabel2.IsVisible = false; ratingImage.Behaviors.Add(new IconTintColorBehavior { TintColor = Color.FromArgb("#ACACAC") }); }
+    }
     void ReloadPage() 
     {
         
@@ -154,5 +175,10 @@ public partial class DetailSeriesPage : ContentPage
     {
         detailSeriesPageView.Series.isFavourite = !detailSeriesPageView.Series.isFavourite;
         ReloadPage();
+    }
+
+    private async void editEpisodeEntry_Unfocused(object sender, FocusEventArgs e)
+    {
+        await editEpisodeEntry.HideKeyboardAsync(CancellationToken.None);
     }
 }

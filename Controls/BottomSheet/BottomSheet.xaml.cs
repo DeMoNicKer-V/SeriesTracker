@@ -52,9 +52,10 @@ public partial class BottomSheet : ContentView
         set => SetValue(DeleteCommandProperty, value);
     }
 
-    private void CloseButton_Clicked(object sender, EventArgs e)
+    private async void CloseButton_Clicked(object sender, EventArgs e)
     {
-        CloseCommand?.Execute(null);
+        await this.TranslateTo(0, 300, 200);
+        this.IsVisible = false;
     }
 
     private void EditButton_Clicked(object sender, EventArgs e)

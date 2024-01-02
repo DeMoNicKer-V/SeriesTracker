@@ -5,39 +5,48 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
     <VerticalStackLayout>
-        <ImageButton
-            x:Name="CloseButton"
-            Clicked="CloseButton_Clicked"
-            HeightRequest="24"
-            HorizontalOptions="Center"
-            Source="cross.png"
-            WidthRequest="24">
-            <ImageButton.Behaviors>
-                <toolkit:IconTintColorBehavior TintColor="Gray" />
-            </ImageButton.Behaviors>
-        </ImageButton>
+        <Border
+            BackgroundColor="Transparent"
+            HeightRequest="30"
+            Stroke="{StaticResource Gray300}"
+            StrokeThickness="1"
+            WidthRequest="30">
+            <ImageButton
+                x:Name="CloseButton"
+                Clicked="CloseButton_Clicked"
+                HeightRequest="20"
+                HorizontalOptions="Center"
+                Source="cross.png"
+                WidthRequest="20">
+                <ImageButton.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{StaticResource Gray200}" />
+                </ImageButton.Behaviors>
+            </ImageButton>
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="50" />
+            </Border.StrokeShape>
+        </Border>
         <Border
             x:Name="myBorder"
             Margin="15,2,15,15"
-            BackgroundColor="{AppThemeBinding Light=#f7f7f7,
-                                              Dark=#1e1e1e}">
+            BackgroundColor="{AppThemeBinding Light=#F3F1F1,
+                                              Dark=#171717}"
+            Stroke="Transparent"
+            StrokeThickness="0.5">
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="10" />
             </Border.StrokeShape>
 
-            <Grid
-                Padding="10"
-                BackgroundColor="White"
-                VerticalOptions="EndAndExpand">
+            <Grid Padding="10" VerticalOptions="EndAndExpand">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="50" />
-                    <RowDefinition Height="50" />
+                    <RowDefinition Height="45" />
+                    <RowDefinition Height="45" />
                     <RowDefinition Height="5" />
-                    <RowDefinition Height="50" />
+                    <RowDefinition Height="45" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30" />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <!-- <Label
                     x:Name="TitleLabel"
@@ -50,58 +59,89 @@
                 <Image
                     Grid.Row="0"
                     Grid.Column="0"
-                    HeightRequest="24"
+                    HeightRequest="22"
+                    HorizontalOptions="Center"
                     Source="vision.png"
-                    WidthRequest="24" />
-                <Button
+                    WidthRequest="22">
+                    <Image.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource Gray200}}" />
+                    </Image.Behaviors>
+                </Image>
+                <Label
                     x:Name="DetachButton"
                     Grid.Row="0"
                     Grid.Column="1"
                     BackgroundColor="Transparent"
-                    Clicked="DetachButton_Clicked"
-                    HorizontalOptions="Start"
+                    FontSize="15"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Start"
                     Text="Открепить"
-                    TextColor="Gray" />
+                    TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                Dark={StaticResource Gray200}}"
+                    VerticalTextAlignment="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="DetachButton_Clicked" />
+                    </Label.GestureRecognizers>
+                </Label>
                 <Image
                     Grid.Row="1"
                     Grid.Column="0"
-                    HeightRequest="24"
+                    HeightRequest="22"
+                    HorizontalOptions="Center"
                     Source="edit.png"
-                    WidthRequest="24" />
-                <Button
+                    WidthRequest="22">
+                    <Image.Behaviors>
+                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource Gray200}}" />
+                    </Image.Behaviors>
+                </Image>
+                <Label
                     x:Name="EditButton"
                     Grid.Row="1"
                     Grid.Column="1"
                     BackgroundColor="Transparent"
-                    Clicked="EditButton_Clicked"
-                    HorizontalOptions="Start"
+                    FontSize="15"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Start"
                     Text="Изменить"
-                    TextColor="Gray" />
+                    TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                Dark={StaticResource Gray200}}"
+                    VerticalTextAlignment="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="EditButton_Clicked" />
+                    </Label.GestureRecognizers>
+                </Label>
                 <Line
                     Grid.Row="2"
                     Grid.ColumnSpan="2"
                     HorizontalOptions="StartAndExpand"
-                    Stroke="Gray"
+                    Stroke="{StaticResource Gray200}"
                     X2="{Binding Width, Source={x:Reference myBorder}}" />
                 <Image
                     Grid.Row="3"
                     Grid.Column="0"
-                    HeightRequest="24"
+                    HeightRequest="22"
+                    HorizontalOptions="Center"
                     Source="delete.png"
-                    WidthRequest="24">
+                    WidthRequest="22">
                     <Image.Behaviors>
                         <toolkit:IconTintColorBehavior TintColor="Red" />
                     </Image.Behaviors>
                 </Image>
-                <Button
+                <Label
                     x:Name="DeleteButton"
                     Grid.Row="3"
                     Grid.Column="1"
                     BackgroundColor="Transparent"
-                    Clicked="DeleteButton_Clicked"
-                    HorizontalOptions="Start"
+                    FontSize="15"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="Start"
                     Text="Удалить"
-                    TextColor="Red" />
+                    TextColor="Red"
+                    VerticalTextAlignment="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="DeleteButton_Clicked" />
+                    </Label.GestureRecognizers>
+                </Label>
 
             </Grid>
         </Border>

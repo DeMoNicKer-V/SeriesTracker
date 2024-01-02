@@ -10,10 +10,10 @@
     xmlns:mEntry="clr-namespace:SeriesTracker.Controls.MaterialEntry"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     Title=""
-    BackgroundColor="{AppThemeBinding Light={StaticResource Black},
-                                      Dark=#121212}"
-    Shell.BackgroundColor="{AppThemeBinding Light={StaticResource Black},
-                                            Dark=#121212}"
+    BackgroundColor="{AppThemeBinding Light={StaticResource White},
+                                      Dark={StaticResource Black}}"
+    Shell.BackgroundColor="{AppThemeBinding Light={StaticResource White},
+                                            Dark={StaticResource Black}}"
     Shell.FlyoutBehavior="Disabled"
     Shell.TabBarIsVisible="False">
     <Shell.BackButtonBehavior>
@@ -23,6 +23,7 @@
         <VerticalStackLayout>
             <Grid x:Name="gridContainer">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="25" />
                     <RowDefinition Height="360" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
@@ -36,6 +37,7 @@
                 </Grid.ColumnDefinitions>
                 <Image
                     Grid.Row="0"
+                    Grid.RowSpan="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
                     Aspect="Fill"
@@ -46,7 +48,7 @@
                     </Image.Behaviors>
                 </Image>
                 <Border
-                    Grid.Row="0"
+                    Grid.Row="1"
                     Grid.Column="0"
                     Margin="0,15,0,0"
                     Padding="10"
@@ -55,23 +57,25 @@
                     Opacity="0.6"
                     Stroke="Transparent"
                     VerticalOptions="Start">
-                    <ImageButton
-                        Command="{Binding BackCommand}"
+                    <Image
                         HeightRequest="15"
                         HorizontalOptions="Center"
                         Source="backarrow.png"
                         VerticalOptions="Start"
                         WidthRequest="15">
-                        <ImageButton.Behaviors>
+                        <Image.Behaviors>
                             <toolkit:IconTintColorBehavior TintColor="#999999" />
-                        </ImageButton.Behaviors>
-                    </ImageButton>
+                        </Image.Behaviors>
+                    </Image>
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="5" />
                     </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding BackCommand}" NumberOfTapsRequired="1" />
+                    </Border.GestureRecognizers>
                 </Border>
                 <Border
-                    Grid.Row="0"
+                    Grid.Row="1"
                     Grid.Column="2"
                     Margin="0,15,0,0"
                     Padding="10"
@@ -86,7 +90,8 @@
                             Margin="0,0,5,0"
                             FontFamily="NunitoItalic"
                             FontSize="12"
-                            Text="{Binding Series.seriesRating}" />
+                            Text="{Binding Series.seriesRating}"
+                            TextColor="White" />
                         <Image
                             x:Name="ratingImage"
                             HeightRequest="15"
@@ -102,7 +107,7 @@
                     </Border.GestureRecognizers>
                 </Border>
                 <Border
-                    Grid.Row="0"
+                    Grid.Row="1"
                     Grid.Column="1"
                     Margin="15"
                     BackgroundColor="Transparent"
@@ -118,7 +123,7 @@
 
 
                 <VerticalStackLayout
-                    Grid.Row="1"
+                    Grid.Row="2"
                     Grid.ColumnSpan="3"
                     Margin="10,-5,10,0"
                     HorizontalOptions="Center"
@@ -146,7 +151,7 @@
                                     <ColumnDefinition Width="25" />
                                 </Grid.ColumnDefinitions>
                                 <HorizontalStackLayout
-                                    Grid.Row="0"
+                                    Grid.Row="2"
                                     Grid.ColumnSpan="3"
                                     HorizontalOptions="Center"
                                     VerticalOptions="Center">
@@ -174,7 +179,7 @@
                                 </HorizontalStackLayout>
                                 <ImageButton
                                     x:Name="cancelButton"
-                                    Grid.Row="1"
+                                    Grid.Row="2"
                                     Grid.Column="0"
                                     Margin="3,-1,0,0"
                                     Clicked="cancelButton_Clicked"
@@ -190,7 +195,7 @@
 
                                 <Slider
                                     x:Name="mySlider"
-                                    Grid.Row="1"
+                                    Grid.Row="2"
                                     Grid.Column="1"
                                     HorizontalOptions="Fill"
                                     Maximum="10.0"
@@ -200,7 +205,7 @@
 
                                 <ImageButton
                                     x:Name="likeButton"
-                                    Grid.Row="1"
+                                    Grid.Row="2"
                                     Grid.Column="2"
                                     Margin="3,-1,0,0"
                                     Clicked="likeButton_Clicked"
@@ -227,7 +232,7 @@
                 </VerticalStackLayout>
 
                 <Grid
-                    Grid.Row="2"
+                    Grid.Row="3"
                     Grid.ColumnSpan="3"
                     Margin="15,0,15,0">
                     <Grid.RowDefinitions>
@@ -289,6 +294,7 @@
                                     Keyboard="Numeric"
                                     MaxLength="4"
                                     Text="{Binding Series.currentEpisode, Mode=TwoWay}"
+                                    Unfocused="editEpisodeEntry_Unfocused"
                                     VerticalOptions="Center"
                                     VerticalTextAlignment="End" />
                                 <Label Text=" из " VerticalTextAlignment="Center" />
@@ -386,9 +392,9 @@
 
                 <toolkit:Expander
                     x:Name="descriptionExpander"
-                    Grid.Row="3"
+                    Grid.Row="4"
                     Grid.ColumnSpan="3"
-                    Margin="15,-15,15,5"
+                    Margin="15,-40,15,10"
                     ExpandedChanged="Expander_ExpandedChanged"
                     VerticalOptions="CenterAndExpand">
                     <toolkit:Expander.Header>
@@ -424,7 +430,7 @@
                 <local:BottomSheet
                     x:Name="BottomSheet"
                     Title="Example BottomSheet"
-                    Grid.Row="4"
+                    Grid.Row="5"
                     Grid.ColumnSpan="3"
                     CloseCommand="{Binding CloseCommand}"
                     DeleteCommand="{Binding DeleteCommand}"
