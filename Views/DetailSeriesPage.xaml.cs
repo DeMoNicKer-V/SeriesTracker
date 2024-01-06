@@ -35,7 +35,7 @@ public partial class DetailSeriesPage : ContentPage
     private void cancelButton_Clicked(object sender, EventArgs e)
     {
         ratingExpander.IsExpanded = false;
-        mySlider.Value = 0;
+        mySlider.Value = Convert.ToDouble(myLabel2.Text);
     }
 
     private async void Expander_ExpandedChanged(object sender, CommunityToolkit.Maui.Core.ExpandedChangedEventArgs e)
@@ -105,9 +105,14 @@ public partial class DetailSeriesPage : ContentPage
         // Показываем BottomSheet с анимацией
         await BottomSheet.TranslateTo(0, 200, 200);
         BottomSheet.IsVisible = true;
-
+        if (labelSeriesName.Text.Length < 20)
+        {
+            await BottomSheet.TranslateTo(0, 25, 200);
+            return;
+        }
+            
         // Скрываем BottomSheet с анимацией
-        await BottomSheet.TranslateTo(0, 30, 200);
+        await BottomSheet.TranslateTo(0, 0, 200);
     }
 
     protected override void OnAppearing()

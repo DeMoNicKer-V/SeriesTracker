@@ -42,17 +42,17 @@ public class MainActivity : MauiAppCompatActivity
         return base.DispatchTouchEvent(e);
     }
 
-    /* protected override void OnCreate(Bundle savedInstanceState)
+    protected override void OnCreate(Bundle savedInstanceState)
      {
          base.OnCreate(savedInstanceState);
          this.Window.DecorView.SystemUiVisibility = (StatusBarVisibility)
              (SystemUiFlags.ImmersiveSticky | SystemUiFlags.HideNavigation |
-              SystemUiFlags.Fullscreen | SystemUiFlags.Immersive);
+               SystemUiFlags.Immersive);
 
              this.Window.SetFlags(Android.Views.WindowManagerFlags.LayoutNoLimits, Android.Views.WindowManagerFlags.LayoutNoLimits);
 
          this.Window.ClearFlags(Android.Views.WindowManagerFlags.TranslucentStatus);
 
          this.Window.SetStatusBarColor(Android.Graphics.Color.Transparent);
-     }*/
+     }
 }

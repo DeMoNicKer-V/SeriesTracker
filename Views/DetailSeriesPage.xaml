@@ -28,7 +28,6 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -41,7 +40,7 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
                     Aspect="Fill"
-                    Opacity="0.8"
+                    Opacity="0.7"
                     Source="{Binding Series.imagePath}">
                     <Image.Behaviors>
                         <BlurBehavior:BlurBehavior Radius="65" />
@@ -129,6 +128,7 @@
                     HorizontalOptions="Center"
                     VerticalOptions="StartAndExpand">
                     <Label
+                        x:Name="labelSeriesName"
                         FontAttributes="Bold"
                         FontFamily="NunitoRegular"
                         FontSize="22"
@@ -151,7 +151,7 @@
                                     <ColumnDefinition Width="25" />
                                 </Grid.ColumnDefinitions>
                                 <HorizontalStackLayout
-                                    Grid.Row="2"
+                                    Grid.Row="0"
                                     Grid.ColumnSpan="3"
                                     HorizontalOptions="Center"
                                     VerticalOptions="Center">
@@ -179,7 +179,7 @@
                                 </HorizontalStackLayout>
                                 <ImageButton
                                     x:Name="cancelButton"
-                                    Grid.Row="2"
+                                    Grid.Row="1"
                                     Grid.Column="0"
                                     Margin="3,-1,0,0"
                                     Clicked="cancelButton_Clicked"
@@ -195,7 +195,7 @@
 
                                 <Slider
                                     x:Name="mySlider"
-                                    Grid.Row="2"
+                                    Grid.Row="1"
                                     Grid.Column="1"
                                     HorizontalOptions="Fill"
                                     Maximum="10.0"
@@ -205,7 +205,7 @@
 
                                 <ImageButton
                                     x:Name="likeButton"
-                                    Grid.Row="2"
+                                    Grid.Row="1"
                                     Grid.Column="2"
                                     Margin="3,-1,0,0"
                                     Clicked="likeButton_Clicked"
@@ -396,6 +396,7 @@
                     Grid.ColumnSpan="3"
                     Margin="15,-40,15,10"
                     ExpandedChanged="Expander_ExpandedChanged"
+                    MinimumHeightRequest="290"
                     VerticalOptions="CenterAndExpand">
                     <toolkit:Expander.Header>
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
@@ -430,7 +431,7 @@
                 <local:BottomSheet
                     x:Name="BottomSheet"
                     Title="Example BottomSheet"
-                    Grid.Row="5"
+                    Grid.Row="4"
                     Grid.ColumnSpan="3"
                     CloseCommand="{Binding CloseCommand}"
                     DeleteCommand="{Binding DeleteCommand}"
