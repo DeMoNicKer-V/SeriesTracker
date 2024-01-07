@@ -103,6 +103,9 @@
 	  <MauiXaml Update="Controls\CircularProgressBar\CircularProgressBar.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Controls\DeleteAlert\DeleteAlert.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Controls\MaterialEntry\MaterialEntry.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

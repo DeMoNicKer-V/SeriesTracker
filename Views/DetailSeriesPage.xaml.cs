@@ -3,6 +3,7 @@ using CommunityToolkit.Maui.Behaviors;
 using CommunityToolkit.Maui.Core.Platform;
 using SeriesTracker.Models;
 using SeriesTracker.ViewModels;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SeriesTracker.Views;
 
@@ -12,16 +13,27 @@ public partial class DetailSeriesPage : ContentPage
     public DetailSeriesPage()
     {
         InitializeComponent();
-        this.BindingContext = detailSeriesPageView = new DetailSeriesPageViewModel();
+        this.BindingContext = detailSeriesPageView = new DetailSeriesPageViewModel(Navigation);
+        BottomSheet.ContentPageBehavior = this;
     }
 
+    private string stateString(bool isOver)
+    {
+        if (isOver)
+        {
+            return String.Format("Пометить как непросмотренное");
+        }
+        return String.Format("Пометить как просмотренное");
+    }
     public DetailSeriesPage(Series series)
     {
         InitializeComponent();
-        this.BindingContext = detailSeriesPageView = new DetailSeriesPageViewModel();
-
+        this.BindingContext = detailSeriesPageView = new DetailSeriesPageViewModel(Navigation);
+        BottomSheet.ContentPageBehavior = this;
         if (series != null)
         {
+            BottomSheet.Title = series.seriesName;
+            BottomSheet.DetachText = stateString(series.isOver);
             detailSeriesPageView.Series = series;
             if (!series.isFavourite) { favoriteImage.Behaviors.Add(new IconTintColorBehavior { TintColor = Color.FromArgb("#ACACAC") }); }
             if (series.seriesRating < 0.5) { myLabel2.IsVisible = false; ratingImage.Behaviors.Add(new IconTintColorBehavior { TintColor = Color.FromArgb("#ACACAC") }); }
@@ -144,7 +156,12 @@ public partial class DetailSeriesPage : ContentPage
     {
         editEpisodeEntry.IsVisible = false;
         placeHolder.IsVisible = true;
-        editEpisodeEntry.Text = placeHolder.Text;
+        if (Convert.ToInt32(editEpisodeEntry.Text) > Convert.ToInt32(lastEpisodeEntry.Text) || Convert.ToInt32(editEpisodeEntry.Text) < 1)
+        {
+            editEpisodeEntry.Text = placeHolder.Text;
+            return;
+        }
+        placeHolder.Text = editEpisodeEntry.Text;
     }
 
     private void TapGestureRecognizer_Tapped_1(object sender, TappedEventArgs e)
@@ -178,7 +195,6 @@ public partial class DetailSeriesPage : ContentPage
     }
     private void TapGestureRecognizer_Tapped_2(object sender, TappedEventArgs e)
     {
-        detailSeriesPageView.Series.isFavourite = !detailSeriesPageView.Series.isFavourite;
         ReloadPage();
     }
 

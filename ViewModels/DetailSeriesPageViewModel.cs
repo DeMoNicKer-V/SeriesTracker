@@ -1,4 +1,5 @@
 ﻿using SeriesTracker.Models;
+using SeriesTracker.Views;
 
 #if ANDROID
 
@@ -19,14 +20,14 @@ namespace SeriesTracker.ViewModels
         public Command EditCommand { get; }
 
         public Command BackCommand { get; }
-        public DetailSeriesPageViewModel()
+        public DetailSeriesPageViewModel(INavigation navigation)
         {
+            Navigation = navigation;
             BackCommand = new Command(OnBackCommand);
             EditCommand = new Command(OnEditCommand);
-            CloseCommand = new Command(OnCloseCommand);
             DeleteCommand = new Command(OnDeleteCommand);
             DetachCommand = new Command(OnDetachCommand);
-            Series = new Series(); 
+            Series = new Series();
         }
 
         public void OnAppearing()
@@ -40,28 +41,56 @@ namespace SeriesTracker.ViewModels
             var newSeries = Series;
             if (newSeries is null)
                 return;
+            newSeries.isFavourite = !newSeries.isFavourite;
             await App.SeriesService.AddUpdateSeriesAsync(newSeries);
         }
 
-        private async void OnCloseCommand()
+        [CommunityToolkit.Mvvm.Input.RelayCommand]
+        public async Task EditEpisode(string Text)
         {
-            // Скрываем BottomSheet с анимацией
-            await Shell.Current.DisplayAlert("Закрыть", "aa", "aaa");
+            var newSeries = Series;
+            if (newSeries is null)
+                return;
+            if (Convert.ToInt32(Text) > newSeries.lastEpisode || Convert.ToInt32(Text) < newSeries.startEpisode)
+            {
+                return;
+            }
+            newSeries.currentEpisode = Convert.ToInt32(Text);
+            await App.SeriesService.AddUpdateSeriesAsync(newSeries);
         }
-
-        private async void OnDeleteCommand()
+            private async void OnDeleteCommand()
         {
-            await Shell.Current.DisplayAlert("Удалить", "aa", "aaa");
+            var newSeries = Series;
+            if (newSeries is null)
+                return;
+            await App.SeriesService.DeleteSeriesAsync(newSeries.seriesId);
+            await Shell.Current.GoToAsync("..");
         }
 
         private async void OnDetachCommand()
         {
-            await Shell.Current.DisplayAlert("Открепить", "aa", "aaa");
+            var newSeries = Series;
+            if (newSeries is null)
+                return;
+            if (!newSeries.isOver)
+            {
+                newSeries.isOver = true;
+                newSeries.currentEpisode = newSeries.lastEpisode;
+                newSeries.overDate = DateTime.Now.ToString();
+            }
+            else
+            {
+                newSeries.isOver = false;
+                newSeries.currentEpisode = newSeries.startEpisode;
+                newSeries.overDate = string.Empty ;
+            }
+            await App.SeriesService.AddUpdateSeriesAsync(newSeries);
+            await Shell.Current.GoToAsync("..");
         }
 
         private async void OnEditCommand()
         {
-            await Shell.Current.DisplayAlert("Изменить", "aa", "aaa");
+            await Navigation.PushAsync(new NewSeriesPage(Series));
         }
 
         private async void OnBackCommand() 

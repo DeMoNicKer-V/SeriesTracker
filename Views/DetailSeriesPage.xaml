@@ -293,12 +293,17 @@
                                     IsVisible="false"
                                     Keyboard="Numeric"
                                     MaxLength="4"
+                                    ReturnCommand="{Binding EditEpisodeCommand}"
+                                    ReturnCommandParameter="{Binding Text, Source={x:Reference editEpisodeEntry}}"
                                     Text="{Binding Series.currentEpisode, Mode=TwoWay}"
                                     Unfocused="editEpisodeEntry_Unfocused"
                                     VerticalOptions="Center"
                                     VerticalTextAlignment="End" />
                                 <Label Text=" из " VerticalTextAlignment="Center" />
-                                <Label Text="{Binding Series.lastEpisode}" VerticalTextAlignment="Center" />
+                                <Label
+                                    x:Name="lastEpisodeEntry"
+                                    Text="{Binding Series.lastEpisode}"
+                                    VerticalTextAlignment="Center" />
                                 <Label Text=" эп." VerticalTextAlignment="Center" />
                             </HorizontalStackLayout>
                             <Border.StrokeShape>
@@ -363,7 +368,7 @@
                             FontAttributes="Italic"
                             FontSize="11"
                             HorizontalOptions="Start"
-                            Text="22 декабря, 2023 года"
+                            Text="{Binding Series.getAddedDate, Mode=OneWay}"
                             VerticalTextAlignment="Center" />
                     </HorizontalStackLayout>
                     <HorizontalStackLayout
@@ -384,7 +389,7 @@
                             FontAttributes="Italic"
                             FontSize="11"
                             HorizontalOptions="Start"
-                            Text="смотрю"
+                            Text="{Binding Series.getOverDate, Mode=OneWay, TargetNullValue='смотрю'}"
                             VerticalTextAlignment="Center" />
                     </HorizontalStackLayout>
 
@@ -430,7 +435,6 @@
 
                 <local:BottomSheet
                     x:Name="BottomSheet"
-                    Title="Example BottomSheet"
                     Grid.Row="4"
                     Grid.ColumnSpan="3"
                     CloseCommand="{Binding CloseCommand}"

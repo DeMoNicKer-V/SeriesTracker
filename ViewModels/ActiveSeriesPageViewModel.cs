@@ -17,17 +17,6 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         Navigation = navigation;
     }
 
-    public string GetTitleDescription(Series series)
-    {
-        
-            if (series.seriesSeason > 0)
-            {
-                return $"Сезон {series.seriesSeason}-й, год выхода - {series.releaseYear}";
-            }
-            return $"Год выхода - {series.releaseYear}";
-        
-    }
-
     private ObservableCollection<Series> seriesList = new ObservableCollection<Series>();
     private ObservableCollection<Series> filterList = new ObservableCollection<Series>();
 

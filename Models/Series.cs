@@ -61,6 +61,10 @@ public partial class Series
     {
         get; set;
     }
+    public string overDate
+    {
+        get; set;
+    }
 
     public bool isOver
     {
@@ -146,11 +150,24 @@ public partial class Series
     {
         get
         {
-            if (addedDate != null)
+            if (!string.IsNullOrEmpty(addedDate))
             {
-                return System.String.Format($"{DateTime.Parse(addedDate):d}");
+                return System.String.Format($"{DateTime.Parse(addedDate):D}");
             }
-            return addedDate;
+            return null;
+        }
+    }
+
+    [JsonIgnore]
+    public string getOverDate
+    {
+        get
+        {
+            if (!string.IsNullOrEmpty(overDate))
+            {
+                return System.String.Format($"{DateTime.Parse(overDate):D}");
+            }
+            return null;
         }
     }
 

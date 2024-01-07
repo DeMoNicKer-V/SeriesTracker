@@ -1,9 +1,15 @@
+using SeriesTracker.Controls;
+using CommunityToolkit.Maui.Views;
+
 namespace SeriesTracker.Controls.BottomSheet;
 
 public partial class BottomSheet : ContentView
 {
     public static readonly BindableProperty TitleProperty =
                 BindableProperty.Create(nameof(Title), typeof(string), typeof(BottomSheet), string.Empty);
+
+    public static readonly BindableProperty myContePageProperty =
+            BindableProperty.Create(nameof(ContentPageBehavior), typeof(ContentPage), typeof(BottomSheet));
 
     public static readonly BindableProperty CloseCommandProperty =
         BindableProperty.Create(nameof(CloseCommand), typeof(Command), typeof(BottomSheet));
@@ -17,15 +23,30 @@ public partial class BottomSheet : ContentView
     public static readonly BindableProperty DeleteCommandProperty =
         BindableProperty.Create(nameof(DeleteCommand), typeof(Command), typeof(BottomSheet));
 
+    public static readonly BindableProperty DetachTextProperty =
+    BindableProperty.Create(nameof(DetachText), typeof(string), typeof(BottomSheet), string.Empty);
+
     public BottomSheet()
     {
         InitializeComponent();
+    }
+
+    public ContentPage ContentPageBehavior
+    {
+        get => (ContentPage)GetValue(myContePageProperty);
+        set => SetValue(myContePageProperty, value);
     }
 
     public string Title
     {
         get => (string)GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
+    }
+
+    public string DetachText
+    {
+        get => (string)GetValue(DetachTextProperty);
+        set => SetValue(DetachTextProperty, value);
     }
 
     public Command CloseCommand
@@ -68,8 +89,20 @@ public partial class BottomSheet : ContentView
         DetachCommand?.Execute(null);
     }
 
-    private void DeleteButton_Clicked(object sender, EventArgs e)
+    private async void DeleteButton_Clicked(object sender, EventArgs e)
     {
-        DeleteCommand?.Execute(null);
+        var popup = new SeriesTracker.Controls.DeleteAlert.DeleteAlert();
+        popup.Title = Title;
+        var result = await ContentPageBehavior.ShowPopupAsync(popup);
+
+        if (result is bool boolResult)
+            if (boolResult)
+            {
+                DeleteCommand?.Execute(null);
+            }
+            else
+            {
+                return;
+            }
     }
 }

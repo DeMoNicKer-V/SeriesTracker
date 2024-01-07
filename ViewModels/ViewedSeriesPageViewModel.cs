@@ -18,40 +18,32 @@ namespace SeriesTracker.ViewModels
             Navigation = navigation;
         }
 
-        public List<Color> colorList { get; } = new List<Color>() {
-        Color.FromArgb("#42A5F5"),
-        Color.FromArgb("#EC407A"),
-        Color.FromArgb("#26C6DA"),
-        Color.FromArgb("#AB47BC"),
-        Color.FromArgb("#EF5350"),
-        Color.FromArgb("#D59E17"),
-        Color.FromArgb("#FFA726"),
-        Color.FromArgb("#66BB6A"),
-        Color.FromArgb("#8D6E63"),
-        Color.FromArgb("#78909C"),
-        Color.FromArgb("#26A69A"),
-        Color.FromArgb("#5C6BC0"),
-        Color.FromArgb("#7E57C2"),
-        Color.FromArgb("#FF7043"),
-        Color.FromArgb("#00C853"),
-        Color.FromArgb("#8BC34A"),
-        Color.FromArgb("#FF8A80"),
-        Color.FromArgb("#FF80AB") };
+        private ObservableCollection<Series> seriesList = new ObservableCollection<Series>();
+        private ObservableCollection<Series> filterList = new ObservableCollection<Series>();
 
-        private int randomNumber;
-
-        public Color GetRandomColor
+        public ObservableCollection<Series> FilterList
         {
             get
             {
-                randomNumber = new Random().Next(0, 18);
-                return colorList[randomNumber];
+                return filterList;
+            }
+            set
+            {
+                filterList = value;
+                OnPropertyChanged();
             }
         }
-
-        public ObservableCollection<Series> seriesList
+        public ObservableCollection<Series> SeriesList
         {
-            get;
+            get
+            {
+                return seriesList;
+            }
+            set
+            {
+                seriesList = value;
+                OnPropertyChanged();
+            }
         }
 
         public int ActionIndex(string action)
@@ -74,6 +66,12 @@ namespace SeriesTracker.ViewModels
         }
 
         [RelayCommand]
+        private async Task DetailView(Series series)
+        {
+            await Navigation.PushAsync(new DetailSeriesPage(series));
+        }
+
+        [RelayCommand]
         private async void AdditionalAction(Series series)
         {
             string action = await Shell.Current.DisplayActionSheet(series.seriesName, "Закрыть", "Удалить", "Возобновить просмотр", "Редактировать");
@@ -82,7 +80,7 @@ namespace SeriesTracker.ViewModels
                 switch (ActionIndex(action))
                 {
                     case 0: await App.SeriesService.DeleteSeriesAsync(series.seriesId); OnAppearing(); return;
-                    case 1: series.isOver = false; await App.SeriesService.AddUpdateSeriesAsync(series); OnAppearing(); return;
+                    case 1: series.isOver = false; series.currentEpisode = series.startEpisode; series.overDate = string.Empty; await App.SeriesService.AddUpdateSeriesAsync(series); OnAppearing(); return;
                     case 2: await Navigation.PushAsync(new NewSeriesPage(series)); return;
                 }
             }
@@ -96,12 +94,18 @@ namespace SeriesTracker.ViewModels
             IsBusy = true;
             try
             {
-                seriesList.Clear();
+                FilterList.Clear();
+                SeriesList.Clear();
                 var newSeriesList = await App.SeriesService.GetSeriesAsync(true);
-                foreach (var item in newSeriesList)
+                newSeriesList = newSeriesList.OrderByDescending(f => f.isFavourite);
+                if (newSeriesList != null && newSeriesList.Count() > 0)
                 {
-                    seriesList.Add(item);
+                    foreach (var item in newSeriesList)
+                    {
+                        SeriesList.Add(item);
+                    }
                 }
+                FilterList = SeriesList;
             }
             catch (Exception)
             {
