@@ -41,24 +41,9 @@ namespace SeriesTracker.Services
             var year = "";
             try
             {
-                year = doc.QuerySelector("#animes_show > section > div > div.menu-slide-outer.x199 > div > div > div:nth-child(1) > div.b-db_entry > div.c-about > div > div.c-info-left > div.block > div > div:nth-child(4) > div > div.value > span.b-tooltipped.dotted.mobile").TextContent.ToString();
+                year = doc.QuerySelector("#animes_show > section > div > div.menu-slide-outer.x199 > div > div > div:nth-child(1) > div.b-db_entry > div.c-about > div > div.c-info-left > div.block > div > div:nth-child(4) > div > div.value > span.b-tooltipped.dotted.mobile").GetAttribute("Title");
             }
             catch { year = doc.QuerySelector("#animes_show > section > div > div.menu-slide-outer.x199 > div > div > div:nth-child(1) > div.b-db_entry > div.c-about > div > div.c-info-left > div.block > div > div:nth-child(5) > div > div.value").TextContent.ToString(); }
-            var a = "";
-
-            for (int i = 0; i < year.Length; i++)
-            {
-                if (year[i].IsDigit())
-                {
-                    a += year[i];
-                }
-                else if (a.Length < 4)
-                {
-                    a = string.Empty;
-                }
-                else break;
-            }
-
 
             var description = doc.QuerySelector("#animes_show > section > div > div.menu-slide-outer.x199 > div > div > div:nth-child(1) > div.b-db_entry > div.c-description > div.block > div > div.text > div").TextContent.ToString();
             var image = doc.QuerySelector("#animes_show > section > div > div.menu-slide-outer.x199 > div > div > div:nth-child(1) > div.b-db_entry > div.c-image > div.cc.block > div.c-poster > div > picture > img").GetAttribute("src").ToString();
@@ -66,11 +51,18 @@ namespace SeriesTracker.Services
 
             var episodes = doc.QuerySelector("#animes_show > section > div > div.menu-slide-outer.x199 > div > div > div:nth-child(1) > div.b-db_entry > div.c-about > div > div.c-info-left > div.block > div > div:nth-child(2) > div > div.value").TextContent.ToString();
             var last = episodes.Split("/").Last().Trim();
-            ReleaseYear = a;
+            ReleaseYear = DateTransform(year);
             ImagePath = image;
             Name = title;
             Description = description;
             Episodes = last;
+        }
+        private string DateTransform(string text)
+        {
+            text = text.ToLower();
+            text = text.Split("с ").Last();
+            text = text.Split("по").First().Trim();
+            return text;
         }
     }
 }

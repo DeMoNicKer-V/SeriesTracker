@@ -52,10 +52,10 @@ public partial class Series
         get; set;
     } = 10;
 
-    public int releaseYear
+    public DateTime releaseDate
     {
         get; set;
-    } = DateTime.Now.Year;
+    } = DateTime.Now;
 
     public string addedDate
     {
@@ -98,24 +98,19 @@ public partial class Series
         {
             return (false, "Все числовые значения не должны отрицательными!");
         }
-        else if (releaseYear < 1961)
+        else if (releaseDate.Year < 1961)
         {
             return (false, "Некорректный год выхода!");
         }
         return (true, null);
     }
 
-
     [JsonIgnore]
-    public string GetTitleDescription
+    public string GetFormatDate
     {
         get
         {
-            if (seriesSeason > 0)
-            {
-                return $"Сезон {seriesSeason}-й, год выхода - {releaseYear}";
-            }
-            return $"Год выхода - {releaseYear}";
+                return System.String.Format($"{releaseDate:M} {releaseDate:yyyy} г.");
         }
     }
 
@@ -126,9 +121,9 @@ public partial class Series
         {
             if (seriesSeason > 0)
             {
-                return $"Сезон {seriesSeason}-й ({lastEpisode} эп.), {releaseYear} год";
+                return $"Сезон {seriesSeason}-й ({lastEpisode} эпизодов)";
             }
-            return $"{lastEpisode} эпизодов, {releaseYear} год";
+            return $"{lastEpisode} эпизодов";
         }
     }
 

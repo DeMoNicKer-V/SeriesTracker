@@ -100,10 +100,11 @@ public partial class NewSeriesPage : ContentPage
                 default:
                     break;
             }
+            releaseDatePicker.Date = DateTime.Parse(parser.ReleaseYear);
             saveBtn.IsEnabled = true;
             nameEditor.Text = parser.Name;
             descriptionEditor.Text = parser.Description;
-            releaseEntry.Text = parser.ReleaseYear;
+            
             lastEntry.Text = parser.Episodes;
             posterImage.Source = parser.ImagePath;
             ((NewSeriesPageViewModel)BindingContext).Series.imagePath = parser.ImagePath;
@@ -218,19 +219,6 @@ public partial class NewSeriesPage : ContentPage
     private void nameEditor_Unfocused(object sender, FocusEventArgs e)
     {
         nameUnderline.HeightRequest = 1;
-    }
-
-    private void releaseEntry_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        RemoveSignsTextChanged(sender, e);
-    }
-
-    private void releaseEntry_Unfocused(object sender, FocusEventArgs e)
-    {
-        if (string.IsNullOrEmpty(releaseEntry.Text) | releaseEntry.Text.Length < 4)
-        {
-            releaseEntry.Text = DateTime.Now.Year.ToString();
-        }
     }
 
     private void RemoveSignsTextChanged(object sender, TextChangedEventArgs e)

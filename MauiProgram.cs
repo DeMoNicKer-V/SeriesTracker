@@ -18,7 +18,24 @@ public static class MauiProgram
             fonts.AddFont("Nunito-Regular.ttf", "NunitoRegular");
             fonts.AddFont("Nunito-Bold.ttf", "NunitoBold");
             fonts.AddFont("Nunito-Italic.ttf", "NunitoItalic");
-        }).UseMauiCommunityToolkit();
+        }).UseMauiCommunityToolkit().ConfigureLifecycleEvents(events =>
+        {
+#if ANDROID
+            events.AddAndroid(android => android
+                .OnCreate((activity, bundle) =>
+                {
+                    Apply();
+                    Setup();
+                }));
+#elif IOS
+            events.AddiOS(ios => ios
+                .OnActivated((app) =>
+                {
+                    Apply();
+                    Setup();
+                }));
+#endif
+        }); ;
         Microsoft.Maui.Handlers.EditorHandler.Mapper.AppendToMapping("Borderless", (handler, view) =>
         {
             if (view is Editor)
@@ -52,7 +69,44 @@ public static class MauiProgram
         builder.Services.AddSingleton<IFileSaver>(FileSaver.Default);
         builder.Services.AddTransient<SettingsPage>();
         AllowMultiLineTruncationOnAndroid();
+
         return builder.Build();
+    }
+
+    public static void Setup()
+    {
+        if (Application.Current is null)
+            return;
+
+        Application.Current.RequestedThemeChanged += (s, e) => Apply();
+    }
+
+    /// <summary>
+    /// Applies theme
+    /// </summary>
+    public static void Apply()
+    {
+        if (Application.Current is null)
+            return;
+
+#if ANDROID
+        //AppCompatDelegate.DefaultNightMode = (int)UiNightMode.Yes;
+        AndroidX.AppCompat.App.AppCompatDelegate.DefaultNightMode = Application.Current.UserAppTheme switch
+        {
+            AppTheme.Light => AndroidX.AppCompat.App.AppCompatDelegate.ModeNightNo,
+            AppTheme.Dark => AndroidX.AppCompat.App.AppCompatDelegate.ModeNightYes,
+            _ => AndroidX.AppCompat.App.AppCompatDelegate.ModeNightFollowSystem
+        };
+#elif IOS
+            Platform.GetCurrentUIViewController().OverrideUserInterfaceStyle = Application.Current.UserAppTheme switch
+            {
+                AppTheme.Light => UIKit.UIUserInterfaceStyle.Light,
+                AppTheme.Dark => UIKit.UIUserInterfaceStyle.Dark,
+                _ => UIKit.UIUserInterfaceStyle.Unspecified
+            };
+
+            //UIKit.UIApplication.SharedApplication.Windows[0].OverrideUserInterfaceStyle = UIKit.UIUserInterfaceStyle.Dark;
+#endif
     }
 
     static void AllowMultiLineTruncationOnAndroid()

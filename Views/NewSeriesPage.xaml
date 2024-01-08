@@ -274,13 +274,13 @@
                     </Grid.ColumnDefinitions>
 
                     <controls:MaterialEntry
-                        TextChanged="startEntry_TextChanged"
                         x:Name="startEntry"
                         Grid.Row="0"
                         Grid.Column="0"
                         HorizontalOptions="Center"
                         Label="Начальная серия"
-                        Text="{Binding Series.startEpisode, Mode=TwoWay}" />
+                        Text="{Binding Series.startEpisode, Mode=TwoWay}"
+                        TextChanged="startEntry_TextChanged" />
 
                     <controls:MaterialEntry
                         x:Name="currentEntry"
@@ -292,13 +292,13 @@
                         TextChanged="currentEntry_TextChanged" />
 
                     <controls:MaterialEntry
-                        TextChanged="lastEntry_TextChanged"
                         x:Name="lastEntry"
                         Grid.Row="0"
                         Grid.Column="2"
                         HorizontalOptions="Center"
                         Label="Последняя серия"
-                        Text="{Binding Series.lastEpisode, Mode=TwoWay}" />
+                        Text="{Binding Series.lastEpisode, Mode=TwoWay}"
+                        TextChanged="lastEntry_TextChanged" />
 
                     <StackLayout
                         Grid.Row="1"
@@ -348,30 +348,12 @@
                         Padding="5"
                         HorizontalOptions="Center"
                         Orientation="Horizontal">
-                        <Label
-                            BindingContext="{x:Reference releaseEntry}"
-                            Text="Год Выхода:"
-                            TextColor="{Binding TextColor}" />
-                        <Entry
-                            x:Name="releaseEntry"
+                        <Label Text="Дата Выхода:" />
+                        <DatePicker
+                            x:Name="releaseDatePicker"
                             Margin="0,-12,0,0"
-                            HorizontalTextAlignment="Center"
-                            Keyboard="Numeric"
-                            MaxLength="4"
-                            Text="{Binding Series.releaseYear, Mode=TwoWay}"
-                            TextChanged="releaseEntry_TextChanged"
-                            Unfocused="releaseEntry_Unfocused">
-                            <Entry.Behaviors>
-                                <toolkit:CharactersValidationBehavior
-                                    CharacterType="Digit"
-                                    Flags="ValidateOnValueChanged"
-                                    InvalidStyle="{StaticResource InvalidEntryStyle}"
-                                    MinimumLength="4"
-                                    RegexPattern="^[1-9][0-9]*$" />
-                            </Entry.Behaviors>
-                        </Entry>
+                            Date="{Binding Series.releaseDate, Mode=TwoWay}" />
                     </StackLayout>
-
 
                 </Grid>
 

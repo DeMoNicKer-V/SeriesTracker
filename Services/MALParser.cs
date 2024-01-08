@@ -41,30 +41,31 @@ namespace SeriesTracker.Services
                 title = doc.QuerySelector("#contentWrapper > div:nth-child(1) > div > div.h1-title > div > p").TextContent.ToString();
             }
             catch (Exception ex) { title = doc.QuerySelector("#contentWrapper > div:nth-child(1) > div > div.h1-title > div > h1 > strong").TextContent.ToString(); }
-            var year = doc.QuerySelector("#content > table > tbody > tr > td.borderClass > div > div:nth-child(19)").TextContent.ToString();
-            DateTime bb = new DateTime();
-            try
+            var year = doc.QuerySelectorAll("#content > table > tbody > tr > td.borderClass > div > div.spaceit_pad");
+            string releaseDate = string.Empty, episodes = string.Empty;
+            foreach (var item in year)
             {
-
-                var a = year.Split(":\n ").Last();
-                a = a.Split(" to").First().Trim();
-                bb = DateTime.Parse(a);
-
+                if (!string.IsNullOrEmpty(item.TextContent))
+                {
+                    if (item.TextContent.Contains("Episodes"))
+                    {
+                        episodes = item.TextContent.Split("Episodes:").Last().Trim();
+                    }
+                    if (item.TextContent.Contains("Aired"))
+                    {
+                        releaseDate = item.TextContent.Split("Aired:").Last();
+                        releaseDate = releaseDate.Split("to").First().Trim();
+                        break;
+                    }
+                }
             }
-            catch
-            {
-                year = doc.QuerySelector("#content > table > tbody > tr > td.borderClass > div > div:nth-child(20)").TextContent.ToString(); var a = year.Split(":\n ").Last();
-                a = a.Split(" to").First().Trim();
-                bb = DateTime.Parse(a);
-            }
+
 
             var description = doc.QuerySelector("#content > table > tbody > tr > td:nth-child(2) > div.rightside.js-scrollfix-bottom-rel > table > tbody > tr:nth-child(1) > td > p").TextContent.ToString();
             var image = doc.QuerySelector("#content > table > tbody > tr > td.borderClass > div > div:nth-child(1) > a > img").GetAttribute("data-src").ToString();
 
 
-            var episodes = doc.QuerySelector("#curEps").TextContent.ToString();
-
-            ReleaseYear = bb.Year.ToString();
+            ReleaseYear = releaseDate;
            ImagePath = image;
            Name = title;
             Description = description;
