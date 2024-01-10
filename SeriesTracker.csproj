@@ -49,6 +49,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\aboutbold.png" />
 	  <None Remove="Resources\Images\accept.png" />
 	  <None Remove="Resources\Images\add.png" />
 	  <None Remove="Resources\Images\addposter.png" />
@@ -81,6 +82,8 @@
 	  <None Remove="Resources\Images\shikimori.png" />
 	  <None Remove="Resources\Images\star.png" />
 	  <None Remove="Resources\Images\vision.png" />
+	  <None Remove="Resources\Images\watched.png" />
+	  <None Remove="Resources\Images\watching.png" />
 	</ItemGroup>
 
 	<ItemGroup>

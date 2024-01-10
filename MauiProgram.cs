@@ -4,6 +4,8 @@ using CommunityToolkit.Maui.Storage;
 using SeriesTracker.Views;
 using SeriesTracker.Controls.MaterialEntry;
 using Microsoft.Maui.LifecycleEvents;
+using SeriesTracker.Controls.OverlayTabBar;
+using SeriesTracker.Behaviors;
 
 namespace SeriesTracker;
 public static class MauiProgram
@@ -13,6 +15,10 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder.UseMauiApp<App>().ConfigureMauiHandlers(handlers =>
         {
+            
+#if ANDROID
+            handlers.AddHandler(typeof(Shell), typeof(Platforms.Android.Renderers.CustomShellRenderer));
+#endif
         }).ConfigureFonts(fonts =>
         {
             fonts.AddFont("Nunito-Regular.ttf", "NunitoRegular");

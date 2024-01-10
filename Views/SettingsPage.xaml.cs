@@ -13,7 +13,11 @@ public partial class SettingsPage : ContentPage
     private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
     private IFileSaver fileSaver;
     private SettingsPageViewModel settingsPageViewModel;
-    public SettingsPage(IFileSaver fileSaver)
+    public SettingsPage()
+    {
+        InitializeComponent();
+    }
+        public SettingsPage(IFileSaver fileSaver)
     {
         InitializeComponent();
         seriesList = new List<Series>();

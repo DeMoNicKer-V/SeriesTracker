@@ -15,13 +15,14 @@ public partial class ActiveSeriesPage : ContentPage
 
     protected override void OnAppearing()
     {
+        searchBar.Text = string.Empty;
         base.OnAppearing();
         activeSeriesPageViewModel.OnAppearing();
     }
 
     private void searchBar_TextChanged(object sender, TextChangedEventArgs e)
     {
-        if (!string.IsNullOrWhiteSpace(e.OldTextValue) & string.IsNullOrWhiteSpace(e.NewTextValue))
+        if (string.IsNullOrWhiteSpace(e.NewTextValue))
         {
             searchbarClearBtn.IsVisible = false;
             seriesCollection.ItemsSource = activeSeriesPageViewModel.SeriesList;
@@ -34,11 +35,12 @@ public partial class ActiveSeriesPage : ContentPage
     private void searchbarClearBtn_Clicked(object sender, EventArgs e)
     {
         searchBar.Text = string.Empty;
+        searchBar.Unfocus();
     }
 
     private void searchBar_Completed(object sender, EventArgs e)
     {
-        if (string.IsNullOrWhiteSpace(searchBar.Text)) return;
+        if (string.IsNullOrWhiteSpace(searchBar.Text)) { searchBar.Unfocus(); return; }
         var normalizedQuery = searchBar.Text?.ToLower() ?? "";
         activeSeriesPageViewModel.FilterList = activeSeriesPageViewModel.SeriesList.Where(item => item.seriesName.ToLowerInvariant().Contains(normalizedQuery)).ToObservableCollection();
         seriesCollection.ItemsSource = activeSeriesPageViewModel.FilterList;
@@ -46,6 +48,12 @@ public partial class ActiveSeriesPage : ContentPage
 
     private async void searchBar_Unfocused(object sender, FocusEventArgs e)
     {
+       await searchImage.RotateTo(0, 200);
        await searchBar.HideKeyboardAsync(CancellationToken.None);
+    }
+
+    private async void searchBar_Focused(object sender, FocusEventArgs e)
+    {
+        await searchImage.RotateTo(90, 200);
     }
 }

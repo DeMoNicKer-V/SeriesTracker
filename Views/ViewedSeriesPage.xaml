@@ -9,8 +9,6 @@
     Title=""
     BackgroundColor="{AppThemeBinding Light=#ffffff,
                                       Dark=#121212}"
-    Shell.BackgroundColor="{AppThemeBinding Light={StaticResource Primary},
-                                            Dark=#121212}"
     Shell.FlyoutBehavior="Disabled">
 
     <Shell.BackButtonBehavior>

@@ -46,13 +46,15 @@ public class MainActivity : MauiAppCompatActivity
      {
          base.OnCreate(savedInstanceState);
          this.Window.DecorView.SystemUiVisibility = (StatusBarVisibility)
-             (SystemUiFlags.ImmersiveSticky | SystemUiFlags.HideNavigation |
+             (SystemUiFlags.ImmersiveSticky | 
                SystemUiFlags.Immersive);
 
              this.Window.SetFlags(Android.Views.WindowManagerFlags.LayoutNoLimits, Android.Views.WindowManagerFlags.LayoutNoLimits);
 
-         this.Window.ClearFlags(Android.Views.WindowManagerFlags.TranslucentStatus);
+         this.Window.AddFlags(Android.Views.WindowManagerFlags.TranslucentStatus);
+        this.Window.AddFlags(Android.Views.WindowManagerFlags.TranslucentNavigation);
 
-         this.Window.SetStatusBarColor(Android.Graphics.Color.Transparent);
-     }
+        this.Window.SetStatusBarColor(Android.Graphics.Color.Transparent);
+
+    }
 }

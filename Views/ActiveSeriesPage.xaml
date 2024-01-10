@@ -9,8 +9,6 @@
     Title=""
     BackgroundColor="{AppThemeBinding Light=#ffffff,
                                       Dark=#121212}"
-    Shell.BackgroundColor="{AppThemeBinding Light={StaticResource Primary},
-                                            Dark=#121212}"
     Shell.FlyoutBehavior="Disabled">
 
     <Shell.BackButtonBehavior>
@@ -43,6 +41,7 @@
                                 <ColumnDefinition Width="35" />
                             </Grid.ColumnDefinitions>
                             <Image
+                                x:Name="searchImage"
                                 Grid.Row="1"
                                 Grid.Column="0"
                                 Margin="0,0,10,0"
@@ -50,16 +49,18 @@
                                 Source="search.png"
                                 WidthRequest="25">
                                 <Image.Behaviors>
-                                    <toolkit:IconTintColorBehavior TintColor="{StaticResource Gray300}" />
+                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
                                 </Image.Behaviors>
                             </Image>
-                            <Entry
+                            <Entry Focused="searchBar_Focused"
                                 x:Name="searchBar"
                                 Grid.Row="1"
                                 Grid.Column="1"
                                 Completed="searchBar_Completed"
                                 FontSize="16"
                                 Placeholder="Найти сериал"
+                                PlaceholderColor="{AppThemeBinding Light={StaticResource Gray600},
+                                                                   Dark={StaticResource Gray300}}"
                                 TextChanged="searchBar_TextChanged"
                                 Unfocused="searchBar_Unfocused"
                                 VerticalTextAlignment="Center" />
@@ -73,7 +74,7 @@
                                 Source="cross.png"
                                 WidthRequest="25">
                                 <ImageButton.Behaviors>
-                                    <toolkit:IconTintColorBehavior TintColor="{StaticResource Gray300}" />
+                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
                                 </ImageButton.Behaviors>
                             </ImageButton>
                             <ImageButton
@@ -83,7 +84,7 @@
                                 Source="filter.png"
                                 WidthRequest="25">
                                 <ImageButton.Behaviors>
-                                    <toolkit:IconTintColorBehavior TintColor="{StaticResource Gray300}" />
+                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
                                 </ImageButton.Behaviors>
                             </ImageButton>
                         </Grid>
@@ -149,12 +150,12 @@
                                     Margin="0,5,0,0"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:ActiveSeriesPageViewModel}}, Path=AdditionalActionCommand}"
                                     CommandParameter="{Binding .}"
-                                    HeightRequest="15"
+                                    HeightRequest="20"
                                     HorizontalOptions="End"
                                     Rotation="90"
                                     Source="dots.png"
                                     VerticalOptions="Start"
-                                    WidthRequest="15">
+                                    WidthRequest="20">
                                     <ImageButton.Behaviors>
                                         <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
                                     </ImageButton.Behaviors>

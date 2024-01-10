@@ -12,8 +12,6 @@
     Title=""
     BackgroundColor="{AppThemeBinding Light={StaticResource White},
                                       Dark={StaticResource Black}}"
-    Shell.BackgroundColor="{AppThemeBinding Light={StaticResource White},
-                                            Dark={StaticResource Black}}"
     Shell.FlyoutBehavior="Disabled"
     Shell.TabBarIsVisible="False">
     <Shell.BackButtonBehavior>

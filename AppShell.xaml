@@ -11,17 +11,17 @@
         <ShellContent
             Title="Смотрю"
             ContentTemplate="{DataTemplate view:ActiveSeriesPage}"
-            Icon="play_screen.png"
+            Icon="watching.png"
             Route="MainPage" />
         <ShellContent
             Title="Просмотрено"
             ContentTemplate="{DataTemplate view:ViewedSeriesPage}"
-            Icon="check_screen.png"
+            Icon="watched.png"
             Route="SecondPage" />
         <ShellContent
             Title="Информация"
             ContentTemplate="{DataTemplate view:SettingsPage}"
-            Icon="about.png"
+            Icon="aboutbold.png"
             Route="SettingsPage" />
     </TabBar>
 </Shell>

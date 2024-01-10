@@ -10,8 +10,6 @@
     Title=""
     BackgroundColor="{AppThemeBinding Light=#fafafa,
                                       Dark=#121212}"
-    Shell.BackgroundColor="{AppThemeBinding Light={StaticResource Primary},
-                                            Dark=#121212}"
     Shell.FlyoutBehavior="Disabled"
     Shell.TabBarIsVisible="False">
     <ContentPage.Behaviors>
