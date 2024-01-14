@@ -1,6 +1,7 @@
 using AngleSharp.Common;
 using CommunityToolkit.Maui.Behaviors;
 using CommunityToolkit.Maui.Core.Platform;
+using CommunityToolkit.Mvvm.Messaging;
 using SeriesTracker.Models;
 using SeriesTracker.ViewModels;
 using static System.Net.Mime.MediaTypeNames;
@@ -131,6 +132,7 @@ public partial class DetailSeriesPage : ContentPage
     {
         base.OnAppearing();
         detailSeriesPageView.OnAppearing();
+     
     }
 
     private void Slider_ValueChanged(object sender, ValueChangedEventArgs e)

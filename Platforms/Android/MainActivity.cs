@@ -49,12 +49,16 @@ public class MainActivity : MauiAppCompatActivity
              (SystemUiFlags.ImmersiveSticky | 
                SystemUiFlags.Immersive);
 
+        this.Window.SetDecorFitsSystemWindows(false);
+
+        Window.DecorView.SetBackgroundColor(Colors.Transparent.ToPlatform());
+       Window.DecorView.SetPadding(0, 0, 0, Resources.GetDimensionPixelSize(Resources.GetIdentifier("navigation_bar_height", "dimen", "android")));
+    
              this.Window.SetFlags(Android.Views.WindowManagerFlags.LayoutNoLimits, Android.Views.WindowManagerFlags.LayoutNoLimits);
 
          this.Window.AddFlags(Android.Views.WindowManagerFlags.TranslucentStatus);
         this.Window.AddFlags(Android.Views.WindowManagerFlags.TranslucentNavigation);
 
         this.Window.SetStatusBarColor(Android.Graphics.Color.Transparent);
-
     }
 }
