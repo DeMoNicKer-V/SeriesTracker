@@ -99,7 +99,7 @@
                     <DataTemplate x:DataType="models:Series">
                         <Border
                             Margin="10"
-                            BackgroundColor="{AppThemeBinding Light=#F3F3F3,
+                            BackgroundColor="{AppThemeBinding Light=#F7F7F7,
                                                               Dark=#181818}"
                             HeightRequest="195">
                             <Border.StrokeShape>
@@ -257,40 +257,6 @@
                     </CollectionView.EmptyView>
                 -->
             </CollectionView>
-
-
-            <Border
-                Margin="20"
-                toolkit:DockLayout.DockPosition="Bottom"
-                BackgroundColor="{AppThemeBinding Light=Black,
-                                                  Dark=White}"
-                HeightRequest="60"
-                HorizontalOptions="End"
-                Stroke="{AppThemeBinding Light=Black,
-                                         Dark=White}"
-                VerticalOptions="End"
-                WidthRequest="60">
-                <Button
-                    Margin="0,-5,0,0"
-                    BackgroundColor="{AppThemeBinding Light=Black,
-                                                      Dark=White}"
-                    Command="{Binding AddSeriesCommand}"
-                    FontAttributes="Bold"
-                    FontSize="35"
-                    Text="+"
-                    TextColor="{AppThemeBinding Light=White,
-                                                Dark=Black}" />
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="20" />
-                </Border.StrokeShape>
-                <Border.Shadow
-                    Brush="{AppThemeBinding Light=Black,
-                                            Dark=White}"
-                    Opacity="0.7"
-                    Radius="20"
-                    Offset="20,20" />
-            </Border>
-
         </toolkit:DockLayout>
     </RefreshView>
 

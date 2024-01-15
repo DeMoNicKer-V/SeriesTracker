@@ -27,12 +27,12 @@ internal class CustomShellItemRenderer : ShellItemRenderer
             };
 
             rootLayout.AddView(view);
-            const int middleViewSize = 120;
+            const int middleViewSize = 140;
             var middleViewLayoutParams = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.WrapContent, ViewGroup.LayoutParams.WrapContent,
                 GravityFlags.CenterHorizontal | GravityFlags.Bottom)
             {
-                BottomMargin = 100,
+                BottomMargin = 180,
                 Width = middleViewSize,
                 Height = middleViewSize
             };
@@ -62,12 +62,14 @@ internal class CustomShellItemRenderer : ShellItemRenderer
                 tabbar.centerViewCommand?.Execute(null);
             };
             middleView.SetText(tabbar.centerViewText, TextView.BufferType.Normal);
+            middleView.TextSize = 30;
+            middleView.SetTextColor(Colors.Black.ToPlatform());
             middleView.SetPadding(0, 0, 0, 0);
             if (tabbar.centerViewBackgroundColor is not null)
             {
                 var backgroundDrawable = new GradientDrawable();
                 backgroundDrawable.SetShape(ShapeType.Rectangle);
-                backgroundDrawable.SetCornerRadius(middleViewSize / 2f);
+                backgroundDrawable.SetCornerRadius(35);
                 backgroundDrawable.SetColor(tabbar.centerViewBackgroundColor.ToPlatform(Colors.Transparent));
                 middleView.SetBackground(backgroundDrawable);
             }

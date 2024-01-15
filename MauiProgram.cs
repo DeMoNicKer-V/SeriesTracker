@@ -14,13 +14,15 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder.UseMauiApp<App>().UseMauiCommunityToolkit().ConfigureMauiHandlers(handlers =>
         {
-
+#if ANDROID
+            handlers.AddHandler<Shell, CustomShellHandler>();
+#endif
         }).ConfigureFonts(fonts =>
         {
             fonts.AddFont("Nunito-Regular.ttf", "NunitoRegular");
             fonts.AddFont("Nunito-Bold.ttf", "NunitoBold");
             fonts.AddFont("Nunito-Italic.ttf", "NunitoItalic");
-        }).ConfigureLifecycleEvents(events =>
+        }).UseMauiCommunityToolkit().ConfigureLifecycleEvents(events =>
         {
 #if ANDROID
             events.AddAndroid(android => android
@@ -77,10 +79,14 @@ public static class MauiProgram
 
     public static void Setup()
     {
+
         if (Application.Current is null)
             return;
 
-        Application.Current.RequestedThemeChanged += (s, e) => Apply();
+        Application.Current.RequestedThemeChanged += (s, e) =>
+        {
+            Apply();
+        };
     }
 
     /// <summary>

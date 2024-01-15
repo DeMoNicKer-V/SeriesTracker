@@ -16,19 +16,10 @@ namespace SeriesTracker;
             return new CustomShellBottomNavViewAppearanceTracker(this, shellItem.CurrentItem);
         }
 
-        protected override IShellToolbarAppearanceTracker CreateToolbarAppearanceTracker()
-        {
-            return new CustomShellToolbarAppearanceTracker(this);
-        }
-
         protected override IShellItemRenderer CreateShellItemRenderer(ShellItem shellItem)
         {
             return new CustomShellItemRenderer(this);
         }
 
-        protected override IShellSectionRenderer CreateShellSectionRenderer(ShellSection shellSection)
-        {
-            return new CustomShellSectionRenderer(this);
-        }
     }
 

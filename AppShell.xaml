@@ -7,21 +7,23 @@
     xmlns:view="clr-namespace:SeriesTracker.Views"
     Shell.FlyoutBehavior="Disabled">
 
-    <TabBar>
-        <ShellContent
-            Title="Смотрю"
-            ContentTemplate="{DataTemplate view:ActiveSeriesPage}"
-            Icon="watching.png"
-            Route="MainPage" />
-        <ShellContent
-            Title="Просмотрено"
-            ContentTemplate="{DataTemplate view:ViewedSeriesPage}"
-            Icon="watched.png"
-            Route="SecondPage" />
-        <ShellContent
-            Title="Информация"
-            ContentTemplate="{DataTemplate view:SettingsPage}"
-            Icon="aboutbold.png"
-            Route="SettingsPage" />
-    </TabBar>
+    <local:CustomTabBar
+        centerViewBackgroundColor="#fafafa"
+        centerViewCommand="{Binding CenterViewCommand}"
+        centerViewText="+"
+        centerViewVisible="True">
+        <Tab Title="Смотрю" Icon="watching.png">
+            <ShellContent ContentTemplate="{DataTemplate view:ActiveSeriesPage}" Route="MainPage" />
+        </Tab>
+        <Tab Title="Просмотрено" Icon="watched.png">
+            <ShellContent ContentTemplate="{DataTemplate view:ViewedSeriesPage}" Route="SecondPage" />
+        </Tab>
+        <Tab Title="Информация" Icon="aboutbold.png">
+            <ShellContent ContentTemplate="{DataTemplate view:SettingsPage}" Route="SettingsPage" />
+        </Tab>
+        <Tab Title="Информация" Icon="aboutbold.png">
+            <ShellContent ContentTemplate="{DataTemplate view:SettingsPage}" Route="SettingsPage" />
+        </Tab>
+    </local:CustomTabBar>
+
 </Shell>
