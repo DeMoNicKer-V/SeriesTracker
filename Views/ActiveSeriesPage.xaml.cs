@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Maui.Core.Platform;
 using CommunityToolkit.Maui.Views;
+using Microsoft.Maui.Controls;
 using SeriesTracker.Controls.PopUp;
 using SeriesTracker.ViewModels;
 
@@ -28,10 +29,8 @@ public partial class ActiveSeriesPage : ContentPage
         {
             searchbarClearBtn.IsVisible = false;
             seriesCollection.ItemsSource = activeSeriesPageViewModel.SeriesList;
-
-
+            activeSeriesPageViewModel.SeriesCount = activeSeriesPageViewModel.SeriesList.Count;
         }
-        else searchbarClearBtn.IsVisible = true;
     }
 
     private void searchbarClearBtn_Clicked(object sender, EventArgs e)
@@ -46,24 +45,43 @@ public partial class ActiveSeriesPage : ContentPage
         var normalizedQuery = searchBar.Text?.ToLower() ?? "";
         activeSeriesPageViewModel.FilterList = activeSeriesPageViewModel.SeriesList.Where(item => item.seriesName.ToLowerInvariant().Contains(normalizedQuery)).ToObservableCollection();
         seriesCollection.ItemsSource = activeSeriesPageViewModel.FilterList;
+        activeSeriesPageViewModel.SeriesCount = activeSeriesPageViewModel.FilterList.Count;
     }
 
     private async void searchBar_Unfocused(object sender, FocusEventArgs e)
     {
-       await searchImage.RotateTo(0, 200);
+        searchbarClearBtn.IsVisible = false;
+        await searchImage.RotateTo(0, 200);
        await searchBar.HideKeyboardAsync(CancellationToken.None);
     }
 
     private async void searchBar_Focused(object sender, FocusEventArgs e)
     {
+        searchbarClearBtn.IsVisible = true;
         await searchImage.RotateTo(90, 200);
     }
 
-    private async void menuButton_Clicked(object sender, EventArgs e)
+    private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
-        var popup = new ActivePagePopUp();
-        popup.ContentPageBehavior = this;
-        popup.Title = "Дебил";
-        await this.ShowPopupAsync(popup);
+        if (e.Value)
+        {
+        activeSeriesPageViewModel.FilterList = activeSeriesPageViewModel.SeriesList.Where(item => item.isFavourite.Equals(true)).ToObservableCollection();
+            activeSeriesPageViewModel.SeriesCount = activeSeriesPageViewModel.FilterList.Count;
+        seriesCollection.ItemsSource = activeSeriesPageViewModel.FilterList;
+        }
+        else
+        {
+            activeSeriesPageViewModel.SeriesCount = activeSeriesPageViewModel.SeriesList.Count;
+            seriesCollection.ItemsSource = activeSeriesPageViewModel.SeriesList;
+        }
+    }
+    private void filterExpander_ExpandedChanged(object sender, CommunityToolkit.Maui.Core.ExpandedChangedEventArgs e)
+    {
+        if (filterExpander.IsExpanded)
+        {
+            filterExpandImage.RotateXTo(180, 200);
+        }
+        else
+            filterExpandImage.RotateXTo(0, 200);
     }
 }

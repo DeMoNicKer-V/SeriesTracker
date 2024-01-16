@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SeriesTracker.Controls.PopUp;
 using SeriesTracker.Models;
@@ -29,6 +30,8 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         _page = contentPageBehavior;
  
     }
+    [ObservableProperty]
+    public int seriesCount;
 
     private ObservableCollection<Series> seriesList = new ObservableCollection<Series>();
     private ObservableCollection<Series> filterList = new ObservableCollection<Series>();
@@ -127,6 +130,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
                     SeriesList.Add(item);
                 }
             }
+            SeriesCount = SeriesList.Count();
             FilterList = SeriesList;
         }
         catch (Exception)

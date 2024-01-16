@@ -79,6 +79,7 @@
 	  <None Remove="Resources\Images\poster.jpg" />
 	  <None Remove="Resources\Images\ratestar.png" />
 	  <None Remove="Resources\Images\search.png" />
+	  <None Remove="Resources\Images\settings.png" />
 	  <None Remove="Resources\Images\shikimori.png" />
 	  <None Remove="Resources\Images\star.png" />
 	  <None Remove="Resources\Images\vision.png" />
