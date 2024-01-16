@@ -12,13 +12,6 @@
                                       Dark=#121212}"
     Shell.FlyoutBehavior="Disabled"
     Shell.TabBarIsVisible="False">
-    <ContentPage.Behaviors>
-        <toolkit:StatusBarBehavior
-            x:Name="noteStatus"
-            StatusBarColor="{AppThemeBinding Light={StaticResource Primary},
-                                             Dark=#121212}"
-            StatusBarStyle="Default" />
-    </ContentPage.Behaviors>
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsEnabled="False" IsVisible="False" />
     </Shell.BackButtonBehavior>

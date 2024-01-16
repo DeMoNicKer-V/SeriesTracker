@@ -112,6 +112,9 @@
 	  <MauiXaml Update="Controls\MaterialEntry\MaterialEntry.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Controls\PopUp\ActivePagePopUp.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Controls\PopUp\DetailPopUp.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -100,6 +100,7 @@ public partial class DetailSeriesPage : ContentPage
    */
     private void OpenButton_Clicked(object sender, EventArgs e)
     {
+       
         descriptionExpander.IsExpanded = false;
         ratingExpander.IsExpanded = false;
         editEpisodeEntry.IsVisible = false;
@@ -108,9 +109,10 @@ public partial class DetailSeriesPage : ContentPage
         editEpisodeEntry.Unfocus();
         if (!BottomSheet.IsVisible)
         {
+            menuLabel.RotateXTo(180, 200);
             ShowBottomSheet();
         }
-        else { OnCloseCommand(); }
+        else { menuLabel.RotateXTo(0, 200); OnCloseCommand(); }
     }
 
     private async void ShowBottomSheet()

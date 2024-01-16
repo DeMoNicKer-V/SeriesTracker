@@ -9,8 +9,8 @@
     <VerticalStackLayout>
         <Border
             x:Name="myBorder"
-            Margin="15,2,15,15"
-            BackgroundColor="{AppThemeBinding Light=#F3F1F1,
+            Margin="15"
+            BackgroundColor="{AppThemeBinding Light=#F7F7F7,
                                               Dark=#171717}"
             Stroke="Transparent"
             StrokeThickness="0.5">
@@ -32,11 +32,10 @@
                     x:Name="TitleLabel"
                     Grid.Row="0"
                     Grid.ColumnSpan="2"
-                    Margin="0,10,0,20"
-                    FontSize="18"
+                    Margin="10"
+                    FontSize="20"
                     HorizontalOptions="StartAndExpand"
-                    Text="{Binding Source={x:Reference this}, Path=Title}"
-                    TextColor="White" />
+                    Text="{Binding Source={x:Reference this}, Path=Title}" />
                 <Image
                     Grid.Row="1"
                     Grid.Column="0"
@@ -67,14 +66,18 @@
                         x:Name="confirm"
                         BackgroundColor="Transparent"
                         Clicked="confirm_Clicked"
+                        FontSize="14"
                         Text="Да"
-                        TextColor="White" />
+                        TextColor="{AppThemeBinding Light=Black,
+                                                    Dark=White}" />
                     <Button
                         x:Name="deny"
                         BackgroundColor="Transparent"
                         Clicked="deny_Clicked"
+                        FontSize="14"
                         Text="Нет"
-                        TextColor="White" />
+                        TextColor="{AppThemeBinding Light=Black,
+                                                    Dark=White}" />
                 </HorizontalStackLayout>
             </Grid>
         </Border>

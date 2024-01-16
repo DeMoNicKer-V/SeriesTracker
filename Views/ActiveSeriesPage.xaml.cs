@@ -1,5 +1,7 @@
 using CommunityToolkit.Maui.Core.Extensions;
 using CommunityToolkit.Maui.Core.Platform;
+using CommunityToolkit.Maui.Views;
+using SeriesTracker.Controls.PopUp;
 using SeriesTracker.ViewModels;
 
 namespace SeriesTracker.Views;
@@ -10,7 +12,7 @@ public partial class ActiveSeriesPage : ContentPage
     public ActiveSeriesPage()
 	{
 		InitializeComponent();
-        this.BindingContext = activeSeriesPageViewModel = new ActiveSeriesPageViewModel(Navigation);
+        this.BindingContext = activeSeriesPageViewModel = new ActiveSeriesPageViewModel(Navigation, this);
     }
 
     protected override void OnAppearing()
@@ -55,5 +57,13 @@ public partial class ActiveSeriesPage : ContentPage
     private async void searchBar_Focused(object sender, FocusEventArgs e)
     {
         await searchImage.RotateTo(90, 200);
+    }
+
+    private async void menuButton_Clicked(object sender, EventArgs e)
+    {
+        var popup = new ActivePagePopUp();
+        popup.ContentPageBehavior = this;
+        popup.Title = "Дебил";
+        await this.ShowPopupAsync(popup);
     }
 }

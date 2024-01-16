@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Maui.Core.Extensions;
+using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.Input;
+using SeriesTracker.Controls.PopUp;
 using SeriesTracker.Models;
 using SeriesTracker.Views;
 using System.Collections.ObjectModel;
@@ -11,10 +13,21 @@ namespace SeriesTracker.ViewModels;
 
 public partial class ActiveSeriesPageViewModel : BaseSeriesModel
 {
+    private readonly ContentPage _page;
+    private ActivePagePopUp activeSeriesPagePopUp;
+    private Series currentSeries;
 
-    public ActiveSeriesPageViewModel(INavigation navigation)
+    public Command DeleteCommand { get; }
+
+    public Command DetachCommand { get; }
+
+    public Command EditCommand { get; }
+
+    public ActiveSeriesPageViewModel(INavigation navigation, ContentPage contentPageBehavior)
     {
         Navigation = navigation;
+        _page = contentPageBehavior;
+ 
     }
 
     private ObservableCollection<Series> seriesList = new ObservableCollection<Series>();
@@ -45,20 +58,33 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         }
     }
 
-    public int ActionIndex(string action)
+    private async void OnDeleteCommand()
     {
-        switch (action)
-        {
-            case "Удалить": return 0;
-            case "Delete": return 0;
-            case "Закончить просмотр": return 1;
-            case "Finish viewing": return 1;
-            case "Редактировать": return 2;
-            case "Edit": return 2;
-        }
-        return -1;
+
+        if (currentSeries is null)
+            return;
+        await App.SeriesService.DeleteSeriesAsync(currentSeries.seriesId);
+        OnAppearing();
     }
 
+    private async void OnDetachCommand()
+    {
+
+        if (currentSeries is null)
+            return;
+
+        currentSeries.isOver = true;
+        currentSeries.currentEpisode = currentSeries.lastEpisode;
+        currentSeries.overDate = DateTime.Now.ToString();
+        
+        await App.SeriesService.AddUpdateSeriesAsync(currentSeries);
+        OnAppearing();
+    }
+
+    private async void OnEditCommand()
+    {
+        await Navigation.PushAsync(new NewSeriesPage(currentSeries));
+    }
     public void OnAppearing()
     {
         IsBusy = true;
@@ -67,17 +93,14 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     [RelayCommand]
     private async void AdditionalAction(Series series)
     {
-        string action = await Shell.Current.DisplayActionSheet(series.seriesName, "Закрыть", "Удалить", "Закончить просмотр", "Редактировать");
-        if (action != null | series != null)
-        {
-            switch (ActionIndex(action))
-            {
-                case 0: await App.SeriesService.DeleteSeriesAsync(series.seriesId); OnAppearing(); return;
-                case 1: series.isOver = true; await App.SeriesService.AddUpdateSeriesAsync(series); OnAppearing(); return;
-                case 2: await Navigation.PushAsync(new NewSeriesPage(series)); return;
-            }
-        }
-
+        activeSeriesPagePopUp = new ActivePagePopUp();
+        activeSeriesPagePopUp.ContentPageBehavior = _page;
+        activeSeriesPagePopUp.Title = series.seriesName;
+        currentSeries = series;
+        activeSeriesPagePopUp.EditCommand = new Command(OnEditCommand);
+        activeSeriesPagePopUp.DeleteCommand = new Command(OnDeleteCommand);
+        activeSeriesPagePopUp.DetachCommand = new Command(OnDetachCommand);
+        await _page.ShowPopupAsync(activeSeriesPagePopUp);
         return;
     }
 
