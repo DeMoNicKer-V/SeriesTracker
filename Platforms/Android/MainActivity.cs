@@ -4,6 +4,7 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using CommunityToolkit.Maui.Core;
 using Microsoft.Maui.Platform;
 
 namespace SeriesTracker;
@@ -44,8 +45,9 @@ public class MainActivity : MauiAppCompatActivity
 
     protected override void OnCreate(Bundle savedInstanceState)
      {
-         base.OnCreate(savedInstanceState);
-         this.Window.SetFlags(Android.Views.WindowManagerFlags.LayoutNoLimits, Android.Views.WindowManagerFlags.LayoutNoLimits);
+
+        base.OnCreate(savedInstanceState);
+        this.Window.SetFlags(Android.Views.WindowManagerFlags.LayoutNoLimits, Android.Views.WindowManagerFlags.LayoutNoLimits);
          this.Window.AddFlags(Android.Views.WindowManagerFlags.TranslucentStatus);
          this.Window.AddFlags(Android.Views.WindowManagerFlags.TranslucentNavigation);
          this.Window.SetStatusBarColor(Android.Graphics.Color.Transparent);

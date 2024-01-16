@@ -6,28 +6,10 @@
     xmlns:models="clr-namespace:SeriesTracker.Models"
     xmlns:settings="clr-namespace:SeriesTracker.Services"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Title=""
     BackgroundColor="{AppThemeBinding Light=#ffffff,
                                       Dark=#121212}">
-    <ContentPage.Behaviors>
-        <toolkit:StatusBarBehavior
-            x:Name="aboutStatus"
-            StatusBarColor="{AppThemeBinding Light={StaticResource Primary},
-                                             Dark=#121212}"
-            StatusBarStyle="Default" />
-    </ContentPage.Behaviors>
-    <Shell.TitleView>
-        <toolkit:DockLayout>
-            <Label
-                x:Name="titleLabel"
-                Margin="10"
-                toolkit:DockLayout.DockPosition="Left"
-                FontSize="Title"
-                HorizontalOptions="Start"
-                Text="Информация"
-                TextColor="White" />
-        </toolkit:DockLayout>
-    </Shell.TitleView>
-    <ScrollView VerticalScrollBarVisibility="Never">
+    <ScrollView Margin="0,30,0,0" VerticalScrollBarVisibility="Never">
         <StackLayout>
 
             <Grid>
