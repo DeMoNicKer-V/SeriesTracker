@@ -45,8 +45,18 @@ public class SeriesService : ISeriesRepository
         return await Task.FromResult(await _database.Table<Series>().Where(s => s.isOver == overFlag).ToListAsync());
     }
 
-    public async Task<IEnumerable<Series>> GetAllSeriesAsync()
+    public async Task<IEnumerable<Series>> Test(bool overFlag, int skip)
+    {
+        return await Task.FromResult(await _database.Table<Series>().Where(s => s.isOver == overFlag).Skip(skip).Take(5).ToListAsync());
+    }
+
+        public async Task<IEnumerable<Series>> GetAllSeriesAsync()
     {
         return await Task.FromResult(await _database.Table<Series>().ToListAsync());
+    }
+
+    public async Task<int> GetAllSeriesCount(bool overFlag)
+    {
+        return await Task.FromResult(await _database.Table<Series>().Where(s => s.isOver == overFlag).CountAsync());
     }
 }

@@ -84,4 +84,18 @@ public partial class ActiveSeriesPage : ContentPage
         else
             filterExpandImage.RotateXTo(0, 200);
     }
+
+    private void filterExpandImage_Clicked(object sender, EventArgs e)
+    {
+        if (!filterExpander.IsExpanded)
+        {
+            filterExpandImage.RotateXTo(180, 200);
+            filterExpander.IsExpanded = true;
+        }
+        else
+        {
+            filterExpandImage.RotateXTo(0, 200);
+            filterExpander.IsExpanded = false;
+        }
+    }
 }

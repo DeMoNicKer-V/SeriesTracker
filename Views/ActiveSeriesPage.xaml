@@ -17,139 +17,169 @@
 
     <RefreshView Command="{Binding LoadSeriesCommand}" IsRefreshing="{Binding IsBusy}">
         <toolkit:DockLayout>
-            <toolkit:Expander
-                x:Name="filterExpander"
-                toolkit:DockLayout.DockPosition="Top"
-                ExpandedChanged="filterExpander_ExpandedChanged"
-                IsExpanded="False">
-                <toolkit:Expander.Header>
-                    <Border
+            <StackLayout
+                Margin="10"
+                Padding="5"
+                toolkit:DockLayout.DockPosition="Top">
+                <Border BackgroundColor="Transparent" Stroke="transparent">
+                    <Grid HorizontalOptions="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25" />
+                            <RowDefinition Height="45" />
+                            <RowDefinition Height="1" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="15" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="35" />
+                            <ColumnDefinition Width="230" />
+                            <ColumnDefinition Width="35" />
+                            <ColumnDefinition Width="35" />
+                        </Grid.ColumnDefinitions>
+                        <Image
+                            x:Name="searchImage"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Margin="0,0,10,0"
+                            HeightRequest="25"
+                            Source="search.png"
+                            WidthRequest="25">
+                            <Image.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                            </Image.Behaviors>
+                        </Image>
+                        <Entry
+                            x:Name="searchBar"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Completed="searchBar_Completed"
+                            Focused="searchBar_Focused"
+                            FontSize="16"
+                            Placeholder="Найти сериал"
+                            PlaceholderColor="{AppThemeBinding Light={StaticResource Gray600},
+                                                               Dark={StaticResource Gray300}}"
+                            TextChanged="searchBar_TextChanged"
+                            Unfocused="searchBar_Unfocused"
+                            VerticalTextAlignment="Center" />
+                        <ImageButton
+                            x:Name="searchbarClearBtn"
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            Clicked="searchbarClearBtn_Clicked"
+                            HeightRequest="25"
+                            IsVisible="false"
+                            Source="cross.png"
+                            WidthRequest="25">
+                            <ImageButton.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                            </ImageButton.Behaviors>
+                        </ImageButton>
+                        <ImageButton
+                            x:Name="filterExpandImage"
+                            Grid.Row="1"
+                            Grid.Column="3"
+                            Clicked="filterExpandImage_Clicked"
+                            HeightRequest="25"
+                            Source="filter.png"
+                            WidthRequest="25">
+                            <ImageButton.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                            </ImageButton.Behaviors>
+                        </ImageButton>
+                        <Line
+                            x:Name="myLine"
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="4"
+                            BackgroundColor="{StaticResource Gray600}"
+                            HorizontalOptions="Fill" />
+
+                        <ImageButton
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Command="{Binding DecSeriesListCommand}"
+                            HeightRequest="15"
+                            HorizontalOptions="Center"
+                            Source="backarrow.png"
+                            VerticalOptions="Start"
+                            WidthRequest="15">
+                            <ImageButton.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="#999999" />
+                            </ImageButton.Behaviors>
+                        </ImageButton>
+                        <Label
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            FontAttributes="Italic"
+                            FontSize="12"
+                            HorizontalOptions="Start"
+                            TextColor="{AppThemeBinding Light={StaticResource Gray600},
+                                                        Dark={StaticResource Gray300}}"
+                            VerticalTextAlignment="Center">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span FontAttributes="Italic">
+                                        <Span.Text>
+                                            <MultiBinding StringFormat="Показано: {0} из {1}">
+                                                <Binding Path="ViewedSeriesCount" />
+                                                <Binding Path="SeriesCount" />
+                                            </MultiBinding>
+                                        </Span.Text>
+                                    </Span>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <ImageButton
+                            Grid.Row="4"
+                            Grid.Column="3"
+                            Command="{Binding IncSeriesListCommand}"
+                            HeightRequest="15"
+                            HorizontalOptions="Center"
+                            Rotation="180"
+                            Source="backarrow.png"
+                            VerticalOptions="Start"
+                            WidthRequest="15">
+                            <ImageButton.Behaviors>
+                                <toolkit:IconTintColorBehavior TintColor="#999999" />
+                            </ImageButton.Behaviors>
+                        </ImageButton>
+                    </Grid>
+
+                </Border>
+
+                <toolkit:Expander x:Name="filterExpander" IsExpanded="False">
+                    <Grid
                         Margin="10,10,10,-10"
                         Padding="5"
-                        BackgroundColor="Transparent"
-                        Stroke="transparent">
-                        <Grid HorizontalOptions="Center">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="25" />
-                                <RowDefinition Height="45" />
-                                <RowDefinition Height="1" />
-                                <RowDefinition Height="15" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="35" />
-                                <ColumnDefinition Width="230" />
-                                <ColumnDefinition Width="35" />
-                                <ColumnDefinition Width="35" />
-                            </Grid.ColumnDefinitions>
-                            <Image
-                                x:Name="searchImage"
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Margin="0,0,10,0"
-                                HeightRequest="25"
-                                Source="search.png"
-                                WidthRequest="25">
-                                <Image.Behaviors>
-                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
-                                </Image.Behaviors>
-                            </Image>
-                            <Entry
-                                x:Name="searchBar"
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                Completed="searchBar_Completed"
-                                Focused="searchBar_Focused"
-                                FontSize="16"
-                                Placeholder="Найти сериал"
-                                PlaceholderColor="{AppThemeBinding Light={StaticResource Gray600},
-                                                                   Dark={StaticResource Gray300}}"
-                                TextChanged="searchBar_TextChanged"
-                                Unfocused="searchBar_Unfocused"
-                                VerticalTextAlignment="Center" />
-                            <ImageButton
-                                x:Name="searchbarClearBtn"
-                                Grid.Row="1"
-                                Grid.Column="2"
-                                Clicked="searchbarClearBtn_Clicked"
-                                HeightRequest="25"
-                                IsVisible="false"
-                                Source="cross.png"
-                                WidthRequest="25">
-                                <ImageButton.Behaviors>
-                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
-                                </ImageButton.Behaviors>
-                            </ImageButton>
-                            <Image
-                                x:Name="filterExpandImage"
-                                Grid.Row="1"
-                                Grid.Column="3"
-                                HeightRequest="25"
-                                Source="filter.png"
-                                WidthRequest="25">
-                                <Image.Behaviors>
-                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
-                                </Image.Behaviors>
-                            </Image>
-                            <Line
-                                x:Name="myLine"
-                                Grid.Row="2"
-                                Grid.Column="0"
-                                Grid.ColumnSpan="4"
-                                BackgroundColor="{StaticResource Gray600}"
-                                HorizontalOptions="Fill" />
+                        HorizontalOptions="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="35" />
+                            <ColumnDefinition Width="265" />
+                            <ColumnDefinition Width="35" />
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            FontSize="15"
+                            HorizontalOptions="Start"
+                            Text="Только избранное"
+                            TextColor="{AppThemeBinding Light={StaticResource Gray600},
+                                                        Dark={StaticResource Gray300}}"
+                            VerticalTextAlignment="Center" />
+                        <CheckBox
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            CheckedChanged="CheckBox_CheckedChanged"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center" />
+                    </Grid>
 
-                            <Label
-                                Grid.Row="3"
-                                Grid.Column="0"
-                                Grid.ColumnSpan="4"
-                                FontAttributes="Italic"
-                                FontSize="12"
-                                HorizontalOptions="Start"
-                                TextColor="{AppThemeBinding Light={StaticResource Gray600},
-                                                            Dark={StaticResource Gray300}}"
-                                VerticalTextAlignment="Center">
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span FontAttributes="Italic" Text="{Binding SeriesCount, StringFormat='Всего: {0}'}" />
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
-                        </Grid>
-
-                    </Border>
-                </toolkit:Expander.Header>
-
-                <Grid
-                    Margin="10,10,10,-10"
-                    Padding="5"
-                    HorizontalOptions="Center">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="35" />
-                        <ColumnDefinition Width="265" />
-                        <ColumnDefinition Width="35" />
-                    </Grid.ColumnDefinitions>
-                    <Label
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        FontSize="15"
-                        HorizontalOptions="Start"
-                        Text="Только избранное"
-                        TextColor="{AppThemeBinding Light={StaticResource Gray600},
-                                                    Dark={StaticResource Gray300}}"
-                        VerticalTextAlignment="Center" />
-                    <CheckBox
-                        Grid.Row="0"
-                        Grid.Column="2"
-                        CheckedChanged="CheckBox_CheckedChanged"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center" />
-                </Grid>
-
-            </toolkit:Expander>
-
+                </toolkit:Expander>
+            </StackLayout>
 
             <CollectionView
                 x:Name="seriesCollection"

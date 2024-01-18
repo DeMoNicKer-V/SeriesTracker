@@ -33,6 +33,9 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     [ObservableProperty]
     public int seriesCount;
 
+    [ObservableProperty]
+    public int viewedSeriesCount;
+
     private ObservableCollection<Series> seriesList = new ObservableCollection<Series>();
     private ObservableCollection<Series> filterList = new ObservableCollection<Series>();
 
@@ -112,16 +115,17 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     {
         await Navigation.PushAsync(new DetailSeriesPage(series));
     }
-
+    private int skip = 0;
     [RelayCommand]
     private async Task LoadSeries()
     {
-        IsBusy = true;
+            IsBusy = true;
         try
         {
             FilterList.Clear();
             SeriesList.Clear();
-            var newSeriesList = await App.SeriesService.GetSeriesAsync(false);
+            SeriesCount = await App.SeriesService.GetAllSeriesCount(false);
+            var newSeriesList = await App.SeriesService.Test(false, skip);
             newSeriesList = newSeriesList.OrderByDescending(f => f.isFavourite);
             if (newSeriesList != null && newSeriesList.Count() > 0)
             {
@@ -130,7 +134,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
                     SeriesList.Add(item);
                 }
             }
-            SeriesCount = SeriesList.Count();
+            ViewedSeriesCount = SeriesList.Count() + skip;
             FilterList = SeriesList;
         }
         catch (Exception)
@@ -138,26 +142,38 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         }
         finally
         {
+
             IsBusy = false;
         }
+    }
+
+    [RelayCommand]
+    private async void OnIncSeriesList()
+    {
+        if ((SeriesList.Count() + skip)  < SeriesCount)
+        {
+            skip += 5;
+            IsBusy = true;
+        }
+
+    }
+
+    [RelayCommand]
+    private async void OnDecSeriesList()
+    {
+        if (skip >= 5)
+        {
+            skip -= 5;
+            IsBusy = true;
+        }
+        if (skip < 0) { IsBusy = true; skip = 0; }
+      
     }
 
     [RelayCommand]
     private async void OnAddSeries()
     {
         await Shell.Current.GoToAsync(nameof(NewSeriesPage));
-    }
-
-    [RelayCommand]
-    private async void OnDecEpisode(Series series)
-    {
-        if (series == null | series.currentEpisode == series.startEpisode)
-        {
-            return;
-        }
-        series.currentEpisode -= 1;
-        await App.SeriesService.AddUpdateSeriesAsync(series);
-        OnAppearing();
     }
 
     [RelayCommand]
@@ -168,31 +184,6 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
             return;
         }
         series.isFavourite = !series.isFavourite;
-        OnAppearing();
-    }
-
-    [RelayCommand]
-    private async void OnIncEpisode(Series series)
-    {
-        if (series == null)
-        {
-            return;
-        }
-        else if (series.currentEpisode == series.lastEpisode)
-        {
-            bool action = await Shell.Current.DisplayAlert($"{series.seriesName} - конец?",
-                "Похоже, что вы посмотрели все эпизоды. Пометить данный сериал как просмотренный?", "Да", "Нет");
-            if (action) 
-            { 
-                series.isOver = true; 
-                await App.SeriesService.AddUpdateSeriesAsync(series); 
-                OnAppearing(); 
-                return; 
-            }
-            return;
-        }
-        series.currentEpisode += 1;
-        await App.SeriesService.AddUpdateSeriesAsync(series);
         OnAppearing();
     }
 }
