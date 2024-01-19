@@ -37,6 +37,7 @@ namespace SeriesTracker.ViewModels
                 await NewSeriesPageViewModel.ShowToast(errorMessage);
                 return;
             }
+            newSeries.hiddenSeriesName = newSeries.seriesName.ToLower();
             newSeries.addedDate = DateTime.Now.ToString();
             await App.SeriesService.AddUpdateSeriesAsync(newSeries);
 

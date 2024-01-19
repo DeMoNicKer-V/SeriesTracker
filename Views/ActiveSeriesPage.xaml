@@ -53,6 +53,8 @@
                             Grid.Row="1"
                             Grid.Column="1"
                             Completed="searchBar_Completed"
+                            ReturnCommand="{Binding FilterSeriesCommand}"
+                            ReturnCommandParameter="{Binding Source={x:Reference searchBar}, Path=Text}"
                             Focused="searchBar_Focused"
                             FontSize="16"
                             Placeholder="Найти сериал"

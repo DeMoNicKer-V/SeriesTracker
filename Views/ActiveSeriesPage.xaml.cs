@@ -4,6 +4,7 @@ using CommunityToolkit.Maui.Views;
 using Microsoft.Maui.Controls;
 using SeriesTracker.Controls.PopUp;
 using SeriesTracker.ViewModels;
+using static SeriesTracker.Services.Constant.Parameters;
 
 namespace SeriesTracker.Views;
 
@@ -37,15 +38,16 @@ public partial class ActiveSeriesPage : ContentPage
     {
         searchBar.Text = string.Empty;
         searchBar.Unfocus();
+        if (activeSeriesPageViewModel.loadParameter == LOAD_PARAMETER.FILTER)
+        {
+            activeSeriesPageViewModel.loadParameter = LOAD_PARAMETER.DEFAULT;
+            OnAppearing();
+        }
     }
 
     private void searchBar_Completed(object sender, EventArgs e)
     {
         if (string.IsNullOrWhiteSpace(searchBar.Text)) { searchBar.Unfocus(); return; }
-        var normalizedQuery = searchBar.Text?.ToLower() ?? "";
-        activeSeriesPageViewModel.FilterList = activeSeriesPageViewModel.SeriesList.Where(item => item.seriesName.ToLowerInvariant().Contains(normalizedQuery)).ToObservableCollection();
-        seriesCollection.ItemsSource = activeSeriesPageViewModel.FilterList;
-        activeSeriesPageViewModel.SeriesCount = activeSeriesPageViewModel.FilterList.Count;
     }
 
     private async void searchBar_Unfocused(object sender, FocusEventArgs e)
@@ -63,17 +65,8 @@ public partial class ActiveSeriesPage : ContentPage
 
     private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
-        if (e.Value)
-        {
-        activeSeriesPageViewModel.FilterList = activeSeriesPageViewModel.SeriesList.Where(item => item.isFavourite.Equals(true)).ToObservableCollection();
-            activeSeriesPageViewModel.SeriesCount = activeSeriesPageViewModel.FilterList.Count;
-        seriesCollection.ItemsSource = activeSeriesPageViewModel.FilterList;
-        }
-        else
-        {
-            activeSeriesPageViewModel.SeriesCount = activeSeriesPageViewModel.SeriesList.Count;
-            seriesCollection.ItemsSource = activeSeriesPageViewModel.SeriesList;
-        }
+        activeSeriesPageViewModel.favoriteflag = !activeSeriesPageViewModel.favoriteflag;
+        OnAppearing();
     }
     private void filterExpander_ExpandedChanged(object sender, CommunityToolkit.Maui.Core.ExpandedChangedEventArgs e)
     {

@@ -17,6 +17,11 @@ public partial class Series
         get; set;
     }
 
+    public string hiddenSeriesName
+    {
+        get; set;
+    }
+
     public int seriesSeason
     {
         get; set;

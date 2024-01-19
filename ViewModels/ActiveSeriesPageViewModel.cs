@@ -1,22 +1,37 @@
-﻿using CommunityToolkit.Maui.Core.Extensions;
-using CommunityToolkit.Maui.Views;
+﻿using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SeriesTracker.Controls.PopUp;
 using SeriesTracker.Models;
 using SeriesTracker.Views;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
+using static SeriesTracker.Services.Constant.Parameters;
 
 namespace SeriesTracker.ViewModels;
 
 public partial class ActiveSeriesPageViewModel : BaseSeriesModel
 {
+    public string quaryText;
+    [ObservableProperty]
+    public int seriesCount;
+
+    [ObservableProperty]
+    public int viewedSeriesCount;
+
+    internal LOAD_PARAMETER loadParameter;
+    internal bool favoriteflag = false;
     private readonly ContentPage _page;
     private ActivePagePopUp activeSeriesPagePopUp;
     private Series currentSeries;
+
+    private ObservableCollection<Series> seriesList = new ObservableCollection<Series>();
+    private int skip = 0;
+    public ActiveSeriesPageViewModel(INavigation navigation, ContentPage contentPageBehavior)
+    {
+        Navigation = navigation;
+        _page = contentPageBehavior;
+    }
+
 
     public Command DeleteCommand { get; }
 
@@ -24,33 +39,6 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
 
     public Command EditCommand { get; }
 
-    public ActiveSeriesPageViewModel(INavigation navigation, ContentPage contentPageBehavior)
-    {
-        Navigation = navigation;
-        _page = contentPageBehavior;
- 
-    }
-    [ObservableProperty]
-    public int seriesCount;
-
-    [ObservableProperty]
-    public int viewedSeriesCount;
-
-    private ObservableCollection<Series> seriesList = new ObservableCollection<Series>();
-    private ObservableCollection<Series> filterList = new ObservableCollection<Series>();
-
-    public ObservableCollection<Series> FilterList
-    {
-        get
-        {
-            return filterList;
-        }
-        set
-        {
-            filterList = value;
-            OnPropertyChanged();
-        }
-    }
     public ObservableCollection<Series> SeriesList
     {
         get
@@ -62,34 +50,6 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
             seriesList = value;
             OnPropertyChanged();
         }
-    }
-
-    private async void OnDeleteCommand()
-    {
-
-        if (currentSeries is null)
-            return;
-        await App.SeriesService.DeleteSeriesAsync(currentSeries.seriesId);
-        OnAppearing();
-    }
-
-    private async void OnDetachCommand()
-    {
-
-        if (currentSeries is null)
-            return;
-
-        currentSeries.isOver = true;
-        currentSeries.currentEpisode = currentSeries.lastEpisode;
-        currentSeries.overDate = DateTime.Now.ToString();
-        
-        await App.SeriesService.AddUpdateSeriesAsync(currentSeries);
-        OnAppearing();
-    }
-
-    private async void OnEditCommand()
-    {
-        await Navigation.PushAsync(new NewSeriesPage(currentSeries));
     }
     public void OnAppearing()
     {
@@ -115,47 +75,84 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     {
         await Navigation.PushAsync(new DetailSeriesPage(series));
     }
-    private int skip = 0;
+
+    [RelayCommand]
+    private async Task FilterSeries(string query)
+    {
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(query))
+            {
+                loadParameter = LOAD_PARAMETER.FILTER;
+                quaryText = new string(query.ToLower());
+                skip = 0;
+                IsBusy = true;
+            }
+            else if (loadParameter == LOAD_PARAMETER.FILTER)
+            {
+                loadParameter = LOAD_PARAMETER.DEFAULT;
+                skip = 0;
+                IsBusy = true;
+            }
+        }
+        catch (Exception) { }
+        finally { }
+    }
+
     [RelayCommand]
     private async Task LoadSeries()
     {
-            IsBusy = true;
+        IsBusy = true;
         try
         {
-            FilterList.Clear();
             SeriesList.Clear();
-            SeriesCount = await App.SeriesService.GetAllSeriesCount(false);
-            var newSeriesList = await App.SeriesService.Test(false, skip);
-            newSeriesList = newSeriesList.OrderByDescending(f => f.isFavourite);
-            if (newSeriesList != null && newSeriesList.Count() > 0)
+            IEnumerable<Series> newSeriesList = new List<Series>();
+            switch (loadParameter)
             {
-                foreach (var item in newSeriesList)
-                {
-                    SeriesList.Add(item);
-                }
+                case LOAD_PARAMETER.DEFAULT:
+                    newSeriesList = await App.SeriesService.GetSeriesAsync(false, skip, favoriteflag);
+                    newSeriesList = newSeriesList.OrderByDescending(f => f.isFavourite);
+                    if (newSeriesList != null && newSeriesList.Count() > 0)
+                    {
+                        foreach (var item in newSeriesList)
+                        {
+                            SeriesList.Add(item);
+                        }
+                    }
+                    SeriesCount = App.SeriesService.relativeItemsCount;
+                    ViewedSeriesCount = SeriesList.Count() + skip;
+                    break;
+
+                case LOAD_PARAMETER.FILTER:
+                    newSeriesList = await App.SeriesService.GetSeriesAsync(false, skip, quaryText, favoriteflag);
+                    newSeriesList = newSeriesList.OrderByDescending(f => f.isFavourite);
+                    if (newSeriesList != null && newSeriesList.Count() > 0)
+                    {
+                        foreach (var item in newSeriesList)
+                        {
+                            SeriesList.Add(item);
+                        }
+                    }
+                    SeriesCount = App.SeriesService.relativeItemsCount;
+                    ViewedSeriesCount = SeriesList.Count() + skip;
+                    break;
+                default:
+                    break;
             }
-            ViewedSeriesCount = SeriesList.Count() + skip;
-            FilterList = SeriesList;
         }
         catch (Exception)
         {
         }
         finally
         {
-
             IsBusy = false;
         }
     }
 
     [RelayCommand]
-    private async void OnIncSeriesList()
+    private async void OnAddSeries()
     {
-        if ((SeriesList.Count() + skip)  < SeriesCount)
-        {
-            skip += 5;
-            IsBusy = true;
-        }
-
+        await Shell.Current.GoToAsync(nameof(NewSeriesPage));
     }
 
     [RelayCommand]
@@ -167,15 +164,42 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
             IsBusy = true;
         }
         if (skip < 0) { IsBusy = true; skip = 0; }
-      
     }
 
-    [RelayCommand]
-    private async void OnAddSeries()
+    private async void OnDeleteCommand()
     {
-        await Shell.Current.GoToAsync(nameof(NewSeriesPage));
+        if (currentSeries is null)
+            return;
+        await App.SeriesService.DeleteSeriesAsync(currentSeries.seriesId);
+        OnAppearing();
     }
 
+    private async void OnDetachCommand()
+    {
+        if (currentSeries is null)
+            return;
+
+        currentSeries.isOver = true;
+        currentSeries.currentEpisode = currentSeries.lastEpisode;
+        currentSeries.overDate = DateTime.Now.ToString();
+
+        await App.SeriesService.AddUpdateSeriesAsync(currentSeries);
+        OnAppearing();
+    }
+
+    private async void OnEditCommand()
+    {
+        await Navigation.PushAsync(new NewSeriesPage(currentSeries));
+    }
+    [RelayCommand]
+    private async void OnIncSeriesList()
+    {
+        if ((SeriesList.Count() + skip) < SeriesCount)
+        {
+            skip += 5;
+            IsBusy = true;
+        }
+    }
     [RelayCommand]
     private async void SetFavourite(Series series)
     {

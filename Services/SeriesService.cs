@@ -10,6 +10,7 @@ namespace SeriesTracker.Services;
 public class SeriesService : ISeriesRepository
 {
     public SQLiteAsyncConnection _database;
+    public int relativeItemsCount;
     public SeriesService(string dbPath)
     {
         _database = new SQLiteAsyncConnection(dbPath);
@@ -40,17 +41,45 @@ public class SeriesService : ISeriesRepository
         return await _database.Table<Series>().Where(n => n.seriesId == seriesId).FirstOrDefaultAsync();
     }
 
-    public async Task<IEnumerable<Series>> GetSeriesAsync(bool overFlag)
+    public async Task<IEnumerable<Series>> GetSeriesAsync(bool overFlag, int skip, bool favorite)
     {
-        return await Task.FromResult(await _database.Table<Series>().Where(s => s.isOver == overFlag).ToListAsync());
+        relativeItemsCount = await _database.Table<Series>().Where(s => s.isOver == overFlag).CountAsync();
+        switch (favorite)
+        {
+            case true:
+                return await Task.FromResult(await _database.Table<Series>().Where(s => s.isOver == overFlag & s.isFavourite == true).Skip(skip).Take(5).ToListAsync());
+            case false:
+                return await Task.FromResult(await _database.Table<Series>().Where(s => s.isOver == overFlag).Skip(skip).Take(5).ToListAsync());
+
+        }
+    }
+
+    public async Task<IEnumerable<Series>> GetSeriesAsync(bool overFlag, int skip, string query, bool favorite)
+    {
+        relativeItemsCount = await _database.Table<Series>().Where(s => s.hiddenSeriesName.Contains(query)).CountAsync();
+        switch (favorite)
+        {
+            case true:
+                return await Task.FromResult(await _database.Table<Series>().Where(s => s.hiddenSeriesName.Contains(query) & s.isFavourite == true).Skip(skip).Take(5).ToListAsync());
+            case false:
+                return await Task.FromResult(await _database.Table<Series>().Where(s => s.hiddenSeriesName.Contains(query) & s.isOver == overFlag).Skip(skip).Take(5).ToListAsync());
+
+        }
+
+
+    }
+    public async Task<IEnumerable<Series>> GetSeriesAsync() 
+    { 
+         return await Task.FromResult(await _database.Table<Series>().ToListAsync());
     }
 
     public async Task<IEnumerable<Series>> Test(bool overFlag, int skip)
     {
+        relativeItemsCount = await _database.Table<Series>().Where(s => s.isOver == overFlag).CountAsync();
         return await Task.FromResult(await _database.Table<Series>().Where(s => s.isOver == overFlag).Skip(skip).Take(5).ToListAsync());
     }
 
-        public async Task<IEnumerable<Series>> GetAllSeriesAsync()
+    public async Task<IEnumerable<Series>> GetAllSeriesAsync()
     {
         return await Task.FromResult(await _database.Table<Series>().ToListAsync());
     }

@@ -87,7 +87,7 @@ namespace SeriesTracker.ViewModels
 
             return;
         }
-
+        int skip = 0;
         [RelayCommand]
         private async Task LoadSeries()
         {
@@ -96,7 +96,7 @@ namespace SeriesTracker.ViewModels
             {
                 FilterList.Clear();
                 SeriesList.Clear();
-                var newSeriesList = await App.SeriesService.GetSeriesAsync(true);
+                var newSeriesList = await App.SeriesService.GetSeriesAsync(true, skip, false);
                 newSeriesList = newSeriesList.OrderByDescending(f => f.isFavourite);
                 if (newSeriesList != null && newSeriesList.Count() > 0)
                 {
