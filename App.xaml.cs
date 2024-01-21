@@ -24,11 +24,6 @@ public partial class App : Application
     public App()
 	{
 		InitializeComponent();
-        Routing.RegisterRoute(nameof(ActiveSeriesPage), typeof(ActiveSeriesPage));
-        Routing.RegisterRoute(nameof(NewSeriesPage), typeof(NewSeriesPage));
-        Routing.RegisterRoute("SecondPage", typeof(ViewedSeriesPage));
-        Routing.RegisterRoute(nameof(DetailSeriesPage), typeof(DetailSeriesPage));
-        Routing.RegisterRoute(nameof(SettingsPage), typeof(SettingsPage));
         MainPage = new AppShell();
             
         SetTheme();

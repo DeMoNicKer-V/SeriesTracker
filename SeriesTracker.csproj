@@ -68,15 +68,9 @@
 	  <None Remove="Resources\Images\episode.png" />
 	  <None Remove="Resources\Images\exclamation.png" />
 	  <None Remove="Resources\Images\exportjson.png" />
-	  <None Remove="Resources\Images\eye.png" />
-	  <None Remove="Resources\Images\favorite.png" />
 	  <None Remove="Resources\Images\filter.png" />
-	  <None Remove="Resources\Images\fon.jpg" />
-	  <None Remove="Resources\Images\icnsearch.png" />
-	  <None Remove="Resources\Images\like.png" />
+	  <None Remove="Resources\Images\imagemiss.png" />
 	  <None Remove="Resources\Images\myanimelist.png" />
-	  <None Remove="Resources\Images\plus.png" />
-	  <None Remove="Resources\Images\poster.jpg" />
 	  <None Remove="Resources\Images\ratestar.png" />
 	  <None Remove="Resources\Images\search.png" />
 	  <None Remove="Resources\Images\settings.png" />
@@ -132,9 +126,6 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SettingsPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\ViewedSeriesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

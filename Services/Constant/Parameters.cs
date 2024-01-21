@@ -8,6 +8,7 @@ namespace SeriesTracker.Services.Constant
 {
     internal class Parameters
     {
+        public static bool WachedFlag = false; 
         public enum LOAD_PARAMETER
         {
             DEFAULT,

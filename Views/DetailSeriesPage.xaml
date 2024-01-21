@@ -38,7 +38,7 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
                     Aspect="Fill"
-                    Opacity="0.7"
+                    Opacity="0.8"
                     Source="{Binding Series.imagePath}">
                     <Image.Behaviors>
                         <BlurBehavior:BlurBehavior Radius="65" />

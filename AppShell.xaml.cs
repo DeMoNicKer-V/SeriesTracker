@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using SeriesTracker.Services.Constant;
+using SeriesTracker.ViewModels;
 using SeriesTracker.Views;
 using System.Windows.Input;
 
@@ -8,6 +10,7 @@ namespace SeriesTracker;
 
 public partial class AppShell : Shell
 {
+    ActiveSeriesPageViewModel activeSeriesPageViewModel;
     public AppShell()
     {
         InitializeComponent();
@@ -32,6 +35,17 @@ public partial class AppShell : Shell
         if (args.Source == ShellNavigationSource.Push)
         {
             WeakReferenceMessenger.Default.Send(new TabbarChangedMessage(false));
+        }
+        if (args.Target != null)
+        {
+            if (args.Target.Location.OriginalString.Contains("MainPage"))
+            {
+                Parameters.WachedFlag = false;
+            }
+            else if (args.Target.Location.OriginalString.Contains("SecondPage"))
+            {
+                Parameters.WachedFlag = true;
+            }    
         }
     }
 }

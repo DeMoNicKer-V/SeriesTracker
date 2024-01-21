@@ -41,7 +41,7 @@ namespace SeriesTracker.ViewModels
             newSeries.addedDate = DateTime.Now.ToString();
             await App.SeriesService.AddUpdateSeriesAsync(newSeries);
 
-            await Shell.Current.GoToAsync("..");
+            await Shell.Current.GoToAsync("..//..");
         }
         private async void OnBackCommand()
         {

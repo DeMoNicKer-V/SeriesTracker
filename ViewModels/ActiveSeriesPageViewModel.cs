@@ -110,7 +110,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
             switch (loadParameter)
             {
                 case LOAD_PARAMETER.DEFAULT:
-                    newSeriesList = await App.SeriesService.GetSeriesAsync(false, skip, favoriteflag);
+                    newSeriesList = await App.SeriesService.GetSeriesAsync(WachedFlag, skip, favoriteflag);
                     newSeriesList = newSeriesList.OrderByDescending(f => f.isFavourite);
                     if (newSeriesList != null && newSeriesList.Count() > 0)
                     {
@@ -124,7 +124,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
                     break;
 
                 case LOAD_PARAMETER.FILTER:
-                    newSeriesList = await App.SeriesService.GetSeriesAsync(false, skip, quaryText, favoriteflag);
+                    newSeriesList = await App.SeriesService.GetSeriesAsync(WachedFlag, skip, quaryText, favoriteflag);
                     newSeriesList = newSeriesList.OrderByDescending(f => f.isFavourite);
                     if (newSeriesList != null && newSeriesList.Count() > 0)
                     {

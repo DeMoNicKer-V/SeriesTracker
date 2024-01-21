@@ -20,9 +20,9 @@
             <ShellContent ContentTemplate="{DataTemplate view:ActiveSeriesPage}" Route="MainPage" />
         </Tab>
         <Tab Title="Просмотрено" Icon="watched.png">
-            <ShellContent ContentTemplate="{DataTemplate view:ViewedSeriesPage}" Route="SecondPage" />
+            <ShellContent ContentTemplate="{DataTemplate view:ActiveSeriesPage}" Route="SecondPage" />
         </Tab>
-        <Tab Title="Информация" Icon="settings.png">
+        <Tab Title="Настройки" Icon="settings.png">
             <ShellContent ContentTemplate="{DataTemplate view:SettingsPage}" Route="SettingsPage" />
         </Tab>
         <Tab Title="Информация" Icon="aboutbold.png">

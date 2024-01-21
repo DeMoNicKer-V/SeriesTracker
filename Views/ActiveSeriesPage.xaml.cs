@@ -22,6 +22,7 @@ public partial class ActiveSeriesPage : ContentPage
         searchBar.Text = string.Empty;
         base.OnAppearing();
         activeSeriesPageViewModel.OnAppearing();
+     
     }
 
     private void searchBar_TextChanged(object sender, TextChangedEventArgs e)
