@@ -1,5 +1,5 @@
 using CommunityToolkit.Maui.Views;
-using static Android.Icu.Text.CaseMap;
+using SeriesTracker.Services.Constant;
 
 namespace SeriesTracker.Controls.PopUp;
 
@@ -7,6 +7,8 @@ public partial class ActivePagePopUp : Popup
 {
     public static readonly BindableProperty TitleProperty =
               BindableProperty.Create(nameof(Title), typeof(string), typeof(ActivePagePopUp), string.Empty);
+    public static readonly BindableProperty DetachTextProperty =
+          BindableProperty.Create(nameof(DetachText), typeof(string), typeof(ActivePagePopUp), string.Empty);
 
     public static readonly BindableProperty myContePageProperty =
             BindableProperty.Create(nameof(ContentPageBehavior), typeof(ContentPage), typeof(ActivePagePopUp));
@@ -26,7 +28,10 @@ public partial class ActivePagePopUp : Popup
     public ActivePagePopUp()
 	{
 		InitializeComponent();
-	}
+        if (Parameters.WachedFlag == false)       
+        DetachText = "Пометить как просмотренное";
+        else DetachText = "Пометить как непросмотренное";
+    }
 
     public ContentPage ContentPageBehavior
     {
@@ -39,6 +44,13 @@ public partial class ActivePagePopUp : Popup
         get => (string)GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
     
+    }
+
+    public string DetachText
+    {
+        get => (string)GetValue(DetachTextProperty);
+        set => SetValue(DetachTextProperty, value);
+
     }
 
     public Command CloseCommand

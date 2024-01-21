@@ -57,7 +57,7 @@
                     FontSize="15"
                     HorizontalOptions="FillAndExpand"
                     HorizontalTextAlignment="Start"
-                    Text="Пометить как просмотренное"
+                    Text="{Binding Source={x:Reference this}, Path=DetachText}"
                     TextColor="{AppThemeBinding Light={StaticResource Black},
                                                 Dark={StaticResource Gray200}}"
                     VerticalTextAlignment="Center">

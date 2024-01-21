@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SeriesTracker.Controls.PopUp;
 using SeriesTracker.Models;
+using SeriesTracker.Services.Constant;
 using SeriesTracker.Views;
 using System.Collections.ObjectModel;
 using static SeriesTracker.Services.Constant.Parameters;
@@ -178,10 +179,20 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     {
         if (currentSeries is null)
             return;
+        if (Parameters.WachedFlag == false)
+        {
 
-        currentSeries.isOver = true;
-        currentSeries.currentEpisode = currentSeries.lastEpisode;
-        currentSeries.overDate = DateTime.Now.ToString();
+
+            currentSeries.isOver = true;
+            currentSeries.currentEpisode = currentSeries.lastEpisode;
+            currentSeries.overDate = DateTime.Now.ToString();
+        }
+        else 
+        {
+            currentSeries.isOver = false;
+            currentSeries.currentEpisode = currentSeries.startEpisode;
+            currentSeries.overDate = string.Empty;
+        }
 
         await App.SeriesService.AddUpdateSeriesAsync(currentSeries);
         OnAppearing();
