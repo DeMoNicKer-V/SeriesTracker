@@ -36,6 +36,7 @@ public partial class DetailSeriesPage : ContentPage
             BottomSheet.Title = series.seriesName;
             BottomSheet.DetachText = stateString(series.isOver);
             detailSeriesPageView.Series = series;
+         
             if (!series.isFavourite) { favoriteImage.Behaviors.Add(new IconTintColorBehavior { TintColor = Color.FromArgb("#ACACAC") }); }
             if (series.seriesRating < 0.5) { myLabel2.IsVisible = false; ratingImage.Behaviors.Add(new IconTintColorBehavior { TintColor = Color.FromArgb("#ACACAC") }); }
         }

@@ -114,7 +114,7 @@
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="10" />
                     </Border.StrokeShape>
-                    <Image Aspect="Fill" Source="{Binding Series.imagePath}" />
+                    <Image Aspect="Fill" Source="{Binding Series.imagePath, TargetNullValue='imagemiss.png'}" />
                 </Border>
 
 
