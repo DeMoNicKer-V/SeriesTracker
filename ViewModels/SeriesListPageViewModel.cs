@@ -1,23 +1,21 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using Newtonsoft.Json;
+using GraphQL;
 using SeriesTracker.Classes.Shikimori;
 using SeriesTracker.Services.ShikimoriBase;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeriesTracker.ViewModels
 {
     public partial class SeriesListPageViewModel : BaseSeriesModel
     {
+        public string quaryText;
+        private static int currentPage;
+        private ObservableCollection<Anime> seriesList = new ObservableCollection<Anime>();
         private ShikimoriBase ShikimoriBase;
         public SeriesListPageViewModel(INavigation navigation)
-        { 
-            Navigation = navigation; 
-            ShikimoriBase = new ShikimoriBase(); 
+        {
+            Navigation = navigation;
+            ShikimoriBase = new ShikimoriBase();
         }
 
         public ObservableCollection<Anime> SeriesList
@@ -32,15 +30,26 @@ namespace SeriesTracker.ViewModels
                 OnPropertyChanged();
             }
         }
-        private ObservableCollection<Anime> seriesList = new ObservableCollection<Anime>();
+
+        public async void OnAppearing()
+        {
+            SeriesList.Clear();
+            currentPage = 1;
+        }
+
         [RelayCommand]
         private async Task LoadSeries()
         {
             IsBusy = true;
             try
             {
-                var graphQLResponse = await ShikimoriBase.GetAnimesByName(1, "bakemono");
-               var shikimoriAnimes = graphQLResponse.Data.Animes;
+                var graphQLResponse = new GraphQLResponse<AnimeList>();
+                if (string.IsNullOrEmpty(quaryText))
+                {
+                    graphQLResponse = await ShikimoriBase.GetAnimes(currentPage);
+                }
+                else { graphQLResponse = await ShikimoriBase.GetAnimesByName(currentPage, quaryText); }
+                var shikimoriAnimes = graphQLResponse.Data.Animes;
                 if (shikimoriAnimes != null && shikimoriAnimes.Count() > 0)
                 {
                     foreach (var item in shikimoriAnimes)
@@ -54,16 +63,15 @@ namespace SeriesTracker.ViewModels
             }
             finally
             {
+                currentPage = currentPage + 1;
                 IsBusy = false;
             }
         }
-
-        public void OnAppearing()
+        [RelayCommand]
+        private void LoadSeriesByname(string query)
         {
-            SeriesList.Clear();
-            IsBusy = true;
+            quaryText = new string(query.ToLower());
+            OnAppearing();
         }
     }
-
-
 }

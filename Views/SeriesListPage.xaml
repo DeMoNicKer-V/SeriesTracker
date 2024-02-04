@@ -16,239 +16,254 @@
         <BackButtonBehavior IsEnabled="False" IsVisible="False" />
     </Shell.BackButtonBehavior>
 
-    <RefreshView
-        Margin="0,0,0,40"
-        Command="{Binding LoadSeriesCommand}"
-        IsRefreshing="{Binding IsBusy}">
-        <toolkit:DockLayout>
-            <StackLayout
-                Margin="10"
-                Padding="5"
-                toolkit:DockLayout.DockPosition="Top">
-                <Border BackgroundColor="Transparent" Stroke="transparent">
-                    <Grid HorizontalOptions="Center">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="25" />
-                            <RowDefinition Height="45" />
-                            <RowDefinition Height="1" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="35" />
-                            <ColumnDefinition Width="230" />
-                            <ColumnDefinition Width="35" />
-                            <ColumnDefinition Width="35" />
-                        </Grid.ColumnDefinitions>
-                        <Image
-                            x:Name="searchImage"
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Margin="0,0,10,0"
-                            HeightRequest="25"
-                            Source="search.png"
-                            WidthRequest="25">
-                            <Image.Behaviors>
-                                <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
-                            </Image.Behaviors>
-                        </Image>
-                        <Entry
-                            x:Name="searchBar"
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Grid.ColumnSpan="2"
-                            Completed="searchBar_Completed"
-                            Focused="searchBar_Focused"
-                            FontSize="16"
-                            Placeholder="Найти сериал"
-                            PlaceholderColor="{AppThemeBinding Light={StaticResource Gray600},
-                                                               Dark={StaticResource Gray300}}"
-                            ReturnCommand="{Binding FilterSeriesCommand}"
-                            ReturnCommandParameter="{Binding Source={x:Reference searchBar}, Path=Text}"
-                            TextChanged="searchBar_TextChanged"
-                            Unfocused="searchBar_Unfocused"
-                            VerticalTextAlignment="Center" />
-                        <ImageButton
-                            x:Name="searchbarClearBtn"
-                            Grid.Row="1"
-                            Grid.Column="3"
-                            Clicked="searchbarClearBtn_Clicked"
-                            HeightRequest="25"
-                            IsVisible="false"
-                            Source="cross.png"
-                            WidthRequest="25">
-                            <ImageButton.Behaviors>
-                                <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
-                            </ImageButton.Behaviors>
-                        </ImageButton>
+    <toolkit:DockLayout Margin="0,0,0,40">
+        <ActivityIndicator
+            Margin="0,0,0,-50"
+            HorizontalOptions="Center"
+            IsRunning="{Binding IsBusy}" />
+        <StackLayout
+            Margin="10"
+            Padding="5"
+            toolkit:DockLayout.DockPosition="Top">
+            <Border BackgroundColor="Transparent" Stroke="transparent">
+                <Grid HorizontalOptions="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="45" />
+                        <RowDefinition Height="1" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="35" />
+                        <ColumnDefinition Width="230" />
+                        <ColumnDefinition Width="35" />
+                        <ColumnDefinition Width="35" />
+                    </Grid.ColumnDefinitions>
 
-                        <Line
-                            x:Name="myLine"
-                            Grid.Row="2"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="4"
-                            BackgroundColor="{StaticResource Gray600}"
-                            HorizontalOptions="Fill" />
-                    </Grid>
-                </Border>
-            </StackLayout>
+                    <Image
+                        x:Name="searchImage"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Margin="0,0,10,0"
+                        HeightRequest="25"
+                        Source="search.png"
+                        WidthRequest="25">
+                        <Image.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                        </Image.Behaviors>
+                    </Image>
+                    <Entry
+                        x:Name="searchBar"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        Completed="searchBar_Completed"
+                        Focused="searchBar_Focused"
+                        FontSize="16"
+                        Placeholder="Найти сериал"
+                        PlaceholderColor="{AppThemeBinding Light={StaticResource Gray600},
+                                                           Dark={StaticResource Gray300}}"
+                        ReturnCommand="{Binding LoadSeriesBynameCommand}"
+                        ReturnCommandParameter="{Binding Source={x:Reference searchBar}, Path=Text}"
+                        TextChanged="searchBar_TextChanged"
+                        Unfocused="searchBar_Unfocused"
+                        VerticalTextAlignment="Center" />
+                    <ImageButton
+                        x:Name="searchbarClearBtn"
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        Clicked="searchbarClearBtn_Clicked"
+                        HeightRequest="25"
+                        IsVisible="false"
+                        Source="cross.png"
+                        WidthRequest="25">
+                        <ImageButton.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                        </ImageButton.Behaviors>
+                    </ImageButton>
 
-            <CollectionView
-                x:Name="seriesCollection"
-                toolkit:DockLayout.DockPosition="None"
-                HorizontalScrollBarVisibility="Never"
-                ItemsSource="{Binding SeriesList}"
-                VerticalScrollBarVisibility="Never">
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical" />
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="classes:Anime">
-                        <Border
-                            Margin="10"
-                            BackgroundColor="{AppThemeBinding Light=#F7F7F7,
-                                                              Dark=#181818}"
-                            HeightRequest="195">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="10" />
-                            </Border.StrokeShape>
+                    <Line
+                        x:Name="myLine"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="4"
+                        BackgroundColor="{StaticResource Gray600}"
+                        HorizontalOptions="Fill" />
+                </Grid>
+            </Border>
+        </StackLayout>
 
-                            <Border.Stroke>
-                                <LinearGradientBrush EndPoint="0,1">
-                                    <GradientStop Offset="0.1" Color="{AppThemeBinding Light=#F3F3F3, Dark=#181818}" />
-                                    <GradientStop Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}">
-                                        <GradientStop.Offset>1.0</GradientStop.Offset>
-                                    </GradientStop>
-                                </LinearGradientBrush>
-                            </Border.Stroke>
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer NumberOfTapsRequired="1" />
-                            </Border.GestureRecognizers>
+        <CollectionView
+            x:Name="seriesCollection"
+            toolkit:DockLayout.DockPosition="None"
+            HorizontalScrollBarVisibility="Never"
+            ItemsSource="{Binding SeriesList}"
+            RemainingItemsThreshold="5"
+            RemainingItemsThresholdReachedCommand="{Binding LoadSeriesCommand}"
+            VerticalScrollBarVisibility="Never">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="classes:Anime">
+                    <Border Margin="10" BackgroundColor="{AppThemeBinding Light=#F7F7F7, Dark=#181818}">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
 
-                            <Grid Margin="5" Padding="5">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="30" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="120" />
-                                    <ColumnDefinition Width="150" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Label
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                    Grid.ColumnSpan="3"
-                                    FontAttributes="Bold"
-                                    FontSize="16"
-                                    MaxLines="2"
-                                    Text="{Binding RussianName}"
-                                    VerticalOptions="Start"
-                                    VerticalTextAlignment="Center" />
+                        <Border.Stroke>
+                            <LinearGradientBrush EndPoint="0,1">
+                                <GradientStop Offset="0.1" Color="{AppThemeBinding Light=#F3F3F3, Dark=#181818}" />
+                                <GradientStop Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}">
+                                    <GradientStop.Offset>1.0</GradientStop.Offset>
+                                </GradientStop>
+                            </LinearGradientBrush>
+                        </Border.Stroke>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer NumberOfTapsRequired="1" />
+                        </Border.GestureRecognizers>
 
+                        <Grid Margin="5" Padding="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="50" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="3"
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                LineBreakMode="TailTruncation"
+                                MaxLines="2"
+                                Text="{Binding RussianName}"
+                                VerticalOptions="Start"
+                                VerticalTextAlignment="Center" />
+
+                            <Border
+                                Grid.Row="0"
+                                Grid.RowSpan="3"
+                                Grid.Column="0"
+                                Margin="0,0,10,0"
+                                BackgroundColor="Transparent"
+                                HorizontalOptions="Fill"
+                                Stroke="Transparent"
+                                VerticalOptions="Fill">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
                                 <Image
-                                    Grid.Row="0"
-                                    Grid.RowSpan="2"
-                                    Grid.Column="0"
                                     Aspect="Fill"
                                     HeightRequest="145"
                                     Source="{Binding PosterUrl}"
                                     WidthRequest="105" />
-                                <StackLayout
-                                    Grid.Row="1"
-                                    Grid.RowSpan="2"
-                                    Grid.Column="1"
-                                    Grid.ColumnSpan="3">
-                                    <Label
-                                        FontAttributes="Italic"
-                                        FontSize="14"
-                                        Text="{Binding Name}"
-                                        TextColor="DimGrey" />
-                                    <Label FontSize="13" Text="{Binding Episodes, StringFormat='Эпизодов: {0}'}" />
-                                    <Label FontSize="13" Text="{Binding ReleaseDate, StringFormat='Дата выхода: {0}'}" />
-                                    <HorizontalStackLayout>
-                                        <Label FontSize="13" Text="{Binding Score, StringFormat='Рейтинг: {0}'}" />
-                                        <Image
-                                            HeightRequest="13"
-                                            Source="ratestar.png"
-                                            WidthRequest="13" />
-                                    </HorizontalStackLayout>
-                                    <HorizontalStackLayout>
-                                        <Border
-                                            Padding="5"
-                                            BackgroundColor="Transparent"
-                                            HeightRequest="35"
-                                            Stroke="Red"
-                                            StrokeThickness="1"
-                                            VerticalOptions="Center"
-                                            WidthRequest="100">
-                                            <HorizontalStackLayout HorizontalOptions="Center">
-                                                <Image
-                                                    Margin="0,0,2,2"
-                                                    HeightRequest="15"
-                                                    Source="ratestar.png"
-                                                    VerticalOptions="Center"
-                                                    WidthRequest="15" />
-                                                <Label
-                                                    FontSize="13"
-                                                    Text="Подробнее"
-                                                    VerticalTextAlignment="Center" />
-                                            </HorizontalStackLayout>
-                                            <Border.StrokeShape>
-                                                <RoundRectangle CornerRadius="5" />
-                                            </Border.StrokeShape>
-                                        </Border>
-                                        <Border
-                                            Padding="5"
-                                            BackgroundColor="Transparent"
-                                            HeightRequest="35"
-                                            Stroke="Red"
-                                            StrokeThickness="1"
-                                            VerticalOptions="Center"
-                                            WidthRequest="100">
-                                            <HorizontalStackLayout HorizontalOptions="Center">
-                                                <Image
-                                                    Margin="0,0,2,2"
-                                                    HeightRequest="15"
-                                                    Source="ratestar.png"
-                                                    VerticalOptions="Center"
-                                                    WidthRequest="15" />
-                                                <Label
-                                                    FontSize="13"
-                                                    Text="Добавить"
-                                                    VerticalTextAlignment="Center" />
-                                            </HorizontalStackLayout>
-                                            <Border.StrokeShape>
-                                                <RoundRectangle CornerRadius="5" />
-                                            </Border.StrokeShape>
-                                        </Border>
-                                    </HorizontalStackLayout>
-                                </StackLayout>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-                <CollectionView.EmptyView>
-                    <ContentView>
-                        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                            <Label
-                                Margin="10,25,10,10"
-                                FontAttributes="Bold"
-                                FontSize="18"
-                                HorizontalOptions="Fill"
-                                HorizontalTextAlignment="Center"
-                                Text="По вашему запросу ничего не найдено :(" />
-                            <Label
-                                FontAttributes="Italic"
-                                FontSize="12"
-                                HorizontalOptions="Fill"
-                                HorizontalTextAlignment="Center"
-                                Text="Попытаете удачу еще раз?" />
-                        </StackLayout>
-                    </ContentView>
-                </CollectionView.EmptyView>
+                            </Border>
+                            <StackLayout
+                                Grid.Row="1"
+                                Grid.RowSpan="2"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="3">
+                                <Label
+                                    FontAttributes="Italic"
+                                    FontSize="14"
+                                    LineBreakMode="TailTruncation"
+                                    MaxLines="2"
+                                    Text="{Binding Name}"
+                                    TextColor="DimGrey" />
+                                <Label FontSize="13" Text="{Binding Episodes, StringFormat='Эпизодов: {0}'}" />
+                                <Label FontSize="13" Text="{Binding ReleaseDate, StringFormat='Дата выхода: {0}'}" />
+                                <HorizontalStackLayout>
+                                    <Label FontSize="13" Text="{Binding Score, StringFormat='Рейтинг: {0}'}" />
+                                    <Image
+                                        HeightRequest="13"
+                                        Source="ratestar.png"
+                                        WidthRequest="13" />
+                                </HorizontalStackLayout>
+                                <HorizontalStackLayout>
+                                    <Border
+                                        Padding="5"
+                                        BackgroundColor="Transparent"
+                                        HeightRequest="35"
+                                        Stroke="{AppThemeBinding Light={StaticResource Primary},
+                                                                 Dark={StaticResource PrimaryDark}}"
+                                        StrokeThickness="0.8"
+                                        VerticalOptions="Center"
+                                        WidthRequest="100">
+                                        <HorizontalStackLayout HorizontalOptions="Center">
+                                            <Image
+                                                Margin="0,0,2,2"
+                                                HeightRequest="15"
+                                                Source="view.png"
+                                                VerticalOptions="Center"
+                                                WidthRequest="15" />
+                                            <Label
+                                                FontAttributes="Italic"
+                                                FontSize="13"
+                                                Text="Подробнее"
+                                                VerticalTextAlignment="Center" />
+                                        </HorizontalStackLayout>
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="5" />
+                                        </Border.StrokeShape>
+                                    </Border>
+                                    <Border
+                                        Padding="5"
+                                        BackgroundColor="Transparent"
+                                        HeightRequest="35"
+                                        Stroke="{AppThemeBinding Light={StaticResource Primary},
+                                                                 Dark={StaticResource PrimaryDark}}"
+                                        StrokeThickness="0.8"
+                                        VerticalOptions="Center"
+                                        WidthRequest="100">
+                                        <HorizontalStackLayout HorizontalOptions="Center">
+                                            <Image
+                                                Margin="0,0,2,2"
+                                                HeightRequest="15"
+                                                Source="add.png"
+                                                VerticalOptions="Center"
+                                                WidthRequest="15" />
+                                            <Label
+                                                FontAttributes="Italic"
+                                                FontSize="13"
+                                                Text="Добавить"
+                                                VerticalTextAlignment="Center" />
+                                        </HorizontalStackLayout>
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="5" />
+                                        </Border.StrokeShape>
+                                    </Border>
+                                </HorizontalStackLayout>
+                            </StackLayout>
 
-            </CollectionView>
-        </toolkit:DockLayout>
-    </RefreshView>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <ContentView>
+                    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                        <Label
+                            Margin="10,25,10,10"
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            HorizontalOptions="Fill"
+                            HorizontalTextAlignment="Center"
+                            Text="По вашему запросу ничего не найдено :(" />
+                        <Label
+                            FontAttributes="Italic"
+                            FontSize="12"
+                            HorizontalOptions="Fill"
+                            HorizontalTextAlignment="Center"
+                            Text="Попытаете удачу еще раз?" />
+                    </StackLayout>
+                </ContentView>
+            </CollectionView.EmptyView>
 
+        </CollectionView>
+    </toolkit:DockLayout>
 </ContentPage>

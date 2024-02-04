@@ -36,8 +36,10 @@ public partial class SeriesListPage : ContentPage
 
     private void searchbarClearBtn_Clicked(object sender, EventArgs e)
     {
+        seriesListPageViewModel.quaryText = string.Empty;
         searchBar.Text = string.Empty;
         searchBar.Unfocus();
+        OnAppearing();
 
     }
 

@@ -218,11 +218,12 @@
                                     <ColumnDefinition Width="20" />
                                 </Grid.ColumnDefinitions>
 
-                                <Border BackgroundColor="Transparent"
+                                <Border
                                     Grid.Row="0"
                                     Grid.RowSpan="5"
                                     Grid.Column="0"
                                     Margin="0,0,10,0"
+                                    BackgroundColor="Transparent"
                                     HorizontalOptions="Fill"
                                     VerticalOptions="Fill">
                                     <Border.StrokeShape>

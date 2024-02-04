@@ -34,6 +34,7 @@ namespace SeriesTracker.Services.ShikimoriBase
                                 animes(page: $page, limit: 5) {
                                     russian
                                     name
+                                    description
                                     episodes
                                     score
                                     airedOn {
@@ -60,6 +61,7 @@ namespace SeriesTracker.Services.ShikimoriBase
                                 animes(search: $name, page: $page, limit: 5) {
                                     russian
                                     name
+                                    description
                                     episodes
                                     score
                                     airedOn {
