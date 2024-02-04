@@ -1,6 +1,9 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Mvvm.Input;
 using GraphQL;
 using SeriesTracker.Classes.Shikimori;
+using SeriesTracker.Models;
 using SeriesTracker.Services.ShikimoriBase;
 using System.Collections.ObjectModel;
 
@@ -12,10 +15,13 @@ namespace SeriesTracker.ViewModels
         private static int currentPage;
         private ObservableCollection<Anime> seriesList = new ObservableCollection<Anime>();
         private ShikimoriBase ShikimoriBase;
+        public Command BackCommand { get; }
         public SeriesListPageViewModel(INavigation navigation)
         {
             Navigation = navigation;
+            BackCommand = new Command(OnBackCommand);
             ShikimoriBase = new ShikimoriBase();
+            Series = new Series();
         }
 
         public ObservableCollection<Anime> SeriesList
@@ -72,6 +78,45 @@ namespace SeriesTracker.ViewModels
         {
             quaryText = new string(query.ToLower());
             OnAppearing();
+        }
+
+        [RelayCommand]
+        public async Task AddSeries(Anime anime)
+        {
+            var newSeries = Series;
+            var _anime = anime;
+            if (newSeries is null)
+                return;
+            newSeries.seriesName = anime.RussianName;
+            newSeries.seriesDescription = anime.Description;
+            newSeries.imagePath = anime.PosterUrl;
+            newSeries.lastEpisode = anime.Episodes;
+            newSeries.releaseDate = DateTime.Parse(anime.ReleaseDate);
+            var (isValid, errorMessage) = newSeries.Validate();
+            if (!isValid)
+            {
+                await SeriesListPageViewModel.ShowToast(errorMessage);
+                return;
+            }
+         
+            newSeries.hiddenSeriesName = newSeries.seriesName.ToLower();
+            newSeries.addedDate = DateTime.Now.ToString();
+            await App.SeriesService.AddUpdateSeriesAsync(newSeries);
+
+            await Shell.Current.GoToAsync("..//..");
+        }
+        private static async Task ShowToast(string text)
+        {
+
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+            var toast = Toast.Make(text, ToastDuration.Short, 14);
+
+            await toast.Show(cancellationTokenSource.Token);
+        }
+        private async void OnBackCommand()
+        {
+            await Shell.Current.GoToAsync("..");
         }
     }
 }

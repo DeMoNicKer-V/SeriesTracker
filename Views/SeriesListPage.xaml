@@ -34,15 +34,26 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="35" />
+                        <ColumnDefinition Width="35" />
                         <ColumnDefinition Width="230" />
                         <ColumnDefinition Width="35" />
-                        <ColumnDefinition Width="35" />
                     </Grid.ColumnDefinitions>
-
+                    <ImageButton
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Margin="0,0,10,0"
+                        Command="{Binding BackCommand}"
+                        HeightRequest="25"
+                        Source="backarrow.png"
+                        WidthRequest="25">
+                        <ImageButton.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="#999999" />
+                        </ImageButton.Behaviors>
+                    </ImageButton>
                     <Image
                         x:Name="searchImage"
                         Grid.Row="1"
-                        Grid.Column="0"
+                        Grid.Column="1"
                         Margin="0,0,10,0"
                         HeightRequest="25"
                         Source="search.png"
@@ -54,8 +65,7 @@
                     <Entry
                         x:Name="searchBar"
                         Grid.Row="1"
-                        Grid.Column="1"
-                        Grid.ColumnSpan="2"
+                        Grid.Column="2"
                         Completed="searchBar_Completed"
                         Focused="searchBar_Focused"
                         FontSize="16"
@@ -84,8 +94,8 @@
                     <Line
                         x:Name="myLine"
                         Grid.Row="2"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="4"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="3"
                         BackgroundColor="{StaticResource Gray600}"
                         HorizontalOptions="Fill" />
                 </Grid>
@@ -232,6 +242,12 @@
                                                 FontSize="13"
                                                 Text="Добавить"
                                                 VerticalTextAlignment="Center" />
+                                            <HorizontalStackLayout.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:SeriesListPageViewModel}}, Path=AddSeriesCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    NumberOfTapsRequired="1" />
+                                            </HorizontalStackLayout.GestureRecognizers>
                                         </HorizontalStackLayout>
                                         <Border.StrokeShape>
                                             <RoundRectangle CornerRadius="5" />

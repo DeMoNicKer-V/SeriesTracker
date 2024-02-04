@@ -197,9 +197,10 @@ public partial class NewSeriesPage : ContentPage
         {
             return;
         }
-        url = "https://shikimori.one/animes/";
-        siteEntry.IsVisible = true;
-        await Browser.Default.OpenAsync("https://shikimori.one/animes", BrowserLaunchMode.SystemPreferred);
+        /* url = "https://shikimori.one/animes/";
+         siteEntry.IsVisible = true;
+         await Browser.Default.OpenAsync("https://shikimori.one/animes", BrowserLaunchMode.SystemPreferred);*/
+        await Navigation.PushAsync(new SeriesListPage());
     }
 
     private void ImageButton_Clicked_2(object sender, EventArgs e)
