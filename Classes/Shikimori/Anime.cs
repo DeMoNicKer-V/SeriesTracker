@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 
 namespace SeriesTracker.Classes.Shikimori
 {
@@ -6,7 +7,8 @@ namespace SeriesTracker.Classes.Shikimori
     {
         [JsonProperty("airedOn")] public AiredDate airedOne;
         [JsonProperty("poster")] public Poster poster;
-        [JsonProperty("description")] public string Description { get; set; }
+        [JsonProperty("description")] private string description { get; set; }
+        [JsonIgnore] public string Description { get { return string.IsNullOrEmpty(description) ? description : Regex.Replace(description, @" ?\[.*?\]", " "); } set { } }
         [JsonProperty("duration")] public int Duration { get; set; }
         [JsonProperty("episodes")] public int Episodes { get; set; }
         [JsonProperty("episodesAired")] private int episodesAired { get; set; }

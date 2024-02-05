@@ -33,6 +33,7 @@ public partial class AnimeDetailPage : ContentPage
         }
         else
         {
+            await baseContainer.ScrollToAsync(gridContainer, ScrollToPosition.Start, false);
             descriptionCaption.Text = "Открыть описание";
             await descriptionImage.RotateXTo(0, 200);
         }
