@@ -1,4 +1,7 @@
-﻿using SeriesTracker.Classes.Shikimori;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Mvvm.Input;
+using SeriesTracker.Classes.Shikimori;
 
 
 namespace SeriesTracker.ViewModels
@@ -11,6 +14,7 @@ namespace SeriesTracker.ViewModels
             Anime = new Anime();
             Anime.poster = new Poster();
             Anime.airedOne = new AiredDate();
+            Series = new Models.Series();
             BackCommand = new Command(OnBackCommand); 
         }
 
@@ -18,6 +22,40 @@ namespace SeriesTracker.ViewModels
         private async void OnBackCommand()
         {
             await Shell.Current.GoToAsync("..");
+        }
+
+        [RelayCommand]
+        public async Task AddSeries(Anime anime)
+        {
+            var newSeries = Series;
+            if (newSeries is null)
+                return;
+            newSeries.seriesName = anime.RussianName;
+            newSeries.seriesDescription = anime.Description;
+            newSeries.imagePath = anime.PosterUrl;
+            newSeries.lastEpisode = anime.Episodes;
+            newSeries.releaseDate = DateTime.Parse(anime.ReleaseDate);
+            var (isValid, errorMessage) = newSeries.Validate();
+            if (!isValid)
+            {
+                await AnimeDetailPageViewModel.ShowToast(errorMessage);
+                return;
+            }
+
+            newSeries.hiddenSeriesName = newSeries.seriesName.ToLower();
+            newSeries.addedDate = DateTime.Now.ToString();
+            await App.SeriesService.AddUpdateSeriesAsync(newSeries);
+
+            await Shell.Current.GoToAsync("..//..//..");
+        }
+        private static async Task ShowToast(string text)
+        {
+
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+            var toast = Toast.Make(text, ToastDuration.Short, 14);
+
+            await toast.Show(cancellationTokenSource.Token);
         }
     }
 }

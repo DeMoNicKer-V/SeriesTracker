@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:BlurBehavior="clr-namespace:SeriesTracker.Behaviors"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:vModels="clr-namespace:SeriesTracker.ViewModels"
     Title=""
     BackgroundColor="{AppThemeBinding Light={StaticResource White},
                                       Dark={StaticResource Black}}"
@@ -110,8 +111,6 @@
                     <Image Aspect="Fill" Source="{Binding Anime.PosterUrl}" />
                 </Border>
 
-
-
                 <VerticalStackLayout
                     Grid.Row="2"
                     Grid.ColumnSpan="3"
@@ -143,6 +142,7 @@
                     Margin="15,0,15,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40" />
+                        <RowDefinition Height="30" />
                         <RowDefinition Height="30" />
                         <RowDefinition Height="30" />
                     </Grid.RowDefinitions>
@@ -181,42 +181,51 @@
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="5" />
                             </Border.StrokeShape>
-
                         </Border>
                         <Border
                             BackgroundColor="Transparent"
                             Stroke="{StaticResource Gray300}"
                             StrokeThickness="1">
-                            <HorizontalStackLayout Padding="5,0,5,0" HorizontalOptions="Start">
-                                <Label Text="Добавить" VerticalTextAlignment="Center" />
-                                <Image
-                                    x:Name="favoriteImage"
-                                    HeightRequest="15"
-                                    Source="add.png"
-                                    WidthRequest="15" />
-                            </HorizontalStackLayout>
+
+                            <Label
+                                Padding="5,0,5,0"
+                                HorizontalOptions="Start"
+                                Text="{Binding Anime.Status, Mode=OneWay, StringFormat='Статус: {0}'}"
+                                VerticalTextAlignment="Center" />
+
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="5" />
                             </Border.StrokeShape>
-
                         </Border>
-
                     </HorizontalStackLayout>
-                    <ImageButton
-                        x:Name="menuLabel"
+                    <Border
                         Grid.Row="0"
                         Grid.Column="2"
-                        Margin="10,0,0,0"
-                        HeightRequest="20"
-                        HorizontalOptions="End"
-                        Rotation="90"
-                        Source="dots.png"
-                        VerticalOptions="Center"
-                        WidthRequest="20">
-                        <ImageButton.Behaviors>
-                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
-                        </ImageButton.Behaviors>
-                    </ImageButton>
+                        BackgroundColor="Transparent"
+                        Stroke="{StaticResource Gray300}"
+                        WidthRequest="40">
+                        <Label
+                            x:Name="addAnimeBtn"
+                            Margin="0,-2,0,0"
+                            BackgroundColor="Transparent"
+                            FontSize="30"
+                            HorizontalOptions="Fill"
+                            HorizontalTextAlignment="Center"
+                            Text="+"
+                            TextColor="{StaticResource Black}"
+                            VerticalOptions="Fill"
+                            VerticalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:AnimeDetailPageViewModel}}, Path=AddSeriesCommand}"
+                                    CommandParameter="{Binding Anime}"
+                                    NumberOfTapsRequired="1" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="5" />
+                        </Border.StrokeShape>
+                    </Border>
                     <Image
                         Grid.Row="1"
                         Grid.Column="0"
@@ -224,20 +233,28 @@
                         HeightRequest="25"
                         HorizontalOptions="Center"
                         Source="about.png"
+                        VerticalOptions="Center"
                         WidthRequest="25">
                         <Image.Behaviors>
                             <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
                         </Image.Behaviors>
                     </Image>
-                    <Label
-                        Grid.Row="2"
+                    <HorizontalStackLayout
+                        Grid.Row="3"
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
-                        HorizontalOptions="Start"
-                        Text="{Binding Anime.ReleaseDate, Mode=OneWay}"
-                        VerticalTextAlignment="Center" />
+                        HorizontalOptions="Start">
+                        <Label
+                            Margin="0,5,3,0"
+                            FontAttributes="Italic"
+                            FontSize="9"
+                            Text="дата выхода"
+                            TextColor="Grey"
+                            VerticalTextAlignment="Center" />
+                        <Label Text="{Binding Anime.ReleaseDate, Mode=OneWay}" VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
                     <Image
-                        Grid.Row="2"
+                        Grid.Row="3"
                         Grid.Column="0"
                         Margin="0,0,5,0"
                         HeightRequest="25"
@@ -248,21 +265,59 @@
                             <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
                         </Image.Behaviors>
                     </Image>
+
                     <Label
                         Grid.Row="1"
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
+                        FontAttributes="Italic"
+                        FontSize="14"
                         HorizontalOptions="Start"
-                        Text="{Binding Anime.Episodes, Mode=OneWay}"
+                        Text="{Binding Anime.Name, StringFormat='{0} '}"
+                        TextColor="Grey"
                         VerticalTextAlignment="Center" />
 
+                    <Image
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Margin="0,0,5,0"
+                        HeightRequest="25"
+                        HorizontalOptions="Center"
+                        Source="episode.png"
+                        WidthRequest="25">
+                        <Image.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                        </Image.Behaviors>
+                    </Image>
+                    <HorizontalStackLayout
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        HorizontalOptions="Start">
+                        <Label
+                            Margin="0,5,3,0"
+                            FontAttributes="Italic"
+                            FontSize="9"
+                            Text="всего эп."
+                            TextColor="Grey"
+                            VerticalTextAlignment="Center" />
+                        <Label Text="{Binding Anime.Episodes, Mode=OneWay}" VerticalTextAlignment="Center" />
+                        <Label
+                            Margin="5,5,3,0"
+                            FontAttributes="Italic"
+                            FontSize="9"
+                            Text="ср. продолж."
+                            TextColor="Grey"
+                            VerticalTextAlignment="Center" />
+                        <Label Text="{Binding Anime.Duration, Mode=OneWay, StringFormat='~{0} мин.'}" VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
                 </Grid>
 
                 <toolkit:Expander
                     x:Name="descriptionExpander"
                     Grid.Row="4"
                     Grid.ColumnSpan="3"
-                    Margin="15,-40,15,10"
+                    Margin="15,0,15,10"
                     ExpandedChanged="descriptionExpander_ExpandedChanged"
                     MinimumHeightRequest="290"
                     VerticalOptions="CenterAndExpand">

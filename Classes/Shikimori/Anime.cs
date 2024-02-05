@@ -7,8 +7,10 @@ namespace SeriesTracker.Classes.Shikimori
         [JsonProperty("airedOn")] public AiredDate airedOne;
         [JsonProperty("poster")] public Poster poster;
         [JsonProperty("description")] public string Description { get; set; }
+        [JsonProperty("duration")] public int Duration { get; set; }
         [JsonProperty("episodes")] public int Episodes { get; set; }
-        [JsonProperty("episodesAired")] public int EpisodesAired { get; set; }
+        [JsonProperty("episodesAired")] private int episodesAired { get; set; }
+        [JsonIgnore] public int EpisodesAired { get { return episodesAired == 0 ? Episodes : episodesAired; } set { } }
         [JsonProperty("name")] public string Name { get; set; }
         [JsonIgnore] public string PosterUrl { get { return poster.OriginalUrl; } }
 

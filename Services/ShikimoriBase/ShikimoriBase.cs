@@ -35,6 +35,7 @@ namespace SeriesTracker.Services.ShikimoriBase
                                     russian
                                     name
                                     description
+                                    duration
                                     episodes
                                     episodesAired
                                     status
@@ -64,6 +65,7 @@ namespace SeriesTracker.Services.ShikimoriBase
                                     russian
                                     name
                                     description
+                                    duration
                                     episodes
                                     episodesAired
                                     status
