@@ -36,6 +36,8 @@ namespace SeriesTracker.Services.ShikimoriBase
                                     name
                                     description
                                     episodes
+                                    episodesAired
+                                    status
                                     score
                                     airedOn {
                                         date
@@ -63,6 +65,8 @@ namespace SeriesTracker.Services.ShikimoriBase
                                     name
                                     description
                                     episodes
+                                    episodesAired
+                                    status
                                     score
                                     airedOn {
                                         date

@@ -216,6 +216,12 @@
                                                 FontSize="13"
                                                 Text="Подробнее"
                                                 VerticalTextAlignment="Center" />
+                                            <HorizontalStackLayout.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:SeriesListPageViewModel}}, Path=DetailViewCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    NumberOfTapsRequired="1" />
+                                            </HorizontalStackLayout.GestureRecognizers>
                                         </HorizontalStackLayout>
                                         <Border.StrokeShape>
                                             <RoundRectangle CornerRadius="5" />

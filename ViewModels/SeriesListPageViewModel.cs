@@ -5,6 +5,7 @@ using GraphQL;
 using SeriesTracker.Classes.Shikimori;
 using SeriesTracker.Models;
 using SeriesTracker.Services.ShikimoriBase;
+using SeriesTracker.Views;
 using System.Collections.ObjectModel;
 
 namespace SeriesTracker.ViewModels
@@ -78,6 +79,12 @@ namespace SeriesTracker.ViewModels
         {
             quaryText = new string(query.ToLower());
             OnAppearing();
+        }
+
+        [RelayCommand]
+        private async Task DetailView(Anime anime)
+        {
+            await Navigation.PushAsync(new AnimeDetailPage(anime));
         }
 
         [RelayCommand]

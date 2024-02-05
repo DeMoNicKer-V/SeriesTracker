@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SeriesTracker.Views.AnimeDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:BlurBehavior="clr-namespace:SeriesTracker.Behaviors"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    Title=""
+    BackgroundColor="{AppThemeBinding Light={StaticResource White},
+                                      Dark={StaticResource Black}}"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.TabBarIsVisible="False">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsEnabled="False" IsVisible="False" />
+    </Shell.BackButtonBehavior>
+    <ScrollView x:Name="baseContainer" VerticalScrollBarVisibility="Never">
+        <VerticalStackLayout>
+            <Grid x:Name="gridContainer">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25" />
+                    <RowDefinition Height="360" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="270" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Image
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
+                    Aspect="Fill"
+                    Opacity="0.8"
+                    Source="{Binding Anime.PosterUrl}">
+                    <Image.Behaviors>
+                        <BlurBehavior:BlurBehavior Radius="65" />
+                    </Image.Behaviors>
+                </Image>
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="0,15,0,0"
+                    Padding="10"
+                    Background="#212121"
+                    HorizontalOptions="End"
+                    Opacity="0.6"
+                    Stroke="Transparent"
+                    VerticalOptions="Start">
+                    <Image
+                        HeightRequest="15"
+                        HorizontalOptions="Center"
+                        Source="backarrow.png"
+                        VerticalOptions="Start"
+                        WidthRequest="15">
+                        <Image.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="#999999" />
+                        </Image.Behaviors>
+                    </Image>
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="5" />
+                    </Border.StrokeShape>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding BackCommand}" NumberOfTapsRequired="1" />
+                    </Border.GestureRecognizers>
+                </Border>
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Margin="-10,15,0,0"
+                    Padding="10"
+                    Background="#212121"
+                    HorizontalOptions="Start"
+                    Opacity="0.6"
+                    Stroke="Transparent"
+                    VerticalOptions="Start">
+                    <HorizontalStackLayout>
+                        <Label
+                            x:Name="myLabel2"
+                            Margin="0,0,5,0"
+                            FontFamily="NunitoItalic"
+                            FontSize="12"
+                            Text="{Binding Anime.Score}"
+                            TextColor="White" />
+                        <Image
+                            x:Name="ratingImage"
+                            HeightRequest="15"
+                            Source="ratestar.png"
+                            VerticalOptions="Center"
+                            WidthRequest="15" />
+                    </HorizontalStackLayout>
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="5" />
+                    </Border.StrokeShape>
+                </Border>
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="15"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="Fill"
+                    Stroke="transparent"
+                    VerticalOptions="Fill">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="10" />
+                    </Border.StrokeShape>
+                    <Image Aspect="Fill" Source="{Binding Anime.PosterUrl}" />
+                </Border>
+
+
+
+                <VerticalStackLayout
+                    Grid.Row="2"
+                    Grid.ColumnSpan="3"
+                    Margin="10,-5,10,0"
+                    HorizontalOptions="Center"
+                    VerticalOptions="StartAndExpand">
+                    <Label
+                        x:Name="labelSeriesName"
+                        FontAttributes="Bold"
+                        FontFamily="NunitoRegular"
+                        FontSize="22"
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding Anime.RussianName}"
+                        TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                    Dark={StaticResource White}}" />
+
+                    <StackLayout Margin="5">
+                        <Line
+                            HorizontalOptions="Fill"
+                            Stroke="#999999"
+                            StrokeThickness="1.2"
+                            X2="350" />
+                    </StackLayout>
+                </VerticalStackLayout>
+
+                <Grid
+                    Grid.Row="3"
+                    Grid.ColumnSpan="3"
+                    Margin="15,0,15,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="30" />
+                    </Grid.ColumnDefinitions>
+
+                    <HorizontalStackLayout
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        HorizontalOptions="FillAndExpand">
+
+                        <Border
+                            BackgroundColor="Transparent"
+                            Stroke="{StaticResource Gray300}"
+                            StrokeThickness="1.2">
+                            <HorizontalStackLayout Padding="5,0,5,0">
+                                <Label Text="Просмотрено: " VerticalTextAlignment="Center">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontAttributes="Italic">
+                                                <Span.Text>
+                                                    <MultiBinding StringFormat="Вышло: {0} из {1} эп.">
+                                                        <Binding Path="Anime.EpisodesAired" />
+                                                        <Binding Path="Anime.Episodes" />
+                                                    </MultiBinding>
+                                                </Span.Text>
+                                            </Span>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </HorizontalStackLayout>
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+
+                        </Border>
+                        <Border
+                            BackgroundColor="Transparent"
+                            Stroke="{StaticResource Gray300}"
+                            StrokeThickness="1">
+                            <HorizontalStackLayout Padding="5,0,5,0" HorizontalOptions="Start">
+                                <Label Text="Добавить" VerticalTextAlignment="Center" />
+                                <Image
+                                    x:Name="favoriteImage"
+                                    HeightRequest="15"
+                                    Source="add.png"
+                                    WidthRequest="15" />
+                            </HorizontalStackLayout>
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="5" />
+                            </Border.StrokeShape>
+
+                        </Border>
+
+                    </HorizontalStackLayout>
+                    <ImageButton
+                        x:Name="menuLabel"
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Margin="10,0,0,0"
+                        HeightRequest="20"
+                        HorizontalOptions="End"
+                        Rotation="90"
+                        Source="dots.png"
+                        VerticalOptions="Center"
+                        WidthRequest="20">
+                        <ImageButton.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                        </ImageButton.Behaviors>
+                    </ImageButton>
+                    <Image
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Margin="0,0,5,0"
+                        HeightRequest="25"
+                        HorizontalOptions="Center"
+                        Source="about.png"
+                        WidthRequest="25">
+                        <Image.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                        </Image.Behaviors>
+                    </Image>
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        HorizontalOptions="Start"
+                        Text="{Binding Anime.ReleaseDate, Mode=OneWay}"
+                        VerticalTextAlignment="Center" />
+                    <Image
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Margin="0,0,5,0"
+                        HeightRequest="25"
+                        HorizontalOptions="Center"
+                        Source="calendar.png"
+                        WidthRequest="25">
+                        <Image.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                        </Image.Behaviors>
+                    </Image>
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        HorizontalOptions="Start"
+                        Text="{Binding Anime.Episodes, Mode=OneWay}"
+                        VerticalTextAlignment="Center" />
+
+                </Grid>
+
+                <toolkit:Expander
+                    x:Name="descriptionExpander"
+                    Grid.Row="4"
+                    Grid.ColumnSpan="3"
+                    Margin="15,-40,15,10"
+                    ExpandedChanged="descriptionExpander_ExpandedChanged"
+                    MinimumHeightRequest="290"
+                    VerticalOptions="CenterAndExpand">
+                    <toolkit:Expander.Header>
+                        <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
+                            <Label
+                                x:Name="descriptionCaption"
+                                FontAttributes="Italic"
+                                FontFamily="NunitoItalic"
+                                FontSize="14"
+                                Text="Открыть описание" />
+                            <Image
+                                x:Name="descriptionImage"
+                                HeightRequest="20"
+                                Source="downarrow.png"
+                                WidthRequest="20">
+                                <Image.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                                </Image.Behaviors>
+                            </Image>
+                        </HorizontalStackLayout>
+                    </toolkit:Expander.Header>
+                    <Label
+                        x:Name="descriptionText"
+                        FontAutoScalingEnabled="True"
+                        FontSize="14"
+                        HorizontalOptions="CenterAndExpand"
+                        HorizontalTextAlignment="Start"
+                        Text="{Binding Anime.Description}"
+                        VerticalOptions="FillAndExpand" />
+                </toolkit:Expander>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
