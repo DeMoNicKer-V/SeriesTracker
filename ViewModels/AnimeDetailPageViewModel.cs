@@ -12,8 +12,7 @@ namespace SeriesTracker.ViewModels
         { 
             Navigation = navigation;
             Anime = new Anime();
-            Anime.poster = new Poster();
-            Anime.airedOne = new AiredDate();
+    
             Series = new Models.Series();
             BackCommand = new Command(OnBackCommand); 
         }
@@ -30,11 +29,11 @@ namespace SeriesTracker.ViewModels
             var newSeries = Series;
             if (newSeries is null)
                 return;
-            newSeries.seriesName = anime.RussianName;
+            newSeries.seriesName = anime.Title;
             newSeries.seriesDescription = anime.Description;
-            newSeries.imagePath = anime.PosterUrl;
+            newSeries.imagePath = anime.PictureUrl;
             newSeries.lastEpisode = anime.Episodes;
-            newSeries.releaseDate = DateTime.Parse(anime.ReleaseDate);
+            newSeries.releaseDate = DateTime.Parse(anime.StartDate);
             var (isValid, errorMessage) = newSeries.Validate();
             if (!isValid)
             {

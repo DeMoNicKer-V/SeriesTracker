@@ -3,21 +3,21 @@ using System.Text.RegularExpressions;
 
 namespace SeriesTracker.Classes.Shikimori
 {
-    public class Anime
+    public class Anime: AnimeBase
     {
-        [JsonProperty("airedOn")] public AiredDate airedOne;
-        [JsonProperty("poster")] public Poster poster;
+        [JsonProperty("airedOn")] public AiredDate airedOne = new();
+        [JsonProperty("poster")] public Poster poster = new();
         [JsonProperty("description")] private string description { get; set; }
-        [JsonIgnore] public string Description { get { return string.IsNullOrEmpty(description) ? description : Regex.Replace(description, @" ?\[.*?\]", " "); } set { } }
-        [JsonProperty("duration")] public int Duration { get; set; }
-        [JsonProperty("episodes")] public int Episodes { get; set; }
+        [JsonIgnore] public override string Description { get { return string.IsNullOrEmpty(description) ? description : Regex.Replace(description, @" ?\[.*?\]", " "); } set { } }
+        [JsonProperty("duration")] public override double Duration { get; set; }
+        [JsonProperty("episodes")] public override int Episodes { get; set; }
         [JsonProperty("episodesAired")] private int episodesAired { get; set; }
         [JsonIgnore] public int EpisodesAired { get { return episodesAired == 0 ? Episodes : episodesAired; } set { } }
-        [JsonProperty("name")] public string Name { get; set; }
-        [JsonIgnore] public string PosterUrl { get { return poster.OriginalUrl; } }
+        [JsonProperty("name")] public override string SubTitle { get; set; }
+        [JsonIgnore] public override string PictureUrl { get { return poster.OriginalUrl; } }
 
         [JsonIgnore]
-        public string ReleaseDate
+        public override string StartDate
         {
             get
             {
@@ -27,14 +27,10 @@ namespace SeriesTracker.Classes.Shikimori
                 }
                 return airedOne.Date;
             }
+            set { }
         }
-        [JsonProperty("russian")] public string RussianName { get; set; }
-        [JsonProperty("score")] public float Score { get; set; }
+        [JsonProperty("russian")] public override string Title { get; set; }
+        [JsonProperty("score")] public override double Score { get; set; }
         [JsonProperty("status")] public string Status { get; set; }
-    }
-
-    public class AnimeList
-    {
-        public IEnumerable<Anime> Animes { get; set; }
     }
 }

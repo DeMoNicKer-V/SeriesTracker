@@ -2,6 +2,7 @@
 using GraphQL.Client.Abstractions;
 using GraphQL.Client.Http;
 using GraphQL.Client.Serializer.Newtonsoft;
+using SeriesTracker.Classes;
 using SeriesTracker.Classes.Shikimori;
 
 namespace SeriesTracker.Services.ShikimoriBase
@@ -16,14 +17,14 @@ namespace SeriesTracker.Services.ShikimoriBase
             graphQLClient = new GraphQLHttpClient(apiUrl, new NewtonsoftJsonSerializer());
         }
 
-        public async Task<GraphQLResponse<AnimeList>> GetAnimes(int page)
+        public async Task<GraphQLResponse<AnimeList<Anime>>> GetAnimes(int page)
         {
-            return await graphQLClient.SendQueryAsync<AnimeList>(GetRequest(page));
+            return await graphQLClient.SendQueryAsync<AnimeList<Anime>>(GetRequest(page));
         }
 
-        public async Task<GraphQLResponse<AnimeList>> GetAnimesByName(int page, string name)
+        public async Task<GraphQLResponse<AnimeList<Anime>>> GetAnimesByName(int page, string name)
         {
-            return await graphQLClient.SendQueryAsync<AnimeList>(GetRequest(page, name));
+            return await graphQLClient.SendQueryAsync<AnimeList<Anime>>(GetRequest(page, name));
         }
 
         private GraphQLRequest GetRequest(int page)

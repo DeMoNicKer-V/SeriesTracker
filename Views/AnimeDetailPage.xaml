@@ -37,7 +37,7 @@
                     Grid.ColumnSpan="3"
                     Aspect="Fill"
                     Opacity="0.8"
-                    Source="{Binding Anime.PosterUrl}">
+                    Source="{Binding Anime.PictureUrl}">
                     <Image.Behaviors>
                         <BlurBehavior:BlurBehavior Radius="65" />
                     </Image.Behaviors>
@@ -109,7 +109,7 @@
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="10" />
                     </Border.StrokeShape>
-                    <Image Aspect="Fill" Source="{Binding Anime.PosterUrl}" />
+                    <Image Aspect="Fill" Source="{Binding Anime.PictureUrl}" />
                 </Border>
 
                 <VerticalStackLayout
@@ -124,7 +124,7 @@
                         FontFamily="NunitoRegular"
                         FontSize="22"
                         HorizontalTextAlignment="Center"
-                        Text="{Binding Anime.RussianName}"
+                        Text="{Binding Anime.Title}"
                         TextColor="{AppThemeBinding Light={StaticResource Black},
                                                     Dark={StaticResource White}}" />
 
@@ -252,7 +252,7 @@
                             Text="дата выхода"
                             TextColor="Grey"
                             VerticalTextAlignment="Center" />
-                        <Label Text="{Binding Anime.ReleaseDate, Mode=OneWay}" VerticalTextAlignment="Center" />
+                        <Label Text="{Binding Anime.StartDate, Mode=OneWay}" VerticalTextAlignment="Center" />
                     </HorizontalStackLayout>
                     <Image
                         Grid.Row="3"
@@ -274,7 +274,7 @@
                         FontAttributes="Italic"
                         FontSize="14"
                         HorizontalOptions="Start"
-                        Text="{Binding Anime.Name, StringFormat='{0} '}"
+                        Text="{Binding Anime.SubTitle, StringFormat='{0} '}"
                         TextColor="Grey"
                         VerticalTextAlignment="Center" />
 

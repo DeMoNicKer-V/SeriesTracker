@@ -2,6 +2,7 @@
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.Input;
 using GraphQL;
+using SeriesTracker.Classes;
 using SeriesTracker.Classes.Shikimori;
 using SeriesTracker.Models;
 using SeriesTracker.Services.ShikimoriBase;
@@ -14,7 +15,7 @@ namespace SeriesTracker.ViewModels
     {
         public string quaryText;
         private static int currentPage;
-        private ObservableCollection<Anime> seriesList = new ObservableCollection<Anime>();
+        private ObservableCollection<AnimeBase> seriesList = new ObservableCollection<AnimeBase>();
         private ShikimoriBase ShikimoriBase;
         public Command BackCommand { get; }
         public SeriesListPageViewModel(INavigation navigation)
@@ -25,7 +26,7 @@ namespace SeriesTracker.ViewModels
             Series = new Series();
         }
 
-        public ObservableCollection<Anime> SeriesList
+        public ObservableCollection<AnimeBase> SeriesList
         {
             get
             {
@@ -50,7 +51,7 @@ namespace SeriesTracker.ViewModels
             IsBusy = true;
             try
             {
-                var graphQLResponse = new GraphQLResponse<AnimeList>();
+                var graphQLResponse = new GraphQLResponse<AnimeList<Anime>>();
                 if (string.IsNullOrEmpty(quaryText))
                 {
                     graphQLResponse = await ShikimoriBase.GetAnimes(currentPage);
@@ -94,11 +95,11 @@ namespace SeriesTracker.ViewModels
             var _anime = anime;
             if (newSeries is null)
                 return;
-            newSeries.seriesName = anime.RussianName;
+            newSeries.seriesName = anime.Title;
             newSeries.seriesDescription = anime.Description;
-            newSeries.imagePath = anime.PosterUrl;
+            newSeries.imagePath = anime.PictureUrl;
             newSeries.lastEpisode = anime.Episodes;
-            newSeries.releaseDate = DateTime.Parse(anime.ReleaseDate);
+            newSeries.releaseDate = DateTime.Parse(anime.StartDate);
             var (isValid, errorMessage) = newSeries.Validate();
             if (!isValid)
             {

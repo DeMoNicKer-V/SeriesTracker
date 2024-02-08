@@ -151,7 +151,7 @@
                                 FontSize="16"
                                 LineBreakMode="TailTruncation"
                                 MaxLines="2"
-                                Text="{Binding RussianName}"
+                                Text="{Binding Title}"
                                 VerticalOptions="Start"
                                 VerticalTextAlignment="Center" />
 
@@ -170,7 +170,7 @@
                                 <Image
                                     Aspect="Fill"
                                     HeightRequest="145"
-                                    Source="{Binding PosterUrl}"
+                                    Source="{Binding PictureUrl}"
                                     WidthRequest="105" />
                             </Border>
                             <StackLayout
@@ -183,10 +183,10 @@
                                     FontSize="14"
                                     LineBreakMode="TailTruncation"
                                     MaxLines="2"
-                                    Text="{Binding Name}"
+                                    Text="{Binding SubTitle}"
                                     TextColor="DimGrey" />
                                 <Label FontSize="13" Text="{Binding Episodes, StringFormat='Эпизодов: {0}'}" />
-                                <Label FontSize="13" Text="{Binding ReleaseDate, StringFormat='Дата выхода: {0}'}" />
+                                <Label FontSize="13" Text="{Binding StartDate, StringFormat='Дата выхода: {0}'}" />
                                 <HorizontalStackLayout>
                                     <Label FontSize="13" Text="{Binding Score, StringFormat='Рейтинг: {0}'}" />
                                     <Image
