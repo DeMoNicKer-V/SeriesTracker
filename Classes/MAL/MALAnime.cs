@@ -22,9 +22,9 @@ namespace SeriesTracker.Classes.MAL
             set { }
         }
         [JsonPropertyName("synopsis")] public override string Description { get; set; }
-        [JsonPropertyName("main_picture")] public PictureInfo Picture { get; set; }
+        [JsonPropertyName("main_picture")] public PictureInfo Picture { get; set; } = new();
         [JsonIgnore] public override string PictureUrl { get { return Picture != null ? Picture.medium : string.Empty; } }
-        [JsonPropertyName("alternative_titles")] public AlternativeTitle AlternativeTitles { get; set; }
+        [JsonPropertyName("alternative_titles")] public AlternativeTitle AlternativeTitles { get; set; } = new();
 
         [JsonIgnore] public override string SubTitle { get { return AlternativeTitles.EngTitle != null ? AlternativeTitles.EngTitle : AlternativeTitles.JapTitle;  } set { } }
 

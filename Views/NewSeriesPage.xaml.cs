@@ -186,9 +186,7 @@ public partial class NewSeriesPage : ContentPage
         {
             return;
         }
-        url = "https://myanimelist.net/anime/";
-        siteEntry.IsVisible = true;
-        await Browser.Default.OpenAsync("https://myanimelist.net/anime.php", BrowserLaunchMode.SystemPreferred);
+        await Navigation.PushAsync(new SeriesListPage(true));
     }
 
     private async void ImageButton_Clicked_1(object sender, EventArgs e)
@@ -200,7 +198,7 @@ public partial class NewSeriesPage : ContentPage
         /* url = "https://shikimori.one/animes/";
          siteEntry.IsVisible = true;
          await Browser.Default.OpenAsync("https://shikimori.one/animes", BrowserLaunchMode.SystemPreferred);*/
-        await Navigation.PushAsync(new SeriesListPage());
+        await Navigation.PushAsync(new SeriesListPage(false));
     }
 
     private void ImageButton_Clicked_2(object sender, EventArgs e)

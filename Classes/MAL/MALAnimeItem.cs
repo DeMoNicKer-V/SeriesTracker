@@ -5,10 +5,10 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace SeriesTracker.Classes
+namespace SeriesTracker.Classes.MAL
 {
-    public class AnimeList<T>
+    public class MALAnimeItem
     {
-        [JsonPropertyName("data")] public IEnumerable<T> Animes { get; set; }
+        [JsonPropertyName("node")] public MALAnime Node { get; set; }
     }
 }

@@ -14,27 +14,26 @@ namespace SeriesTracker.Services.MALBase
     internal class MALBase
     {
         private static readonly string apiUrl = "https://api.myanimelist.net/v2/anime/";
-        private GraphQLHttpClient graphQLClient;
 
         public MALBase()
         {
-            graphQLClient = new GraphQLHttpClient(apiUrl, new NewtonsoftJsonSerializer());
+           
         }
 
-        public async Task<AnimeList<MALAnime>> GetAnimes()
+        public async Task<AnimeList<MALAnimeItem>> GetAnimes()
         {
-            var url = "https://api.myanimelist.net/v2/anime/52991?fields=title,mean,num_episodes,start_date,average_episode_duration,synopsis,main_picture,alternative_titles";
+            var url = "https://api.myanimelist.net/v2/anime/ranking?ranking_type=all&limit=3&offset=0&fields=title,mean,num_episodes,start_date,average_episode_duration,synopsis,main_picture,alternative_titles";
 
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Clear();
 
             var msg = new HttpRequestMessage(HttpMethod.Get, url);
-            msg.Headers.Add("X-MAL-CLIENT-ID", "");
+            msg.Headers.Add("X-MAL-CLIENT-ID", APIConfig.ClientId);
             var res = await client.SendAsync(msg);
 
+            string responseBody = await res.Content.ReadAsStringAsync();
+            var content = await res.Content.ReadFromJsonAsync<AnimeList<MALAnimeItem>>();
 
-            var content = await res.Content.ReadFromJsonAsync<AnimeList<MALAnime>>();
-          
 
             return content;
         }

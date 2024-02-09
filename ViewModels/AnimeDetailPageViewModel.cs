@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.Input;
+using SeriesTracker.Classes;
 using SeriesTracker.Classes.Shikimori;
 
 
@@ -11,7 +12,6 @@ namespace SeriesTracker.ViewModels
         public AnimeDetailPageViewModel(INavigation navigation)
         { 
             Navigation = navigation;
-            Anime = new Anime();
     
             Series = new Models.Series();
             BackCommand = new Command(OnBackCommand); 
@@ -24,7 +24,7 @@ namespace SeriesTracker.ViewModels
         }
 
         [RelayCommand]
-        public async Task AddSeries(Anime anime)
+        public async Task AddSeries(AnimeBase anime)
         {
             var newSeries = Series;
             if (newSeries is null)

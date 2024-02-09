@@ -1,3 +1,4 @@
+using SeriesTracker.Classes;
 using SeriesTracker.Classes.Shikimori;
 using SeriesTracker.ViewModels;
 
@@ -12,7 +13,7 @@ public partial class AnimeDetailPage : ContentPage
         this.BindingContext = animeDetailPageViewModel = new AnimeDetailPageViewModel(Navigation);
     }
 
-    public AnimeDetailPage(Anime anime)
+    public AnimeDetailPage(AnimeBase anime)
     {
         InitializeComponent();
         this.BindingContext = animeDetailPageViewModel = new AnimeDetailPageViewModel(Navigation);

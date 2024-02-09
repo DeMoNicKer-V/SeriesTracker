@@ -12,6 +12,6 @@ namespace SeriesTracker.Services.MALBase
 {
     internal interface IMALBase
     {
-        Task<AnimeList<MALAnime>> GetAnimes();
+        Task<AnimeList<MALAnimeItem>> GetAnimes();
     }
 }

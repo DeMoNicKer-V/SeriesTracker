@@ -12,10 +12,10 @@ namespace SeriesTracker.Views;
 public partial class SeriesListPage : ContentPage
 {
     SeriesListPageViewModel seriesListPageViewModel;
-    public SeriesListPage()
+    public SeriesListPage(bool what)
     {
         InitializeComponent();
-        this.BindingContext = seriesListPageViewModel = new SeriesListPageViewModel(Navigation);
+        this.BindingContext = seriesListPageViewModel = new SeriesListPageViewModel(Navigation, what);
     }
 
 
