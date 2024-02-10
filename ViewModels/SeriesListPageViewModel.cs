@@ -76,7 +76,8 @@ namespace SeriesTracker.ViewModels
 
                 else
                 {
-                    var result = await MALBase.GetAnimes();
+                    var request = new MALRequest { Limit = 10, Offset=0, Search = quaryText };
+                    var result = await MALBase.GetAnimes(request);
                     var shikimoriAnimes = result.Animes;
                     if (shikimoriAnimes != null && shikimoriAnimes.Count() > 0)
                     {
@@ -87,8 +88,9 @@ namespace SeriesTracker.ViewModels
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e )
             {
+                var a = e.Message;
             }
             finally
             {
