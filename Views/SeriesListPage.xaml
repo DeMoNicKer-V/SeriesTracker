@@ -107,7 +107,7 @@
             toolkit:DockLayout.DockPosition="None"
             HorizontalScrollBarVisibility="Never"
             ItemsSource="{Binding SeriesList}"
-            RemainingItemsThreshold="5"
+            RemainingItemsThreshold="8"
             RemainingItemsThresholdReachedCommand="{Binding LoadSeriesCommand}"
             VerticalScrollBarVisibility="Never">
             <CollectionView.ItemsLayout>

@@ -225,19 +225,14 @@
                                     Margin="0,0,10,0"
                                     BackgroundColor="Transparent"
                                     HorizontalOptions="Fill"
+                                    Stroke="{AppThemeBinding Light=#E8E8E8,
+                                                             Dark=#202020}"
                                     VerticalOptions="Fill">
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="10" />
                                     </Border.StrokeShape>
-                                    <Image Aspect="Fill" Source="{Binding imagePath, TargetNullValue='imagemiss.png'}" />
-                                    <Border.Stroke>
-                                        <LinearGradientBrush EndPoint="0,1">
-                                            <GradientStop Offset="0.85" Color="{AppThemeBinding Light=#F3F3F3, Dark=#181818}" />
-                                            <GradientStop Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}">
-                                                <GradientStop.Offset>1.0</GradientStop.Offset>
-                                            </GradientStop>
-                                        </LinearGradientBrush>
-                                    </Border.Stroke>
+                                    <Image Aspect="Fill" Source="{Binding imagePath, TargetNullValue='myimage.png'}" />
+
                                 </Border>
                                 <Label
                                     Grid.Row="0"
@@ -322,7 +317,7 @@
                                     FontSize="14"
                                     LineBreakMode="TailTruncation"
                                     MaxLines="5"
-                                    Text="{Binding seriesDescription}"
+                                    Text="{Binding seriesDescription, TargetNullValue='Описание отсутствует.'}"
                                     VerticalOptions="StartAndExpand" />
                             </Grid>
                             <Border.Stroke>

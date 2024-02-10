@@ -6,6 +6,7 @@ namespace SeriesTracker.Classes.Shikimori
     public class Anime: AnimeBase
     {
         [JsonProperty("airedOn")] public AiredDate airedOne = new();
+        //[JsonProperty("genres")] public Genre[] Genres {get; set;}
         [JsonProperty("poster")] public Poster poster = new();
         [JsonProperty("description")] private string description { get; set; }
         [JsonIgnore] public override string Description { get { return string.IsNullOrEmpty(description) ? description : Regex.Replace(description, @" ?\[.*?\]", " "); } set { } }

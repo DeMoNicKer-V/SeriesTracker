@@ -32,11 +32,12 @@ namespace SeriesTracker.Services.ShikimoriBase
             return new GraphQLRequest
             {
                 Query = @"query GetAll($page: Int) {
-                                animes(page: $page, limit: 5) {
+                                animes(page: $page, limit: 10) {
                                     russian
                                     name
                                     description
                                     duration
+                                    genres{ id name russian kind }
                                     episodes
                                     episodesAired
                                     status
@@ -62,12 +63,13 @@ namespace SeriesTracker.Services.ShikimoriBase
             return new GraphQLRequest
             {
                 Query = @"query GetByName($name: String, $page: Int) {
-                                animes(search: $name, page: $page, limit: 5) {
+                                animes(search: $name, page: $page, limit: 10) {
                                     russian
                                     name
                                     description
                                     duration
                                     episodes
+                                    genres{ id name russian kind }
                                     episodesAired
                                     status
                                     score

@@ -71,6 +71,7 @@
 	  <None Remove="Resources\Images\filter.png" />
 	  <None Remove="Resources\Images\imagemiss.png" />
 	  <None Remove="Resources\Images\myanimelist.png" />
+	  <None Remove="Resources\Images\myimage.png" />
 	  <None Remove="Resources\Images\ratestar.png" />
 	  <None Remove="Resources\Images\search.png" />
 	  <None Remove="Resources\Images\settings.png" />

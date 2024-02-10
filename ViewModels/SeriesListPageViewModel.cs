@@ -17,6 +17,7 @@ namespace SeriesTracker.ViewModels
         public string quaryText;
         public bool AnimeWhat = false;
         private static int currentPage;
+        private static int offset;
         private ObservableCollection<AnimeBase> seriesList = new ObservableCollection<AnimeBase>();
         private ShikimoriBase ShikimoriBase;
         private MALBase MALBase;
@@ -48,6 +49,7 @@ namespace SeriesTracker.ViewModels
         {
             SeriesList.Clear();
             currentPage = 1;
+            offset = 0;
         }
 
         [RelayCommand]
@@ -76,7 +78,7 @@ namespace SeriesTracker.ViewModels
 
                 else
                 {
-                    var request = new MALRequest { Limit = 10, Offset=0, Search = quaryText };
+                    var request = new MALRequest { Limit = 10, Offset=offset, Search = quaryText };
                     var result = await MALBase.GetAnimes(request);
                     var shikimoriAnimes = result.Animes;
                     if (shikimoriAnimes != null && shikimoriAnimes.Count() > 0)
@@ -95,6 +97,7 @@ namespace SeriesTracker.ViewModels
             finally
             {
                 currentPage = currentPage + 1;
+                offset = offset + 10;
                 IsBusy = false;
             }
         }
