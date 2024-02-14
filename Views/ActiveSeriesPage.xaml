@@ -21,7 +21,7 @@
                 Margin="10"
                 Padding="5"
                 toolkit:DockLayout.DockPosition="Top">
-                <Border BackgroundColor="Transparent" Stroke="transparent">
+                <Border BackgroundColor="Transparent" Stroke="Transparent">
                     <Grid HorizontalOptions="Center">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25" />
@@ -196,8 +196,8 @@
                     <DataTemplate x:DataType="models:Series">
                         <Border
                             Margin="10"
-                            BackgroundColor="{AppThemeBinding Light=#F7F7F7,
-                                                              Dark=#181818}"
+                            BackgroundColor="{AppThemeBinding Light=#FBFBFB,
+                                                              Dark=#151515}"
                             HeightRequest="195">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="10" />
@@ -225,7 +225,7 @@
                                     Margin="0,0,10,0"
                                     BackgroundColor="Transparent"
                                     HorizontalOptions="Fill"
-                                    Stroke="{AppThemeBinding Light=#E8E8E8,
+                                    Stroke="{AppThemeBinding Light=#F5F5F5,
                                                              Dark=#202020}"
                                     VerticalOptions="Fill">
                                     <Border.StrokeShape>
@@ -243,6 +243,8 @@
                                     LineBreakMode="TailTruncation"
                                     MaxLines="2"
                                     Text="{Binding seriesName}"
+                                    TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                                Dark={StaticResource PrimaryDark}}"
                                     VerticalOptions="Center" />
                                 <ImageButton
                                     x:Name="menuButton"
@@ -251,12 +253,12 @@
                                     Margin="0,5,0,0"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:ActiveSeriesPageViewModel}}, Path=AdditionalActionCommand}"
                                     CommandParameter="{Binding .}"
-                                    HeightRequest="20"
+                                    HeightRequest="15"
                                     HorizontalOptions="End"
                                     Rotation="90"
                                     Source="dots.png"
                                     VerticalOptions="Start"
-                                    WidthRequest="20">
+                                    WidthRequest="15">
                                     <ImageButton.Behaviors>
                                         <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
                                     </ImageButton.Behaviors>
@@ -318,12 +320,14 @@
                                     LineBreakMode="TailTruncation"
                                     MaxLines="5"
                                     Text="{Binding seriesDescription, TargetNullValue='Описание отсутствует.'}"
+                                    TextColor="{AppThemeBinding Light={StaticResource Gray500},
+                                                                Dark={StaticResource Gray400}}"
                                     VerticalOptions="StartAndExpand" />
                             </Grid>
                             <Border.Stroke>
                                 <LinearGradientBrush EndPoint="0,1">
-                                    <GradientStop Offset="0.1" Color="{AppThemeBinding Light=#F3F3F3, Dark=#181818}" />
-                                    <GradientStop Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}">
+                                    <GradientStop Offset="0.1" Color="{AppThemeBinding Light=#F8F8F8, Dark=#181818}" />
+                                    <GradientStop Color="{AppThemeBinding Light=#F5F5F5, Dark={StaticResource PrimaryDark}}">
                                         <GradientStop.Offset>1.0</GradientStop.Offset>
                                     </GradientStop>
                                 </LinearGradientBrush>

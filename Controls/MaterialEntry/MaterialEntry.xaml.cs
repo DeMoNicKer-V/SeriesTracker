@@ -13,7 +13,7 @@ public partial class MaterialEntry : ContentView
 
         var rd = App.Current.Resources.MergedDictionaries.First();
 
-        _primary = (Color)rd["myColor"];
+        _primary = (Color)rd["Primary"];
 
         if (DeviceInfo.Current.Platform == DevicePlatform.Android)
         {
