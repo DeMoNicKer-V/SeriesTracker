@@ -88,6 +88,21 @@ public partial class BottomSheet : ContentView
     {
         DetachCommand?.Execute(null);
     }
+    public bool shortDuration = false;
+    public async Task OpenBottomSheet()
+    {
+
+        await BackgroundFader.TranslateTo(0, 200, 150);
+        BackgroundFader.IsVisible = true;
+        await BackgroundFader.TranslateTo(0, 0, 200);
+        shortDuration = true ;
+    }
+    public async Task CloseBottomSheet()
+    {
+        await BackgroundFader.TranslateTo(0, 200, 150);
+        BackgroundFader.IsVisible = false;
+        shortDuration = false;
+    }
 
     private async void DeleteButton_Clicked(object sender, EventArgs e)
     {

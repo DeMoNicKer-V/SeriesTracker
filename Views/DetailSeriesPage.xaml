@@ -17,8 +17,11 @@
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsEnabled="False" IsVisible="False" />
     </Shell.BackButtonBehavior>
-    <ScrollView x:Name="baseContainer" VerticalScrollBarVisibility="Never">
-        <VerticalStackLayout>
+    <ScrollView
+        x:Name="baseContainer"
+        Margin="0,0,0,30"
+        VerticalScrollBarVisibility="Never">
+        <toolkit:DockLayout>
             <Grid x:Name="gridContainer">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25" />
@@ -415,11 +418,10 @@
 
                 <toolkit:Expander
                     x:Name="descriptionExpander"
-                    Grid.Row="4"
+                    Grid.Row="5"
                     Grid.ColumnSpan="3"
-                    Margin="15,-40,15,10"
+                    Margin="15,0,15,0"
                     ExpandedChanged="Expander_ExpandedChanged"
-                    MinimumHeightRequest="290"
                     VerticalOptions="CenterAndExpand">
                     <toolkit:Expander.Header>
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
@@ -449,20 +451,16 @@
                         Text="{Binding Series.seriesDescription}"
                         VerticalOptions="FillAndExpand" />
                 </toolkit:Expander>
-
-
-                <local:BottomSheet
-                    x:Name="BottomSheet"
-                    Grid.Row="4"
-                    Grid.ColumnSpan="3"
-                    CloseCommand="{Binding CloseCommand}"
-                    DeleteCommand="{Binding DeleteCommand}"
-                    DetachCommand="{Binding DetachCommand}"
-                    EditCommand="{Binding EditCommand}"
-                    IsVisible="false"
-                    VerticalOptions="EndAndExpand" />
-
             </Grid>
-        </VerticalStackLayout>
+
+            <local:BottomSheet
+                x:Name="BottomSheet"
+                toolkit:DockLayout.DockPosition="Bottom"
+                CloseCommand="{Binding CloseCommand}"
+                DeleteCommand="{Binding DeleteCommand}"
+                DetachCommand="{Binding DetachCommand}"
+                EditCommand="{Binding EditCommand}"
+                VerticalOptions="End" />
+        </toolkit:DockLayout>
     </ScrollView>
 </ContentPage>

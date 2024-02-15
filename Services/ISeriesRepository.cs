@@ -12,6 +12,5 @@ internal interface ISeriesRepository
     Task<bool> DeleteSeriesAsync(int seriesId);
     Task<Series> GetSeriesAsyncById(int seriesId);
     Task<IEnumerable<Series>> GetSeriesAsync();
-    Task<IEnumerable<Series>> GetAllSeriesAsync();
     Task<int> GetAllSeriesCount(bool overFlag);
 }

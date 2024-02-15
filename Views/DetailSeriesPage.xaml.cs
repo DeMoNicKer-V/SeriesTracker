@@ -80,8 +80,7 @@ public partial class DetailSeriesPage : ContentPage
     private async void OnCloseCommand()
     {
         // Скрываем BottomSheet с анимацией
-        await BottomSheet.TranslateTo(0, 300, 200);
-        BottomSheet.IsVisible = false;
+        await BottomSheet.CloseBottomSheet();
     }
 /*
     private async void OnDeleteCommand()
@@ -108,7 +107,7 @@ public partial class DetailSeriesPage : ContentPage
         editEpisodeEntry.Text = placeHolder.Text;
         placeHolder.IsVisible = true;
         editEpisodeEntry.Unfocus();
-        if (!BottomSheet.IsVisible)
+        if (!BottomSheet.shortDuration)
         {
             menuLabel.RotateXTo(180, 200);
             ShowBottomSheet();
@@ -119,16 +118,9 @@ public partial class DetailSeriesPage : ContentPage
     private async void ShowBottomSheet()
     {
         // Показываем BottomSheet с анимацией
-        await BottomSheet.TranslateTo(0, 200, 200);
+        await BottomSheet.OpenBottomSheet();
         BottomSheet.IsVisible = true;
-        if (labelSeriesName.Text.Length < 20)
-        {
-            await BottomSheet.TranslateTo(0, 25, 200);
-            return;
-        }
-            
-        // Скрываем BottomSheet с анимацией
-        await BottomSheet.TranslateTo(0, 0, 200);
+
     }
 
     protected override void OnAppearing()

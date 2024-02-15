@@ -53,7 +53,7 @@ public partial class SettingsPage : ContentPage
         try
             {
                 seriesList.Clear();
-                var newSeriesList = await App.SeriesService.GetAllSeriesAsync();
+                var newSeriesList = await App.SeriesService.GetSeriesAsync();
                 foreach (var item in newSeriesList)
                 {
                     seriesList.Add(item);

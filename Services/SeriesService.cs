@@ -17,6 +17,12 @@ public class SeriesService : ISeriesRepository
         _database.CreateTableAsync<Series>().Wait();
     }
 
+    /// <summary>
+    /// Adds an <see cref="Series"/> element to database.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="content"></param>
+    /// <returns></returns>
     public async Task<bool> AddUpdateSeriesAsync(Series series)
     {
         if (series.seriesId > 0)
@@ -30,17 +36,35 @@ public class SeriesService : ISeriesRepository
         return await Task.FromResult(true);
     }
 
+    /// <summary>
+    /// Delete an <see cref="Series"/> element by Id.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="content"></param>
+    /// <returns></returns>
     public async Task<bool> DeleteSeriesAsync(int seriesId)
     {
         await _database.DeleteAsync<Series>(seriesId);
         return await Task.FromResult(true);
     }
 
+    /// <summary>
+    /// Returns a <see cref="Series"/> element by Id.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="content"></param>
+    /// <returns></returns>
     public async Task<Series> GetSeriesAsyncById(int seriesId)
     {
         return await _database.Table<Series>().Where(n => n.seriesId == seriesId).FirstOrDefaultAsync();
     }
 
+    /// <summary>
+    /// Returns an <see cref="Series"/> list.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="content"></param>
+    /// <returns></returns>
     public async Task<IEnumerable<Series>> GetSeriesAsync(bool overFlag, int skip, bool favorite)
     {
         relativeItemsCount = await _database.Table<Series>().Where(s => s.isOver == overFlag).CountAsync();
@@ -54,6 +78,12 @@ public class SeriesService : ISeriesRepository
         }
     }
 
+    /// <summary>
+    /// Returns an <see cref="Series"/> list filtered by Series name.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="content"></param>
+    /// <returns></returns>
     public async Task<IEnumerable<Series>> GetSeriesAsync(bool overFlag, int skip, string query, bool favorite)
     {
         relativeItemsCount = await _database.Table<Series>().Where(s => s.hiddenSeriesName.Contains(query)).CountAsync();
@@ -68,22 +98,24 @@ public class SeriesService : ISeriesRepository
 
 
     }
+
+    /// <summary>
+    /// Returns an <see cref="Series"/> list.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="content"></param>
+    /// <returns></returns>
     public async Task<IEnumerable<Series>> GetSeriesAsync() 
     { 
          return await Task.FromResult(await _database.Table<Series>().ToListAsync());
     }
 
-    public async Task<IEnumerable<Series>> Test(bool overFlag, int skip)
-    {
-        relativeItemsCount = await _database.Table<Series>().Where(s => s.isOver == overFlag).CountAsync();
-        return await Task.FromResult(await _database.Table<Series>().Where(s => s.isOver == overFlag).Skip(skip).Take(5).ToListAsync());
-    }
-
-    public async Task<IEnumerable<Series>> GetAllSeriesAsync()
-    {
-        return await Task.FromResult(await _database.Table<Series>().ToListAsync());
-    }
-
+    /// <summary>
+    /// Returns a count of all <see cref="Series"/> elements.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="content"></param>
+    /// <returns></returns>
     public async Task<int> GetAllSeriesCount(bool overFlag)
     {
         return await Task.FromResult(await _database.Table<Series>().Where(s => s.isOver == overFlag).CountAsync());
