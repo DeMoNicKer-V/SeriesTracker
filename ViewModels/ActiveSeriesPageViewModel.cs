@@ -12,33 +12,32 @@ namespace SeriesTracker.ViewModels;
 
 public partial class ActiveSeriesPageViewModel : BaseSeriesModel
 {
-    public string quaryText;
+    public string queryText;
+
     [ObservableProperty]
     public int seriesCount;
 
     [ObservableProperty]
     public int viewedSeriesCount;
 
-    internal LOAD_PARAMETER loadParameter;
-    internal bool favoriteflag = false;
+    internal bool favoriteFlag = false;
     private readonly ContentPage _page;
     private ActivePagePopUp activeSeriesPagePopUp;
     private Series currentSeries;
 
     private ObservableCollection<Series> seriesList = new ObservableCollection<Series>();
     private int skip = 0;
+
     public ActiveSeriesPageViewModel(INavigation navigation, ContentPage contentPageBehavior)
     {
         Navigation = navigation;
         _page = contentPageBehavior;
+        activeSeriesPagePopUp = new ActivePagePopUp();
+        activeSeriesPagePopUp.ContentPageBehavior = _page;
+        activeSeriesPagePopUp.EditCommand = new Command(OnEditCommand);
+        activeSeriesPagePopUp.DeleteCommand = new Command(OnDeleteCommand);
+        activeSeriesPagePopUp.DetachCommand = new Command(OnDetachCommand);
     }
-
-
-    public Command DeleteCommand { get; }
-
-    public Command DetachCommand { get; }
-
-    public Command EditCommand { get; }
 
     public ObservableCollection<Series> SeriesList
     {
@@ -49,24 +48,20 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         set
         {
             seriesList = value;
-            OnPropertyChanged();
         }
     }
+
     public void OnAppearing()
     {
+        skip = 0;
         IsBusy = true;
     }
 
     [RelayCommand]
-    private async void AdditionalAction(Series series)
+    private async Task AdditionalAction(Series series)
     {
-        activeSeriesPagePopUp = new ActivePagePopUp();
-        activeSeriesPagePopUp.ContentPageBehavior = _page;
         activeSeriesPagePopUp.Title = series.seriesName;
         currentSeries = series;
-        activeSeriesPagePopUp.EditCommand = new Command(OnEditCommand);
-        activeSeriesPagePopUp.DeleteCommand = new Command(OnDeleteCommand);
-        activeSeriesPagePopUp.DetachCommand = new Command(OnDetachCommand);
         await _page.ShowPopupAsync(activeSeriesPagePopUp);
         return;
     }
@@ -78,23 +73,12 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     }
 
     [RelayCommand]
-    private async Task FilterSeries(string query)
+    private void FilterSeries(string query)
     {
         try
         {
-            if (!string.IsNullOrWhiteSpace(query))
-            {
-                loadParameter = LOAD_PARAMETER.FILTER;
-                quaryText = new string(query.ToLower());
-                skip = 0;
-                IsBusy = true;
-            }
-            else if (loadParameter == LOAD_PARAMETER.FILTER)
-            {
-                loadParameter = LOAD_PARAMETER.DEFAULT;
-                skip = 0;
-                IsBusy = true;
-            }
+            queryText = new string(query.ToLower());
+            IsBusy = true;
         }
         catch (Exception) { }
         finally { }
@@ -108,38 +92,24 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         {
             SeriesList.Clear();
             IEnumerable<Series> newSeriesList = new List<Series>();
-            switch (loadParameter)
+            if (string.IsNullOrEmpty(queryText))
             {
-                case LOAD_PARAMETER.DEFAULT:
-                    newSeriesList = await App.SeriesService.GetSeriesAsync(WachedFlag, skip, favoriteflag);
-                    newSeriesList = newSeriesList.OrderByDescending(f => f.isFavourite);
-                    if (newSeriesList != null && newSeriesList.Count() > 0)
-                    {
-                        foreach (var item in newSeriesList)
-                        {
-                            SeriesList.Add(item);
-                        }
-                    }
-                    SeriesCount = App.SeriesService.relativeItemsCount;
-                    ViewedSeriesCount = SeriesList.Count() + skip;
-                    break;
-
-                case LOAD_PARAMETER.FILTER:
-                    newSeriesList = await App.SeriesService.GetSeriesAsync(WachedFlag, skip, quaryText, favoriteflag);
-                    newSeriesList = newSeriesList.OrderByDescending(f => f.isFavourite);
-                    if (newSeriesList != null && newSeriesList.Count() > 0)
-                    {
-                        foreach (var item in newSeriesList)
-                        {
-                            SeriesList.Add(item);
-                        }
-                    }
-                    SeriesCount = App.SeriesService.relativeItemsCount;
-                    ViewedSeriesCount = SeriesList.Count() + skip;
-                    break;
-                default:
-                    break;
+                newSeriesList = await App.SeriesService.GetSeriesAsync(WachedFlag, skip, favoriteFlag);
             }
+            else 
+            { 
+                newSeriesList = await App.SeriesService.GetSeriesAsync(WachedFlag, skip, queryText, favoriteFlag); 
+            }
+            newSeriesList = newSeriesList.OrderByDescending(f => f.isFavourite);
+            if (newSeriesList is not null && newSeriesList.Count() > 0)
+            {
+                foreach (var item in newSeriesList)
+                {
+                    SeriesList.Add(item);
+                }
+            }
+            SeriesCount = App.SeriesService.relativeItemsCount;
+            ViewedSeriesCount = SeriesList.Count() + skip;
         }
         catch (Exception)
         {
@@ -151,13 +121,13 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     }
 
     [RelayCommand]
-    private async void OnAddSeries()
+    private async Task OnAddSeries()
     {
         await Shell.Current.GoToAsync(nameof(NewSeriesPage));
     }
 
     [RelayCommand]
-    private async void OnDecSeriesList()
+    private void OnDecSeriesList()
     {
         if (skip >= 5)
         {
@@ -170,7 +140,9 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     private async void OnDeleteCommand()
     {
         if (currentSeries is null)
+        {
             return;
+        }
         await App.SeriesService.DeleteSeriesAsync(currentSeries.seriesId);
         OnAppearing();
     }
@@ -178,18 +150,18 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     private async void OnDetachCommand()
     {
         if (currentSeries is null)
+        {
             return;
+        }
+
+        currentSeries.isOver = !currentSeries.isOver;
         if (Parameters.WachedFlag == false)
         {
-
-
-            currentSeries.isOver = true;
             currentSeries.currentEpisode = currentSeries.lastEpisode;
             currentSeries.overDate = DateTime.Now.ToString();
         }
-        else 
+        else
         {
-            currentSeries.isOver = false;
             currentSeries.currentEpisode = currentSeries.startEpisode;
             currentSeries.overDate = string.Empty;
         }
@@ -202,23 +174,14 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     {
         await Navigation.PushAsync(new NewSeriesPage(currentSeries));
     }
+
     [RelayCommand]
-    private async void OnIncSeriesList()
+    private void OnIncSeriesList()
     {
         if ((SeriesList.Count() + skip) < SeriesCount)
         {
             skip += 5;
             IsBusy = true;
         }
-    }
-    [RelayCommand]
-    private async void SetFavourite(Series series)
-    {
-        if (series == null)
-        {
-            return;
-        }
-        series.isFavourite = !series.isFavourite;
-        OnAppearing();
     }
 }
