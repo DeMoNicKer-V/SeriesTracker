@@ -152,7 +152,7 @@ public partial class Series
         {
             if (!string.IsNullOrEmpty(addedDate))
             {
-                return System.String.Format($"{DateTime.Parse(addedDate):D}");
+                return System.String.Format($"{DateTime.Parse(addedDate):M} {DateTime.Parse(addedDate):yyyy} г.");
             }
             return null;
         }

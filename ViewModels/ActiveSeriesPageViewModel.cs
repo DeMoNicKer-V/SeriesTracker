@@ -100,7 +100,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
             { 
                 newSeriesList = await App.SeriesService.GetSeriesAsync(WachedFlag, skip, queryText, favoriteFlag); 
             }
-            newSeriesList = newSeriesList.OrderByDescending(f => f.isFavourite);
+ 
             if (newSeriesList is not null && newSeriesList.Count() > 0)
             {
                 foreach (var item in newSeriesList)

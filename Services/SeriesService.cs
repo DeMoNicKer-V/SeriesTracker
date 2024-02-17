@@ -73,7 +73,7 @@ public class SeriesService : ISeriesRepository
             case true:
                 return await Task.FromResult(await _database.Table<Series>().Where(s => s.isOver == overFlag & s.isFavourite == true).Skip(skip).Take(5).ToListAsync());
             case false:
-                return await Task.FromResult(await _database.Table<Series>().Where(s => s.isOver == overFlag).Skip(skip).Take(5).ToListAsync());
+                return await Task.FromResult(await _database.Table<Series>().Where(s => s.isOver == overFlag).Skip(skip).Take(5).OrderByDescending(s => s.isFavourite).ToListAsync());
 
         }
     }
@@ -92,7 +92,7 @@ public class SeriesService : ISeriesRepository
             case true:
                 return await Task.FromResult(await _database.Table<Series>().Where(s => s.hiddenSeriesName.Contains(query) & s.isFavourite == true).Skip(skip).Take(5).ToListAsync());
             case false:
-                return await Task.FromResult(await _database.Table<Series>().Where(s => s.hiddenSeriesName.Contains(query) & s.isOver == overFlag).Skip(skip).Take(5).ToListAsync());
+                return await Task.FromResult(await _database.Table<Series>().Where(s => s.hiddenSeriesName.Contains(query) & s.isOver == overFlag).Skip(skip).Take(5).OrderByDescending(s => s.isFavourite).ToListAsync());
 
         }
 

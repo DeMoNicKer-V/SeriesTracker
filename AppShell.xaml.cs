@@ -10,7 +10,6 @@ namespace SeriesTracker;
 
 public partial class AppShell : Shell
 {
-    ActiveSeriesPageViewModel activeSeriesPageViewModel;
     public AppShell()
     {
         InitializeComponent();

@@ -28,7 +28,7 @@
                     <RowDefinition Height="360" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -86,7 +86,7 @@
                     VerticalOptions="Start">
                     <HorizontalStackLayout>
                         <Label
-                            x:Name="myLabel2"
+                            x:Name="ratingLabel"
                             Margin="0,0,5,0"
                             FontFamily="NunitoItalic"
                             FontSize="12"
@@ -120,8 +120,6 @@
                     <Image Aspect="Fill" Source="{Binding Series.imagePath, TargetNullValue='imagemiss.png'}" />
                 </Border>
 
-
-
                 <VerticalStackLayout
                     Grid.Row="2"
                     Grid.ColumnSpan="3"
@@ -139,89 +137,13 @@
                                                     Dark={StaticResource White}}" />
 
                     <toolkit:Expander x:Name="ratingExpander">
-                        <VerticalStackLayout>
-                            <Grid Margin="5" Padding="5">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="20" />
-                                    <RowDefinition Height="30" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="25" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="25" />
-                                </Grid.ColumnDefinitions>
-                                <HorizontalStackLayout
-                                    Grid.Row="0"
-                                    Grid.ColumnSpan="3"
-                                    HorizontalOptions="Center"
-                                    VerticalOptions="Center">
-                                    <controls:RatingView
-                                        ItemCount="10"
-                                        ItemSize="20"
-                                        ItemSpacing="6"
-                                        RatedFillColor="Yellow"
-                                        StrokeColor="Black"
-                                        StrokeWidth="1"
-                                        UnRatedFillColor="LightGrey">
-                                        <controls:RatingView.Value>
-                                            <Binding Path="Value" Source="{x:Reference mySlider}" />
-                                        </controls:RatingView.Value>
-                                    </controls:RatingView>
-                                    <Label
-                                        x:Name="myLabel"
-                                        Margin="0,-5,0,0"
-                                        FontFamily="NunitoItalic"
-                                        FontSize="10">
-                                        <Label.Text>
-                                            <Binding Path="Value" Source="{x:Reference mySlider}" />
-                                        </Label.Text>
-                                    </Label>
-                                </HorizontalStackLayout>
-                                <ImageButton
-                                    x:Name="cancelButton"
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Margin="3,-1,0,0"
-                                    Clicked="cancelButton_Clicked"
-                                    HeightRequest="18"
-                                    HorizontalOptions="Center"
-                                    Source="cross.png"
-                                    VerticalOptions="Center"
-                                    WidthRequest="18">
-                                    <ImageButton.Behaviors>
-                                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
-                                    </ImageButton.Behaviors>
-                                </ImageButton>
-
-                                <Slider
-                                    x:Name="mySlider"
-                                    Grid.Row="1"
-                                    Grid.Column="1"
-                                    HorizontalOptions="Fill"
-                                    Maximum="10.0"
-                                    Minimum="0.0"
-                                    ValueChanged="Slider_ValueChanged"
-                                    Value="{Binding Series.seriesRating, Mode=TwoWay}" />
-
-                                <ImageButton
-                                    x:Name="likeButton"
-                                    Grid.Row="1"
-                                    Grid.Column="2"
-                                    Margin="3,-1,0,0"
-                                    Clicked="likeButton_Clicked"
-                                    Command="{Binding SaveSeriesCommand}"
-                                    HeightRequest="18"
-                                    HorizontalOptions="Center"
-                                    Source="accept.png"
-                                    VerticalOptions="Center"
-                                    WidthRequest="18">
-                                    <ImageButton.Behaviors>
-                                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
-                                    </ImageButton.Behaviors>
-                                </ImageButton>
-                            </Grid>
-                        </VerticalStackLayout>
+                        <controls:RatingSlider
+                            AcceptCommand="{Binding ChangeRatingCommand}"
+                            ExpanderBehavior="{Binding Source={x:Reference ratingExpander}, Path=IsExpanded}"
+                            OldValue="{Binding Series.seriesRating, Mode=OneTime}"
+                            RatingLabel="{Binding Source={x:Reference ratingLabel}, Mode=TwoWay}"
+                            RatingPicture="{Binding Source={x:Reference ratingImage}, Mode=TwoWay}"
+                            Value="{Binding Series.seriesRating, Mode=TwoWay}" />
                     </toolkit:Expander>
                     <StackLayout Margin="5">
                         <Line
@@ -240,9 +162,9 @@
                         <RowDefinition Height="40" />
                         <RowDefinition Height="30" />
                         <RowDefinition Height="30" />
-                        <RowDefinition Height="30" />
-                        <RowDefinition Height="30" />
-                        <RowDefinition Height="30" />
+                        <RowDefinition Height="20" />
+                        <RowDefinition Height="20" />
+                        <RowDefinition Height="20" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="30" />
@@ -272,7 +194,7 @@
                             </Border.StrokeShape>
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer
-                                    Command="{Binding SaveSeriesCommand}"
+                                    Command="{Binding ChangeFavoriteStatusCommand}"
                                     NumberOfTapsRequired="1"
                                     Tapped="TapGestureRecognizer_Tapped_2" />
                             </Border.GestureRecognizers>
@@ -315,8 +237,6 @@
                                 <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
                             </Border.GestureRecognizers>
                         </Border>
-
-
                     </HorizontalStackLayout>
                     <ImageButton
                         x:Name="menuLabel"
@@ -338,44 +258,67 @@
                         Grid.Row="1"
                         Grid.Column="0"
                         Margin="0,0,5,0"
-                        HeightRequest="25"
+                        HeightRequest="22"
                         HorizontalOptions="Center"
-                        Source="about.png"
-                        WidthRequest="25">
+                        Source="episode.png"
+                        WidthRequest="22">
                         <Image.Behaviors>
                             <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
                         </Image.Behaviors>
                     </Image>
-                    <Label
-                        Grid.Row="2"
+                    <HorizontalStackLayout
+                        Grid.Row="1"
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
-                        HorizontalOptions="Start"
-                        Text="{Binding Series.GetFormatDate, Mode=OneWay}"
-                        VerticalTextAlignment="Center" />
+                        HorizontalOptions="Start">
+                        <Label
+                            Margin="0,5,3,0"
+                            FontAttributes="Italic"
+                            FontSize="9"
+                            Text="всего эп."
+                            TextColor="Grey"
+                            VerticalTextAlignment="Center" />
+                        <Label Text="{Binding Series.lastEpisode, Mode=OneWay}" VerticalTextAlignment="Center" />
+                        <Label
+                            Margin="5,5,3,0"
+                            FontAttributes="Italic"
+                            FontSize="9"
+                            Text="сезон:"
+                            TextColor="Grey"
+                            VerticalTextAlignment="Center" />
+                        <Label Text="{Binding Series.seriesSeason, Mode=OneTime}" VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
                     <Image
                         Grid.Row="2"
                         Grid.Column="0"
                         Margin="0,0,5,0"
-                        HeightRequest="25"
+                        HeightRequest="22"
                         HorizontalOptions="Center"
                         Source="calendar.png"
-                        WidthRequest="25">
+                        WidthRequest="22">
                         <Image.Behaviors>
                             <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
                         </Image.Behaviors>
                     </Image>
-                    <Label
-                        Grid.Row="1"
+                    <HorizontalStackLayout
+                        Grid.Row="2"
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
-                        HorizontalOptions="Start"
-                        Text="{Binding Series.GetSubDescription, Mode=OneWay}"
-                        VerticalTextAlignment="Center" />
+                        HorizontalOptions="Start">
+                        <Label
+                            Margin="0,5,3,0"
+                            FontAttributes="Italic"
+                            FontSize="9"
+                            Text="дата выхода:"
+                            TextColor="Grey"
+                            VerticalTextAlignment="Center" />
+                        <Label Text="{Binding Series.GetFormatDate, Mode=OneWay}" VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
+
                     <HorizontalStackLayout
                         Grid.Row="3"
                         Grid.Column="0"
-                        Grid.ColumnSpan="2"
+                        Grid.ColumnSpan="3"
                         HorizontalOptions="FillAndExpand">
                         <Label
                             Margin="0,0,5,0"
@@ -385,7 +328,6 @@
                             Text="Добавлено:"
                             VerticalTextAlignment="Center" />
                         <Label
-                            Grid.ColumnSpan="2"
                             FontAttributes="Italic"
                             FontSize="11"
                             HorizontalOptions="Start"
@@ -395,8 +337,7 @@
                     <HorizontalStackLayout
                         Grid.Row="4"
                         Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        Margin="0,-10,0,0"
+                        Grid.ColumnSpan="3"
                         HorizontalOptions="FillAndExpand">
                         <Label
                             Margin="0,0,5,0"
@@ -406,21 +347,19 @@
                             Text="Просмотрено:"
                             VerticalTextAlignment="Center" />
                         <Label
-                            Grid.ColumnSpan="2"
                             FontAttributes="Italic"
                             FontSize="11"
                             HorizontalOptions="Start"
                             Text="{Binding Series.getOverDate, Mode=OneWay, TargetNullValue='смотрю'}"
                             VerticalTextAlignment="Center" />
                     </HorizontalStackLayout>
-
                 </Grid>
 
                 <toolkit:Expander
                     x:Name="descriptionExpander"
-                    Grid.Row="5"
+                    Grid.Row="4"
                     Grid.ColumnSpan="3"
-                    Margin="15,0,15,0"
+                    Margin="15"
                     ExpandedChanged="Expander_ExpandedChanged"
                     VerticalOptions="CenterAndExpand">
                     <toolkit:Expander.Header>
@@ -460,6 +399,7 @@
                 DeleteCommand="{Binding DeleteCommand}"
                 DetachCommand="{Binding DetachCommand}"
                 EditCommand="{Binding EditCommand}"
+                IsVisible="false"
                 VerticalOptions="End" />
         </toolkit:DockLayout>
     </ScrollView>

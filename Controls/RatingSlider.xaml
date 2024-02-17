@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="SeriesTracker.Controls.RatingSlider"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:SeriesTracker.Controls"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Name="this">
+
+    <VerticalStackLayout>
+        <Grid Margin="5" Padding="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="25" />
+            </Grid.ColumnDefinitions>
+            <HorizontalStackLayout
+                Grid.Row="0"
+                Grid.ColumnSpan="3"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <controls:RatingView
+                    ItemCount="10"
+                    ItemSize="20"
+                    ItemSpacing="6"
+                    RatedFillColor="#FFDD45"
+                    StrokeColor="Black"
+                    StrokeWidth="1"
+                    UnRatedFillColor="#dddbde">
+                    <controls:RatingView.Value>
+                        <Binding Path="Value" Source="{x:Reference BaseSlider}" />
+                    </controls:RatingView.Value>
+                </controls:RatingView>
+                <Label
+                    x:Name="myLabel"
+                    Margin="0,-5,0,0"
+                    FontFamily="NunitoItalic"
+                    FontSize="10">
+                    <Label.Text>
+                        <Binding Path="Value" Source="{x:Reference BaseSlider}" />
+                    </Label.Text>
+                </Label>
+            </HorizontalStackLayout>
+            <ImageButton
+                x:Name="cancelButton"
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="3,-1,0,0"
+                Clicked="CancelButton_Clicked"
+                HeightRequest="18"
+                HorizontalOptions="Center"
+                Source="cross.png"
+                VerticalOptions="Center"
+                WidthRequest="18">
+                <ImageButton.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                </ImageButton.Behaviors>
+            </ImageButton>
+            <Slider
+                x:Name="BaseSlider"
+                Grid.Row="1"
+                Grid.Column="1"
+                HorizontalOptions="Fill"
+                Maximum="10.0"
+                Minimum="0.0"
+                ValueChanged="RatingSlider_ValueChanged"
+                Value="{Binding Source={x:Reference this}, Path=Value}" />
+            <ImageButton
+                x:Name="acceptButton"
+                Grid.Row="1"
+                Grid.Column="2"
+                Margin="3,-1,0,0"
+                Clicked="AcceptButton_Clicked"
+                HeightRequest="18"
+                HorizontalOptions="Center"
+                Source="accept.png"
+                VerticalOptions="Center"
+                WidthRequest="18">
+                <ImageButton.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                </ImageButton.Behaviors>
+            </ImageButton>
+        </Grid>
+    </VerticalStackLayout>
+</ContentView>

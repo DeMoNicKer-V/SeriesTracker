@@ -1,4 +1,5 @@
-﻿using SeriesTracker.Models;
+﻿using CommunityToolkit.Mvvm.Input;
+using SeriesTracker.Models;
 using SeriesTracker.Views;
 
 #if ANDROID
@@ -20,6 +21,8 @@ namespace SeriesTracker.ViewModels
         public Command EditCommand { get; }
 
         public Command BackCommand { get; }
+        public Command ChangeRatingCommand { get; }
+
         public DetailSeriesPageViewModel(INavigation navigation)
         {
             Navigation = navigation;
@@ -27,6 +30,7 @@ namespace SeriesTracker.ViewModels
             EditCommand = new Command(OnEditCommand);
             DeleteCommand = new Command(OnDeleteCommand);
             DetachCommand = new Command(OnDetachCommand);
+            ChangeRatingCommand = new Command(OnChangeRating);
             Series = new Series();
         }
 
@@ -35,56 +39,60 @@ namespace SeriesTracker.ViewModels
             IsBusy = true;
         }
 
-        [CommunityToolkit.Mvvm.Input.RelayCommand]
-        public async Task SaveSeries()
+        [RelayCommand]
+        public async Task ChangeFavoriteStatus()
         {
-            var newSeries = Series;
-            if (newSeries is null)
-                return;
-            newSeries.isFavourite = !newSeries.isFavourite;
-            await App.SeriesService.AddUpdateSeriesAsync(newSeries);
+            if (!CheckSeries(Series)) { return; }
+            Series.isFavourite = !Series.isFavourite;
+            await App.SeriesService.AddUpdateSeriesAsync(Series);
         }
 
-        [CommunityToolkit.Mvvm.Input.RelayCommand]
+        public async void OnChangeRating()
+        {
+            if (!CheckSeries(Series)) { return; }
+            await App.SeriesService.AddUpdateSeriesAsync(Series);
+        }
+
+        [RelayCommand]
         public async Task EditEpisode(string Text)
         {
-            var newSeries = Series;
-            if (newSeries is null)
-                return;
-            if (Convert.ToInt32(Text) > newSeries.lastEpisode || Convert.ToInt32(Text) < newSeries.startEpisode)
+            if (!CheckSeries(Series)) { return; }
+            if (Convert.ToInt32(Text) > Series.lastEpisode || Convert.ToInt32(Text) < Series.startEpisode)
             {
                 return;
             }
-            newSeries.currentEpisode = Convert.ToInt32(Text);
-            await App.SeriesService.AddUpdateSeriesAsync(newSeries);
+            Series.currentEpisode = Convert.ToInt32(Text);
+            await App.SeriesService.AddUpdateSeriesAsync(Series);
         }
-            private async void OnDeleteCommand()
+
+        private async void OnDeleteCommand()
         {
-            var newSeries = Series;
-            if (newSeries is null)
-                return;
-            await App.SeriesService.DeleteSeriesAsync(newSeries.seriesId);
+            if (!CheckSeries(Series)) { return; }
+            await App.SeriesService.DeleteSeriesAsync(Series.seriesId);
             await Shell.Current.GoToAsync("..");
+        }
+
+        private bool CheckSeries(Series series)
+        {
+            if (series is null) return false;
+            else return true;
         }
 
         private async void OnDetachCommand()
         {
-            var newSeries = Series;
-            if (newSeries is null)
-                return;
-            if (!newSeries.isOver)
+            if (!CheckSeries(Series)) { return; }
+            Series.isOver = !Series.isOver;
+            if (!Series.isOver)
             {
-                newSeries.isOver = true;
-                newSeries.currentEpisode = newSeries.lastEpisode;
-                newSeries.overDate = DateTime.Now.ToString();
+                Series.currentEpisode = Series.lastEpisode;
+                Series.overDate = DateTime.Now.ToString();
             }
             else
             {
-                newSeries.isOver = false;
-                newSeries.currentEpisode = newSeries.startEpisode;
-                newSeries.overDate = string.Empty ;
+                Series.currentEpisode = Series.startEpisode;
+                Series.overDate = string.Empty;
             }
-            await App.SeriesService.AddUpdateSeriesAsync(newSeries);
+            await App.SeriesService.AddUpdateSeriesAsync(Series);
             await Shell.Current.GoToAsync("..");
         }
 
@@ -93,7 +101,7 @@ namespace SeriesTracker.ViewModels
             await Navigation.PushAsync(new NewSeriesPage(Series));
         }
 
-        private async void OnBackCommand() 
+        private async void OnBackCommand()
         {
             await Shell.Current.GoToAsync("..");
         }

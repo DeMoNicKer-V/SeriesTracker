@@ -1,5 +1,4 @@
 using CommunityToolkit.Maui.Views;
-using static Android.Icu.Text.CaseMap;
 
 namespace SeriesTracker.Controls.DeleteAlert;
 
