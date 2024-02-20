@@ -22,10 +22,10 @@ public partial class Series
         get; set;
     }
 
-    public int seriesSeason
+    public int seriesDuration
     {
         get; set;
-    } = 0;
+    } = 24;
 
     public string seriesDescription
     {
@@ -99,13 +99,13 @@ public partial class Series
         {
             return (false, "Текущая серия не должа выходить за пределы стартовой и последней серий!");
         }
-        else if (new[] { startEpisode, lastEpisode, currentEpisode, seriesSeason }.Min() < 0)
+        else if (new[] { startEpisode, lastEpisode, currentEpisode, seriesDuration }.Min() < 0)
         {
             return (false, "Все числовые значения не должны отрицательными!");
         }
         else if (releaseDate.Year < 1961)
         {
-            return (false, "Некорректный год выхода!");
+            return (false, "Некорректная дата!");
         }
         return (true, null);
     }
@@ -116,32 +116,6 @@ public partial class Series
         get
         {
                 return System.String.Format($"{releaseDate:M} {releaseDate:yyyy} г.");
-        }
-    }
-
-    [JsonIgnore]
-    public string GetSubDescription
-    {
-        get
-        {
-            if (seriesSeason > 0)
-            {
-                return $"Сезон {seriesSeason}-й ({lastEpisode} эпизодов)";
-            }
-            return $"{lastEpisode} эпизодов";
-        }
-    }
-
-    [JsonIgnore]
-    public string getIsRated
-    {
-        get
-        {
-            if (seriesRating == 0)
-            {
-                return "(?)";
-            }
-            return seriesRating.ToString();
         }
     }
 

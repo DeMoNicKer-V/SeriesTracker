@@ -8,7 +8,7 @@
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vModels="clr-namespace:SeriesTracker.ViewModels"
     Title=""
-    BackgroundColor="{AppThemeBinding Light=#fafafa,
+    BackgroundColor="{AppThemeBinding Light=#ffffff,
                                       Dark=#121212}"
     Shell.FlyoutBehavior="Disabled"
     Shell.TabBarIsVisible="False">
@@ -18,81 +18,83 @@
 
     <ContentPage.Resources>
         <Style x:Key="InvalidEntryStyle" TargetType="Entry">
-            <Setter Property="TextColor" Value="Red" />
+            <Setter Property="TextColor" Value="#E24750" />
+        </Style>
+        <Style x:Key="BasicEntryStyle" TargetType="Entry">
+            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
         </Style>
     </ContentPage.Resources>
 
-    <ScrollView>
-        <StackLayout Margin="20">
+    <ScrollView Margin="15,0,15,40" VerticalScrollBarVisibility="Never">
+        <StackLayout>
             <StackLayout VerticalOptions="FillAndExpand">
                 <Grid x:Name="gridContainer">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="40" />
                         <RowDefinition Height="220" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="60" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="170" />
+                        <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <HorizontalStackLayout
-                        Grid.Row="0"
+                    <ImageButton
+                        Grid.Row="1"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
-                        HorizontalOptions="Fill">
-                        <ImageButton
-                            Margin="0,0,10,0"
-                            Command="{Binding BackCommand}"
-                            HeightRequest="25"
-                            HorizontalOptions="Start"
-                            Source="backarrow.png"
-                            VerticalOptions="Center"
-                            WidthRequest="25">
-                            <ImageButton.Behaviors>
-                                <toolkit:IconTintColorBehavior TintColor="Black" />
-                            </ImageButton.Behaviors>
-                        </ImageButton>
-                        <Label
-                            FontSize="Title"
-                            Text="Данные сериала"
-                            TextColor="{StaticResource Primary}"
-                            VerticalOptions="Center" />
-                    </HorizontalStackLayout>
+                        Margin="15"
+                        Command="{Binding BackCommand}"
+                        HeightRequest="25"
+                        HorizontalOptions="Start"
+                        Source="backarrow.png"
+                        VerticalOptions="Start"
+                        WidthRequest="25">
+                        <ImageButton.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{StaticResource Gray400}" />
+                        </ImageButton.Behaviors>
+                    </ImageButton>
                     <StackLayout
                         Grid.Row="1"
                         Grid.Column="1"
-                        Margin="15,15,15,0">
+                        Margin="15">
                         <Border
                             x:Name="posterBorder"
                             BackgroundColor="Transparent"
-                            HeightRequest="160"
-                            HorizontalOptions="Fill"
+                            HeightRequest="130"
+                            HorizontalOptions="Center"
                             Stroke="Transparent"
-                            VerticalOptions="Fill"
                             WidthRequest="170">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="10" />
                             </Border.StrokeShape>
                             <Image
                                 x:Name="posterImage"
-                                Aspect="Center"
+                                Aspect="AspectFit"
                                 Source="addposter.png">
                                 <Image.GestureRecognizers>
                                     <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
                                 </Image.GestureRecognizers>
+                                <Image.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="{StaticResource Gray400}" />
+                                </Image.Behaviors>
                             </Image>
                         </Border>
                         <Label
                             x:Name="tipPosterLabel"
+                            Margin="15"
                             FontAttributes="Italic"
                             FontSize="12"
                             HorizontalOptions="Center"
                             HorizontalTextAlignment="Center"
                             IsVisible="true"
-                            Text="Нажмите, чтобы добавить изображение" />
+                            Text="Нажмите, чтобы добавить изображение"
+                            TextColor="{StaticResource Gray400}"
+                            WidthRequest="170" />
                     </StackLayout>
                     <StackLayout Grid.Row="1" Grid.Column="2">
                         <Border
@@ -100,7 +102,8 @@
                             Padding="5"
                             BackgroundColor="Transparent"
                             HorizontalOptions="Center"
-                            Stroke="{StaticResource Primary}"
+                            Stroke="{AppThemeBinding Light={StaticResource Primary},
+                                                     Dark={StaticResource PrimaryDark}}"
                             StrokeShape="RoundRectangle 50"
                             StrokeThickness="1"
                             VerticalOptions="Start">
@@ -110,7 +113,7 @@
                                 Source="myanimelist.png"
                                 WidthRequest="30">
                                 <ImageButton.Behaviors>
-                                    <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
                                 </ImageButton.Behaviors>
                             </ImageButton>
                         </Border>
@@ -120,7 +123,8 @@
                             Padding="5"
                             BackgroundColor="Transparent"
                             HorizontalOptions="Center"
-                            Stroke="{StaticResource Primary}"
+                            Stroke="{AppThemeBinding Light={StaticResource Primary},
+                                                     Dark={StaticResource PrimaryDark}}"
                             StrokeShape="RoundRectangle 50"
                             StrokeThickness="1"
                             VerticalOptions="Start">
@@ -130,7 +134,7 @@
                                 Source="shikimori.png"
                                 WidthRequest="30">
                                 <ImageButton.Behaviors>
-                                    <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
                                 </ImageButton.Behaviors>
                             </ImageButton>
                         </Border>
@@ -167,36 +171,11 @@
                                     MinimumLength="1" />
                             </Editor.Behaviors>
                         </Editor>
-                        <Line x:Name="nameUnderline" BackgroundColor="{StaticResource Primary}" />
+                        <Line x:Name="nameUnderline" BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
                     </StackLayout>
-                    <HorizontalStackLayout
-                        x:Name="siteEntry"
-                        Grid.Row="3"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="3"
-                        HorizontalOptions="Center"
-                        IsVisible="false">
-                        <ImageButton
-                            Clicked="ImageButton_Clicked_2"
-                            HeightRequest="20"
-                            Source="cross.png"
-                            WidthRequest="20" />
-                        <Entry
-                            x:Name="aaa"
-                            HorizontalOptions="Start"
-                            HorizontalTextAlignment="Center"
-                            Placeholder="Вставьте ссылку на сериал"
-                            WidthRequest="300" />
-                        <ImageButton
-                            Clicked="Button_Clicked"
-                            HeightRequest="20"
-                            Source="favorite.png"
-                            WidthRequest="20" />
-                    </HorizontalStackLayout>
-
                     <toolkit:Expander
                         x:Name="descriptionExpander"
-                        Grid.Row="4"
+                        Grid.Row="3"
                         Grid.ColumnSpan="3"
                         Padding="10,0,10,10"
                         ExpandedChanged="descriptionExpander_ExpandedChanged"
@@ -208,14 +187,15 @@
                                     FontAttributes="Italic"
                                     FontFamily="NunitoItalic"
                                     FontSize="14"
-                                    Text="Открыть описание" />
+                                    Text="Открыть описание"
+                                    TextColor="{StaticResource Gray400}" />
                                 <Image
                                     x:Name="descriptionImage"
                                     HeightRequest="20"
                                     Source="downarrow.png"
                                     WidthRequest="20">
                                     <Image.Behaviors>
-                                        <toolkit:IconTintColorBehavior TintColor="Black" />
+                                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
                                     </Image.Behaviors>
                                 </Image>
                             </HorizontalStackLayout>
@@ -228,8 +208,9 @@
                                 Focused="descriptionEditor_Focused"
                                 FontSize="13"
                                 HorizontalOptions="FillAndExpand"
+                                HorizontalTextAlignment="Center"
                                 MinimumHeightRequest="200"
-                                Placeholder="Описание сериала..."
+                                Placeholder="Здесь можно добавить описание сериала"
                                 Text="{Binding Series.seriesDescription, Mode=TwoWay}"
                                 Unfocused="descriptionEditor_Unfocused"
                                 VerticalTextAlignment="Start">
@@ -247,26 +228,13 @@
                                         MinimumLength="1" />
                                 </Editor.Behaviors>
                             </Editor>
-                            <Line x:Name="descriptionUnderline" BackgroundColor="{StaticResource Primary}" />
+                            <Line x:Name="descriptionUnderline" BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
                         </StackLayout>
                     </toolkit:Expander>
-                </Grid>
-
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="60" />
-                        <RowDefinition Height="60" />
-                        <RowDefinition Height="60" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
 
                     <controls:MaterialEntry
                         x:Name="startEntry"
-                        Grid.Row="0"
+                        Grid.Row="4"
                         Grid.Column="0"
                         HorizontalOptions="Center"
                         Label="Начальная серия"
@@ -275,7 +243,7 @@
 
                     <controls:MaterialEntry
                         x:Name="currentEntry"
-                        Grid.Row="0"
+                        Grid.Row="4"
                         Grid.Column="1"
                         HorizontalOptions="Center"
                         Label="Текущая серия"
@@ -284,7 +252,7 @@
 
                     <controls:MaterialEntry
                         x:Name="lastEntry"
-                        Grid.Row="0"
+                        Grid.Row="4"
                         Grid.Column="2"
                         HorizontalOptions="Center"
                         Label="Последняя серия"
@@ -292,35 +260,34 @@
                         TextChanged="lastEntry_TextChanged" />
 
                     <StackLayout
-                        Grid.Row="1"
+                        Grid.Row="5"
                         Grid.ColumnSpan="3"
                         Margin="0,15,0,0"
                         Padding="5"
                         HorizontalOptions="Center"
                         Orientation="Horizontal">
                         <StackLayout Orientation="Horizontal">
-                            <Label Text="Наличие сезонов:" />
+                            <Label Text="Ср. продожительность эпизода:" />
                             <CheckBox
-                                x:Name="seasonCheckBox"
+                                x:Name="durationCheckBox"
                                 Margin="0,-12,0,0"
                                 CheckedChanged="CheckBox_CheckedChanged" />
                         </StackLayout>
                         <StackLayout Orientation="Horizontal">
                             <Label
-                                x:Name="seasonLabel"
-                                BindingContext="{x:Reference seasonEntry}"
+                                BindingContext="{x:Reference durationEntry}"
                                 IsEnabled="False"
-                                Text="Сезон:"
+                                Text="~"
                                 TextColor="{Binding TextColor}" />
                             <Entry
-                                x:Name="seasonEntry"
+                                x:Name="durationEntry"
                                 Margin="0,-12,0,0"
                                 HorizontalTextAlignment="Center"
                                 IsEnabled="False"
                                 Keyboard="Numeric"
-                                MaxLength="4"
-                                Text="{Binding Series.seriesSeason, Mode=TwoWay}"
-                                TextChanged="seasonEntry_TextChanged">
+                                MaxLength="3"
+                                Text="{Binding Series.seriesDuration, Mode=TwoWay}"
+                                TextChanged="durationEntry_TextChanged">
                                 <Entry.Behaviors>
                                     <toolkit:CharactersValidationBehavior
                                         CharacterType="Digit"
@@ -329,11 +296,17 @@
                                         RegexPattern="^0{1}$|^[1-9][0-9]*$" />
                                 </Entry.Behaviors>
                             </Entry>
+                            <Label
+                                x:Name="durationLabel"
+                                BindingContext="{x:Reference durationEntry}"
+                                IsEnabled="False"
+                                Text="мин."
+                                TextColor="{Binding TextColor}" />
                         </StackLayout>
                     </StackLayout>
 
                     <StackLayout
-                        Grid.Row="2"
+                        Grid.Row="6"
                         Grid.ColumnSpan="3"
                         Margin="10"
                         Padding="5"
@@ -345,38 +318,33 @@
                             Margin="0,-12,0,0"
                             Date="{Binding Series.releaseDate, Mode=TwoWay}" />
                     </StackLayout>
-
                 </Grid>
-
-
-
             </StackLayout>
 
             <StackLayout Orientation="Horizontal" VerticalOptions="End">
                 <Border
-                    Margin="0,10,0,0"
                     BackgroundColor="{AppThemeBinding Light={StaticResource Primary},
-                                                      Dark=White}"
+                                                      Dark={StaticResource PrimaryDark}}"
                     HeightRequest="75"
                     HorizontalOptions="FillAndExpand"
                     Stroke="{AppThemeBinding Light={StaticResource Primary},
-                                             Dark=White}"
+                                             Dark={StaticResource PrimaryDark}}"
                     VerticalOptions="End">
                     <Button
                         x:Name="saveBtn"
                         BackgroundColor="{AppThemeBinding Light={StaticResource Primary},
-                                                          Dark=White}"
+                                                          Dark={StaticResource PrimaryDark}}"
                         Command="{Binding SaveSeriesCommand}"
-                        FontSize="20"
-                        Text="Сохранить"
+                        FontSize="24"
+                        Text="Добавить"
                         TextColor="{AppThemeBinding Light=White,
                                                     Dark=Black}" />
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="5" />
+                        <RoundRectangle CornerRadius="7" />
                     </Border.StrokeShape>
                     <Border.Shadow
                         Brush="{AppThemeBinding Light={StaticResource Primary},
-                                                Dark=White}"
+                                                Dark={StaticResource PrimaryDark}}"
                         Opacity="0.7"
                         Radius="20"
                         Offset="20,20" />

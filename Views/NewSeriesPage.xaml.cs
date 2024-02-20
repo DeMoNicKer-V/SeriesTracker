@@ -1,25 +1,15 @@
 using AngleSharp;
 using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Behaviors;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Core.Platform;
 using SeriesTracker.Models;
-using SeriesTracker.Services;
 using SeriesTracker.ViewModels;
-using static System.Net.Mime.MediaTypeNames;
-using System.Threading;
 
 namespace SeriesTracker.Views;
 
 public partial class NewSeriesPage : ContentPage
 {
-    private MALParser malParser = new MALParser();
-
-    private Services.IParser parser;
-
-    private ShikimoriParser shikimoriParser = new ShikimoriParser();
-
-    private string url = string.Empty;
-
     public NewSeriesPage()
     {
         InitializeComponent();
@@ -34,7 +24,7 @@ public partial class NewSeriesPage : ContentPage
         if (series != null)
         {
             ((NewSeriesPageViewModel)BindingContext).Series = series;
-            if (Convert.ToInt32(seasonEntry.Text) > 0) { seasonCheckBox.IsChecked = true; }
+            if (Convert.ToInt32(durationEntry.Text) > 0) { durationCheckBox.IsChecked = true; }
             if (!string.IsNullOrWhiteSpace(series.imagePath))
             {
                 ChangePosterAttributes();
@@ -48,70 +38,6 @@ public partial class NewSeriesPage : ContentPage
         get; set;
     }
 
-    private async void Button_Clicked(object sender, EventArgs e)
-    {
-        if (!String.IsNullOrWhiteSpace(url))
-        {
-
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-            switch (url.Contains("shikimori"))
-            {
-                case true:
-                    if (!aaa.Text.Contains(url))
-                    {
-                        
-
-                        var toast = Toast.Make("Неправильная ссылка", ToastDuration.Short, 14);
-
-                        await toast.Show(cancellationTokenSource.Token);
-                        return;
-                    }
-                    saveBtn.IsEnabled = false;
-                    posterImage.Source = string.Empty;
-                    ChangePosterAttributes();
-
-                    shikimoriParser.BaseUrl = aaa.Text;
-                    aaa.Text = string.Empty;
-                    siteEntry.IsVisible = false;
-                    await shikimoriParser.ParseDate();
-                    parser = shikimoriParser;
-                    break;
-
-                case false:
-                    if (!aaa.Text.Contains(url))
-                    {
-
-
-                        var toast = Toast.Make("Неправильная ссылка", ToastDuration.Short, 14);
-
-                        await toast.Show(cancellationTokenSource.Token);
-                        return;
-                    }
-                    saveBtn.IsEnabled = false;
-                    posterImage.Source = string.Empty;
-                    ChangePosterAttributes();
-                    malParser.BaseUrl = aaa.Text;
-                    aaa.Text = string.Empty;
-                    siteEntry.IsVisible = false;
-                    await malParser.ParseDate();
-                    parser = malParser;
-                    break;
-
-                default:
-                    break;
-            }
-            releaseDatePicker.Date = DateTime.Parse(parser.ReleaseYear);
-            saveBtn.IsEnabled = true;
-            nameEditor.Text = parser.Name;
-            descriptionEditor.Text = parser.Description;
-            
-            lastEntry.Text = parser.Episodes;
-            posterImage.Source = parser.ImagePath;
-            ((NewSeriesPageViewModel)BindingContext).Series.imagePath = parser.ImagePath;
-            url = string.Empty;
-        }
-    }
-
     private void ChangePosterAttributes()
     {
         tipPosterLabel.IsVisible = false;
@@ -119,20 +45,14 @@ public partial class NewSeriesPage : ContentPage
         posterImage.Aspect = Aspect.Fill;
     }
 
-    private void ChangeSeasonEnabled(bool checkFlag)
-    {
-        seasonLabel.IsEnabled = checkFlag;
-        seasonEntry.IsEnabled = checkFlag;
-        if (checkFlag == false)
-        {
-            seasonEntry.Text = "0";
-        }
-        else { seasonEntry.Text = "1"; }
-    }
-
     private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
-        ChangeSeasonEnabled(e.Value);
+        durationEntry.IsEnabled = e.Value;
+        if (e.Value == false)
+        {
+            durationEntry.Text = "24";
+        }
+        //durationEntry.Style = (Style)Application.Current.Resources["BasicEntryStyle"];
     }
 
     private async Task<bool> CheckInternetAccess()
@@ -153,6 +73,15 @@ public partial class NewSeriesPage : ContentPage
             return false;
         }
         return true;
+    }
+
+    private void currentEntry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(e.NewTextValue))
+        {
+            currentEntry.HasError = true;
+        }
+        else currentEntry.HasError = false;
     }
 
     private void descriptionEditor_Focused(object sender, FocusEventArgs e)
@@ -195,19 +124,16 @@ public partial class NewSeriesPage : ContentPage
         {
             return;
         }
-        /* url = "https://shikimori.one/animes/";
-         siteEntry.IsVisible = true;
-         await Browser.Default.OpenAsync("https://shikimori.one/animes", BrowserLaunchMode.SystemPreferred);*/
         await Navigation.PushAsync(new SeriesListPage(false));
     }
 
-    private void ImageButton_Clicked_2(object sender, EventArgs e)
+    private void lastEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
-        if (!string.IsNullOrWhiteSpace(aaa.Text))
+        if (string.IsNullOrWhiteSpace(e.NewTextValue))
         {
-            aaa.Text = string.Empty;
+            lastEntry.HasError = true;
         }
-        else siteEntry.IsVisible = false;
+        else lastEntry.HasError = false;
     }
 
     private void nameEditor_Focused(object sender, FocusEventArgs e)
@@ -230,9 +156,18 @@ public partial class NewSeriesPage : ContentPage
         }
     }
 
-    private void seasonEntry_TextChanged(object sender, TextChangedEventArgs e)
+    private void durationEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
         RemoveSignsTextChanged(sender, e);
+    }
+
+    private void startEntry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(e.NewTextValue))
+        {
+            startEntry.HasError = true;
+        }
+        else startEntry.HasError = false;
     }
 
     private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
@@ -244,11 +179,11 @@ public partial class NewSeriesPage : ContentPage
             {
                 if (string.IsNullOrWhiteSpace(nameEditor.Text))
                 {
-                    await DisplayAlert("Пусто", "Для поиска заполните название сериала", "Оk");
+                    await DisplayAlert("Ошибка!", "Заполните название сериала", "Оk");
                     return;
                 }
-               string name = nameEditor.Text.Replace(" ", "%20") + " постер";
-               await Task.Run(async () => await Browser.Default.OpenAsync("https://yandex.by/images/search?text=" + name, BrowserLaunchMode.SystemPreferred));
+                string name = nameEditor.Text.Replace(" ", "%20") + " постер";
+                await Task.Run(async () => await Browser.Default.OpenAsync("https://yandex.by/images/search?text=" + name, BrowserLaunchMode.SystemPreferred));
             }
             PickOptions options = new()
             {
@@ -259,6 +194,11 @@ public partial class NewSeriesPage : ContentPage
             if (result != null)
             {
                 posterImage.Source = result.FullPath;
+                Behavior toRemove = posterImage.Behaviors.FirstOrDefault(b => b is IconTintColorBehavior);
+                if (toRemove != null)
+                {
+                    posterImage.Behaviors.Remove(toRemove);
+                }
                 ((NewSeriesPageViewModel)BindingContext).Series.imagePath = result.FullPath;
                 ChangePosterAttributes();
             }
@@ -267,32 +207,5 @@ public partial class NewSeriesPage : ContentPage
         {
             // The user canceled or something went wrong
         }
-    }
-
-    private void currentEntry_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        if (string.IsNullOrWhiteSpace(e.NewTextValue))
-        { 
-            currentEntry.HasError = true;
-        }
-        else currentEntry.HasError = false;
-    }
-
-    private void lastEntry_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        if (string.IsNullOrWhiteSpace(e.NewTextValue))
-        {
-            lastEntry.HasError = true;
-        }
-        else lastEntry.HasError = false;
-    }
-
-    private void startEntry_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        if (string.IsNullOrWhiteSpace(e.NewTextValue))
-        {
-            startEntry.HasError = true;
-        }
-        else startEntry.HasError = false;
     }
 }

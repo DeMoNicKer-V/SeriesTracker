@@ -5,15 +5,9 @@ public partial class MaterialEntry : ContentView
     private readonly int _yScale;
     private readonly int _xScale;
 
-    private readonly Color _primary;
-
     public MaterialEntry()
     {
         InitializeComponent();
-
-        var rd = App.Current.Resources.MergedDictionaries.First();
-
-        _primary = (Color)rd["Primary"];
 
         if (DeviceInfo.Current.Platform == DevicePlatform.Android)
         {
@@ -71,9 +65,6 @@ public partial class MaterialEntry : ContentView
     }
     private void MEEntry_Focused(object sender, FocusEventArgs e)
     {
-        //MELabel.IsVisible = false;
-        MEBorder.Stroke = (Color)_primary;
-        MELabel.TextColor = (Color)_primary;
         ScaleLabelDown();
     }
 
@@ -91,8 +82,6 @@ public partial class MaterialEntry : ContentView
                 MELabel.TranslateTo(_xScale, _yScale + 2, 50, Easing.Default);
             }
         }
-        MEEntry.IsEnabled = false;
-        MEEntry.IsEnabled = true;
     }
 
     private void ScaleLabelDown()

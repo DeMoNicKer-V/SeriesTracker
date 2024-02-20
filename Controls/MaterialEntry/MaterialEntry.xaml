@@ -9,32 +9,19 @@
     <Grid WidthRequest="200">
         <Label
             x:Name="MELabel"
-            BackgroundColor="{AppThemeBinding Light={StaticResource White},
-                                              Dark={StaticResource Black}}"
+            BackgroundColor="{AppThemeBinding Light=#ffffff,
+                                              Dark=#121212}"
             FontSize="12"
             HorizontalOptions="Center"
             InputTransparent="True"
             Text="{Binding Source={x:Reference this}, Path=Label}"
-            VerticalOptions="Center">
-            <Label.Triggers>
-                <DataTrigger
-                    Binding="{Binding Source={x:Reference MEEntry}, Path=IsFocused}"
-                    TargetType="Label"
-                    Value="True">
-                    <Setter Property="TextColor" Value="{StaticResource Primary}" />
-                </DataTrigger>
-                <DataTrigger
-                    Binding="{Binding Source={x:Reference MEEntry}, Path=IsFocused}"
-                    TargetType="Label"
-                    Value="False">
-                    <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
-                </DataTrigger>
-            </Label.Triggers>
-        </Label>
+            TextColor="{AppThemeBinding Light=#121212,
+                                        Dark={StaticResource Gray400}}"
+            VerticalOptions="Center" />
         <Border
             x:Name="warning"
-            BackgroundColor="{AppThemeBinding Light={StaticResource White},
-                                              Dark={StaticResource Black}}"
+            BackgroundColor="{AppThemeBinding Light=#ffffff,
+                                              Dark=#121212}"
             HeightRequest="21"
             IsVisible="{Binding Source={x:Reference this}, Path=HasError}"
             StrokeShape="RoundRectangle 50"
@@ -44,7 +31,7 @@
                 Source="exclamation.png"
                 WidthRequest="21">
                 <Image.Behaviors>
-                    <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
+                    <toolkit:IconTintColorBehavior TintColor="#E12D36" />
                 </Image.Behaviors>
             </Image>
         </Border>
@@ -52,6 +39,8 @@
             x:Name="MEBorder"
             BackgroundColor="Transparent"
             HorizontalOptions="Center"
+            Stroke="{AppThemeBinding Light=#121212,
+                                     Dark={StaticResource Gray400}}"
             StrokeShape="RoundRectangle 5"
             VerticalOptions="Center">
             <Border.Triggers>
@@ -59,14 +48,14 @@
                     Binding="{Binding Source={x:Reference MEEntry}, Path=IsFocused}"
                     TargetType="Border"
                     Value="True">
-                    <Setter Property="Stroke" Value="{StaticResource Primary}" />
+
                     <Setter Property="StrokeThickness" Value="2" />
                 </DataTrigger>
                 <DataTrigger
                     Binding="{Binding Source={x:Reference MEEntry}, Path=IsFocused}"
                     TargetType="Border"
                     Value="False">
-                    <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+
                     <Setter Property="StrokeThickness" Value="1" />
                 </DataTrigger>
             </Border.Triggers>
@@ -88,7 +77,8 @@
                 MaxLength="4"
                 Text="{Binding Source={x:Reference this}, Path=Text}"
                 TextChanged="MEEntry_TextChanged"
-                TextColor="Purple"
+                TextColor="{AppThemeBinding Light={StaticResource Primary},
+                                            Dark={StaticResource PrimaryDark}}"
                 Unfocused="MEEntry_Unfocused"
                 VerticalOptions="Center"
                 WidthRequest="90">

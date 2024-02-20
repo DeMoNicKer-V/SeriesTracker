@@ -283,10 +283,10 @@
                             Margin="5,5,3,0"
                             FontAttributes="Italic"
                             FontSize="9"
-                            Text="сезон:"
+                            Text="ср. продолж."
                             TextColor="Grey"
                             VerticalTextAlignment="Center" />
-                        <Label Text="{Binding Series.seriesSeason, Mode=OneTime}" VerticalTextAlignment="Center" />
+                        <Label Text="{Binding Series.seriesDuration, Mode=OneWay, StringFormat='~{0} мин.'}" VerticalTextAlignment="Center" />
                     </HorizontalStackLayout>
                     <Image
                         Grid.Row="2"

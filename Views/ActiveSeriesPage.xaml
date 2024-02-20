@@ -270,18 +270,6 @@
                                     Grid.ColumnSpan="3"
                                     HorizontalOptions="Start"
                                     VerticalOptions="Center">
-                                    <HorizontalStackLayout IsVisible="{Binding seriesSeason}">
-                                        <Label Text="{Binding seriesSeason, StringFormat='Сезон: {0}'}" VerticalOptions="Center" />
-                                        <Image
-                                            HeightRequest="15"
-                                            Source="dot.png"
-                                            VerticalOptions="Center"
-                                            WidthRequest="15">
-                                            <Image.Behaviors>
-                                                <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
-                                            </Image.Behaviors>
-                                        </Image>
-                                    </HorizontalStackLayout>
                                     <Label Text="{Binding getFomattedEpisodes}" VerticalOptions="Center" />
 
 

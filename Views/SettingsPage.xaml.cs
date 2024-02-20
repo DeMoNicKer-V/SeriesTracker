@@ -160,14 +160,12 @@ public partial class SettingsPage : ContentPage
     {
         public bool Equals(Series x, Series y)
         {
-            // Проверка на равенство по нескольким полям
-            return x.seriesName == y.seriesName && x.seriesSeason == y.seriesSeason;
+            return x.seriesName == y.seriesName;
         }
 
         public int GetHashCode(Series obj)
         {
-            // Хэш-функция
-            return (obj.seriesName + obj.seriesSeason.ToString()).GetHashCode();
+            return (obj.seriesName).GetHashCode();
         }
     }
 }
