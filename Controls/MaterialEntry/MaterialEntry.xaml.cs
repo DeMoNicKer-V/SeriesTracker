@@ -111,7 +111,12 @@ public partial class MaterialEntry : ContentView
 
     private void MEEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
-        OnTextChanged(e);
+        if (string.IsNullOrWhiteSpace(e.NewTextValue))
+        {
+            HasError = true;
+        }
+        else HasError = false;
+        //OnTextChanged(e);
     }
 
     private void MEEntry_Completed(object sender, EventArgs e)

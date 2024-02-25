@@ -17,7 +17,16 @@
             Text="{Binding Source={x:Reference this}, Path=Label}"
             TextColor="{AppThemeBinding Light=#121212,
                                         Dark={StaticResource Gray400}}"
-            VerticalOptions="Center" />
+            VerticalOptions="Center">
+            <Label.Triggers>
+                <DataTrigger
+                    Binding="{Binding Source={x:Reference this}, Path=HasError}"
+                    TargetType="Label"
+                    Value="True">
+                    <Setter Property="TextColor" Value="#E24750" />
+                </DataTrigger>
+            </Label.Triggers>
+        </Label>
         <Border
             x:Name="warning"
             BackgroundColor="{AppThemeBinding Light=#ffffff,
@@ -31,7 +40,7 @@
                 Source="exclamation.png"
                 WidthRequest="21">
                 <Image.Behaviors>
-                    <toolkit:IconTintColorBehavior TintColor="#E12D36" />
+                    <toolkit:IconTintColorBehavior TintColor="#E24750" />
                 </Image.Behaviors>
             </Image>
         </Border>
@@ -48,14 +57,12 @@
                     Binding="{Binding Source={x:Reference MEEntry}, Path=IsFocused}"
                     TargetType="Border"
                     Value="True">
-
                     <Setter Property="StrokeThickness" Value="2" />
                 </DataTrigger>
                 <DataTrigger
                     Binding="{Binding Source={x:Reference MEEntry}, Path=IsFocused}"
                     TargetType="Border"
                     Value="False">
-
                     <Setter Property="StrokeThickness" Value="1" />
                 </DataTrigger>
             </Border.Triggers>

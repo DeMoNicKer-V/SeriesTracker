@@ -20,9 +20,6 @@
         <Style x:Key="InvalidEntryStyle" TargetType="Entry">
             <Setter Property="TextColor" Value="#E24750" />
         </Style>
-        <Style x:Key="BasicEntryStyle" TargetType="Entry">
-            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
-        </Style>
     </ContentPage.Resources>
 
     <ScrollView Margin="15,0,15,40" VerticalScrollBarVisibility="Never">
@@ -238,8 +235,7 @@
                         Grid.Column="0"
                         HorizontalOptions="Center"
                         Label="Начальная серия"
-                        Text="{Binding Series.startEpisode, Mode=TwoWay}"
-                        TextChanged="startEntry_TextChanged" />
+                        Text="{Binding Series.startEpisode, Mode=TwoWay}" />
 
                     <controls:MaterialEntry
                         x:Name="currentEntry"
@@ -247,8 +243,7 @@
                         Grid.Column="1"
                         HorizontalOptions="Center"
                         Label="Текущая серия"
-                        Text="{Binding Series.currentEpisode, Mode=TwoWay}"
-                        TextChanged="currentEntry_TextChanged" />
+                        Text="{Binding Series.currentEpisode, Mode=TwoWay}" />
 
                     <controls:MaterialEntry
                         x:Name="lastEntry"
@@ -256,8 +251,7 @@
                         Grid.Column="2"
                         HorizontalOptions="Center"
                         Label="Последняя серия"
-                        Text="{Binding Series.lastEpisode, Mode=TwoWay}"
-                        TextChanged="lastEntry_TextChanged" />
+                        Text="{Binding Series.lastEpisode, Mode=TwoWay}" />
 
                     <StackLayout
                         Grid.Row="5"
@@ -276,7 +270,7 @@
                         <StackLayout Orientation="Horizontal">
                             <Label
                                 BindingContext="{x:Reference durationEntry}"
-                                IsEnabled="False"
+                                FontAttributes="Italic"
                                 Text="~"
                                 TextColor="{Binding TextColor}" />
                             <Entry
@@ -299,7 +293,7 @@
                             <Label
                                 x:Name="durationLabel"
                                 BindingContext="{x:Reference durationEntry}"
-                                IsEnabled="False"
+                                FontAttributes="Italic"
                                 Text="мин."
                                 TextColor="{Binding TextColor}" />
                         </StackLayout>

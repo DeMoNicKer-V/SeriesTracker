@@ -1,24 +1,31 @@
-using AngleSharp;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Behaviors;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Core.Platform;
+using CommunityToolkit.Maui.Views;
+using SeriesTracker.Controls.SearchImageResult;
 using SeriesTracker.Models;
+using SeriesTracker.Services.GoogleApi;
 using SeriesTracker.ViewModels;
 
 namespace SeriesTracker.Views;
 
 public partial class NewSeriesPage : ContentPage
 {
+    private readonly GoogleCustomSearchApiService googleApiService;
+    private SearchImageResult imageResultPopUp;
+    private int serchPageParam = 1;
     public NewSeriesPage()
     {
         InitializeComponent();
+        googleApiService = new GoogleCustomSearchApiService();
         BindingContext = new NewSeriesPageViewModel();
     }
 
     public NewSeriesPage(Series series)
     {
         InitializeComponent();
+        googleApiService = new GoogleCustomSearchApiService();
         this.BindingContext = new NewSeriesPageViewModel();
 
         if (series != null)
@@ -27,15 +34,9 @@ public partial class NewSeriesPage : ContentPage
             if (Convert.ToInt32(durationEntry.Text) > 0) { durationCheckBox.IsChecked = true; }
             if (!string.IsNullOrWhiteSpace(series.imagePath))
             {
-                ChangePosterAttributes();
-                posterImage.Source = series.imagePath;
+                SetImageParams(series.imagePath);
             }
         }
-    }
-
-    public Series Series
-    {
-        get; set;
     }
 
     private void ChangePosterAttributes()
@@ -75,14 +76,6 @@ public partial class NewSeriesPage : ContentPage
         return true;
     }
 
-    private void currentEntry_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        if (string.IsNullOrWhiteSpace(e.NewTextValue))
-        {
-            currentEntry.HasError = true;
-        }
-        else currentEntry.HasError = false;
-    }
 
     private void descriptionEditor_Focused(object sender, FocusEventArgs e)
     {
@@ -127,15 +120,6 @@ public partial class NewSeriesPage : ContentPage
         await Navigation.PushAsync(new SeriesListPage(false));
     }
 
-    private void lastEntry_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        if (string.IsNullOrWhiteSpace(e.NewTextValue))
-        {
-            lastEntry.HasError = true;
-        }
-        else lastEntry.HasError = false;
-    }
-
     private void nameEditor_Focused(object sender, FocusEventArgs e)
     {
         nameUnderline.HeightRequest = 2;
@@ -161,13 +145,42 @@ public partial class NewSeriesPage : ContentPage
         RemoveSignsTextChanged(sender, e);
     }
 
-    private void startEntry_TextChanged(object sender, TextChangedEventArgs e)
+    private async Task SearchImages(string name)
     {
-        if (string.IsNullOrWhiteSpace(e.NewTextValue))
+        if (!await CheckInternetAccess())
         {
-            startEntry.HasError = true;
+            return;
         }
-        else startEntry.HasError = false;
+        imageResultPopUp = new SearchImageResult();
+        var resultImages = await googleApiService.SearchAsync(name, serchPageParam, 3);
+        imageResultPopUp.FirstImageSource = resultImages.ElementAt(0);
+        imageResultPopUp.SecondImageSource = resultImages.ElementAt(1);
+        imageResultPopUp.ThirdImageSource = resultImages.ElementAt(2);
+        var result = await this.ShowPopupAsync(imageResultPopUp);
+        if (result is bool boolResult)
+        {
+            if (boolResult)
+            {
+                SetImageParams(resultImages.ElementAt(imageResultPopUp.ActiveImage));
+                serchPageParam++;
+            }
+            else
+            {
+                return;
+            }
+        }
+    }
+
+    private void SetImageParams(string urlImage)
+    {
+        posterImage.Source = urlImage;
+        Behavior toRemove = posterImage.Behaviors.FirstOrDefault(b => b is IconTintColorBehavior);
+        if (toRemove != null)
+        {
+            posterImage.Behaviors.Remove(toRemove);
+        }
+        ((NewSeriesPageViewModel)BindingContext).Series.imagePath = urlImage;
+        ChangePosterAttributes();
     }
 
     private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
@@ -182,8 +195,9 @@ public partial class NewSeriesPage : ContentPage
                     await DisplayAlert("Ошибка!", "Заполните название сериала", "Оk");
                     return;
                 }
-                string name = nameEditor.Text.Replace(" ", "%20") + " постер";
-                await Task.Run(async () => await Browser.Default.OpenAsync("https://yandex.by/images/search?text=" + name, BrowserLaunchMode.SystemPreferred));
+                string searchImgName = string.Concat(nameEditor.Text);
+                await SearchImages(searchImgName);
+                return;
             }
             PickOptions options = new()
             {
@@ -193,19 +207,13 @@ public partial class NewSeriesPage : ContentPage
             var result = await FilePicker.Default.PickAsync(options);
             if (result != null)
             {
-                posterImage.Source = result.FullPath;
-                Behavior toRemove = posterImage.Behaviors.FirstOrDefault(b => b is IconTintColorBehavior);
-                if (toRemove != null)
-                {
-                    posterImage.Behaviors.Remove(toRemove);
-                }
-                ((NewSeriesPageViewModel)BindingContext).Series.imagePath = result.FullPath;
-                ChangePosterAttributes();
+                SetImageParams(result.FullPath);
+                
             }
         }
         catch (Exception ex)
         {
-            // The user canceled or something went wrong
+            var ee = ex.Message;
         }
     }
 }

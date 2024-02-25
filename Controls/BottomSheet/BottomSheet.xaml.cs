@@ -75,8 +75,8 @@ public partial class BottomSheet : ContentView
 
     private async void CloseButton_Clicked(object sender, EventArgs e)
     {
-        await this.TranslateTo(0, 300, 200);
-        this.IsVisible = false;
+        await this.TranslateTo(0, 200, 200);
+
     }
 
     private void EditButton_Clicked(object sender, EventArgs e)
@@ -92,15 +92,14 @@ public partial class BottomSheet : ContentView
     public async Task OpenBottomSheet()
     {
 
-        await BackgroundFader.TranslateTo(0, 200, 150);
-        BackgroundFader.IsVisible = true;
-        await BackgroundFader.TranslateTo(0, 0, 200);
+        await this.TranslateTo(0, 200, 100);
+
+        await this.TranslateTo(0, 0, 200);
         shortDuration = true ;
     }
     public async Task CloseBottomSheet()
     {
-        await BackgroundFader.TranslateTo(0, 200, 150);
-        BackgroundFader.IsVisible = false;
+        await this.TranslateTo(0, 200, 200);
         shortDuration = false;
     }
 
