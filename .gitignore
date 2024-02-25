@@ -365,3 +365,4 @@ FodyWeavers.xsd
 /Resources/Images/gallery.png
 /Resources/Images/poster.jpg
 /Services/APIConfig.cs
+/Services/GoogleApi/GoogleCustomSearchApiConfiguration.cs
