@@ -7,6 +7,7 @@ using SeriesTracker.Controls.SearchImageResult;
 using SeriesTracker.Models;
 using SeriesTracker.Services.GoogleApi;
 using SeriesTracker.ViewModels;
+using Color = Microsoft.Maui.Graphics.Color;
 
 namespace SeriesTracker.Views;
 
@@ -15,11 +16,13 @@ public partial class NewSeriesPage : ContentPage
     private readonly GoogleCustomSearchApiService googleApiService;
     private SearchImageResult imageResultPopUp;
     private int serchPageParam = 1;
+
     public NewSeriesPage()
     {
         InitializeComponent();
         googleApiService = new GoogleCustomSearchApiService();
         BindingContext = new NewSeriesPageViewModel();
+        posterImage.Behaviors.Add(new IconTintColorBehavior { TintColor = Color.FromArgb("#919191") });
     }
 
     public NewSeriesPage(Series series)
@@ -36,6 +39,7 @@ public partial class NewSeriesPage : ContentPage
             {
                 SetImageParams(series.imagePath);
             }
+            else { posterImage.Behaviors.Add(new IconTintColorBehavior { TintColor = Color.FromArgb("#919191") }); }
         }
     }
 
@@ -75,7 +79,6 @@ public partial class NewSeriesPage : ContentPage
         }
         return true;
     }
-
 
     private void descriptionEditor_Focused(object sender, FocusEventArgs e)
     {
@@ -152,17 +155,14 @@ public partial class NewSeriesPage : ContentPage
             return;
         }
         imageResultPopUp = new SearchImageResult();
-        var resultImages = await googleApiService.SearchAsync(name, serchPageParam, 3);
-        imageResultPopUp.FirstImageSource = resultImages.ElementAt(0);
-        imageResultPopUp.SecondImageSource = resultImages.ElementAt(1);
-        imageResultPopUp.ThirdImageSource = resultImages.ElementAt(2);
+        imageResultPopUp.SearchName = name;
+        imageResultPopUp.Page = this;
         var result = await this.ShowPopupAsync(imageResultPopUp);
         if (result is bool boolResult)
         {
             if (boolResult)
             {
-                SetImageParams(resultImages.ElementAt(imageResultPopUp.ActiveImage));
-                serchPageParam++;
+                SetImageParams(imageResultPopUp.Images.ElementAt(imageResultPopUp.ActiveImage));
             }
             else
             {
@@ -173,12 +173,12 @@ public partial class NewSeriesPage : ContentPage
 
     private void SetImageParams(string urlImage)
     {
-        posterImage.Source = urlImage;
         Behavior toRemove = posterImage.Behaviors.FirstOrDefault(b => b is IconTintColorBehavior);
         if (toRemove != null)
         {
             posterImage.Behaviors.Remove(toRemove);
         }
+        posterImage.Source = urlImage;
         ((NewSeriesPageViewModel)BindingContext).Series.imagePath = urlImage;
         ChangePosterAttributes();
     }
@@ -208,7 +208,6 @@ public partial class NewSeriesPage : ContentPage
             if (result != null)
             {
                 SetImageParams(result.FullPath);
-                
             }
         }
         catch (Exception ex)

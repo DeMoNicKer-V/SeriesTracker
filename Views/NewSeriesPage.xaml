@@ -72,13 +72,11 @@
                             <Image
                                 x:Name="posterImage"
                                 Aspect="AspectFit"
+                                BackgroundColor="Transparent"
                                 Source="addposter.png">
                                 <Image.GestureRecognizers>
                                     <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
                                 </Image.GestureRecognizers>
-                                <Image.Behaviors>
-                                    <toolkit:IconTintColorBehavior TintColor="{StaticResource Gray400}" />
-                                </Image.Behaviors>
                             </Image>
                         </Border>
                         <Label

@@ -1,4 +1,7 @@
 using CommunityToolkit.Maui.Views;
+using SeriesTracker.Services.Exceptions;
+using SeriesTracker.Services.GoogleApi;
+using System.Xml.Linq;
 
 namespace SeriesTracker.Controls.SearchImageResult;
 
@@ -52,12 +55,35 @@ public partial class SearchImageResult : Popup
         set => SetValue(ActiveImageProperty, value);
     }
 
+    public static readonly BindableProperty SearchNameProperty = BindableProperty.Create(nameof(ActiveImage), typeof(string), typeof(SearchImageResult), "");
+    public string SearchName
+    {
+        get => (string)GetValue(SearchNameProperty);
+        set => SetValue(SearchNameProperty, value);
+    }
+
+    public static readonly BindableProperty ImagesProperty = BindableProperty.Create(nameof(Images), typeof(IEnumerable<string>), typeof(SearchImageResult));
+    public IEnumerable<string> Images
+    {
+        get => (IEnumerable<string>)GetValue(ImagesProperty);
+        set => SetValue(ImagesProperty, value);
+    }
+
+    public static readonly BindableProperty PageProperty = BindableProperty.Create(nameof(Page), typeof(ContentPage), typeof(SearchImageResult));
+    public ContentPage Page
+    {
+        get => (ContentPage)GetValue(PageProperty);
+        set => SetValue(PageProperty, value);
+    }
+
     public SearchImageResult()
 	{
         ActiveImage = Convert.ToInt32(ACTIVE_IMAGE.FIRST);
-
+        googleApiService = new();
+        serchPageParam = 1;
         InitializeComponent();
-	}
+
+    }
 
     private void TapGestureRecognizer_Tapped_1(object sender, TappedEventArgs e)
     {
@@ -78,9 +104,38 @@ public partial class SearchImageResult : Popup
     {
         await CloseAsync(true);
     }
+    private int serchPageParam;
+    private readonly GoogleCustomSearchApiService googleApiService;
+    private async Task GetImages() 
+    {
+        try
+        {
+            Images = await googleApiService.SearchAsync(SearchName, serchPageParam, 3);
+            FirstImageSource = Images.ElementAt(0);
+            SecondImageSource = Images.ElementAt(1);
+            ThirdImageSource = Images.ElementAt(2);
+            serchPageParam++;
+        }
+        catch (LimitQuotaCustomSeachException ex)
+        {
+            await CloseAsync(false);
+            await Page.DisplayAlert("Превышен лимит поиска.", ex.Message, "Ок");
+        }
+
+    }
 
     private async void DenyBtn_Clicked(object sender, EventArgs e)
     {
         await CloseAsync(false);
+    }
+
+    private async void NextSearch_Tapped(object sender, TappedEventArgs e)
+    {
+        await GetImages();
+    }
+
+    private async void this_Opened(object sender, CommunityToolkit.Maui.Core.PopupOpenedEventArgs e)
+    {
+       await GetImages();
     }
 }

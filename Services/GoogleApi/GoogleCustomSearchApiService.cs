@@ -1,10 +1,5 @@
 ﻿using Google.Apis.Services;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SeriesTracker.Services.Exceptions;
 
 namespace SeriesTracker.Services.GoogleApi
 {
@@ -31,15 +26,24 @@ namespace SeriesTracker.Services.GoogleApi
             listRequest.Num = pageSize < 10 ? pageSize : 10;
             listRequest.Start = (pageNumber - 1) * pageSize;
             listRequest.ImgSize = Google.Apis.CustomSearchAPI.v1.CseResource.ListRequest.ImgSizeEnum.XLARGE;
+            Google.Apis.CustomSearchAPI.v1.Data.Search responseResult = new();
 
-
-            var results = await listRequest.ExecuteAsync();
-            if (results == null)
+            try
             {
-                throw new ArgumentNullException(nameof(results));
+                responseResult = await listRequest.ExecuteAsync();
+            }
+            catch (Exception)
+            {
+
+                throw new LimitQuotaCustomSeachException();
+            }
+   
+            if (responseResult == null)
+            {
+                throw new ArgumentNullException(nameof(responseResult));
             }
 
-            var urlItems = results.Items?.Select(x => new string(x.Link)) ?? new List<string>();
+            var urlItems = responseResult.Items?.Select(x => new string(x.Link)) ?? new List<string>();
             return urlItems;
         }
     }
