@@ -13,4 +13,10 @@ public partial class BaseViewModel : ObservableObject
     bool isBusy;
 
     public bool IsNotBusy => !IsBusy;
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsNotRefreshing))]
+    bool isRefreshing;
+
+    public bool IsNotRefreshing => !isRefreshing;
 }

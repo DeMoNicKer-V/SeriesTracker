@@ -85,12 +85,11 @@ public partial class DetailSeriesPage : ContentPage
         editEpisodeEntry.Text = placeHolder.Text;
         placeHolder.IsVisible = true;
         editEpisodeEntry.Unfocus();
-        if (!BottomSheet.shortDuration)
+        if (!BottomSheet.IsVisible)
         {
-            menuLabel.RotateXTo(180, 200);
             ShowBottomSheet();
         }
-        else { menuLabel.RotateXTo(0, 200); OnCloseCommand(); }
+        else { OnCloseCommand(); }
     }
 
     private void ReloadPage()

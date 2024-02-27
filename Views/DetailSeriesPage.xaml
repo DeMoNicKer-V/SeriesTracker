@@ -19,20 +19,20 @@
     </Shell.BackButtonBehavior>
     <ScrollView
         x:Name="baseContainer"
-        Margin="0,0,0,30"
+        Margin="0,0,0,40"
         VerticalScrollBarVisibility="Never">
         <toolkit:DockLayout>
             <Grid x:Name="gridContainer">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25" />
-                    <RowDefinition Height="360" />
+                    <RowDefinition Height="350" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="270" />
+                    <ColumnDefinition Width="260" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Image
@@ -359,7 +359,7 @@
                     x:Name="descriptionExpander"
                     Grid.Row="4"
                     Grid.ColumnSpan="3"
-                    Margin="15"
+                    Margin="15,-10,15,0"
                     ExpandedChanged="Expander_ExpandedChanged"
                     VerticalOptions="CenterAndExpand">
                     <toolkit:Expander.Header>
@@ -399,6 +399,7 @@
                 DeleteCommand="{Binding DeleteCommand}"
                 DetachCommand="{Binding DetachCommand}"
                 EditCommand="{Binding EditCommand}"
+                ImageButton="{Binding Source={x:Reference menuLabel}, Mode=OneTime}"
                 IsVisible="false"
                 VerticalOptions="End" />
         </toolkit:DockLayout>

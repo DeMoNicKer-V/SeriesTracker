@@ -105,6 +105,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Controls\CustomEmptyView\CustomEmptyVIew.xaml.cs">
+	    <DependentUpon>CustomEmptyView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\SeriesListPage.xaml.cs">
 	    <DependentUpon>SeriesListPage.xaml</DependentUpon>
 	  </Compile>
@@ -115,6 +118,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Controls\CircularProgressBar\CircularProgressBar.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Controls\CustomEmptyView\CustomEmptyView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Controls\DeleteAlert\DeleteAlert.xaml">
@@ -142,6 +148,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\DetailSeriesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\InfoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\SeriesListPage.xaml">

@@ -27,6 +27,7 @@ public partial class ActiveSeriesPage : ContentPage
             searchbarClearBtn.IsVisible = false;
             activeSeriesPageViewModel.queryText = string.Empty;
         }
+        else searchbarClearBtn.IsVisible = true;
     }
 
     private void SearchBarClearBtn_Clicked(object sender, EventArgs e)
@@ -39,11 +40,18 @@ public partial class ActiveSeriesPage : ContentPage
     private void SearchBar_Completed(object sender, EventArgs e)
     {
         if (string.IsNullOrWhiteSpace(searchBar.Text)) { searchBar.Unfocus(); return; }
+        else 
+        {
+            SeriesEmptyView.MainText = "По вашему запросу ничего не найдено :( ";
+            SeriesEmptyView.SubText = "Попытаете удачу еще раз?";
+        }
     }
 
     private async void SearchBar_Unfocused(object sender, FocusEventArgs e)
     {
         searchbarClearBtn.IsVisible = false;
+        SeriesEmptyView.MainText = "Здесь самую 'малость' пустовато :( ";
+        SeriesEmptyView.SubText = "Может стоит это исрпавить?";
         await searchImage.RotateTo(0, 200);
         await searchBar.HideKeyboardAsync(CancellationToken.None);
     }

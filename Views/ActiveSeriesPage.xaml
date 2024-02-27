@@ -3,6 +3,7 @@
     x:Class="SeriesTracker.Views.ActiveSeriesPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:emptyView="clr-namespace:SeriesTracker.Controls.CustomEmptyView"
     xmlns:models="clr-namespace:SeriesTracker.Models"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vModels="clr-namespace:SeriesTracker.ViewModels"
@@ -15,7 +16,7 @@
         <BackButtonBehavior IsEnabled="False" IsVisible="False" />
     </Shell.BackButtonBehavior>
 
-    <RefreshView Command="{Binding LoadSeriesCommand}" IsRefreshing="{Binding IsBusy}">
+    <RefreshView Command="{Binding LoadSeriesCommand}" IsRefreshing="{Binding IsRefreshing}">
         <toolkit:DockLayout>
             <StackLayout
                 Margin="10"
@@ -55,6 +56,7 @@
                             Completed="SearchBar_Completed"
                             Focused="SearchBar_Focused"
                             FontSize="16"
+                            Keyboard="Text"
                             Placeholder="Найти сериал"
                             PlaceholderColor="{AppThemeBinding Light={StaticResource Gray600},
                                                                Dark={StaticResource Gray300}}"
@@ -331,21 +333,11 @@
                 </CollectionView.ItemTemplate>
                 <CollectionView.EmptyView>
                     <ContentView>
-                        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                            <Label
-                                Margin="10,25,10,10"
-                                FontAttributes="Bold"
-                                FontSize="18"
-                                HorizontalOptions="Fill"
-                                HorizontalTextAlignment="Center"
-                                Text="По вашему запросу ничего не найдено :(" />
-                            <Label
-                                FontAttributes="Italic"
-                                FontSize="12"
-                                HorizontalOptions="Fill"
-                                HorizontalTextAlignment="Center"
-                                Text="Попытаете удачу еще раз?" />
-                        </StackLayout>
+                        <emptyView:CustomEmptyView
+                            x:Name="SeriesEmptyView"
+                            IsActive="{Binding IsBusy}"
+                            MainText="Здесь самую 'малость' пустовато :( "
+                            SubText="Может стоит это исрпавить?" />
                     </ContentView>
                 </CollectionView.EmptyView>
 

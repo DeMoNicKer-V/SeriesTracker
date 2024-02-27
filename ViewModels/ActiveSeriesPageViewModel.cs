@@ -53,7 +53,8 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
 
     public void OnAppearing()
     {
-        skip = 0;
+        IsRefreshing = true;
+        IsRefreshing = false;
         IsBusy = true;
     }
 
@@ -78,11 +79,12 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         try
         {
             queryText = new string(query.ToLower());
-            IsBusy = true;
+            OnAppearing();
         }
         catch (Exception) { }
-        finally { }
+        finally { IsBusy = false; }
     }
+
 
     [RelayCommand]
     private async Task LoadSeries()
@@ -96,11 +98,11 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
             {
                 newSeriesList = await App.SeriesService.GetSeriesAsync(WachedFlag, skip, favoriteFlag);
             }
-            else 
-            { 
-                newSeriesList = await App.SeriesService.GetSeriesAsync(WachedFlag, skip, queryText, favoriteFlag); 
+            else
+            {
+                newSeriesList = await App.SeriesService.GetSeriesAsync(WachedFlag, skip, queryText, favoriteFlag);
             }
- 
+
             if (newSeriesList is not null && newSeriesList.Count() > 0)
             {
                 foreach (var item in newSeriesList)
@@ -116,6 +118,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         }
         finally
         {
+            IsRefreshing = false;
             IsBusy = false;
         }
     }
@@ -132,9 +135,9 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         if (skip >= 5)
         {
             skip -= 5;
-            IsBusy = true;
+            OnAppearing();
         }
-        if (skip < 0) { IsBusy = true; skip = 0; }
+        if (skip < 0) { OnAppearing(); skip = 0; }
     }
 
     private async void OnDeleteCommand()
@@ -181,7 +184,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         if ((SeriesList.Count() + skip) < SeriesCount)
         {
             skip += 5;
-            IsBusy = true;
+            OnAppearing();
         }
     }
 }

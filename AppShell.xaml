@@ -26,7 +26,7 @@
             <ShellContent ContentTemplate="{DataTemplate view:SettingsPage}" Route="SettingsPage" />
         </Tab>
         <Tab Title="Информация" Icon="aboutbold.png">
-            <ShellContent ContentTemplate="{DataTemplate view:SettingsPage}" Route="SettingsPage" />
+            <ShellContent ContentTemplate="{DataTemplate view:InfoPage}" Route="InfoPage" />
         </Tab>
     </local:CustomTabBar>
 

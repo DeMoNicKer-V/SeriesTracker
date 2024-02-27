@@ -11,6 +11,9 @@ public partial class BottomSheet : ContentView
     public static readonly BindableProperty myContePageProperty =
             BindableProperty.Create(nameof(ContentPageBehavior), typeof(ContentPage), typeof(BottomSheet));
 
+    public static readonly BindableProperty ImageButtonProperty =
+        BindableProperty.Create(nameof(ContentPageBehavior), typeof(ImageButton), typeof(BottomSheet));
+
     public static readonly BindableProperty CloseCommandProperty =
         BindableProperty.Create(nameof(CloseCommand), typeof(Command), typeof(BottomSheet));
 
@@ -31,6 +34,11 @@ public partial class BottomSheet : ContentView
         InitializeComponent();
     }
 
+    public ImageButton ImageButton
+    {
+        get => (ImageButton)GetValue(ImageButtonProperty);
+        set => SetValue(ImageButtonProperty, value);
+    }
     public ContentPage ContentPageBehavior
     {
         get => (ContentPage)GetValue(myContePageProperty);
@@ -75,8 +83,9 @@ public partial class BottomSheet : ContentView
 
     private async void CloseButton_Clicked(object sender, EventArgs e)
     {
-        await this.TranslateTo(0, 200, 200);
-
+        await ImageButton.RotateXTo(0, 200);
+        await this.TranslateTo(0, 200, 100);
+        this.IsVisible = false;
     }
 
     private void EditButton_Clicked(object sender, EventArgs e)
@@ -88,19 +97,18 @@ public partial class BottomSheet : ContentView
     {
         DetachCommand?.Execute(null);
     }
-    public bool shortDuration = false;
     public async Task OpenBottomSheet()
     {
-
+        await ImageButton.RotateXTo(180, 200);
         await this.TranslateTo(0, 200, 100);
-
-        await this.TranslateTo(0, 0, 200);
-        shortDuration = true ;
+        await this.TranslateTo(0, 0, 100);
+        this.IsVisible = true;
     }
     public async Task CloseBottomSheet()
     {
-        await this.TranslateTo(0, 200, 200);
-        shortDuration = false;
+        await ImageButton.RotateXTo(0, 200);
+        await this.TranslateTo(0, 200, 100);
+        this.IsVisible = false;
     }
 
     private async void DeleteButton_Clicked(object sender, EventArgs e)
