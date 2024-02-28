@@ -12,6 +12,8 @@ namespace SeriesTracker.Classes
         [JsonIgnore] public abstract string Title { get; set; }
         [JsonIgnore] public abstract string SubTitle { get; set; }
         [JsonIgnore] public abstract string PictureUrl { get; }
+        [JsonIgnore] public abstract string Rating { get; set; }
+        [JsonIgnore] public abstract string Kind { get; set; }
     }
 
 }

@@ -15,11 +15,11 @@ namespace SeriesTracker.Services.MALBase
             switch (string.IsNullOrEmpty(Search))
             {
                 case true:
-                    result = Consts.AnimeListRanking + String.Format($"?ranking_type=all&limit={Limit}&offset={Offset}");
+                    result = Consts.AnimeListRanking + String.Format($"?ranking_type=all&nsfw=1&limit={Limit}&offset={Offset}");
                     break;
 
                 case false:
-                    result = Consts.AnimeList + String.Format($"?q={Search}&limit={Limit}&offset={Offset}");
+                    result = Consts.AnimeList + String.Format($"?q={Search}&nsfw=1&limit={Limit}&offset={Offset}");
                     break;
             }
             if (Fields.Length > 0)

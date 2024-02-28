@@ -31,6 +31,8 @@
                         <RowDefinition Height="25" />
                         <RowDefinition Height="45" />
                         <RowDefinition Height="1" />
+                        <RowDefinition Height="5" />
+                        <RowDefinition Height="15" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="35" />
@@ -98,6 +100,50 @@
                         Grid.ColumnSpan="3"
                         BackgroundColor="{StaticResource Gray600}"
                         HorizontalOptions="Fill" />
+
+                    <ImageButton
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Command="{Binding DecSeriesListCommand}"
+                        HeightRequest="15"
+                        HorizontalOptions="Center"
+                        Source="backarrow.png"
+                        VerticalOptions="Start"
+                        WidthRequest="15">
+                        <ImageButton.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="#999999" />
+                        </ImageButton.Behaviors>
+                    </ImageButton>
+                    <Label
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        FontAttributes="Italic"
+                        FontSize="12"
+                        HorizontalOptions="Start"
+                        TextColor="{AppThemeBinding Light={StaticResource Gray600},
+                                                    Dark={StaticResource Gray300}}"
+                        VerticalTextAlignment="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontAttributes="Italic" Text="{Binding CurrentPage, StringFormat='Страница: {0}'}" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <ImageButton
+                        Grid.Row="4"
+                        Grid.Column="3"
+                        Command="{Binding IncSeriesListCommand}"
+                        HeightRequest="15"
+                        HorizontalOptions="Center"
+                        Rotation="180"
+                        Source="backarrow.png"
+                        VerticalOptions="Start"
+                        WidthRequest="15">
+                        <ImageButton.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="#999999" />
+                        </ImageButton.Behaviors>
+                    </ImageButton>
                 </Grid>
             </Border>
         </StackLayout>
@@ -107,8 +153,6 @@
             toolkit:DockLayout.DockPosition="None"
             HorizontalScrollBarVisibility="Never"
             ItemsSource="{Binding SeriesList}"
-            RemainingItemsThreshold="8"
-            RemainingItemsThresholdReachedCommand="{Binding LoadSeriesCommand}"
             VerticalScrollBarVisibility="Never">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical" />
@@ -182,17 +226,17 @@
                                     FontAttributes="Italic"
                                     FontSize="14"
                                     LineBreakMode="TailTruncation"
-                                    MaxLines="2"
+                                    MaxLines="1"
                                     Text="{Binding SubTitle}"
                                     TextColor="DimGrey" />
                                 <Label FontSize="13" Text="{Binding Episodes, StringFormat='Эпизодов: {0}'}" />
                                 <Label FontSize="13" Text="{Binding StartDate, StringFormat='Дата выхода: {0}'}" />
                                 <HorizontalStackLayout>
                                     <Label FontSize="13" Text="{Binding Score, StringFormat='Рейтинг: {0}'}" />
-                                    <Image
-                                        HeightRequest="13"
+                                    <Image Margin="2,0,0,0"
+                                        HeightRequest="12"
                                         Source="ratestar.png"
-                                        WidthRequest="13" />
+                                        WidthRequest="12" />
                                 </HorizontalStackLayout>
                                 <HorizontalStackLayout>
                                     <Border

@@ -169,15 +169,15 @@
                                         <FormattedString>
                                             <Span FontAttributes="Italic">
                                                 <Span.Text>
-                                                    <MultiBinding StringFormat="Вышло: {0} из {1} эп.">
-                                                        <Binding Path="Anime.EpisodesAired" />
-                                                        <Binding Path="Anime.Episodes" />
+                                                    <MultiBinding StringFormat="Тип: {0}, Рейтинг: {1}">
+                                                        <Binding Path="Anime.Kind" />
                                                     </MultiBinding>
                                                 </Span.Text>
                                             </Span>
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
+                                <Image HeightRequest="20" WidthRequest="20" />
                             </HorizontalStackLayout>
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="5" />

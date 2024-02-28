@@ -12,8 +12,8 @@ namespace SeriesTracker.Classes.Shikimori
         [JsonIgnore] public override string Description { get { return string.IsNullOrEmpty(description) ? description : Regex.Replace(description, @" ?\[.*?\]", " "); } set { } }
         [JsonProperty("duration")] public override double Duration { get; set; }
         [JsonProperty("episodes")] public override int Episodes { get; set; }
-        [JsonProperty("episodesAired")] private int episodesAired { get; set; }
-        [JsonIgnore] public int EpisodesAired { get { return episodesAired == 0 ? Episodes : episodesAired; } set { } }
+        [JsonProperty("kind")] public override string Kind { get; set; }
+        [JsonProperty("rating")] public override string Rating { get; set; }
         [JsonProperty("name")] public override string SubTitle { get; set; }
         [JsonIgnore] public override string PictureUrl { get { return poster.OriginalUrl; } }
 

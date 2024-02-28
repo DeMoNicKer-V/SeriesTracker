@@ -14,7 +14,10 @@ namespace SeriesTracker.Services.MALBase
         public static readonly string[] Fields = { 
             "title", 
             "mean", 
-            "num_episodes", 
+            "num_episodes",
+            "status",
+            "rating",
+            "media_type",
             "start_date", 
             "average_episode_duration", 
             "synopsis", 

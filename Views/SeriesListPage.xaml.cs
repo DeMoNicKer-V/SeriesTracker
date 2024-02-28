@@ -27,16 +27,18 @@ public partial class SeriesListPage : ContentPage
 
         }
     }
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         searchBar.Text = string.Empty;
         base.OnAppearing();
-        seriesListPageViewModel.OnAppearing();
+        await seriesListPageViewModel.OnAppearing();
     }
 
     private void searchbarClearBtn_Clicked(object sender, EventArgs e)
     {
         seriesListPageViewModel.quaryText = string.Empty;
+        seriesListPageViewModel.CurrentPage = 1;
+        seriesListPageViewModel.offset = 0;
         searchBar.Text = string.Empty;
         searchBar.Unfocus();
         OnAppearing();
