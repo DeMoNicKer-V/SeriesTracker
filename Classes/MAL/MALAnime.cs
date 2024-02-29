@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SeriesTracker.Classes.Shikimori;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,17 @@ namespace SeriesTracker.Classes.MAL
         [JsonPropertyName("start_date")] public override string StartDate { get; set; }
         [JsonPropertyName("average_episode_duration")] public int SecondDuration { get; set; }
 
+        [JsonPropertyName("genres")] public Genre[] Genre { get; set; }
+
+
+        [JsonIgnore]
+        public override string Genres
+        {
+            get
+            { return string.Join(", ", Genre.Select(l => l.English)); }
+            set { }
+        }
+
         [JsonIgnore]
         public override double Duration
         {
@@ -22,7 +34,12 @@ namespace SeriesTracker.Classes.MAL
             set { }
         }
         [JsonPropertyName("synopsis")] public override string Description { get; set; }
-        [JsonPropertyName("rating")] public override string Rating { get; set; }
+        [JsonPropertyName("rating")] public string RatingInfo { get; set; }
+
+        [JsonIgnore] public override string Rating {
+            get { return ConvertRatingToImageName(RatingInfo); }
+            set { }
+        }
         [JsonPropertyName("media_type")] public override string Kind { get; set; }
         [JsonPropertyName("status")] public string Status { get; set; }
         [JsonPropertyName("main_picture")] public PictureInfo Picture { get; set; } = new();
@@ -30,6 +47,30 @@ namespace SeriesTracker.Classes.MAL
         [JsonPropertyName("alternative_titles")] public AlternativeTitle AlternativeTitles { get; set; } = new();
         [JsonIgnore] public override string SubTitle { get { return AlternativeTitles.EngTitle != null ? AlternativeTitles.EngTitle : AlternativeTitles.JapTitle;  } set { } }
 
+        protected override string ConvertRatingToImageName(string ratingName)
+        {
+            switch (ratingName)
+            {
+                case "pg_13":
+                    return "pg13";
+
+                case "pg":
+                    return "pg";
+
+                case "g":
+                    return "g0";
+
+                case "r":
+                    return "r16";
+
+                case "r+":
+                    return "rplus";
+
+                case null: return "none";
+                default:
+                    return ratingName;
+            }
+        }
     }
 
 }

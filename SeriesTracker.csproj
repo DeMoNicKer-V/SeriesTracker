@@ -53,6 +53,12 @@
 	  <None Remove="Resources\Images\accept.png" />
 	  <None Remove="Resources\Images\add.png" />
 	  <None Remove="Resources\Images\addposter.png" />
+	  <None Remove="Resources\Images\ageLimit\g0.png" />
+	  <None Remove="Resources\Images\ageLimit\none.png" />
+	  <None Remove="Resources\Images\ageLimit\pg.png" />
+	  <None Remove="Resources\Images\ageLimit\r16.png" />
+	  <None Remove="Resources\Images\ageLimit\rplus.png" />
+	  <None Remove="Resources\Images\ageLimit\rx.png" />
 	  <None Remove="Resources\Images\backarrow.png" />
 	  <None Remove="Resources\Images\bookmark.png" />
 	  <None Remove="Resources\Images\calendar.png" />
@@ -69,6 +75,7 @@
 	  <None Remove="Resources\Images\exclamation.png" />
 	  <None Remove="Resources\Images\exportjson.png" />
 	  <None Remove="Resources\Images\filter.png" />
+	  <None Remove="Resources\Images\genres.png" />
 	  <None Remove="Resources\Images\imagemiss.png" />
 	  <None Remove="Resources\Images\myanimelist.png" />
 	  <None Remove="Resources\Images\myimage.png" />
@@ -81,6 +88,16 @@
 	  <None Remove="Resources\Images\vision.png" />
 	  <None Remove="Resources\Images\watched.png" />
 	  <None Remove="Resources\Images\watching.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\Images\ageLimit\g0.png" />
+	  <MauiImage Include="Resources\Images\ageLimit\none.png" />
+	  <MauiImage Include="Resources\Images\ageLimit\pg.png" />
+	  <MauiImage Include="Resources\Images\ageLimit\pg13.png" />
+	  <MauiImage Include="Resources\Images\ageLimit\r16.png" />
+	  <MauiImage Include="Resources\Images\ageLimit\rplus.png" />
+	  <MauiImage Include="Resources\Images\ageLimit\rx.png" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -39,7 +39,7 @@ namespace SeriesTracker.Services.ShikimoriBase
                                     kind
                                     rating
                                     duration
-                                    genres{ id name russian kind }
+                                    genres{ id name russian }
                                     episodes
                                     episodesAired
                                     status
@@ -70,9 +70,10 @@ namespace SeriesTracker.Services.ShikimoriBase
                                     name
                                     description
                                     kind
+                                    rating
                                     duration
                                     episodes
-                                    genres{ id name russian kind }
+                                    genres{ id name russian }
                                     episodesAired
                                     status
                                     score

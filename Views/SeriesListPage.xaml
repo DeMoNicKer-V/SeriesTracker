@@ -229,11 +229,20 @@
                                     MaxLines="1"
                                     Text="{Binding SubTitle}"
                                     TextColor="DimGrey" />
+                                <Label
+                                    FontAttributes="Italic"
+                                    FontSize="12"
+                                    LineBreakMode="TailTruncation"
+                                    MaxLines="1"
+                                    Text="{Binding Genres}"
+                                    TextColor="{AppThemeBinding Light={StaticResource Primary},
+                                                                Dark={StaticResource PrimaryDark}}" />
                                 <Label FontSize="13" Text="{Binding Episodes, StringFormat='Эпизодов: {0}'}" />
                                 <Label FontSize="13" Text="{Binding StartDate, StringFormat='Дата выхода: {0}'}" />
                                 <HorizontalStackLayout>
                                     <Label FontSize="13" Text="{Binding Score, StringFormat='Рейтинг: {0}'}" />
-                                    <Image Margin="2,0,0,0"
+                                    <Image
+                                        Margin="2,0,0,0"
                                         HeightRequest="12"
                                         Source="ratestar.png"
                                         WidthRequest="12" />

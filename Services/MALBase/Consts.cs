@@ -17,6 +17,7 @@ namespace SeriesTracker.Services.MALBase
             "num_episodes",
             "status",
             "rating",
+            "genres",
             "media_type",
             "start_date", 
             "average_episode_duration", 

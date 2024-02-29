@@ -146,6 +146,7 @@
                         <RowDefinition Height="30" />
                         <RowDefinition Height="30" />
                         <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="30" />
@@ -164,12 +165,12 @@
                             Stroke="{StaticResource Gray300}"
                             StrokeThickness="1.2">
                             <HorizontalStackLayout Padding="5,0,5,0">
-                                <Label Text="Просмотрено: " VerticalTextAlignment="Center">
+                                <Label VerticalTextAlignment="Center">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span FontAttributes="Italic">
                                                 <Span.Text>
-                                                    <MultiBinding StringFormat="Тип: {0}, Рейтинг: {1}">
+                                                    <MultiBinding StringFormat="Тип: {0}">
                                                         <Binding Path="Anime.Kind" />
                                                     </MultiBinding>
                                                 </Span.Text>
@@ -177,7 +178,14 @@
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                                <Image HeightRequest="20" WidthRequest="20" />
+                                <Image
+                                    HeightRequest="20"
+                                    Source="{Binding Anime.Rating, StringFormat='@ageLimit/{0}.png'}"
+                                    WidthRequest="20">
+                                    <Image.Behaviors>
+                                        <toolkit:IconTintColorBehavior TintColor="White" />
+                                    </Image.Behaviors>
+                                </Image>
                             </HorizontalStackLayout>
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="5" />
@@ -233,6 +241,19 @@
                         Margin="0,0,5,0"
                         HeightRequest="25"
                         HorizontalOptions="Center"
+                        Source="genres.png"
+                        VerticalOptions="Center"
+                        WidthRequest="25">
+                        <Image.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                        </Image.Behaviors>
+                    </Image>
+                    <Image
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Margin="0,0,5,0"
+                        HeightRequest="25"
+                        HorizontalOptions="Center"
                         Source="about.png"
                         VerticalOptions="Center"
                         WidthRequest="25">
@@ -241,7 +262,7 @@
                         </Image.Behaviors>
                     </Image>
                     <HorizontalStackLayout
-                        Grid.Row="3"
+                        Grid.Row="4"
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
                         HorizontalOptions="Start">
@@ -255,7 +276,7 @@
                         <Label Text="{Binding Anime.StartDate, Mode=OneWay}" VerticalTextAlignment="Center" />
                     </HorizontalStackLayout>
                     <Image
-                        Grid.Row="3"
+                        Grid.Row="4"
                         Grid.Column="0"
                         Margin="0,0,5,0"
                         HeightRequest="25"
@@ -274,12 +295,22 @@
                         FontAttributes="Italic"
                         FontSize="14"
                         HorizontalOptions="Start"
+                        Text="{Binding Anime.Genres, StringFormat='{0} '}"
+                        TextColor="Grey"
+                        VerticalTextAlignment="Center" />
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        FontAttributes="Italic"
+                        FontSize="14"
+                        HorizontalOptions="Start"
                         Text="{Binding Anime.SubTitle, StringFormat='{0} '}"
                         TextColor="Grey"
                         VerticalTextAlignment="Center" />
 
                     <Image
-                        Grid.Row="2"
+                        Grid.Row="3"
                         Grid.Column="0"
                         Margin="0,0,5,0"
                         HeightRequest="25"
@@ -291,7 +322,7 @@
                         </Image.Behaviors>
                     </Image>
                     <HorizontalStackLayout
-                        Grid.Row="2"
+                        Grid.Row="3"
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
                         HorizontalOptions="Start">
