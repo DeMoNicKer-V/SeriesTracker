@@ -366,3 +366,4 @@ FodyWeavers.xsd
 /Resources/Images/poster.jpg
 /Services/APIConfig.cs
 /Services/GoogleApi/GoogleCustomSearchApiConfiguration.cs
+/Services/Firebase/FirebaseConsts.cs
