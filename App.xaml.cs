@@ -1,4 +1,5 @@
 ﻿using SeriesTracker.Services;
+using SeriesTracker.Services.Firebase;
 using SeriesTracker.Views;
 using System.ComponentModel;
 
@@ -6,7 +7,7 @@ namespace SeriesTracker;
 
 public partial class App : Application
 {
-    public static SeriesService _seriesService;
+    private static SeriesService _seriesService;
     public static SeriesService SeriesService
     {
         get
@@ -17,6 +18,20 @@ public partial class App : Application
                    Environment.SpecialFolder.LocalApplicationData), "time_is_money.db"));
             }
             return _seriesService;
+
+        }
+    }
+    private static FirebaseService _firebaseService;
+    public static FirebaseService FirebaseService
+    {
+        get
+        {
+            if (_firebaseService == null)
+            {
+                FirebaseSettings firebaseSettings = new FirebaseSettings(appSecret: FirebaseConsts.appSecret, baseUrl: FirebaseConsts.baseUrl);
+                _firebaseService = new FirebaseService(firebaseSettings);
+            }
+            return _firebaseService;
 
         }
     }

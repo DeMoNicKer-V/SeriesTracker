@@ -65,6 +65,7 @@ public partial class ActiveSeriesPage : ContentPage
     private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
         activeSeriesPageViewModel.favoriteFlag = !activeSeriesPageViewModel.favoriteFlag;
+        activeSeriesPageViewModel.skip = 0;
         OnAppearing();
     }
 

@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using SeriesTracker.Models;
 using SeriesTracker.Services;
 using SeriesTracker.ViewModels;
+using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 
@@ -61,8 +62,8 @@ public partial class SettingsPage : ContentPage
             }
             catch (Exception ex)
             {
-
-            }
+            Debug.WriteLine(ex.Message);
+        }
         finally { IsBusy = false; }
 
     }
@@ -118,6 +119,7 @@ public partial class SettingsPage : ContentPage
         catch (Exception ex)
         {
             // The user canceled or something went wrong
+            Debug.WriteLine(ex.Message);
         }
 
         return null;

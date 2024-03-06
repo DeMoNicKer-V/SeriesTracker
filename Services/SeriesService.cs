@@ -31,8 +31,31 @@ public class SeriesService : ISeriesRepository
         }
         else
         {
+            List<Series> list = new List<Series>();
             await _database.InsertAsync(series);
         }
+        return await Task.FromResult(true);
+    }
+
+    class SeriesComparer : IEqualityComparer<Series>
+    {
+        public bool Equals(Series x, Series y)
+        {
+            return x.seriesName == y.seriesName && x.addedDate == y.addedDate;
+        }
+
+        public int GetHashCode(Series obj)
+        {
+            return obj.seriesName.GetHashCode();
+        }
+    }
+    public async Task<bool> AddUpdateSeriesAsyncSynchonize(IEnumerable<Series> syncSeriesList)
+    {
+        var allSeries = await Task.FromResult(await _database.Table<Series>().ToListAsync());
+        var result = allSeries.Intersect(syncSeriesList, new SeriesComparer()).ToArray();
+        syncSeriesList = syncSeriesList.Except(result, new SeriesComparer()).ToArray();
+        await _database.UpdateAllAsync(result);
+        await _database.InsertAllAsync(syncSeriesList);
         return await Task.FromResult(true);
     }
 
@@ -67,12 +90,14 @@ public class SeriesService : ISeriesRepository
     /// <returns></returns>
     public async Task<IEnumerable<Series>> GetSeriesAsync(bool overFlag, int skip, bool favorite)
     {
-        relativeItemsCount = await _database.Table<Series>().Where(s => s.isOver == overFlag).CountAsync();
+ 
         switch (favorite)
         {
             case true:
+                relativeItemsCount = await _database.Table<Series>().Where(s => s.isOver == overFlag & s.isFavourite == favorite).CountAsync();
                 return await Task.FromResult(await _database.Table<Series>().Where(s => s.isOver == overFlag & s.isFavourite == true).Skip(skip).Take(5).ToListAsync());
             case false:
+                relativeItemsCount = await _database.Table<Series>().Where(s => s.isOver == overFlag).CountAsync();
                 return await Task.FromResult(await _database.Table<Series>().Where(s => s.isOver == overFlag).Skip(skip).Take(5).OrderByDescending(s => s.isFavourite).ToListAsync());
 
         }
@@ -86,12 +111,14 @@ public class SeriesService : ISeriesRepository
     /// <returns></returns>
     public async Task<IEnumerable<Series>> GetSeriesAsync(bool overFlag, int skip, string query, bool favorite)
     {
-        relativeItemsCount = await _database.Table<Series>().Where(s => s.hiddenSeriesName.Contains(query)).CountAsync();
+
         switch (favorite)
         {
             case true:
+                relativeItemsCount = await _database.Table<Series>().Where(s => s.isOver == overFlag & s.isFavourite == favorite).CountAsync();
                 return await Task.FromResult(await _database.Table<Series>().Where(s => s.hiddenSeriesName.Contains(query) & s.isFavourite == true).Skip(skip).Take(5).ToListAsync());
             case false:
+                relativeItemsCount = await _database.Table<Series>().Where(s => s.hiddenSeriesName.Contains(query)).CountAsync();
                 return await Task.FromResult(await _database.Table<Series>().Where(s => s.hiddenSeriesName.Contains(query) & s.isOver == overFlag).Skip(skip).Take(5).OrderByDescending(s => s.isFavourite).ToListAsync());
 
         }

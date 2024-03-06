@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace SeriesTracker.Views;
 
 public partial class InfoPage : ContentPage
@@ -16,6 +18,7 @@ public partial class InfoPage : ContentPage
         }
         catch (Exception ex)
         {
+            Debug.WriteLine(ex.Message);
             Shell.Current.DisplayAlert("Произошла ошибка", "Пожалуйста, проверьте Интернет соединение.", "Ок");
             return;
         }
@@ -30,6 +33,7 @@ public partial class InfoPage : ContentPage
         }
         catch (Exception ex)
         {
+            Debug.WriteLine(ex.Message);
             Shell.Current.DisplayAlert("Произошла ошибка", "Пожалуйста, проверьте Интернет соединение.", "Ок");
             return;
         }

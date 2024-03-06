@@ -26,17 +26,13 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     private Series currentSeries;
 
     private ObservableCollection<Series> seriesList = new ObservableCollection<Series>();
-    private int skip = 0;
+    public int skip = 0;
 
     public ActiveSeriesPageViewModel(INavigation navigation, ContentPage contentPageBehavior)
     {
         Navigation = navigation;
         _page = contentPageBehavior;
-        activeSeriesPagePopUp = new ActivePagePopUp();
-        activeSeriesPagePopUp.ContentPageBehavior = _page;
-        activeSeriesPagePopUp.EditCommand = new Command(OnEditCommand);
-        activeSeriesPagePopUp.DeleteCommand = new Command(OnDeleteCommand);
-        activeSeriesPagePopUp.DetachCommand = new Command(OnDetachCommand);
+
     }
 
     public ObservableCollection<Series> SeriesList
@@ -61,6 +57,11 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     [RelayCommand]
     private async Task AdditionalAction(Series series)
     {
+        activeSeriesPagePopUp = new ActivePagePopUp();
+        activeSeriesPagePopUp.ContentPageBehavior = _page;
+        activeSeriesPagePopUp.EditCommand = new Command(OnEditCommand);
+        activeSeriesPagePopUp.DeleteCommand = new Command(OnDeleteCommand);
+        activeSeriesPagePopUp.DetachCommand = new Command(OnDetachCommand);
         activeSeriesPagePopUp.Title = series.seriesName;
         currentSeries = series;
         await _page.ShowPopupAsync(activeSeriesPagePopUp);
@@ -79,6 +80,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         try
         {
             queryText = new string(query.ToLower());
+            skip = 0;
             OnAppearing();
         }
         catch (Exception) { }
@@ -92,6 +94,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         IsBusy = true;
         try
         {
+            //await App.FirebaseService.GetAll();
             SeriesList.Clear();
             IEnumerable<Series> newSeriesList = new List<Series>();
             if (string.IsNullOrEmpty(queryText))
@@ -181,7 +184,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     [RelayCommand]
     private void OnIncSeriesList()
     {
-        if ((SeriesList.Count() + skip) < SeriesCount)
+        if (SeriesList.Count() == 5 & (SeriesList.Count() + skip) < SeriesCount)
         {
             skip += 5;
             OnAppearing();

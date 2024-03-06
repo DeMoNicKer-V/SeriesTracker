@@ -40,7 +40,7 @@ namespace SeriesTracker.ViewModels
             newSeries.hiddenSeriesName = newSeries.seriesName.ToLower();
             newSeries.addedDate = DateTime.Now.ToString();
             await App.SeriesService.AddUpdateSeriesAsync(newSeries);
-
+            //await App.FirebaseService.AddUpdateSeriesAsync(newSeries);
             await Shell.Current.GoToAsync("..//..");
         }
         private async void OnBackCommand()

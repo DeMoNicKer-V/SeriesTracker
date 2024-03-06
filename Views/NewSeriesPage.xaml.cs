@@ -13,14 +13,11 @@ namespace SeriesTracker.Views;
 
 public partial class NewSeriesPage : ContentPage
 {
-    private readonly GoogleCustomSearchApiService googleApiService;
     private SearchImageResult imageResultPopUp;
-    private int serchPageParam = 1;
 
     public NewSeriesPage()
     {
         InitializeComponent();
-        googleApiService = new GoogleCustomSearchApiService();
         BindingContext = new NewSeriesPageViewModel();
         posterImage.Behaviors.Add(new IconTintColorBehavior { TintColor = Color.FromArgb("#919191") });
     }
@@ -28,7 +25,6 @@ public partial class NewSeriesPage : ContentPage
     public NewSeriesPage(Series series)
     {
         InitializeComponent();
-        googleApiService = new GoogleCustomSearchApiService();
         this.BindingContext = new NewSeriesPageViewModel();
 
         if (series != null)
