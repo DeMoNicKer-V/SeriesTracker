@@ -37,15 +37,10 @@ public partial class Series
         get; set;
     }
 
-    public int startEpisode
-    {
-        get; set;
-    } = 1;
-
     public int currentEpisode
     {
         get; set;
-    } = 1;
+    } = 0;
 
     public string imagePath
     {
@@ -87,21 +82,13 @@ public partial class Series
         {
             return (false, "Название обязательное поле!");
         }
-        else if (startEpisode < 0 & startEpisode > lastEpisode)
+        else if (currentEpisode > lastEpisode || currentEpisode < 0)
         {
-            return (false, "Первая серия должна быть меньше, чем последняя!");
+            return (false, "Текущая серия должна быть больше последней и больше 0!");
         }
-        else if (lastEpisode < startEpisode)
+        else if (new[] { lastEpisode, seriesDuration }.Min() <= 0)
         {
-            return (false, "Последняя серия должна быть больше или равна стартовой!");
-        }
-        else if (currentEpisode < startEpisode | currentEpisode > lastEpisode)
-        {
-            return (false, "Текущая серия не должа выходить за пределы стартовой и последней серий!");
-        }
-        else if (new[] { startEpisode, lastEpisode, currentEpisode, seriesDuration }.Min() < 0)
-        {
-            return (false, "Все числовые значения не должны отрицательными!");
+            return (false, "Последняя серия и ср. продолжительность должны быть больше 0!");
         }
         else if (releaseDate.Year < 1961)
         {
@@ -115,58 +102,33 @@ public partial class Series
     {
         get
         {
-                return System.String.Format($"{releaseDate:M} {releaseDate:yyyy} г.");
+            return System.String.Format($"{releaseDate:d MMMM, yyyy} г.");
         }
     }
 
     [JsonIgnore]
-    public string getAddedDate
+    public string GetAddedDate
     {
         get
         {
             if (!string.IsNullOrEmpty(addedDate))
             {
-                return System.String.Format($"{DateTime.Parse(addedDate):M} {DateTime.Parse(addedDate):yyyy} г.");
+                return DateTime.Parse(addedDate).ToString("d MMMM, yyyy") + " г.";
             }
             return null;
         }
     }
 
     [JsonIgnore]
-    public string getOverDate
+    public string GetOverDate
     {
         get
         {
             if (!string.IsNullOrEmpty(overDate))
             {
-                return System.String.Format($"{DateTime.Parse(overDate):D}");
+                return DateTime.Parse(overDate).ToString("d MMMM, yyyy") + " г.";
             }
             return null;
-        }
-    }
-
-    [JsonIgnore]
-    public string getFomattedEpisodes
-    {
-        get
-        {
-            if (currentEpisode == startEpisode)
-                return System.String.Format($"{0} из {lastEpisode} эп.");
-            else return System.String.Format($"{currentEpisode} из {lastEpisode} эп.");
-
-        }
-    }
-
-    [JsonIgnore]
-    public string getFormatDate
-    {
-        get
-        {
-            if (addedDate != null)
-            {
-                return System.String.Format($"Дата добавления: {DateTime.Parse(addedDate):f}");
-            }
-            return addedDate;
         }
     }
 }

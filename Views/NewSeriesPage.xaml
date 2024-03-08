@@ -227,26 +227,24 @@
                         </StackLayout>
                     </toolkit:Expander>
 
-                    <controls:MaterialEntry
-                        x:Name="startEntry"
-                        Grid.Row="4"
-                        Grid.Column="0"
-                        HorizontalOptions="Center"
-                        Label="Начальная серия"
-                        Text="{Binding Series.startEpisode, Mode=TwoWay}" />
 
                     <controls:MaterialEntry
                         x:Name="currentEntry"
                         Grid.Row="4"
-                        Grid.Column="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="0,0,20,0"
                         HorizontalOptions="Center"
                         Label="Текущая серия"
                         Text="{Binding Series.currentEpisode, Mode=TwoWay}" />
 
+
                     <controls:MaterialEntry
                         x:Name="lastEntry"
                         Grid.Row="4"
-                        Grid.Column="2"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        Margin="20,0,0,0"
                         HorizontalOptions="Center"
                         Label="Последняя серия"
                         Text="{Binding Series.lastEpisode, Mode=TwoWay}" />

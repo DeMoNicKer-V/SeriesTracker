@@ -57,7 +57,7 @@ namespace SeriesTracker.ViewModels
         public async Task EditEpisode(string Text)
         {
             if (!CheckSeries(Series)) { return; }
-            if (Convert.ToInt32(Text) > Series.lastEpisode || Convert.ToInt32(Text) < Series.startEpisode)
+            if (Convert.ToInt32(Text) > Series.lastEpisode || Convert.ToInt32(Text) < 0)
             {
                 return;
             }
@@ -89,7 +89,7 @@ namespace SeriesTracker.ViewModels
             }
             else
             {
-                Series.currentEpisode = Series.startEpisode;
+                Series.currentEpisode = 1;
                 Series.overDate = string.Empty;
             }
             await App.SeriesService.AddUpdateSeriesAsync(Series);

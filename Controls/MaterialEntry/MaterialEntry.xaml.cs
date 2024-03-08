@@ -89,7 +89,7 @@ public partial class MaterialEntry : ContentView
         MELabel.ScaleTo(0.85, 250, Easing.Linear);
         MELabel.TranslateTo(_xScale, _yScale, 250, Easing.Linear);
         MELabel.ZIndex = 3;
-        MEEntry.WidthRequest = 50;
+        MEEntry.WidthRequest = 60;
         warning.TranslateTo(-35, -18, 250, Easing.Linear);
     }
 
@@ -98,7 +98,7 @@ public partial class MaterialEntry : ContentView
         MELabel.ZIndex = 1;
         MELabel.ScaleTo(1, 250, Easing.Linear);
         MELabel.TranslateTo(0, 0, 250, Easing.Linear);
-        MEEntry.WidthRequest = 90;
+        MEEntry.WidthRequest = 110;
     }
 
     private void MEEntry_Loaded(object sender, EventArgs e)

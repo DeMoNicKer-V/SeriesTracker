@@ -11,7 +11,7 @@
             x:Name="MELabel"
             BackgroundColor="{AppThemeBinding Light=#ffffff,
                                               Dark=#121212}"
-            FontSize="12"
+            FontSize="13"
             HorizontalOptions="Center"
             InputTransparent="True"
             Text="{Binding Source={x:Reference this}, Path=Label}"
@@ -75,8 +75,8 @@
                 x:Name="MEEntry"
                 Completed="MEEntry_Completed"
                 Focused="MEEntry_Focused"
-                HeightRequest="{OnPlatform iOS=40,
-                                           MacCatalyst=40}"
+                HeightRequest="{OnPlatform iOS=45,
+                                           MacCatalyst=45}"
                 HorizontalOptions="Center"
                 HorizontalTextAlignment="Center"
                 Keyboard="Numeric"
@@ -88,7 +88,7 @@
                                             Dark={StaticResource PrimaryDark}}"
                 Unfocused="MEEntry_Unfocused"
                 VerticalOptions="Center"
-                WidthRequest="90">
+                WidthRequest="110">
                 <controls:BorderlessEntry.Margin>
                     <OnPlatform x:TypeArguments="Thickness">
                         <On Platform="iOS" Value="20,0,20,0" />

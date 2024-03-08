@@ -168,7 +168,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         }
         else
         {
-            currentSeries.currentEpisode = currentSeries.startEpisode;
+            currentSeries.currentEpisode = 1;
             currentSeries.overDate = string.Empty;
         }
 

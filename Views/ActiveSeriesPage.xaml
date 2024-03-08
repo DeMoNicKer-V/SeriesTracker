@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:emptyView="clr-namespace:SeriesTracker.Controls.CustomEmptyView"
     xmlns:models="clr-namespace:SeriesTracker.Models"
+    xmlns:service="clr-namespace:SeriesTracker.Services"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vModels="clr-namespace:SeriesTracker.ViewModels"
     Title=""
@@ -272,7 +273,43 @@
                                     Grid.ColumnSpan="3"
                                     HorizontalOptions="Start"
                                     VerticalOptions="Center">
-                                    <Label Text="{Binding getFomattedEpisodes}" VerticalOptions="Center" />
+                                    <HorizontalStackLayout IsVisible="{Binding isOver}">
+                                        <Label
+                                            FontAttributes="Italic"
+                                            FontSize="11"
+                                            Text="{Binding lastEpisode, StringFormat='{0} эп,'}"
+                                            VerticalOptions="Center" />
+                                        <Label
+                                            Margin="2,1,2,0"
+                                            FontAttributes="Italic"
+                                            FontSize="9"
+                                            Text="просмотрено: "
+                                            TextColor="Grey"
+                                            VerticalTextAlignment="Center" />
+                                        <Label
+                                            FontAttributes="Italic"
+                                            FontSize="11"
+                                            Text="{Binding GetOverDate, Mode=OneWay}"
+                                            VerticalTextAlignment="Center" />
+                                    </HorizontalStackLayout>
+
+                                    <Label
+                                        FontSize="12"
+                                        IsVisible="{Binding isOver, Converter={service:InverseBoolConverter}}"
+                                        VerticalOptions="Center">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span FontAttributes="Italic">
+                                                    <Span.Text>
+                                                        <MultiBinding StringFormat="Просмотрено: {0} из {1} эп.">
+                                                            <Binding Path="currentEpisode" />
+                                                            <Binding Path="lastEpisode" />
+                                                        </MultiBinding>
+                                                    </Span.Text>
+                                                </Span>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
 
 
                                     <HorizontalStackLayout IsVisible="{Binding isFavourite}">

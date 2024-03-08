@@ -47,7 +47,7 @@ public partial class DetailSeriesPage : ContentPage
     {
         editEpisodeEntry.IsVisible = false;
         placeHolder.IsVisible = true;
-        if (Convert.ToInt32(editEpisodeEntry.Text) > Convert.ToInt32(lastEpisodeEntry.Text) || Convert.ToInt32(editEpisodeEntry.Text) < 1)
+        if (Convert.ToInt32(editEpisodeEntry.Text) > Convert.ToInt32(lastEpisodeEntry.Text) || Convert.ToInt32(editEpisodeEntry.Text) < 0)
         {
             editEpisodeEntry.Text = placeHolder.Text;
             return;

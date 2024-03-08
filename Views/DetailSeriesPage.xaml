@@ -8,6 +8,7 @@
     xmlns:controls="clr-namespace:SeriesTracker.Controls"
     xmlns:local="clr-namespace:SeriesTracker.Controls.BottomSheet"
     xmlns:mEntry="clr-namespace:SeriesTracker.Controls.MaterialEntry"
+    xmlns:service="clr-namespace:SeriesTracker.Services"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     Title=""
     BackgroundColor="{AppThemeBinding Light={StaticResource White},
@@ -25,7 +26,7 @@
             <Grid x:Name="gridContainer">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25" />
-                    <RowDefinition Height="350" />
+                    <RowDefinition Height="340" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
@@ -207,7 +208,7 @@
                                 <Label Text="Просмотрено: " VerticalTextAlignment="Center" />
                                 <Label
                                     x:Name="placeHolder"
-                                    Text="{Binding Series.currentEpisode}"
+                                    Text="{Binding Series.currentEpisode, Mode=OneWay}"
                                     VerticalTextAlignment="Center" />
                                 <Entry
                                     x:Name="editEpisodeEntry"
@@ -331,7 +332,7 @@
                             FontAttributes="Italic"
                             FontSize="11"
                             HorizontalOptions="Start"
-                            Text="{Binding Series.getAddedDate, Mode=OneWay}"
+                            Text="{Binding Series.GetAddedDate, Mode=OneWay}"
                             VerticalTextAlignment="Center" />
                     </HorizontalStackLayout>
                     <HorizontalStackLayout
@@ -350,7 +351,7 @@
                             FontAttributes="Italic"
                             FontSize="11"
                             HorizontalOptions="Start"
-                            Text="{Binding Series.getOverDate, Mode=OneWay, TargetNullValue='смотрю'}"
+                            Text="{Binding Series.GetOverDate, Mode=OneWay, TargetNullValue='еще нет'}"
                             VerticalTextAlignment="Center" />
                     </HorizontalStackLayout>
                 </Grid>
