@@ -11,140 +11,316 @@
                                       Dark=#121212}">
     <ScrollView Margin="0,30,0,0" VerticalScrollBarVisibility="Never">
         <StackLayout>
+            <VerticalStackLayout
+                Margin="0,10,0,0"
+                Padding="30,0"
+                Spacing="25"
+                VerticalOptions="Start">
+                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="Тема приложения: " VerticalOptions="Center" />
 
-            <Grid>
-                <VerticalStackLayout
-                    Margin="0,10,0,0"
-                    Padding="30,0"
-                    Spacing="25"
-                    VerticalOptions="Start">
-                    <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                        <Label Text="Тема приложения: " VerticalOptions="Center" />
+                    <!--  Note: We are binding to the SettingsService singleton and the DisplayName of the Theme  -->
+                    <Picker
+                        x:DataType="{x:Null}"
+                        BindingContext="{Binding Source={x:Static models:Theme.AvailableThemes}}"
+                        ItemDisplayBinding="{Binding DisplayName}"
+                        ItemsSource="{Binding Source={x:Static models:Theme.AvailableThemes}}"
+                        SelectedIndexChanged="Picker_SelectedIndexChanged"
+                        SelectedItem="{Binding Path=Theme, Source={x:Static settings:SettingsService.Instance}}"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
 
-                        <!--  Note: We are binding to the SettingsService singleton and the DisplayName of the Theme  -->
-                        <Picker
-                            x:DataType="{x:Null}"
-                            BindingContext="{Binding Source={x:Static models:Theme.AvailableThemes}}"
-                            ItemDisplayBinding="{Binding DisplayName}"
-                            ItemsSource="{Binding Source={x:Static models:Theme.AvailableThemes}}"
-                            SelectedIndexChanged="Picker_SelectedIndexChanged"
-                            SelectedItem="{Binding Path=Theme, Source={x:Static settings:SettingsService.Instance}}"
-                            VerticalOptions="Center" />
-                    </HorizontalStackLayout>
 
-                </VerticalStackLayout>
-            </Grid>
-          
-            <StackLayout>
-                <Border
-                    Margin="20,10,20,10"
-                    BackgroundColor="{AppThemeBinding Light=#f7f7f7,
-                                                      Dark=#1e1e1e}"
-                    HeightRequest="50"
-                    Stroke="{AppThemeBinding Light=#f7f7f7,
-                                             Dark=#1e1e1e}">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="5" />
-                    </Border.StrokeShape>
-                    <Grid
-                        Margin="5"
-                        Padding="5"
-                        ColumnSpacing="10"
-                        RowSpacing="-10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Image
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            HeightRequest="30"
-                            HorizontalOptions="Center"
-                            Source="exportjson.png"
-                            VerticalOptions="Center"
-                            WidthRequest="30">
-                            <Image.Behaviors>
-                                <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
-                            </Image.Behaviors>
-                        </Image>
-                        <Label
-                            Grid.Row="0"
-                            Grid.Column="1"
-                            FontSize="16"
-                            HorizontalTextAlignment="Center"
-                            Text="Экспортировать данные"
-                            VerticalTextAlignment="Center">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding ExportDataCommand}" NumberOfTapsRequired="1" />
-                            </Label.GestureRecognizers>
+            <Border
+                Margin="20,10,20,10"
+                BackgroundColor="{AppThemeBinding Light=#f7f7f7,
+                                                  Dark=#1e1e1e}"
+                HeightRequest="50"
+                Stroke="{AppThemeBinding Light=#f7f7f7,
+                                         Dark=#1e1e1e}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="5" />
+                </Border.StrokeShape>
+                <Grid
+                    Margin="5"
+                    Padding="5"
+                    ColumnSpacing="10"
+                    RowSpacing="-10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        HeightRequest="30"
+                        HorizontalOptions="Center"
+                        Source="exportjson.png"
+                        VerticalOptions="Center"
+                        WidthRequest="30">
+                        <Image.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        </Image.Behaviors>
+                    </Image>
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Text="Экспортировать данные"
+                        VerticalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ExportDataCommand}" NumberOfTapsRequired="1" />
+                        </Label.GestureRecognizers>
 
-                        </Label>
-                    </Grid>
-                </Border>
-            </StackLayout>
-            <StackLayout>
-                <Border
-                    Margin="20,10,20,10"
-                    BackgroundColor="{AppThemeBinding Light=#f7f7f7,
-                                                      Dark=#1e1e1e}"
-                    HeightRequest="50"
-                    Stroke="{AppThemeBinding Light=#f7f7f7,
-                                             Dark=#1e1e1e}">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="5" />
-                    </Border.StrokeShape>
-                    <Grid
-                        Margin="5"
-                        Padding="5"
-                        ColumnSpacing="10"
-                        RowSpacing="-10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Image
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            HeightRequest="30"
-                            HorizontalOptions="Center"
-                            Source="importjson.png"
-                            VerticalOptions="Center"
-                            WidthRequest="30">
-                            <Image.Behaviors>
-                                <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
-                            </Image.Behaviors>
-                        </Image>
-                        <Label
-                            Grid.Row="0"
-                            Grid.Column="1"
-                            FontSize="16"
-                            HorizontalTextAlignment="Center"
-                            Text="Импортировать данные"
-                            VerticalTextAlignment="Center">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding PickAndShowCommand}" NumberOfTapsRequired="1" />
-                            </Label.GestureRecognizers>
+                    </Label>
+                </Grid>
+            </Border>
 
-                        </Label>
-                    </Grid>
-                </Border>
-            </StackLayout>
-            <StackLayout VerticalOptions="End">
-                <Image
-                    Margin="20"
-                    BackgroundColor="Transparent"
-                    HeightRequest="150"
+
+            <Border
+                Margin="20,10,20,10"
+                BackgroundColor="{AppThemeBinding Light=#f7f7f7,
+                                                  Dark=#1e1e1e}"
+                HeightRequest="50"
+                Stroke="{AppThemeBinding Light=#f7f7f7,
+                                         Dark=#1e1e1e}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="5" />
+                </Border.StrokeShape>
+                <Grid
+                    Margin="5"
+                    Padding="5"
+                    ColumnSpacing="10"
+                    RowSpacing="-10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        HeightRequest="30"
+                        HorizontalOptions="Center"
+                        Source="importjson.png"
+                        VerticalOptions="Center"
+                        WidthRequest="30">
+                        <Image.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        </Image.Behaviors>
+                    </Image>
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Text="Импортировать данные"
+                        VerticalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PickAndShowCommand}" NumberOfTapsRequired="1" />
+                        </Label.GestureRecognizers>
+
+                    </Label>
+                </Grid>
+            </Border>
+
+            <Border
+                Margin="20,10,20,10"
+                BackgroundColor="{AppThemeBinding Light=#f7f7f7,
+                                                  Dark=#1e1e1e}"
+                HeightRequest="50"
+                Stroke="{AppThemeBinding Light=#f7f7f7,
+                                         Dark=#1e1e1e}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="5" />
+                </Border.StrokeShape>
+                <Grid
+                    Margin="5"
+                    Padding="5"
+                    ColumnSpacing="10"
+                    RowSpacing="-10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        HeightRequest="30"
+                        HorizontalOptions="Center"
+                        Source="importjson.png"
+                        VerticalOptions="Center"
+                        WidthRequest="30">
+                        <Image.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        </Image.Behaviors>
+                    </Image>
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Text="Удалить ВСЕ данные"
+                        TextColor="Red"
+                        VerticalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PickAndShowCommand}" NumberOfTapsRequired="1" />
+                        </Label.GestureRecognizers>
+
+                    </Label>
+                </Grid>
+            </Border>
+
+            <Border
+                Margin="20,10,20,10"
+                BackgroundColor="{AppThemeBinding Light=#f7f7f7,
+                                                  Dark=#1e1e1e}"
+                Stroke="{AppThemeBinding Light=#f7f7f7,
+                                         Dark=#1e1e1e}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="5" />
+                </Border.StrokeShape>
+                <Grid
+                    Margin="5"
+                    Padding="5"
+                    ColumnSpacing="10"
+                    RowSpacing="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="80" />
+                    </Grid.ColumnDefinitions>
+
+                    <Image
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="0,-5,0,0"
+                        HeightRequest="25"
+                        HorizontalOptions="Center"
+                        Source="tag.png"
+                        VerticalOptions="Start"
+                        WidthRequest="25">
+                        <Image.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        </Image.Behaviors>
+                    </Image>
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontAttributes="Bold"
+                        FontSize="13"
+                        Text="Всего в базе данных:" />
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        FontAttributes="Bold"
+                        FontSize="13"
+                        HorizontalOptions="End"
+                        HorizontalTextAlignment="End"
+                        Text="999 записей" />
+
+                    <Image
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Margin="0,10,0,0"
+                        HeightRequest="25"
+                        HorizontalOptions="Center"
+                        Source="license.png"
+                        VerticalOptions="Start"
+                        WidthRequest="25">
+                        <Image.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        </Image.Behaviors>
+                    </Image>
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="0,15,0,0"
+                        FontAttributes="Bold"
+                        FontSize="13"
+                        Text="Последняя синхронизация:" />
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Margin="0,15,0,0"
+                        FontAttributes="Bold"
+                        FontSize="13"
+                        HorizontalOptions="End"
+                        HorizontalTextAlignment="End"
+                        Text="25 сентября, 2024 г." />
+                </Grid>
+            </Border>
+
+            <Grid
+                Margin="20,10,20,10"
+                Padding="5"
+                RowSpacing="-10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="15" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="120" />
+                </Grid.ColumnDefinitions>
+
+
+                <HorizontalStackLayout
+                    Grid.Row="0"
+                    Grid.Column="0"
                     HorizontalOptions="Center"
-                    Source="creditimage.png"
+                    VerticalOptions="Center">
+                    <Label Text="Синхронизация: " VerticalOptions="Center" />
+
+                    <!--  Note: We are binding to the SettingsService singleton and the DisplayName of the Sync  -->
+                    <Picker
+                        x:DataType="{x:Null}"
+                        BindingContext="{Binding Source={x:Static models:Sync.AvailableSyncs}}"
+                        ItemDisplayBinding="{Binding DisplayName}"
+                        ItemsSource="{Binding Source={x:Static models:Sync.AvailableSyncs}}"
+                        SelectedIndexChanged="Picker_SelectedIndexChanged_1"
+                        SelectedItem="{Binding Path=Sync, Source={x:Static settings:SettingsService.Instance}}"
+                        VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <ActivityIndicator
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    HeightRequest="40"
+                    IsRunning="True"
+                    WidthRequest="40" />
+                <ImageButton
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    HeightRequest="30"
+                    HorizontalOptions="Center"
+                    Source="cross.png"
                     VerticalOptions="Center"
-                    WidthRequest="150" />
-            </StackLayout>
+                    WidthRequest="30" />
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    FontSize="10"
+                    HorizontalOptions="Center"
+                    IsEnabled="False"
+                    Text="Синхронизировать"
+                    VerticalOptions="Center" />
+            </Grid>
         </StackLayout>
     </ScrollView>
 </ContentPage>

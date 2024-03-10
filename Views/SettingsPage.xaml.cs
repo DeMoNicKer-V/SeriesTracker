@@ -142,4 +142,9 @@ public partial class SettingsPage : ContentPage
             return (obj.seriesName).GetHashCode();
         }
     }
+
+    private void Picker_SelectedIndexChanged_1(object sender, EventArgs e)
+    {
+        Preferences.Set("SyncType", SettingsService.Instance.Sync.SyncId);
+    }
 }

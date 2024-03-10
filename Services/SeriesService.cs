@@ -15,6 +15,7 @@ public class SeriesService : ISeriesRepository
     {
         _database = new SQLiteAsyncConnection(dbPath);
         _database.CreateTableAsync<Series>().Wait();
+        Preferences.Set("DatabaseTimeChanged", DateTime.Now.ToString());
     }
 
     /// <summary>
@@ -41,7 +42,16 @@ public class SeriesService : ISeriesRepository
     {
         public bool Equals(Series x, Series y)
         {
-            return x.seriesName == y.seriesName && x.addedDate == y.addedDate;
+            if (x.hiddenSeriesName == y.hiddenSeriesName)
+            {
+                if (x.ChangedDate == y.ChangedDate)
+                {
+                    return true;
+                }
+                y.seriesId = x.seriesId;
+            }
+            y.seriesId = 0;
+            return false;
         }
 
         public int GetHashCode(Series obj)
@@ -49,13 +59,18 @@ public class SeriesService : ISeriesRepository
             return obj.seriesName.GetHashCode();
         }
     }
+
     public async Task<bool> AddUpdateSeriesAsyncSynchonize(IEnumerable<Series> syncSeriesList)
     {
         var allSeries = await Task.FromResult(await _database.Table<Series>().ToListAsync());
-        var result = allSeries.Intersect(syncSeriesList, new SeriesComparer()).ToArray();
-        syncSeriesList = syncSeriesList.Except(result, new SeriesComparer()).ToArray();
-        await _database.UpdateAllAsync(result);
-        await _database.InsertAllAsync(syncSeriesList);
+        var seriesByName = syncSeriesList.Except(allSeries, new SeriesComparer()).ToArray();
+
+        foreach (var item in seriesByName)
+        {
+            await _database.InsertOrReplaceAsync(item);
+        }
+
+
         return await Task.FromResult(true);
     }
 

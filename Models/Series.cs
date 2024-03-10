@@ -6,11 +6,15 @@ namespace SeriesTracker.Models;
 
 public partial class Series
 {
-    [PrimaryKey, AutoIncrement, JsonIgnore]
+    [PrimaryKey, AutoIncrement]
     public int seriesId
     {
         get; set;
     }
+    public int MalId
+    {
+        get; set;
+    } = 0;
 
     public string seriesName
     {
@@ -62,6 +66,10 @@ public partial class Series
         get; set;
     }
     public string overDate
+    {
+        get; set;
+    }
+    public string ChangedDate
     {
         get; set;
     }

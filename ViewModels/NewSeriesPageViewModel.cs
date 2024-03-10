@@ -38,7 +38,8 @@ namespace SeriesTracker.ViewModels
                 return;
             }
             newSeries.hiddenSeriesName = newSeries.seriesName.ToLower();
-            newSeries.addedDate = DateTime.Now.ToString();
+            newSeries.addedDate = newSeries.addedDate == null ? DateTime.Now.ToString() : newSeries.addedDate;
+            newSeries.ChangedDate = DateTime.Now.ToString();
             await App.SeriesService.AddUpdateSeriesAsync(newSeries);
             //await App.FirebaseService.AddUpdateSeriesAsync(newSeries);
             await Shell.Current.GoToAsync("..//..");
