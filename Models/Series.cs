@@ -1,12 +1,13 @@
 ﻿using SQLite;
 using System.Text.Json.Serialization;
+using System.Xml.Linq;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SeriesTracker.Models;
 
-public partial class Series
+public partial class Series : IEquatable<Series>
 {
-    [PrimaryKey, AutoIncrement]
+    [PrimaryKey, AutoIncrement, NotNull]
     public int seriesId
     {
         get; set;
@@ -104,6 +105,13 @@ public partial class Series
         }
         return (true, null);
     }
+
+    public bool Equals(Series other)
+    {
+        if (other is null) return false;
+        return other.hiddenSeriesName == hiddenSeriesName;
+    }
+    public override int GetHashCode() => hiddenSeriesName.GetHashCode();
 
     [JsonIgnore]
     public string GetFormatDate

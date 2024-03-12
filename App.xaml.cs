@@ -40,7 +40,6 @@ public partial class App : Application
 	{
 		InitializeComponent();
         MainPage = new AppShell();
-            
         SetTheme();
         Routing.RegisterRoute("NewSeriesPage", typeof(NewSeriesPage));
         // subscribe to changes in the settings

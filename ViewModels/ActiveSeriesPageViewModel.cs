@@ -94,7 +94,6 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         IsBusy = true;
         try
         {
-            await App.FirebaseService.GetAll();
             SeriesList.Clear();
             IEnumerable<Series> newSeriesList = new List<Series>();
             if (string.IsNullOrEmpty(queryText))

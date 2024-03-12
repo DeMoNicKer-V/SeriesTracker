@@ -101,8 +101,6 @@ public partial class SettingsPage : ContentPage
                         string jsonfileData = reader.ReadToEnd();
                         var pSeriesList = JsonSerializer.Deserialize<List<Series>>(jsonfileData);
                         var resultList = pSeriesList.Except(seriesList, new SeriesComparer()).ToList();
-                      
-
 
                         foreach (Series series in resultList)
                         {
@@ -146,5 +144,10 @@ public partial class SettingsPage : ContentPage
     private void Picker_SelectedIndexChanged_1(object sender, EventArgs e)
     {
         Preferences.Set("SyncType", SettingsService.Instance.Sync.SyncId);
+    }
+
+    private async void ImageButton_Clicked(object sender, EventArgs e)
+    {
+        await App.FirebaseService.Synchronize();
     }
 }
