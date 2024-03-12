@@ -33,7 +33,8 @@ namespace SeriesTracker.Services.Firebase
         public async Task<bool> AddUpdateSeriesAsync(Series series)
         {
             if (series == null) return await Task.FromResult(false);
-            await ActiveFirebaseClient.Child("Series").Child(series.seriesId.ToString()).PutAsync(series);
+            
+            await ActiveFirebaseClient.Child("Series").Child(series.SyncUid).PutAsync(series);
             return await Task.FromResult(true);
         }
 

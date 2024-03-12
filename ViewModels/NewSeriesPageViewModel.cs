@@ -37,13 +37,20 @@ namespace SeriesTracker.ViewModels
                 await NewSeriesPageViewModel.ShowToast(errorMessage);
                 return;
             }
+            var old = await App.SeriesService.GetSeriesAsyncByName(newSeries.seriesName.ToLower());
+            if (old != null) { await NewSeriesPageViewModel.ShowToast("Сериал со схожим названием уже есть в базе");
+                return;
+            }
+            var date = DateTime.Now.ToString();
             newSeries.hiddenSeriesName = newSeries.seriesName.ToLower();
-            newSeries.addedDate = newSeries.addedDate == null ? DateTime.Now.ToString() : newSeries.addedDate;
-            newSeries.ChangedDate = DateTime.Now.ToString();
+            newSeries.addedDate = newSeries.addedDate == null ? date : newSeries.addedDate;
+            if (string.IsNullOrEmpty(newSeries.SyncUid)) { newSeries.SyncUid = (newSeries.seriesName.ToLower().GetHashCode() + date.GetHashCode()).ToString(); }
+            newSeries.ChangedDate = date;
             await App.SeriesService.AddUpdateSeriesAsync(newSeries);
             //await App.FirebaseService.AddUpdateSeriesAsync(newSeries);
             await Shell.Current.GoToAsync("..//..");
         }
+
         private async void OnBackCommand()
         {
             await Shell.Current.GoToAsync("..");

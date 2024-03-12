@@ -58,17 +58,35 @@ public class SeriesService : ISeriesRepository
         }
     }
 
+    class SeriesComparer2 : IEqualityComparer<Series>
+    {
+        public bool Equals(Series x, Series y)
+        {
+            if (x.Equals(y) && x.ChangedDate == y.ChangedDate)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public int GetHashCode(Series obj)
+        {
+            return obj.hiddenSeriesName.GetHashCode();
+        }
+    }
 
     public async Task<bool> AddUpdateSeriesAsyncSynchonize(IEnumerable<Series> syncSeriesList)
     {
         var allSeries = await Task.FromResult(await _database.Table<Series>().ToListAsync());
-        var seriesByName = syncSeriesList.Except(allSeries, new SeriesComparer()).ToList();
+       // var seriesByName = syncSeriesList.Except(allSeries, new SeriesComparer()).ToList();
+        var seriesByName2 = allSeries.Except(syncSeriesList, new SeriesComparer2()).ToList();
 
-        var a = seriesByName.Count();
-        foreach (var item in seriesByName)
+        var a = seriesByName2.Count();
+        foreach (var item in seriesByName2)
         {
-            await AddUpdateSeriesAsync(item);
+            await App.FirebaseService.AddUpdateSeriesAsync(item);
         }
+
         return await Task.FromResult(true);
     }
 
@@ -93,6 +111,11 @@ public class SeriesService : ISeriesRepository
     public async Task<Series> GetSeriesAsyncById(int seriesId)
     {
         return await _database.Table<Series>().Where(n => n.seriesId == seriesId).FirstOrDefaultAsync();
+    }
+
+    public async Task<Series> GetSeriesAsyncByName(string name)
+    {
+        return await _database.Table<Series>().Where(n => n.hiddenSeriesName == name).FirstOrDefaultAsync();
     }
 
     /// <summary>
