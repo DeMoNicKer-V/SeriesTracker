@@ -1,6 +1,7 @@
 ﻿using Firebase.Database;
 using Firebase.Database.Query;
 using SeriesTracker.Models;
+using SeriesTracker.Services.SyncJournal;
 
 namespace SeriesTracker.Services.Firebase
 {
@@ -33,15 +34,29 @@ namespace SeriesTracker.Services.Firebase
         public async Task<bool> AddUpdateSeriesAsync(Series series)
         {
             if (series == null) return await Task.FromResult(false);
-            
+
             await ActiveFirebaseClient.Child("Series").Child(series.SyncUid).PutAsync(series);
+            return await Task.FromResult(true);
+        }
+
+        public async Task<bool> DeleteSeriesAsync(string Id)
+        {
+            await ActiveFirebaseClient.Child("Series").Child(Id).DeleteAsync();
+            return await Task.FromResult(true);
+        }
+
+        public async Task<bool> AddJournal(Journal journal)
+        {
+            await ActiveFirebaseClient.Child("SyncJournal").DeleteAsync();
+            await ActiveFirebaseClient.Child("SyncJournal").PutAsync(journal);
             return await Task.FromResult(true);
         }
 
         public async Task Synchronize()
         {
-            var seriesList = await GetSeriesAsync();
-            await App.SeriesService.AddUpdateSeriesAsyncSynchonize(seriesList);
+            /* var seriesList = await GetSeriesAsync();
+             await App.SeriesService.AddUpdateSeriesAsyncSynchonize(seriesList);*/
+            await App.SeriesService.Test();
         }
     }
 }

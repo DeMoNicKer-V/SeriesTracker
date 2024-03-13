@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SeriesTracker.Models;
+using SeriesTracker.Services.SyncJournal;
 using SQLite;
 
 namespace SeriesTracker.Services;
@@ -73,6 +74,24 @@ public class SeriesService : ISeriesRepository
         {
             return obj.hiddenSeriesName.GetHashCode();
         }
+    }
+
+    public async Task<bool> Test()
+    {
+        var Action = new Journal().GetJournal();
+        if (Action != null)
+        {
+            foreach (var item in Action.UpdateItems)
+            {
+                await App.FirebaseService.AddUpdateSeriesAsync(await _database.Table<Series>().Where(n => n.SyncUid == item.Id).FirstOrDefaultAsync());
+            }
+            foreach (var item in Action.DeleteItems)
+            {
+                await App.FirebaseService.DeleteSeriesAsync(item.Id);
+            }
+            await App.FirebaseService.AddJournal(Action);
+        }
+        return await Task.FromResult(true);
     }
 
     public async Task<bool> AddUpdateSeriesAsyncSynchonize(IEnumerable<Series> syncSeriesList)

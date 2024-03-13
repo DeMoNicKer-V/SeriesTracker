@@ -2,6 +2,7 @@
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.Input;
 using SeriesTracker.Models;
+using SeriesTracker.Services.SyncJournal;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -46,6 +47,9 @@ namespace SeriesTracker.ViewModels
             newSeries.addedDate = newSeries.addedDate == null ? date : newSeries.addedDate;
             if (string.IsNullOrEmpty(newSeries.SyncUid)) { newSeries.SyncUid = (newSeries.seriesName.ToLower().GetHashCode() + date.GetHashCode()).ToString(); }
             newSeries.ChangedDate = date;
+
+            new Journal(new AddUpdateItem(newSeries.SyncUid)).JournalToJson();
+
             await App.SeriesService.AddUpdateSeriesAsync(newSeries);
             //await App.FirebaseService.AddUpdateSeriesAsync(newSeries);
             await Shell.Current.GoToAsync("..//..");

@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace SeriesTracker.Services.Constant
 {
-    internal class Parameters
+    public static class Parameters
     {
-        public static bool WachedFlag = false; 
+        public static bool WachedFlag = false;
+        public static readonly string FilePath = Environment.GetFolderPath(
+                   Environment.SpecialFolder.LocalApplicationData);
     }
 }
