@@ -6,8 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SeriesTracker.Services.Constant;
 using System.Text.Json;
-using Android.Accounts;
-using GoogleGson;
+using System.Reflection;
 
 namespace SeriesTracker.Services.SyncJournal
 {
@@ -56,8 +55,17 @@ namespace SeriesTracker.Services.SyncJournal
                 {
                     string jsonfileData = reader.ReadToEnd();
                     CurrentJournal = JsonConvert.DeserializeObject<Journal>(jsonfileData);
-                    CurrentJournal.UpdateItems.AddRange(this.UpdateItems);
-                    CurrentJournal.DeleteItems.AddRange(this.DeleteItems);
+                    if (CurrentJournal.UpdateItems.FindIndex(s => s.PrevId == this.UpdateItems[0].PrevId) > -1)
+                    {
+                        int index = CurrentJournal.UpdateItems.FindIndex(s => s.PrevId == this.UpdateItems[0].PrevId);
+                        CurrentJournal.UpdateItems[index] = this.UpdateItems[0];
+                        CurrentJournal.DeleteItems.AddRange(this.DeleteItems);
+                    }
+                    else 
+                    {
+                        CurrentJournal.UpdateItems.AddRange(this.UpdateItems);
+                        CurrentJournal.DeleteItems.AddRange(this.DeleteItems);
+                    }
                     reader.Close();
                 }
             }

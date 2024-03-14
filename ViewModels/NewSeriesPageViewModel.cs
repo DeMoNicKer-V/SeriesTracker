@@ -45,10 +45,18 @@ namespace SeriesTracker.ViewModels
             var date = DateTime.Now.ToString();
             newSeries.hiddenSeriesName = newSeries.seriesName.ToLower();
             newSeries.addedDate = newSeries.addedDate == null ? date : newSeries.addedDate;
-            if (string.IsNullOrEmpty(newSeries.SyncUid)) { newSeries.SyncUid = (newSeries.seriesName.ToLower().GetHashCode() + date.GetHashCode()).ToString(); }
+            if (string.IsNullOrEmpty(newSeries.SyncUid))
+            {
+                newSeries.SyncUid = (newSeries.seriesName.ToLower().GetHashCode()).ToString();
+                new Journal(new AddUpdateItem(newSeries.SyncUid, newSeries.SyncUid)).JournalToJson();
+            }
+            else
+            {
+                new Journal(new AddUpdateItem(newSeries.hiddenSeriesName.GetHashCode().ToString(), newSeries.SyncUid), new DeleteItem(newSeries.SyncUid)).JournalToJson();
+            }
             newSeries.ChangedDate = date;
 
-            new Journal(new AddUpdateItem(newSeries.SyncUid)).JournalToJson();
+
 
             await App.SeriesService.AddUpdateSeriesAsync(newSeries);
             //await App.FirebaseService.AddUpdateSeriesAsync(newSeries);
