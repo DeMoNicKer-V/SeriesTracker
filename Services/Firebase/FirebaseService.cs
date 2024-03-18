@@ -35,13 +35,13 @@ namespace SeriesTracker.Services.Firebase
         {
             if (series == null) return await Task.FromResult(false);
 
-            await ActiveFirebaseClient.Child("Series").Child(series.SyncUid).PutAsync(series);
+            await ActiveFirebaseClient.Child("Series").Child(series.SyncUid.ToString()).PutAsync(series);
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> DeleteSeriesAsync(string Id)
+        public async Task<bool> DeleteSeriesAsync(int Id)
         {
-            await ActiveFirebaseClient.Child("Series").Child(Id).DeleteAsync();
+            await ActiveFirebaseClient.Child("Series").Child(Id.ToString()).DeleteAsync();
             return await Task.FromResult(true);
         }
 
@@ -52,11 +52,14 @@ namespace SeriesTracker.Services.Firebase
             return await Task.FromResult(true);
         }
 
-        public async Task Synchronize()
+        public async Task OutSynchronize()
         {
-            /* var seriesList = await GetSeriesAsync();
-             await App.SeriesService.AddUpdateSeriesAsyncSynchonize(seriesList);*/
-            await App.SeriesService.Test();
+            await App.SeriesService.OutSeriesAsyncSynchonize();
+        }
+        public async Task InSynchronize()
+        {
+            var collection = await GetSeriesAsync();
+            await App.SeriesService.InSeriesAsyncSynchonize(collection);
         }
     }
 }

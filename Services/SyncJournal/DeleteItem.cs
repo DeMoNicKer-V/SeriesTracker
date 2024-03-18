@@ -8,9 +8,9 @@ namespace SeriesTracker.Services.SyncJournal
 {
     public class DeleteItem
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
-        public DeleteItem(string _id)
+        public DeleteItem(int _id)
         {
             Id = _id;
         }

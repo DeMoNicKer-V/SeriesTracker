@@ -8,10 +8,10 @@ namespace SeriesTracker.Services.SyncJournal
 {
     public class AddUpdateItem
     {
-        public string Id { get; set; }
-        public string PrevId { get; set; }
+        public int Id { get; set; }
+        public int PrevId { get; set; }
 
-        public AddUpdateItem(string _id, string _prevId) 
+        public AddUpdateItem(int _id, int _prevId) 
         {
             Id = _id;
             PrevId = _prevId;

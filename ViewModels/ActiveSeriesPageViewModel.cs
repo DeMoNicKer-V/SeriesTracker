@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using SeriesTracker.Controls.PopUp;
 using SeriesTracker.Models;
 using SeriesTracker.Services.Constant;
+using SeriesTracker.Services.SyncJournal;
 using SeriesTracker.Views;
 using System.Collections.ObjectModel;
 using static SeriesTracker.Services.Constant.Parameters;
@@ -148,6 +149,8 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         {
             return;
         }
+        new Journal(new DeleteItem(currentSeries.SyncUid)).JournalToJson();
+        
         await App.SeriesService.DeleteSeriesAsync(currentSeries.seriesId);
         OnAppearing();
     }

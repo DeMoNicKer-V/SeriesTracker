@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using SeriesTracker.Models;
+using SeriesTracker.Services.SyncJournal;
 using SeriesTracker.Views;
 
 #if ANDROID
@@ -68,6 +69,7 @@ namespace SeriesTracker.ViewModels
         private async void OnDeleteCommand()
         {
             if (!CheckSeries(Series)) { return; }
+            new Journal(new DeleteItem(Series.SyncUid)).JournalToJson();
             await App.SeriesService.DeleteSeriesAsync(Series.seriesId);
             await Shell.Current.GoToAsync("..");
         }

@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SeriesTracker.Models;
+﻿using SeriesTracker.Models;
 using SeriesTracker.Services.SyncJournal;
 using SQLite;
+using static SeriesTracker.Services.Extensions.SeriesEqualExtension;
 
 namespace SeriesTracker.Services;
+
 public class SeriesService : ISeriesRepository
 {
     public SQLiteAsyncConnection _database;
     public int relativeItemsCount;
+
     public SeriesService(string dbPath)
     {
         _database = new SQLiteAsyncConnection(dbPath);
         _database.CreateTableAsync<Series>().Wait();
-        Preferences.Set("DatabaseTimeChanged", DateTime.Now.ToString());
     }
 
     /// <summary>
@@ -38,74 +35,44 @@ public class SeriesService : ISeriesRepository
         return await Task.FromResult(true);
     }
 
-    class SeriesComparer : IEqualityComparer<Series>
-    {
-        public bool Equals(Series x, Series y)
-        {
-            if (x.Equals(y))
-            {
-                if (x.ChangedDate == y.ChangedDate)
-                {
-                    return true;
-                }
-                y.seriesId = x.seriesId;
-            }
-            return false;
-        }
-
-        public int GetHashCode(Series obj)
-        {
-            return  obj.hiddenSeriesName.GetHashCode();
-        }
-    }
-
-    class SeriesComparer2 : IEqualityComparer<Series>
-    {
-        public bool Equals(Series x, Series y)
-        {
-            if (x.Equals(y) && x.ChangedDate == y.ChangedDate)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public int GetHashCode(Series obj)
-        {
-            return obj.hiddenSeriesName.GetHashCode();
-        }
-    }
-
-    public async Task<bool> Test()
+    public async Task<bool> OutSeriesAsyncSynchonize()
     {
         var Action = new Journal().GetJournal();
-        if (Action != null)
+        if (Action == null)
         {
-            foreach (var item in Action.UpdateItems)
-            {
-                await App.FirebaseService.AddUpdateSeriesAsync(await _database.Table<Series>().Where(n => n.SyncUid == item.Id).FirstOrDefaultAsync());
-            }
-            foreach (var item in Action.DeleteItems)
-            {
-                await App.FirebaseService.DeleteSeriesAsync(item.Id);
-            }
-            await App.FirebaseService.AddJournal(Action);
+            return await Task.FromResult(false);
         }
+        foreach (var item in Action.DeleteItems)
+        {
+            await App.FirebaseService.DeleteSeriesAsync(item.Id);
+        }
+        foreach (var item in Action.UpdateItems)
+        {
+            var series = await _database.Table<Series>().Where(n => n.SyncUid == item.PrevId).FirstOrDefaultAsync();
+            if (series != null)
+            {
+                if (!series.hiddenSeriesName.GetHashCode().Equals(series.SyncUid))
+                {
+                    series.SyncUid = series.hiddenSeriesName.GetHashCode();
+                    await _database.UpdateAsync(series);
+                }
+                await App.FirebaseService.AddUpdateSeriesAsync(series);
+            }
+        }
+        //await App.FirebaseService.AddJournal(Action);
         return await Task.FromResult(true);
     }
 
-    public async Task<bool> AddUpdateSeriesAsyncSynchonize(IEnumerable<Series> syncSeriesList)
+    public async Task<bool> InSeriesAsyncSynchonize(IEnumerable<Series> syncSeriesList)
     {
-        var allSeries = await Task.FromResult(await _database.Table<Series>().ToListAsync());
-       // var seriesByName = syncSeriesList.Except(allSeries, new SeriesComparer()).ToList();
-        var seriesByName2 = allSeries.Except(syncSeriesList, new SeriesComparer2()).ToList();
+        var allSeries = await _database.Table<Series>().ToListAsync();
+        var seriesByName = syncSeriesList.Except(allSeries, new SeriesSyncComparer()).ToList();
 
-        var a = seriesByName2.Count();
-        foreach (var item in seriesByName2)
+        foreach (var item in seriesByName)
         {
-            await App.FirebaseService.AddUpdateSeriesAsync(item);
+            await AddUpdateSeriesAsync(item);
         }
-
+        new Journal().UpdateJournal();
         return await Task.FromResult(true);
     }
 
@@ -150,6 +117,7 @@ public class SeriesService : ISeriesRepository
             case true:
                 relativeItemsCount = await _database.Table<Series>().Where(s => s.isOver == overFlag & s.isFavourite == favorite).CountAsync();
                 return await Task.FromResult(await _database.Table<Series>().Where(s => s.isOver == overFlag & s.isFavourite == true).Skip(skip).Take(5).ToListAsync());
+
             case false:
                 relativeItemsCount = await _database.Table<Series>().Where(s => s.isOver == overFlag).CountAsync();
                 return await Task.FromResult(await _database.Table<Series>().Where(s => s.isOver == overFlag).Skip(skip).Take(5).OrderByDescending(s => s.isFavourite).ToListAsync());
@@ -169,6 +137,7 @@ public class SeriesService : ISeriesRepository
             case true:
                 relativeItemsCount = await _database.Table<Series>().Where(s => s.isOver == overFlag & s.isFavourite == favorite).CountAsync();
                 return await Task.FromResult(await _database.Table<Series>().Where(s => s.hiddenSeriesName.Contains(query) & s.isFavourite == true).Skip(skip).Take(5).ToListAsync());
+
             case false:
                 relativeItemsCount = await _database.Table<Series>().Where(s => s.hiddenSeriesName.Contains(query)).CountAsync();
                 return await Task.FromResult(await _database.Table<Series>().Where(s => s.hiddenSeriesName.Contains(query) & s.isOver == overFlag).Skip(skip).Take(5).OrderByDescending(s => s.isFavourite).ToListAsync());
@@ -181,9 +150,9 @@ public class SeriesService : ISeriesRepository
     /// <typeparam name="T"></typeparam>
     /// <param name="content"></param>
     /// <returns></returns>
-    public async Task<IEnumerable<Series>> GetSeriesAsync() 
-    { 
-         return await Task.FromResult(await _database.Table<Series>().ToListAsync());
+    public async Task<IEnumerable<Series>> GetSeriesAsync()
+    {
+        return await Task.FromResult(await _database.Table<Series>().ToListAsync());
     }
 
     /// <summary>

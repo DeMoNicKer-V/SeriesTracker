@@ -18,8 +18,6 @@
                 VerticalOptions="Start">
                 <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
                     <Label Text="Тема приложения: " VerticalOptions="Center" />
-
-                    <!--  Note: We are binding to the SettingsService singleton and the DisplayName of the Theme  -->
                     <Picker
                         x:DataType="{x:Null}"
                         BindingContext="{Binding Source={x:Static models:Theme.AvailableThemes}}"
@@ -272,31 +270,36 @@
                 RowSpacing="-10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="15" />
+                    <RowDefinition Height="20" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-
-                <HorizontalStackLayout
+                <ActivityIndicator
                     Grid.Row="0"
                     Grid.Column="0"
+                    HeightRequest="40"
+                    IsRunning="True"
+                    WidthRequest="40" />
+                <ImageButton
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Command="{Binding InPutSyncCommand}"
+                    HeightRequest="30"
                     HorizontalOptions="Center"
-                    VerticalOptions="Center">
-                    <Label Text="Синхронизация: " VerticalOptions="Center" />
-
-                    <!--  Note: We are binding to the SettingsService singleton and the DisplayName of the Sync  -->
-                    <Picker
-                        x:DataType="{x:Null}"
-                        BindingContext="{Binding Source={x:Static models:Sync.AvailableSyncs}}"
-                        ItemDisplayBinding="{Binding DisplayName}"
-                        ItemsSource="{Binding Source={x:Static models:Sync.AvailableSyncs}}"
-                        SelectedIndexChanged="Picker_SelectedIndexChanged_1"
-                        SelectedItem="{Binding Path=Sync, Source={x:Static settings:SettingsService.Instance}}"
-                        VerticalOptions="Center" />
-                </HorizontalStackLayout>
+                    Source="cross.png"
+                    VerticalOptions="Center"
+                    WidthRequest="30" />
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    FontSize="10"
+                    HorizontalOptions="Center"
+                    IsEnabled="False"
+                    Text="Обновить данные в приложении"
+                    VerticalOptions="Center" />
 
                 <ActivityIndicator
                     Grid.Row="0"
@@ -307,7 +310,7 @@
                 <ImageButton
                     Grid.Row="0"
                     Grid.Column="1"
-                    Clicked="ImageButton_Clicked"
+                    Command="{Binding OutPutSyncCommand}"
                     HeightRequest="30"
                     HorizontalOptions="Center"
                     Source="cross.png"
@@ -319,7 +322,7 @@
                     FontSize="10"
                     HorizontalOptions="Center"
                     IsEnabled="False"
-                    Text="Синхронизировать"
+                    Text="Обновить данные в облаке"
                     VerticalOptions="Center" />
             </Grid>
         </StackLayout>

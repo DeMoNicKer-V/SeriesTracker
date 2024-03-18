@@ -27,7 +27,7 @@ public partial class Series : IEquatable<Series>
         get; set;
     }
 
-    public string SyncUid 
+    public int SyncUid 
     { get; set; }
 
     public int seriesDuration
