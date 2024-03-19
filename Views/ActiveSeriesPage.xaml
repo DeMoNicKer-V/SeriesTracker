@@ -17,369 +17,368 @@
         <BackButtonBehavior IsEnabled="False" IsVisible="False" />
     </Shell.BackButtonBehavior>
 
-    <RefreshView Command="{Binding LoadSeriesCommand}" IsRefreshing="{Binding IsRefreshing}">
-        <toolkit:DockLayout>
-            <StackLayout
-                Margin="10"
-                Padding="5"
-                toolkit:DockLayout.DockPosition="Top">
-                <Border BackgroundColor="Transparent" Stroke="Transparent">
-                    <Grid HorizontalOptions="Center">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="25" />
-                            <RowDefinition Height="45" />
-                            <RowDefinition Height="1" />
-                            <RowDefinition Height="5" />
-                            <RowDefinition Height="15" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="35" />
-                            <ColumnDefinition Width="230" />
-                            <ColumnDefinition Width="35" />
-                            <ColumnDefinition Width="35" />
-                        </Grid.ColumnDefinitions>
-                        <Image
-                            x:Name="searchImage"
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Margin="0,0,10,0"
-                            HeightRequest="25"
-                            Source="search.png"
-                            WidthRequest="25">
-                            <Image.Behaviors>
-                                <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
-                            </Image.Behaviors>
-                        </Image>
-                        <Entry
-                            x:Name="searchBar"
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Completed="SearchBar_Completed"
-                            Focused="SearchBar_Focused"
-                            FontSize="16"
-                            Keyboard="Text"
-                            Placeholder="Найти сериал"
-                            PlaceholderColor="{AppThemeBinding Light={StaticResource Gray600},
-                                                               Dark={StaticResource Gray300}}"
-                            ReturnCommand="{Binding FilterSeriesCommand}"
-                            ReturnCommandParameter="{Binding Source={x:Reference searchBar}, Path=Text}"
-                            TextChanged="SearchBar_TextChanged"
-                            Unfocused="SearchBar_Unfocused"
-                            VerticalTextAlignment="Center" />
-                        <ImageButton
-                            x:Name="searchbarClearBtn"
-                            Grid.Row="1"
-                            Grid.Column="2"
-                            Clicked="SearchBarClearBtn_Clicked"
-                            HeightRequest="25"
-                            IsVisible="false"
-                            Source="cross.png"
-                            WidthRequest="25">
-                            <ImageButton.Behaviors>
-                                <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
-                            </ImageButton.Behaviors>
-                        </ImageButton>
-                        <ImageButton
-                            x:Name="filterExpandImage"
-                            Grid.Row="1"
-                            Grid.Column="3"
-                            Clicked="FilterExpandImage_Clicked"
-                            HeightRequest="25"
-                            Source="filter.png"
-                            WidthRequest="25">
-                            <ImageButton.Behaviors>
-                                <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
-                            </ImageButton.Behaviors>
-                        </ImageButton>
-                        <Line
-                            x:Name="myLine"
-                            Grid.Row="2"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="4"
-                            BackgroundColor="{StaticResource Gray600}"
-                            HorizontalOptions="Fill" />
+    <toolkit:DockLayout>
+        <StackLayout
+            Margin="10"
+            Padding="5"
+            toolkit:DockLayout.DockPosition="Top">
+            <Border BackgroundColor="Transparent" Stroke="Transparent">
+                <Grid HorizontalOptions="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25" />
+                        <RowDefinition Height="45" />
+                        <RowDefinition Height="1" />
+                        <RowDefinition Height="5" />
+                        <RowDefinition Height="15" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="35" />
+                        <ColumnDefinition Width="230" />
+                        <ColumnDefinition Width="35" />
+                        <ColumnDefinition Width="35" />
+                    </Grid.ColumnDefinitions>
+                    <Image
+                        x:Name="searchImage"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Margin="0,0,10,0"
+                        HeightRequest="25"
+                        Source="search.png"
+                        WidthRequest="25">
+                        <Image.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                        </Image.Behaviors>
+                    </Image>
+                    <Entry
+                        x:Name="searchBar"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Completed="SearchBar_Completed"
+                        Focused="SearchBar_Focused"
+                        FontSize="16"
+                        Keyboard="Text"
+                        Placeholder="Найти сериал"
+                        PlaceholderColor="{AppThemeBinding Light={StaticResource Gray600},
+                                                           Dark={StaticResource Gray300}}"
+                        ReturnCommand="{Binding FilterSeriesCommand}"
+                        ReturnCommandParameter="{Binding Source={x:Reference searchBar}, Path=Text}"
+                        TextChanged="SearchBar_TextChanged"
+                        Unfocused="SearchBar_Unfocused"
+                        VerticalTextAlignment="Center" />
+                    <ImageButton
+                        x:Name="searchbarClearBtn"
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Clicked="SearchBarClearBtn_Clicked"
+                        HeightRequest="20"
+                        IsVisible="false"
+                        Source="cross.png"
+                        WidthRequest="20">
+                        <ImageButton.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                        </ImageButton.Behaviors>
+                    </ImageButton>
+                    <ImageButton
+                        x:Name="filterExpandImage"
+                        Grid.Row="1"
+                        Grid.Column="3"
+                        Clicked="FilterExpandImage_Clicked"
+                        HeightRequest="25"
+                        Source="category.png"
+                        WidthRequest="25">
+                        <ImageButton.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
+                        </ImageButton.Behaviors>
+                    </ImageButton>
+                    <Line
+                        x:Name="myLine"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="4"
+                        BackgroundColor="{StaticResource Gray600}"
+                        HorizontalOptions="Fill" />
 
-                        <ImageButton
-                            Grid.Row="4"
-                            Grid.Column="0"
-                            Command="{Binding DecSeriesListCommand}"
-                            HeightRequest="15"
-                            HorizontalOptions="Center"
-                            Source="backarrow.png"
-                            VerticalOptions="Start"
-                            WidthRequest="15">
-                            <ImageButton.Behaviors>
-                                <toolkit:IconTintColorBehavior TintColor="#999999" />
-                            </ImageButton.Behaviors>
-                        </ImageButton>
-                        <Label
-                            Grid.Row="4"
-                            Grid.Column="1"
-                            Grid.ColumnSpan="2"
-                            FontAttributes="Italic"
-                            FontSize="12"
-                            HorizontalOptions="Start"
-                            TextColor="{AppThemeBinding Light={StaticResource Gray600},
-                                                        Dark={StaticResource Gray300}}"
-                            VerticalTextAlignment="Center">
-                            <Label.FormattedText>
-                                <FormattedString>
-                                    <Span FontAttributes="Italic">
-                                        <Span.Text>
-                                            <MultiBinding StringFormat="Показано: {0} из {1}">
-                                                <Binding Path="ViewedSeriesCount" />
-                                                <Binding Path="SeriesCount" />
-                                            </MultiBinding>
-                                        </Span.Text>
-                                    </Span>
-                                </FormattedString>
-                            </Label.FormattedText>
-                        </Label>
-                        <ImageButton
-                            Grid.Row="4"
-                            Grid.Column="3"
-                            Command="{Binding IncSeriesListCommand}"
-                            HeightRequest="15"
-                            HorizontalOptions="Center"
-                            Rotation="180"
-                            Source="backarrow.png"
-                            VerticalOptions="Start"
-                            WidthRequest="15">
-                            <ImageButton.Behaviors>
-                                <toolkit:IconTintColorBehavior TintColor="#999999" />
-                            </ImageButton.Behaviors>
-                        </ImageButton>
-                    </Grid>
+                    <ImageButton
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Command="{Binding DecSeriesListCommand}"
+                        HeightRequest="15"
+                        HorizontalOptions="Center"
+                        Source="backarrow.png"
+                        VerticalOptions="Start"
+                        WidthRequest="15">
+                        <ImageButton.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="#999999" />
+                        </ImageButton.Behaviors>
+                    </ImageButton>
+                    <Label
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        FontAttributes="Italic"
+                        FontSize="12"
+                        HorizontalOptions="Start"
+                        TextColor="{AppThemeBinding Light={StaticResource Gray600},
+                                                    Dark={StaticResource Gray300}}"
+                        VerticalTextAlignment="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span FontAttributes="Italic">
+                                    <Span.Text>
+                                        <MultiBinding StringFormat="Показано: {0} из {1} | Всего: {2}">
+                                            <Binding Path="ViewedSeriesCount" />
+                                            <Binding Path="SeriesCount" />
+                                            <Binding Path="AllSeriesCount" />
+                                        </MultiBinding>
+                                    </Span.Text>
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <ImageButton
+                        Grid.Row="4"
+                        Grid.Column="3"
+                        Command="{Binding IncSeriesListCommand}"
+                        HeightRequest="15"
+                        HorizontalOptions="Center"
+                        Rotation="180"
+                        Source="backarrow.png"
+                        VerticalOptions="Start"
+                        WidthRequest="15">
+                        <ImageButton.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="#999999" />
+                        </ImageButton.Behaviors>
+                    </ImageButton>
+                </Grid>
 
-                </Border>
+            </Border>
 
-                <toolkit:Expander x:Name="filterExpander" IsExpanded="False">
-                    <Grid
-                        Margin="10,10,10,-10"
-                        Padding="5"
-                        HorizontalOptions="Center">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="30" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="35" />
-                            <ColumnDefinition Width="265" />
-                            <ColumnDefinition Width="35" />
-                        </Grid.ColumnDefinitions>
-                        <Label
-                            Grid.Row="0"
-                            Grid.Column="1"
-                            FontSize="15"
-                            HorizontalOptions="Start"
-                            Text="Только избранное"
-                            TextColor="{AppThemeBinding Light={StaticResource Gray600},
-                                                        Dark={StaticResource Gray300}}"
-                            VerticalTextAlignment="Center" />
-                        <CheckBox
-                            Grid.Row="0"
-                            Grid.Column="2"
-                            CheckedChanged="CheckBox_CheckedChanged"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center" />
-                    </Grid>
+            <toolkit:Expander x:Name="filterExpander" IsExpanded="False">
+                <Grid
+                    Margin="10,10,10,-10"
+                    Padding="5"
+                    HorizontalOptions="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="35" />
+                        <ColumnDefinition Width="265" />
+                        <ColumnDefinition Width="35" />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontSize="15"
+                        HorizontalOptions="Start"
+                        Text="Только избранное"
+                        TextColor="{AppThemeBinding Light={StaticResource Gray600},
+                                                    Dark={StaticResource Gray300}}"
+                        VerticalTextAlignment="Center" />
+                    <CheckBox
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        CheckedChanged="CheckBox_CheckedChanged"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
+                </Grid>
 
-                </toolkit:Expander>
-            </StackLayout>
+            </toolkit:Expander>
+        </StackLayout>
 
-            <CollectionView
-                x:Name="seriesCollection"
-                toolkit:DockLayout.DockPosition="None"
-                HorizontalScrollBarVisibility="Never"
-                ItemsSource="{Binding SeriesList}"
-                VerticalScrollBarVisibility="Never">
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical" />
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Series">
-                        <Border
-                            Margin="10"
-                            BackgroundColor="{AppThemeBinding Light=#FBFBFB,
-                                                              Dark=#151515}"
-                            HeightRequest="195">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="10" />
-                            </Border.StrokeShape>
-                            <Grid Margin="5" Padding="5">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="25" />
-                                    <RowDefinition Height="1" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="130" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="20" />
-                                </Grid.ColumnDefinitions>
+        <CollectionView
+            x:Name="seriesCollection"
+            toolkit:DockLayout.DockPosition="None"
+            HorizontalScrollBarVisibility="Never"
+            ItemsSource="{Binding SeriesList}"
+            VerticalScrollBarVisibility="Never">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Series">
+                    <Border
+                        Margin="10"
+                        BackgroundColor="{AppThemeBinding Light=#FBFBFB,
+                                                          Dark=#151515}"
+                        HeightRequest="195">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+                        <Grid Margin="5" Padding="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="25" />
+                                <RowDefinition Height="1" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="130" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="20" />
+                            </Grid.ColumnDefinitions>
 
-                                <Border
-                                    Grid.Row="0"
-                                    Grid.RowSpan="5"
-                                    Grid.Column="0"
-                                    Margin="0,0,10,0"
-                                    BackgroundColor="Transparent"
-                                    HorizontalOptions="Fill"
-                                    Stroke="{AppThemeBinding Light=#F5F5F5,
-                                                             Dark=#202020}"
-                                    VerticalOptions="Fill">
-                                    <Border.StrokeShape>
-                                        <RoundRectangle CornerRadius="10" />
-                                    </Border.StrokeShape>
-                                    <Image Aspect="Fill" Source="{Binding imagePath, TargetNullValue='myimage.png'}" />
+                            <Border
+                                Grid.Row="0"
+                                Grid.RowSpan="5"
+                                Grid.Column="0"
+                                Margin="0,0,10,0"
+                                BackgroundColor="Transparent"
+                                HorizontalOptions="Fill"
+                                Stroke="{AppThemeBinding Light=#F5F5F5,
+                                                         Dark=#202020}"
+                                VerticalOptions="Fill">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
+                                <Image Aspect="Fill" Source="{Binding imagePath, TargetNullValue='noimage.png'}" />
 
-                                </Border>
-                                <Label
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                    Grid.ColumnSpan="3"
-                                    FontAttributes="Bold"
-                                    FontSize="16"
-                                    LineBreakMode="TailTruncation"
-                                    MaxLines="2"
-                                    Text="{Binding seriesName}"
-                                    TextColor="{AppThemeBinding Light={StaticResource Black},
-                                                                Dark={StaticResource PrimaryDark}}"
-                                    VerticalOptions="Center" />
-                                <ImageButton
-                                    x:Name="menuButton"
-                                    Grid.Row="0"
-                                    Grid.Column="4"
-                                    Margin="0,5,0,0"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:ActiveSeriesPageViewModel}}, Path=AdditionalActionCommand}"
-                                    CommandParameter="{Binding .}"
-                                    HeightRequest="15"
-                                    HorizontalOptions="End"
-                                    Rotation="90"
-                                    Source="dots.png"
-                                    VerticalOptions="Start"
-                                    WidthRequest="15">
-                                    <ImageButton.Behaviors>
-                                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
-                                    </ImageButton.Behaviors>
-                                </ImageButton>
+                            </Border>
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="3"
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                LineBreakMode="TailTruncation"
+                                MaxLines="2"
+                                Text="{Binding seriesName}"
+                                TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                            Dark={StaticResource PrimaryDark}}"
+                                VerticalOptions="Center" />
+                            <ImageButton
+                                x:Name="menuButton"
+                                Grid.Row="0"
+                                Grid.Column="4"
+                                Margin="0,5,0,0"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:ActiveSeriesPageViewModel}}, Path=AdditionalActionCommand}"
+                                CommandParameter="{Binding .}"
+                                HeightRequest="15"
+                                HorizontalOptions="End"
+                                Rotation="90"
+                                Source="dots.png"
+                                VerticalOptions="Start"
+                                WidthRequest="15">
+                                <ImageButton.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                                </ImageButton.Behaviors>
+                            </ImageButton>
 
-                                <HorizontalStackLayout
-                                    Grid.Row="2"
-                                    Grid.Column="1"
-                                    Grid.ColumnSpan="3"
-                                    HorizontalOptions="Start"
-                                    VerticalOptions="Center">
-                                    <HorizontalStackLayout IsVisible="{Binding isOver}">
-                                        <Label
-                                            FontAttributes="Italic"
-                                            FontSize="11"
-                                            Text="{Binding lastEpisode, StringFormat='{0} эп,'}"
-                                            VerticalOptions="Center" />
-                                        <Label
-                                            Margin="2,1,2,0"
-                                            FontAttributes="Italic"
-                                            FontSize="9"
-                                            Text="просмотрено: "
-                                            TextColor="Grey"
-                                            VerticalTextAlignment="Center" />
-                                        <Label
-                                            FontAttributes="Italic"
-                                            FontSize="11"
-                                            Text="{Binding GetOverDate, Mode=OneWay}"
-                                            VerticalTextAlignment="Center" />
-                                    </HorizontalStackLayout>
-
+                            <HorizontalStackLayout
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="3"
+                                HorizontalOptions="Start"
+                                VerticalOptions="Center">
+                                <HorizontalStackLayout IsVisible="{Binding isOver}">
                                     <Label
-                                        FontSize="12"
-                                        IsVisible="{Binding isOver, Converter={service:InverseBoolConverter}}"
-                                        VerticalOptions="Center">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span FontAttributes="Italic">
-                                                    <Span.Text>
-                                                        <MultiBinding StringFormat="Просмотрено: {0} из {1} эп.">
-                                                            <Binding Path="currentEpisode" />
-                                                            <Binding Path="lastEpisode" />
-                                                        </MultiBinding>
-                                                    </Span.Text>
-                                                </Span>
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-
-
-                                    <HorizontalStackLayout IsVisible="{Binding isFavourite}">
-                                        <Image
-                                            HeightRequest="15"
-                                            Source="dot.png"
-                                            VerticalOptions="Center"
-                                            WidthRequest="15">
-                                            <Image.Behaviors>
-                                                <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
-                                            </Image.Behaviors>
-                                        </Image>
-                                        <ImageButton
-                                            x:Name="favouriteBtn"
-                                            HeightRequest="15"
-                                            IsVisible="true"
-                                            Source="bookmark.png"
-                                            VerticalOptions="Center"
-                                            WidthRequest="15" />
-                                    </HorizontalStackLayout>
+                                        FontAttributes="Italic"
+                                        FontSize="11"
+                                        Text="{Binding lastEpisode, StringFormat='{0} эп,'}"
+                                        VerticalOptions="Center" />
+                                    <Label
+                                        Margin="2,1,2,0"
+                                        FontAttributes="Italic"
+                                        FontSize="9"
+                                        Text="просмотрено: "
+                                        TextColor="Grey"
+                                        VerticalTextAlignment="Center" />
+                                    <Label
+                                        FontAttributes="Italic"
+                                        FontSize="11"
+                                        Text="{Binding GetOverDate, Mode=OneWay}"
+                                        VerticalTextAlignment="Center" />
                                 </HorizontalStackLayout>
-                                <Line
-                                    Grid.Row="3"
-                                    Grid.Column="1"
-                                    Grid.ColumnSpan="4"
-                                    BackgroundColor="{AppThemeBinding Light={StaticResource Primary},
-                                                                      Dark={StaticResource PrimaryDark}}"
-                                    HorizontalOptions="Fill" />
-                                <Label
-                                    Grid.Row="4"
-                                    Grid.Column="1"
-                                    Grid.ColumnSpan="4"
-                                    Margin="0,5,0,0"
-                                    FontSize="14"
-                                    LineBreakMode="TailTruncation"
-                                    MaxLines="5"
-                                    Text="{Binding seriesDescription, TargetNullValue='Описание отсутствует.'}"
-                                    TextColor="{AppThemeBinding Light={StaticResource Gray500},
-                                                                Dark={StaticResource Gray400}}"
-                                    VerticalOptions="StartAndExpand" />
-                            </Grid>
-                            <Border.Stroke>
-                                <LinearGradientBrush EndPoint="0,1">
-                                    <GradientStop Offset="0.1" Color="{AppThemeBinding Light=#F8F8F8, Dark=#181818}" />
-                                    <GradientStop Color="{AppThemeBinding Light=#F5F5F5, Dark={StaticResource PrimaryDark}}">
-                                        <GradientStop.Offset>1.0</GradientStop.Offset>
-                                    </GradientStop>
-                                </LinearGradientBrush>
-                            </Border.Stroke>
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:ActiveSeriesPageViewModel}}, Path=DetailViewCommand}"
-                                    CommandParameter="{Binding .}"
-                                    NumberOfTapsRequired="1" />
-                            </Border.GestureRecognizers>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-                <CollectionView.EmptyView>
-                    <ContentView>
-                        <emptyView:CustomEmptyView
-                            x:Name="SeriesEmptyView"
-                            IsActive="{Binding IsBusy}"
-                            MainText="Здесь самую 'малость' пустовато :( "
-                            SubText="Может стоит это исрпавить?" />
-                    </ContentView>
-                </CollectionView.EmptyView>
 
-            </CollectionView>
-        </toolkit:DockLayout>
-    </RefreshView>
+                                <Label
+                                    FontSize="12"
+                                    IsVisible="{Binding isOver, Converter={service:InverseBoolConverter}}"
+                                    VerticalOptions="Center">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span FontAttributes="Italic">
+                                                <Span.Text>
+                                                    <MultiBinding StringFormat="Просмотрено: {0} из {1} эп.">
+                                                        <Binding Path="currentEpisode" />
+                                                        <Binding Path="lastEpisode" />
+                                                    </MultiBinding>
+                                                </Span.Text>
+                                            </Span>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+
+
+                                <HorizontalStackLayout IsVisible="{Binding isFavourite}">
+                                    <Image
+                                        HeightRequest="15"
+                                        Source="dot.png"
+                                        VerticalOptions="Center"
+                                        WidthRequest="15">
+                                        <Image.Behaviors>
+                                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                                        </Image.Behaviors>
+                                    </Image>
+                                    <ImageButton
+                                        x:Name="favouriteBtn"
+                                        HeightRequest="15"
+                                        IsVisible="true"
+                                        Source="bookmark.png"
+                                        VerticalOptions="Center"
+                                        WidthRequest="15" />
+                                </HorizontalStackLayout>
+                            </HorizontalStackLayout>
+                            <Line
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="4"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource Primary},
+                                                                  Dark={StaticResource PrimaryDark}}"
+                                HorizontalOptions="Fill" />
+                            <Label
+                                Grid.Row="4"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="4"
+                                Margin="0,5,0,0"
+                                FontSize="14"
+                                LineBreakMode="TailTruncation"
+                                MaxLines="5"
+                                Text="{Binding seriesDescription, TargetNullValue='Описание отсутствует.'}"
+                                TextColor="{AppThemeBinding Light={StaticResource Gray500},
+                                                            Dark={StaticResource Gray400}}"
+                                VerticalOptions="StartAndExpand" />
+                        </Grid>
+                        <Border.Stroke>
+                            <LinearGradientBrush EndPoint="0,1">
+                                <GradientStop Offset="0.1" Color="{AppThemeBinding Light=#F8F8F8, Dark=#181818}" />
+                                <GradientStop Color="{AppThemeBinding Light=#F5F5F5, Dark={StaticResource PrimaryDark}}">
+                                    <GradientStop.Offset>1.0</GradientStop.Offset>
+                                </GradientStop>
+                            </LinearGradientBrush>
+                        </Border.Stroke>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:ActiveSeriesPageViewModel}}, Path=DetailViewCommand}"
+                                CommandParameter="{Binding .}"
+                                NumberOfTapsRequired="1" />
+                        </Border.GestureRecognizers>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <ContentView>
+                    <emptyView:CustomEmptyView
+                        x:Name="SeriesEmptyView"
+                        IsActive="{Binding IsBusy, Mode=OneWay}"
+                        MainText="Здесь самую 'малость' пустовато :( "
+                        SubText="Может стоит это исправить?" />
+                </ContentView>
+            </CollectionView.EmptyView>
+
+        </CollectionView>
+    </toolkit:DockLayout>
 
 </ContentPage>

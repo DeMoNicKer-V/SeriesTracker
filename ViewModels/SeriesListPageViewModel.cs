@@ -135,7 +135,7 @@ namespace SeriesTracker.ViewModels
             }
             catch (Exception e)
             {
-                var a = e.Message;
+
             }
             finally
             {

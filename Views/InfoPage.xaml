@@ -14,7 +14,6 @@
                     Margin="20,10,20,10"
                     BackgroundColor="{AppThemeBinding Light=#f7f7f7,
                                                       Dark=#1e1e1e}"
-                    HeightRequest="150"
                     Stroke="{AppThemeBinding Light=#f7f7f7,
                                              Dark=#1e1e1e}">
                     <Border.StrokeShape>
@@ -25,13 +24,12 @@
                         Padding="5"
                         ColumnSpacing="10"
                         RowSpacing="-10">
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
-                        </Grid.GestureRecognizers>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="1" />
+                            <RowDefinition Height="60" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
@@ -69,11 +67,11 @@
                             Grid.RowSpan="2"
                             Grid.Column="0"
                             Margin="0,15,0,0"
-                            HeightRequest="30"
+                            HeightRequest="20"
                             HorizontalOptions="Center"
-                            Source="vk.png"
+                            Source="link.png"
                             VerticalOptions="Start"
-                            WidthRequest="30">
+                            WidthRequest="20">
                             <Image.Behaviors>
                                 <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
                             </Image.Behaviors>
@@ -91,6 +89,51 @@
                             Grid.Column="1"
                             Grid.ColumnSpan="2"
                             Text="Если у вас есть вопросы, то вы можете связаться с разработчиком приложения." />
+                        <Line
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="3"
+                            BackgroundColor="White" />
+                        <HorizontalStackLayout
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="3"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center">
+                            <ImageButton
+                                x:Name="vkButton"
+                                Margin="15,15,15,0"
+                                Clicked="vkButton_Clicked"
+                                HeightRequest="40"
+                                Source="vk.png"
+                                WidthRequest="40">
+                                <ImageButton.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                </ImageButton.Behaviors>
+                            </ImageButton>
+                            <ImageButton
+                                x:Name="tgButton"
+                                Margin="15,15,15,0"
+                                Clicked="tgButton_Clicked"
+                                HeightRequest="40"
+                                Source="telegram.png"
+                                WidthRequest="40">
+                                <ImageButton.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                </ImageButton.Behaviors>
+                            </ImageButton>
+                            <ImageButton
+                                x:Name="emailButton"
+                                Margin="15,15,15,0"
+                                Clicked="emailButton_Clicked"
+                                HeightRequest="40"
+                                Source="email.png"
+                                WidthRequest="40">
+                                <ImageButton.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                </ImageButton.Behaviors>
+                            </ImageButton>
+                        </HorizontalStackLayout>
                     </Grid>
                 </Border>
             </StackLayout>
@@ -99,7 +142,6 @@
                     Margin="20,10,20,10"
                     BackgroundColor="{AppThemeBinding Light=#f7f7f7,
                                                       Dark=#1e1e1e}"
-                    HeightRequest="220"
                     Stroke="{AppThemeBinding Light=#f7f7f7,
                                              Dark=#1e1e1e}">
                     <Border.StrokeShape>
@@ -114,15 +156,15 @@
                             <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_1" />
                         </Grid.GestureRecognizers>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
+                            <RowDefinition Height="60" />
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="60" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="110" />
+                            <ColumnDefinition Width="100" />
                         </Grid.ColumnDefinitions>
                         <Image
                             Grid.RowSpan="2"

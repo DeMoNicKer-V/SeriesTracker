@@ -13,11 +13,10 @@ public partial class ActiveSeriesPage : ContentPage
         this.BindingContext = activeSeriesPageViewModel = new ActiveSeriesPageViewModel(Navigation, this);
     }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
-        searchBar.Text = string.Empty;
         base.OnAppearing();
-        activeSeriesPageViewModel.OnAppearing();
+        await activeSeriesPageViewModel.OnAppearing();
     }
 
     private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
@@ -32,15 +31,18 @@ public partial class ActiveSeriesPage : ContentPage
 
     private void SearchBarClearBtn_Clicked(object sender, EventArgs e)
     {
-        searchBar.Text = string.Empty;
         searchBar.Unfocus();
-        OnAppearing();
+        if (!string.IsNullOrWhiteSpace(activeSeriesPageViewModel.queryText))
+        {
+            searchBar.Text = string.Empty;
+            OnAppearing();
+        }
     }
 
     private void SearchBar_Completed(object sender, EventArgs e)
     {
         if (string.IsNullOrWhiteSpace(searchBar.Text)) { searchBar.Unfocus(); return; }
-        else 
+        else
         {
             SeriesEmptyView.MainText = "По вашему запросу ничего не найдено :( ";
             SeriesEmptyView.SubText = "Попытаете удачу еще раз?";
@@ -65,7 +67,6 @@ public partial class ActiveSeriesPage : ContentPage
     private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
         activeSeriesPageViewModel.favoriteFlag = !activeSeriesPageViewModel.favoriteFlag;
-        activeSeriesPageViewModel.skip = 0;
         OnAppearing();
     }
 

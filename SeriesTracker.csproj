@@ -63,6 +63,7 @@
 	  <None Remove="Resources\Images\bookmark.png" />
 	  <None Remove="Resources\Images\calendar.png" />
 	  <None Remove="Resources\Images\cancel.png" />
+	  <None Remove="Resources\Images\category.png" />
 	  <None Remove="Resources\Images\circle.png" />
 	  <None Remove="Resources\Images\circumference.png" />
 	  <None Remove="Resources\Images\cross.png" />
@@ -74,16 +75,15 @@
 	  <None Remove="Resources\Images\episode.png" />
 	  <None Remove="Resources\Images\exclamation.png" />
 	  <None Remove="Resources\Images\exportjson.png" />
-	  <None Remove="Resources\Images\filter.png" />
 	  <None Remove="Resources\Images\genres.png" />
-	  <None Remove="Resources\Images\imagemiss.png" />
 	  <None Remove="Resources\Images\myanimelist.png" />
-	  <None Remove="Resources\Images\myimage.png" />
+	  <None Remove="Resources\Images\noimage.png" />
 	  <None Remove="Resources\Images\ratestar.png" />
 	  <None Remove="Resources\Images\search.png" />
 	  <None Remove="Resources\Images\settings.png" />
 	  <None Remove="Resources\Images\shikimori.png" />
 	  <None Remove="Resources\Images\star.png" />
+	  <None Remove="Resources\Images\telegram.png" />
 	  <None Remove="Resources\Images\view.png" />
 	  <None Remove="Resources\Images\vision.png" />
 	  <None Remove="Resources\Images\watched.png" />

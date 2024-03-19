@@ -18,22 +18,34 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     [ObservableProperty]
     public int seriesCount;
 
+    private int skipItem;
+    public int SkipItem
+    {
+        get { return skipItem; }
+        set 
+        { 
+            if (skipItem < 0) { skipItem = 0; }
+            else { skipItem = value; }
+        }
+    }
+
     [ObservableProperty]
     public int viewedSeriesCount;
+    [ObservableProperty]
+    public int allSeriesCount;
 
     internal bool favoriteFlag = false;
+
+
     private readonly ContentPage _page;
     private ActivePagePopUp activeSeriesPagePopUp;
     private Series currentSeries;
 
     private ObservableCollection<Series> seriesList = new ObservableCollection<Series>();
-    public int skip = 0;
-
     public ActiveSeriesPageViewModel(INavigation navigation, ContentPage contentPageBehavior)
     {
         Navigation = navigation;
         _page = contentPageBehavior;
-
     }
 
     public ObservableCollection<Series> SeriesList
@@ -48,11 +60,12 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         }
     }
 
-    public void OnAppearing()
+    public async Task OnAppearing()
     {
-        IsRefreshing = true;
-        IsRefreshing = false;
-        IsBusy = true;
+        SeriesCount = 0;
+        ViewedSeriesCount = 0;
+        SeriesList.Clear();
+        await LoadSeries();
     }
 
     [RelayCommand]
@@ -76,18 +89,23 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     }
 
     [RelayCommand]
-    private void FilterSeries(string query)
+    private async Task FilterSeries(string query)
     {
         try
         {
             queryText = new string(query.ToLower());
-            skip = 0;
-            OnAppearing();
+            SkipItem = 0;
+            await OnAppearing();
         }
-        catch (Exception) { }
-        finally { IsBusy = false; }
-    }
+        catch (Exception) 
+        { 
 
+        }
+        finally 
+        { 
+            IsBusy = false; 
+        }
+    }
 
     [RelayCommand]
     private async Task LoadSeries()
@@ -95,15 +113,21 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         IsBusy = true;
         try
         {
-            SeriesList.Clear();
+            AllSeriesCount = await App.SeriesService.GetAllSeriesCount(WachedFlag);
+            if (AllSeriesCount == 0) 
+            { 
+                IsBusy = false; 
+                return; 
+            }
+
             IEnumerable<Series> newSeriesList = new List<Series>();
             if (string.IsNullOrEmpty(queryText))
             {
-                newSeriesList = await App.SeriesService.GetSeriesAsync(WachedFlag, skip, favoriteFlag);
+                newSeriesList = await App.SeriesService.GetSeriesAsync(WachedFlag, SkipItem, favoriteFlag);
             }
             else
             {
-                newSeriesList = await App.SeriesService.GetSeriesAsync(WachedFlag, skip, queryText, favoriteFlag);
+                newSeriesList = await App.SeriesService.GetSeriesAsync(WachedFlag, SkipItem, queryText, favoriteFlag);
             }
 
             if (newSeriesList is not null && newSeriesList.Count() > 0)
@@ -114,14 +138,13 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
                 }
             }
             SeriesCount = App.SeriesService.relativeItemsCount;
-            ViewedSeriesCount = SeriesList.Count() + skip;
+            ViewedSeriesCount = SeriesList.Count() + SkipItem;
         }
         catch (Exception)
         {
         }
         finally
         {
-            IsRefreshing = false;
             IsBusy = false;
         }
     }
@@ -133,14 +156,13 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     }
 
     [RelayCommand]
-    private void OnDecSeriesList()
+    private async Task OnDecSeriesList()
     {
-        if (skip >= 5)
+        if (SkipItem > 0)
         {
-            skip -= 5;
-            OnAppearing();
+            SkipItem -= 5;
+            await OnAppearing();
         }
-        if (skip < 0) { OnAppearing(); skip = 0; }
     }
 
     private async void OnDeleteCommand()
@@ -150,9 +172,13 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
             return;
         }
         new Journal(new DeleteItem(currentSeries.SyncUid)).JournalToJson();
-        
+
         await App.SeriesService.DeleteSeriesAsync(currentSeries.seriesId);
-        OnAppearing();
+        if (SeriesList.Count() == 1)
+        {
+            skipItem -=5;
+        }
+        await OnAppearing();
     }
 
     private async void OnDetachCommand()
@@ -175,7 +201,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         }
 
         await App.SeriesService.AddUpdateSeriesAsync(currentSeries);
-        OnAppearing();
+        await OnAppearing();
     }
 
     private async void OnEditCommand()
@@ -184,12 +210,12 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     }
 
     [RelayCommand]
-    private void OnIncSeriesList()
+    private async Task OnIncSeriesList()
     {
-        if (SeriesList.Count() == 5 & (SeriesList.Count() + skip) < SeriesCount)
+        if (SeriesList.Count() == 5 & (SeriesList.Count() + SkipItem) < SeriesCount)
         {
-            skip += 5;
-            OnAppearing();
+            SkipItem += 5;
+            await OnAppearing();
         }
     }
 }

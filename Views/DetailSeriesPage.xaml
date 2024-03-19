@@ -118,7 +118,7 @@
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="10" />
                     </Border.StrokeShape>
-                    <Image Aspect="Fill" Source="{Binding Series.imagePath, TargetNullValue='imagemiss.png'}" />
+                    <Image Aspect="Fill" Source="{Binding Series.imagePath, TargetNullValue='noimage.png'}" />
                 </Border>
 
                 <VerticalStackLayout
@@ -377,18 +377,19 @@
                                 Source="downarrow.png"
                                 WidthRequest="20">
                                 <Image.Behaviors>
-                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
                                 </Image.Behaviors>
                             </Image>
                         </HorizontalStackLayout>
                     </toolkit:Expander.Header>
                     <Label
                         x:Name="descriptionText"
+                        Margin="0,10,0,0"
                         FontAutoScalingEnabled="True"
                         FontSize="14"
                         HorizontalOptions="CenterAndExpand"
                         HorizontalTextAlignment="Start"
-                        Text="{Binding Series.seriesDescription}"
+                        Text="{Binding Series.seriesDescription, TargetNullValue='..Описание отсутсвует..'}"
                         VerticalOptions="FillAndExpand" />
                 </toolkit:Expander>
             </Grid>
