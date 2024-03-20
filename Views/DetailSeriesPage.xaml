@@ -36,18 +36,28 @@
                     <ColumnDefinition Width="260" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Image
+
+                <Grid
                     Grid.Row="0"
                     Grid.RowSpan="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    Aspect="Fill"
-                    Opacity="0.8"
-                    Source="{Binding Series.imagePath}">
-                    <Image.Behaviors>
-                        <BlurBehavior:BlurBehavior Radius="65" />
-                    </Image.Behaviors>
-                </Image>
+                    HeightRequest="440"
+                    VerticalOptions="Start">
+                    <Image Aspect="Fill" Source="{Binding Series.imagePath}">
+                        <Image.Behaviors>
+                            <BlurBehavior:BlurBehavior Radius="10" />
+                        </Image.Behaviors>
+                    </Image>
+                    <Grid BackgroundColor="Transparent">
+                        <Grid.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Offset="0.3" Color="Transparent" />
+                                <GradientStop Offset="0.8" Color="Black" />
+                            </LinearGradientBrush>
+                        </Grid.Background>
+                    </Grid>
+                </Grid>
                 <Border
                     Grid.Row="1"
                     Grid.Column="0"
@@ -124,7 +134,6 @@
                 <VerticalStackLayout
                     Grid.Row="2"
                     Grid.ColumnSpan="3"
-                    Margin="10,-5,10,0"
                     HorizontalOptions="Center"
                     VerticalOptions="StartAndExpand">
                     <Label
@@ -148,7 +157,7 @@
                     </toolkit:Expander>
                     <StackLayout Margin="5">
                         <Line
-                            HorizontalOptions="Fill"
+                            HorizontalOptions="Center"
                             Stroke="#999999"
                             StrokeThickness="1.2"
                             X2="350" />
@@ -158,7 +167,9 @@
                 <Grid
                     Grid.Row="3"
                     Grid.ColumnSpan="3"
-                    Margin="15,0,15,0">
+                    Padding="15,0,15,0"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White},
+                                                      Dark={StaticResource Black}}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40" />
                         <RowDefinition Height="30" />

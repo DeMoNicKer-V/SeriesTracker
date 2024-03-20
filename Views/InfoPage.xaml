@@ -93,7 +93,8 @@
                             Grid.Row="3"
                             Grid.Column="0"
                             Grid.ColumnSpan="3"
-                            BackgroundColor="White" />
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Black},
+                                                              Dark={StaticResource White}}" />
                         <HorizontalStackLayout
                             Grid.Row="4"
                             Grid.Column="0"
