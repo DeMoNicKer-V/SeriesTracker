@@ -53,7 +53,7 @@
                         <Grid.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                                 <GradientStop Offset="0.3" Color="Transparent" />
-                                <GradientStop Offset="0.8" Color="Black" />
+                                <GradientStop Offset="0.8" Color="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
                             </LinearGradientBrush>
                         </Grid.Background>
                     </Grid>
