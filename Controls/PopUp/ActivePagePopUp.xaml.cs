@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Views;
 using SeriesTracker.Services.Constant;
+using static SeriesTracker.Services.Constant.SeriesBaseParameters;
 
 namespace SeriesTracker.Controls.PopUp;
 
@@ -28,7 +29,7 @@ public partial class ActivePagePopUp : Popup
     public ActivePagePopUp()
 	{
 		InitializeComponent();
-        if (Parameters.WachedFlag == false)       
+        if (WachedFlag == false)       
         DetachText = "Пометить как просмотренное";
         else DetachText = "Пометить как непросмотренное";
     }
@@ -91,19 +92,18 @@ public partial class ActivePagePopUp : Popup
 
     private async void DeleteButton_Clicked(object sender, EventArgs e)
     {
+        this.Close();
         var popup = new SeriesTracker.Controls.DeleteAlert.DeleteAlert();
         popup.Title = Title;
         var result = await ContentPageBehavior.ShowPopupAsync(popup);
 
         if (result is bool boolResult)
+        {
             if (boolResult)
             {
                 DeleteCommand?.Execute(null);
-                this.Close();
             }
-            else
-            {
-                return;
-            }
+        }
+        return;
     }
 }

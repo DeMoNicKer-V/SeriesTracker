@@ -83,7 +83,6 @@ namespace SeriesTracker.ViewModels
         private async void OnDetachCommand()
         {
             if (!CheckSeries(Series)) { return; }
-            Series.isOver = !Series.isOver;
             if (!Series.isOver)
             {
                 Series.currentEpisode = Series.lastEpisode;
@@ -94,6 +93,7 @@ namespace SeriesTracker.ViewModels
                 Series.currentEpisode = 1;
                 Series.overDate = string.Empty;
             }
+            Series.isOver = !Series.isOver;
             await App.SeriesService.AddUpdateSeriesAsync(Series);
             await Shell.Current.GoToAsync("..");
         }

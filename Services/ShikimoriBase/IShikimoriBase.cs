@@ -12,7 +12,7 @@ namespace SeriesTracker.Services.ShikimoriBase
 {
     internal interface IShikimoriBase
     {
-        Task<GraphQLResponse<AnimeList<Anime>>> GetAnimes();
-        Task<GraphQLResponse<AnimeList<Anime>>> GetAnimesByName();
+        Task<GraphQLResponse<AnimeList<ShikimoriAnime>>> GetAnimes();
+        Task<GraphQLResponse<AnimeList<ShikimoriAnime>>> GetAnimesByName();
     }
 }

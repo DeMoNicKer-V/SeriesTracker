@@ -104,7 +104,7 @@ namespace SeriesTracker.ViewModels
             {
                 if (AnimeWhat == false)
                 {
-                    var graphQLResponse = new GraphQLResponse<AnimeList<Anime>>();
+                    var graphQLResponse = new GraphQLResponse<AnimeList<ShikimoriAnime>>();
                     if (string.IsNullOrEmpty(quaryText))
                     {
                         graphQLResponse = await ShikimoriBase.GetAnimes(CurrentPage);

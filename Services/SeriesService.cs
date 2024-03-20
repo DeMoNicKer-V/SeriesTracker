@@ -1,6 +1,7 @@
 ﻿using SeriesTracker.Models;
 using SeriesTracker.Services.SyncJournal;
 using SQLite;
+using System.Security.Cryptography.X509Certificates;
 using static SeriesTracker.Services.Extensions.SeriesEqualExtension;
 
 namespace SeriesTracker.Services;
@@ -115,7 +116,7 @@ public class SeriesService : ISeriesRepository
         switch (favorite)
         {
             case true:
-                relativeItemsCount = await _database.Table<Series>().Where(s => s.isOver == overFlag & s.isFavourite == favorite).CountAsync();
+                relativeItemsCount = await _database.Table<Series>().Where(s => s.isOver == overFlag & s.isFavourite == true).CountAsync();
                 return await Task.FromResult(await _database.Table<Series>().Where(s => s.isOver == overFlag & s.isFavourite == true).Skip(skip).Take(5).ToListAsync());
 
             case false:
@@ -135,11 +136,11 @@ public class SeriesService : ISeriesRepository
         switch (favorite)
         {
             case true:
-                relativeItemsCount = await _database.Table<Series>().Where(s => s.isOver == overFlag & s.isFavourite == favorite).CountAsync();
-                return await Task.FromResult(await _database.Table<Series>().Where(s => s.hiddenSeriesName.Contains(query) & s.isFavourite == true).Skip(skip).Take(5).ToListAsync());
+                relativeItemsCount = await _database.Table<Series>().Where(s => s.isOver == overFlag & s.isFavourite == true).CountAsync();
+                return await Task.FromResult(await _database.Table<Series>().Where(s => s.isOver == overFlag & s.hiddenSeriesName.Contains(query) & s.isFavourite == true).Skip(skip).Take(5).ToListAsync());
 
             case false:
-                relativeItemsCount = await _database.Table<Series>().Where(s => s.hiddenSeriesName.Contains(query)).CountAsync();
+                relativeItemsCount = await _database.Table<Series>().Where(s => s.isOver == overFlag & s.hiddenSeriesName.Contains(query)).CountAsync();
                 return await Task.FromResult(await _database.Table<Series>().Where(s => s.hiddenSeriesName.Contains(query) & s.isOver == overFlag).Skip(skip).Take(5).OrderByDescending(s => s.isFavourite).ToListAsync());
         }
     }

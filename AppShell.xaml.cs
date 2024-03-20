@@ -5,6 +5,7 @@ using SeriesTracker.Services.Constant;
 using SeriesTracker.ViewModels;
 using SeriesTracker.Views;
 using System.Windows.Input;
+using static SeriesTracker.Services.Constant.SeriesBaseParameters;
 
 namespace SeriesTracker;
 
@@ -39,11 +40,11 @@ public partial class AppShell : Shell
         {
             if (args.Target.Location.OriginalString.Contains("MainPage"))
             {
-                Parameters.WachedFlag = false;
+                WachedFlag = false;
             }
             else if (args.Target.Location.OriginalString.Contains("SecondPage"))
             {
-                Parameters.WachedFlag = true;
+                WachedFlag = true;
             }    
         }
     }

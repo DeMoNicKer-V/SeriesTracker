@@ -313,7 +313,7 @@
                             Text="дата выхода:"
                             TextColor="Grey"
                             VerticalTextAlignment="Center" />
-                        <Label Text="{Binding Series.GetFormatDate, Mode=OneWay}" VerticalTextAlignment="Center" />
+                        <Label Text="{Binding Series.GetReleaseDate, Mode=OneWay}" VerticalTextAlignment="Center" />
                     </HorizontalStackLayout>
 
                     <HorizontalStackLayout

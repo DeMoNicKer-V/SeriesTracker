@@ -7,47 +7,17 @@ using SeriesTracker.Services.Constant;
 using SeriesTracker.Services.SyncJournal;
 using SeriesTracker.Views;
 using System.Collections.ObjectModel;
-using static SeriesTracker.Services.Constant.Parameters;
+using static SeriesTracker.Services.Constant.SeriesBaseParameters;
 
 namespace SeriesTracker.ViewModels;
 
 public partial class ActiveSeriesPageViewModel : BaseSeriesModel
 {
-    public string queryText;
-
-    [ObservableProperty]
-    public int seriesCount;
-
-    private int skipItem;
-    public int SkipItem
-    {
-        get { return skipItem; }
-        set 
-        { 
-            if (skipItem < 0) { skipItem = 0; }
-            else { skipItem = value; }
-        }
-    }
-
-    [ObservableProperty]
-    public int viewedSeriesCount;
-    [ObservableProperty]
-    public int allSeriesCount;
-
-    internal bool favoriteFlag = false;
-
-
     private readonly ContentPage _page;
     private ActivePagePopUp activeSeriesPagePopUp;
     private Series currentSeries;
 
-    private ObservableCollection<Series> seriesList = new ObservableCollection<Series>();
-    public ActiveSeriesPageViewModel(INavigation navigation, ContentPage contentPageBehavior)
-    {
-        Navigation = navigation;
-        _page = contentPageBehavior;
-    }
-
+    private ObservableCollection<Series> seriesList = new();
     public ObservableCollection<Series> SeriesList
     {
         get
@@ -58,6 +28,12 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         {
             seriesList = value;
         }
+    }
+
+    public ActiveSeriesPageViewModel(INavigation navigation, ContentPage contentPageBehavior)
+    {
+        Navigation = navigation;
+        _page = contentPageBehavior;
     }
 
     public async Task OnAppearing()
@@ -93,7 +69,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     {
         try
         {
-            queryText = new string(query.ToLower());
+            QueryText = new string(query.ToLower());
             SkipItem = 0;
             await OnAppearing();
         }
@@ -120,16 +96,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
                 return; 
             }
 
-            IEnumerable<Series> newSeriesList = new List<Series>();
-            if (string.IsNullOrEmpty(queryText))
-            {
-                newSeriesList = await App.SeriesService.GetSeriesAsync(WachedFlag, SkipItem, favoriteFlag);
-            }
-            else
-            {
-                newSeriesList = await App.SeriesService.GetSeriesAsync(WachedFlag, SkipItem, queryText, favoriteFlag);
-            }
-
+            IEnumerable<Series> newSeriesList = await App.SeriesService.GetSeriesAsync(WachedFlag, SkipItem, QueryText, FavoriteFlag);
             if (newSeriesList is not null && newSeriesList.Count() > 0)
             {
                 foreach (var item in newSeriesList)
@@ -176,7 +143,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         await App.SeriesService.DeleteSeriesAsync(currentSeries.seriesId);
         if (SeriesList.Count() == 1)
         {
-            skipItem -=5;
+            SkipItem -=5;
         }
         await OnAppearing();
     }
@@ -188,8 +155,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
             return;
         }
 
-        currentSeries.isOver = !currentSeries.isOver;
-        if (Parameters.WachedFlag == false)
+        if (WachedFlag == false)
         {
             currentSeries.currentEpisode = currentSeries.lastEpisode;
             currentSeries.overDate = DateTime.Now.ToString();
@@ -199,7 +165,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
             currentSeries.currentEpisode = 1;
             currentSeries.overDate = string.Empty;
         }
-
+        currentSeries.isOver = !currentSeries.isOver;
         await App.SeriesService.AddUpdateSeriesAsync(currentSeries);
         await OnAppearing();
     }

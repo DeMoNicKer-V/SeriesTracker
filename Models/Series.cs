@@ -1,7 +1,5 @@
 ﻿using SQLite;
 using System.Text.Json.Serialization;
-using System.Xml.Linq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SeriesTracker.Models;
 
@@ -12,10 +10,6 @@ public partial class Series : IEquatable<Series>
     {
         get; set;
     }
-    public int MalId
-    {
-        get; set;
-    } = 0;
 
     public string seriesName
     {
@@ -27,8 +21,10 @@ public partial class Series : IEquatable<Series>
         get; set;
     }
 
-    public int SyncUid 
-    { get; set; }
+    public int SyncUid
+    {
+        get; set;
+    }
 
     public int seriesDuration
     {
@@ -69,10 +65,12 @@ public partial class Series : IEquatable<Series>
     {
         get; set;
     }
+
     public string overDate
     {
         get; set;
     }
+
     public string ChangedDate
     {
         get; set;
@@ -88,36 +86,8 @@ public partial class Series : IEquatable<Series>
         get; set;
     } = false;
 
-    public (bool IsValid, string? ErrorMessage) Validate()
-    {
-        if (string.IsNullOrWhiteSpace(seriesName)) 
-        {
-            return (false, "Название обязательное поле!");
-        }
-        else if (currentEpisode > lastEpisode || currentEpisode < 0)
-        {
-            return (false, "Текущая серия должна быть больше последней и больше 0!");
-        }
-        else if (new[] { lastEpisode, seriesDuration }.Min() <= 0)
-        {
-            return (false, "Последняя серия и ср. продолжительность должны быть больше 0!");
-        }
-        else if (releaseDate.Year < 1961)
-        {
-            return (false, "Некорректная дата!");
-        }
-        return (true, null);
-    }
-
-    public bool Equals(Series other)
-    {
-        if (other is null) return false;
-        return other.hiddenSeriesName == hiddenSeriesName;
-    }
-    public override int GetHashCode() => hiddenSeriesName.GetHashCode();
-
     [JsonIgnore]
-    public string GetFormatDate
+    public string GetReleaseDate
     {
         get
         {
@@ -150,4 +120,33 @@ public partial class Series : IEquatable<Series>
             return null;
         }
     }
+
+    public (bool IsValid, string? ErrorMessage) Validate()
+    {
+        if (string.IsNullOrWhiteSpace(seriesName))
+        {
+            return (false, "Название обязательное поле!");
+        }
+        else if (currentEpisode > lastEpisode || currentEpisode < 0)
+        {
+            return (false, "Текущая серия должна быть больше последней и больше 0!");
+        }
+        else if (new[] { lastEpisode, seriesDuration }.Min() <= 0)
+        {
+            return (false, "Последняя серия и ср. продолжительность должны быть больше 0!");
+        }
+        else if (releaseDate.Year < 1961)
+        {
+            return (false, "Некорректная дата!");
+        }
+        return (true, null);
+    }
+
+    public bool Equals(Series other)
+    {
+        if (other is null) return false;
+        return other.hiddenSeriesName == hiddenSeriesName;
+    }
+
+    public override int GetHashCode() => hiddenSeriesName.GetHashCode();
 }

@@ -158,7 +158,7 @@
                 <GridItemsLayout Orientation="Vertical" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="classes:Anime">
+                <DataTemplate x:DataType="classes:ShikimoriAnime">
                     <Border Margin="10" BackgroundColor="{AppThemeBinding Light=#F7F7F7, Dark=#181818}">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="10" />

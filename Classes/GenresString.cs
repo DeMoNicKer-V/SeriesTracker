@@ -9,7 +9,7 @@ namespace SeriesTracker.Classes.Shikimori
         public override string ToString()
         {
             object Type = typeof(T);
-            if (Type is Anime)
+            if (Type is ShikimoriAnime)
             {
                 return string.Join(", ", GenreList.Select(l => l.Russian));
             }

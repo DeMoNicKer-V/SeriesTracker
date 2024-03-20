@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace SeriesTracker.Classes.Shikimori
 {
-    public class Anime : AnimeBase
+    public class ShikimoriAnime : AnimeBase
     {
         [JsonProperty("airedOn")] public AiredDate airedOne = new();
         [JsonProperty("poster")] public Poster poster = new();

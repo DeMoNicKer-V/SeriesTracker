@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Core.Platform;
 using SeriesTracker.ViewModels;
+using static SeriesTracker.Services.Constant.SeriesBaseParameters;
 
 namespace SeriesTracker.Views;
 
@@ -24,7 +25,7 @@ public partial class ActiveSeriesPage : ContentPage
         if (string.IsNullOrWhiteSpace(e.NewTextValue))
         {
             searchbarClearBtn.IsVisible = false;
-            activeSeriesPageViewModel.queryText = string.Empty;
+            QueryText = string.Empty;
         }
         else searchbarClearBtn.IsVisible = true;
     }
@@ -32,7 +33,7 @@ public partial class ActiveSeriesPage : ContentPage
     private void SearchBarClearBtn_Clicked(object sender, EventArgs e)
     {
         searchBar.Unfocus();
-        if (!string.IsNullOrWhiteSpace(activeSeriesPageViewModel.queryText))
+        if (!string.IsNullOrWhiteSpace(QueryText))
         {
             searchBar.Text = string.Empty;
             OnAppearing();
@@ -66,7 +67,7 @@ public partial class ActiveSeriesPage : ContentPage
 
     private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
-        activeSeriesPageViewModel.favoriteFlag = !activeSeriesPageViewModel.favoriteFlag;
+        FavoriteFlag = !FavoriteFlag;
         OnAppearing();
     }
 

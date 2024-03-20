@@ -8,7 +8,6 @@ namespace SeriesTracker.Services.Constant
 {
     public static class Parameters
     {
-        public static bool WachedFlag = false;
         public static readonly string FilePath = Environment.GetFolderPath(
                    Environment.SpecialFolder.LocalApplicationData);
     }
