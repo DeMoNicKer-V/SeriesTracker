@@ -33,12 +33,6 @@ public partial class BottomSheet : ContentView
     {
         InitializeComponent();
     }
-
-    public ImageButton ImageButton
-    {
-        get => (ImageButton)GetValue(ImageButtonProperty);
-        set => SetValue(ImageButtonProperty, value);
-    }
     public ContentPage ContentPageBehavior
     {
         get => (ContentPage)GetValue(myContePageProperty);
@@ -83,7 +77,6 @@ public partial class BottomSheet : ContentView
 
     private async void CloseButton_Clicked(object sender, EventArgs e)
     {
-        await ImageButton.RotateXTo(0, 200);
         await this.TranslateTo(0, 200, 100);
         this.IsVisible = false;
     }
@@ -99,14 +92,12 @@ public partial class BottomSheet : ContentView
     }
     public async Task OpenBottomSheet()
     {
-        await ImageButton.RotateXTo(180, 200);
         await this.TranslateTo(0, 200, 100);
         await this.TranslateTo(0, 0, 100);
         this.IsVisible = true;
     }
     public async Task CloseBottomSheet()
     {
-        await ImageButton.RotateXTo(0, 200);
         await this.TranslateTo(0, 200, 100);
         this.IsVisible = false;
     }

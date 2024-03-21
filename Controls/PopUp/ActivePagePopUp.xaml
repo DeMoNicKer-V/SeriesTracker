@@ -6,24 +6,20 @@
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Name="this"
     Color="Transparent">
-    <VerticalStackLayout>
+    <StackLayout>
         <Border
             x:Name="myBorder"
-            BackgroundColor="{AppThemeBinding Light=#F7F7F7,
-                                              Dark=#171717}"
-            Stroke="Transparent"
-            StrokeThickness="0.5"
-            WidthRequest="350">
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="10" />
-            </Border.StrokeShape>
-
-            <Grid Padding="10" VerticalOptions="EndAndExpand">
+            Margin="15,25,15,25"
+            Padding="10"
+            BackgroundColor="{AppThemeBinding Light={StaticResource LightPopUpBackground},
+                                              Dark={StaticResource DarkPopUpBackground}}"
+            Stroke="Transparent">
+            <Grid VerticalOptions="EndAndExpand">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="45" />
                     <RowDefinition Height="45" />
-                    <RowDefinition Height="45" />
-                    <RowDefinition Height="5" />
+                    <RowDefinition Height="1" />
                     <RowDefinition Height="45" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -35,9 +31,12 @@
                     Grid.Row="0"
                     Grid.ColumnSpan="2"
                     Margin="10"
-                    FontSize="20"
+                    FontAttributes="Bold"
+                    FontSize="18"
                     HorizontalOptions="StartAndExpand"
-                    Text="{Binding Source={x:Reference this}, Path=Title}" />
+                    Text="{Binding Source={x:Reference this}, Path=Title}"
+                    TextColor="{AppThemeBinding Light={StaticResource Primary},
+                                                Dark={StaticResource PrimaryDark}}" />
                 <Image
                     Grid.Row="1"
                     Grid.Column="0"
@@ -46,7 +45,7 @@
                     Source="vision.png"
                     WidthRequest="22">
                     <Image.Behaviors>
-                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource Gray200}}" />
+                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
                     </Image.Behaviors>
                 </Image>
                 <Label
@@ -58,7 +57,7 @@
                     HorizontalOptions="FillAndExpand"
                     HorizontalTextAlignment="Start"
                     Text="{Binding Source={x:Reference this}, Path=DetachText}"
-                    TextColor="{AppThemeBinding Light={StaticResource Black},
+                    TextColor="{AppThemeBinding Light={StaticResource Gray950},
                                                 Dark={StaticResource Gray200}}"
                     VerticalTextAlignment="Center">
                     <Label.GestureRecognizers>
@@ -73,7 +72,7 @@
                     Source="edit.png"
                     WidthRequest="22">
                     <Image.Behaviors>
-                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource Gray200}}" />
+                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
                     </Image.Behaviors>
                 </Image>
                 <Label
@@ -85,7 +84,7 @@
                     HorizontalOptions="FillAndExpand"
                     HorizontalTextAlignment="Start"
                     Text="Изменить"
-                    TextColor="{AppThemeBinding Light={StaticResource Black},
+                    TextColor="{AppThemeBinding Light={StaticResource Gray950},
                                                 Dark={StaticResource Gray200}}"
                     VerticalTextAlignment="Center">
                     <Label.GestureRecognizers>
@@ -94,10 +93,9 @@
                 </Label>
                 <Line
                     Grid.Row="3"
+                    Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    HorizontalOptions="StartAndExpand"
-                    Stroke="{StaticResource Gray200}"
-                    X2="{Binding Width, Source={x:Reference myBorder}}" />
+                    BackgroundColor="{StaticResource Gray600}" />
                 <Image
                     Grid.Row="4"
                     Grid.Column="0"
@@ -106,7 +104,7 @@
                     Source="delete.png"
                     WidthRequest="22">
                     <Image.Behaviors>
-                        <toolkit:IconTintColorBehavior TintColor="Red" />
+                        <toolkit:IconTintColorBehavior TintColor="{StaticResource Red}" />
                     </Image.Behaviors>
                 </Image>
                 <Label
@@ -118,7 +116,7 @@
                     HorizontalOptions="FillAndExpand"
                     HorizontalTextAlignment="Start"
                     Text="Удалить"
-                    TextColor="Red"
+                    TextColor="{StaticResource Red}"
                     VerticalTextAlignment="Center">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="DeleteButton_Clicked" />
@@ -126,7 +124,10 @@
                 </Label>
 
             </Grid>
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10" />
+            </Border.StrokeShape>
         </Border>
-    </VerticalStackLayout>
+    </StackLayout>
 </toolkit:Popup>
 

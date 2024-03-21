@@ -9,8 +9,8 @@
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vModels="clr-namespace:SeriesTracker.ViewModels"
     Title=""
-    BackgroundColor="{AppThemeBinding Light=#ffffff,
-                                      Dark=#121212}"
+    BackgroundColor="{AppThemeBinding Light={StaticResource White},
+                                      Dark={StaticResource DarkBackground}}"
     Shell.FlyoutBehavior="Disabled">
 
     <Shell.BackButtonBehavior>
@@ -199,8 +199,8 @@
                 <DataTemplate x:DataType="models:Series">
                     <Border
                         Margin="10"
-                        BackgroundColor="{AppThemeBinding Light=#FBFBFB,
-                                                          Dark=#151515}"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource ActivePageLightBorderBackground},
+                                                          Dark={StaticResource ActivePageDarkBorderBackground}}"
                         HeightRequest="195">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="10" />
@@ -228,8 +228,8 @@
                                 Margin="0,0,10,0"
                                 BackgroundColor="Transparent"
                                 HorizontalOptions="Fill"
-                                Stroke="{AppThemeBinding Light=#F5F5F5,
-                                                         Dark=#202020}"
+                                Stroke="{AppThemeBinding Light={StaticResource ActivePageLightStroke},
+                                                         Dark={StaticResource ActivePageDarkStroke}}"
                                 VerticalOptions="Fill">
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="10" />
@@ -299,7 +299,7 @@
                                     VerticalOptions="Center">
                                     <Label.FormattedText>
                                         <FormattedString>
-                                            <Span FontAttributes="Italic">
+                                            <Span FontAttributes="Italic" TextColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource White}}">
                                                 <Span.Text>
                                                     <MultiBinding StringFormat="Просмотрено: {0} из {1} эп.">
                                                         <Binding Path="currentEpisode" />
@@ -353,7 +353,7 @@
                         </Grid>
                         <Border.Stroke>
                             <LinearGradientBrush EndPoint="0,1">
-                                <GradientStop Offset="0.1" Color="{AppThemeBinding Light=#F8F8F8, Dark=#181818}" />
+                                <GradientStop Offset="0.1" Color="{AppThemeBinding Light={StaticResource ActivePageLightGradient}, Dark={StaticResource ActivePageDarkGradient}}" />
                                 <GradientStop Color="{AppThemeBinding Light=#F5F5F5, Dark={StaticResource PrimaryDark}}">
                                     <GradientStop.Offset>1.0</GradientStop.Offset>
                                 </GradientStop>

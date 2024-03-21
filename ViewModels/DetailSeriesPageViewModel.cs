@@ -90,7 +90,7 @@ namespace SeriesTracker.ViewModels
             }
             else
             {
-                Series.currentEpisode = 1;
+                Series.currentEpisode = 0;
                 Series.overDate = string.Empty;
             }
             Series.isOver = !Series.isOver;

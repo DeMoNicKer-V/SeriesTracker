@@ -114,7 +114,7 @@
                         <RoundRectangle CornerRadius="5" />
                     </Border.StrokeShape>
                     <Border.GestureRecognizers>
-                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped_1" />
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="EditWatchedEpisode_Tapped" />
                     </Border.GestureRecognizers>
                 </Border>
                 <Border
@@ -134,6 +134,8 @@
                 <VerticalStackLayout
                     Grid.Row="2"
                     Grid.ColumnSpan="3"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White},
+                                                      Dark={StaticResource Black}}"
                     HorizontalOptions="Center"
                     VerticalOptions="StartAndExpand">
                     <Label
@@ -208,7 +210,7 @@
                                 <TapGestureRecognizer
                                     Command="{Binding ChangeFavoriteStatusCommand}"
                                     NumberOfTapsRequired="1"
-                                    Tapped="TapGestureRecognizer_Tapped_2" />
+                                    Tapped="ReloadPage_Tapped" />
                             </Border.GestureRecognizers>
                         </Border>
                         <Border
@@ -224,7 +226,7 @@
                                 <Entry
                                     x:Name="editEpisodeEntry"
                                     Margin="0,0,0,-1"
-                                    Completed="episodeEntry_Completed"
+                                    Completed="EpisodeEntry_Completed"
                                     HorizontalTextAlignment="Center"
                                     IsVisible="false"
                                     Keyboard="Numeric"
@@ -251,11 +253,11 @@
                         </Border>
                     </HorizontalStackLayout>
                     <ImageButton
-                        x:Name="menuLabel"
+                        x:Name="menuButton"
                         Grid.Row="0"
                         Grid.Column="2"
                         Margin="10,0,0,0"
-                        Clicked="OpenButton_Clicked"
+                        Clicked="ShowBottomSheet_Clicked"
                         HeightRequest="20"
                         HorizontalOptions="End"
                         Rotation="90"
@@ -372,7 +374,7 @@
                     Grid.Row="4"
                     Grid.ColumnSpan="3"
                     Margin="15,-10,15,0"
-                    ExpandedChanged="Expander_ExpandedChanged"
+                    ExpandedChanged="DescriptionAreaChanged"
                     VerticalOptions="CenterAndExpand">
                     <toolkit:Expander.Header>
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
@@ -412,7 +414,6 @@
                 DeleteCommand="{Binding DeleteCommand}"
                 DetachCommand="{Binding DetachCommand}"
                 EditCommand="{Binding EditCommand}"
-                ImageButton="{Binding Source={x:Reference menuLabel}, Mode=OneTime}"
                 IsVisible="false"
                 VerticalOptions="End" />
         </toolkit:DockLayout>

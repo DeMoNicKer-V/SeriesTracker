@@ -4,7 +4,18 @@
 
     <Color x:Key="Primary">#683e6f</Color>
     <Color x:Key="PrimaryDark">#B67A20</Color>
+    <Color x:Key="Red">#DB575D</Color>
     <Color x:Key="DarkBackground">#121212</Color>
+    <Color x:Key="DarkPopUpBackground">#151515</Color>
+    <Color x:Key="LightPopUpBackground">#F6F6F6</Color>
+    <Color x:Key="LightBottomSheetBackground">#F5F5F5</Color>
+    <Color x:Key="DarkBottomSheetBackground">#0D0D0D</Color>
+    <Color x:Key="ActivePageLightGradient">#F8F8F8</Color>
+    <Color x:Key="ActivePageDarkGradient">#181818</Color>
+    <Color x:Key="ActivePageLightStroke">#F5F5F5</Color>
+    <Color x:Key="ActivePageDarkStroke">#202020</Color>
+    <Color x:Key="ActivePageLightBorderBackground">#FBFBFB</Color>
+    <Color x:Key="ActivePageDarkBorderBackground">#151515</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
     <Color x:Key="Tertiary">#2B0B98</Color>
     <Color x:Key="White">#FAFAFA</Color>
@@ -18,6 +29,8 @@
     <Color x:Key="Gray900">#212121</Color>
     <Color x:Key="Gray950">#141414</Color>
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}" />
+    <SolidColorBrush x:Key="PrimaryDarkBrush" Color="{StaticResource PrimaryDark}" />
+    <SolidColorBrush x:Key="RedBrush" Color="{StaticResource Red}" />
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}" />
     <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource Tertiary}" />
     <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource White}" />

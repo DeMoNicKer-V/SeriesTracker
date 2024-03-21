@@ -9,6 +9,18 @@ public partial class DetailSeriesPage : ContentPage
 {
     private DetailSeriesPageViewModel detailSeriesPageView;
 
+    private int rotate = 0;
+    private int MenuImageRotation
+    {
+        get => rotate; set
+        {
+            if (rotate == 180)
+            {
+                rotate = 0;
+            }
+            else rotate = value;
+        }
+    }
     public DetailSeriesPage()
     {
         InitializeComponent();
@@ -24,11 +36,11 @@ public partial class DetailSeriesPage : ContentPage
         if (series != null)
         {
             BottomSheet.Title = series.seriesName;
-            BottomSheet.DetachText = stateString(series.isOver);
+            BottomSheet.DetachText = GetStateString(series.isOver);
             detailSeriesPageView.Series = series;
 
             if (!series.isFavourite) { favoriteImage.Behaviors.Add(new IconTintColorBehavior { TintColor = Color.FromArgb("#ACACAC") }); }
-            if (series.seriesRating < 0.5) { ratingLabel.IsVisible = false; ratingImage.Behaviors.Add(new IconTintColorBehavior { TintColor = Color.FromArgb("#ACACAC") }); }
+            if (series.seriesRating < 1) { ratingLabel.IsVisible = false; ratingImage.Behaviors.Add(new IconTintColorBehavior { TintColor = Color.FromArgb("#ACACAC") }); }
         }
     }
 
@@ -40,10 +52,13 @@ public partial class DetailSeriesPage : ContentPage
 
     private async void editEpisodeEntry_Unfocused(object sender, FocusEventArgs e)
     {
+        editEpisodeEntry.IsVisible = false;
+        editEpisodeEntry.Text = placeHolder.Text;
+        placeHolder.IsVisible = true;
         await editEpisodeEntry.HideKeyboardAsync(CancellationToken.None);
     }
 
-    private void episodeEntry_Completed(object sender, EventArgs e)
+    private void EpisodeEntry_Completed(object sender, EventArgs e)
     {
         editEpisodeEntry.IsVisible = false;
         placeHolder.IsVisible = true;
@@ -55,7 +70,7 @@ public partial class DetailSeriesPage : ContentPage
         placeHolder.Text = editEpisodeEntry.Text;
     }
 
-    private async void Expander_ExpandedChanged(object sender, CommunityToolkit.Maui.Core.ExpandedChangedEventArgs e)
+    private async void DescriptionAreaChanged(object sender, CommunityToolkit.Maui.Core.ExpandedChangedEventArgs e)
     {
         if (descriptionExpander.IsExpanded)
         {
@@ -76,30 +91,16 @@ public partial class DetailSeriesPage : ContentPage
         await BottomSheet.CloseBottomSheet();
         BottomSheet.IsVisible = false;
     }
-
-    private void OpenButton_Clicked(object sender, EventArgs e)
+    private void ShowBottomSheet_Clicked(object sender, EventArgs e)
     {
         descriptionExpander.IsExpanded = false;
         ratingExpander.IsExpanded = false;
-        editEpisodeEntry.IsVisible = false;
-        editEpisodeEntry.Text = placeHolder.Text;
-        placeHolder.IsVisible = true;
         editEpisodeEntry.Unfocus();
-        if (!BottomSheet.IsVisible)
-        {
-            ShowBottomSheet();
-        }
-        else { OnCloseCommand(); }
-    }
+        MenuImageRotation = 180;
+        menuButton.RotateXTo(MenuImageRotation, 200);
 
-    private void ReloadPage()
-    {
-        Behavior toRemove = favoriteImage.Behaviors.FirstOrDefault(b => b is IconTintColorBehavior);
-        if (toRemove != null)
-        {
-            favoriteImage.Behaviors.Remove(toRemove);
-        }
-        else { favoriteImage.Behaviors.Add(new IconTintColorBehavior { TintColor = Color.FromArgb("#ACACAC") }); }
+        if (!BottomSheet.IsVisible) { ShowBottomSheet();}
+        else { OnCloseCommand(); }
     }
 
     private async void ShowBottomSheet()
@@ -108,14 +109,6 @@ public partial class DetailSeriesPage : ContentPage
         BottomSheet.IsVisible = true;
     }
 
-    private string stateString(bool isOver)
-    {
-        if (isOver)
-        {
-            return String.Format("Пометить как непросмотренное");
-        }
-        return String.Format("Пометить как просмотренное");
-    }
     private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
         editEpisodeEntry.IsVisible = !editEpisodeEntry.IsVisible;
@@ -127,13 +120,29 @@ public partial class DetailSeriesPage : ContentPage
         }
         else editEpisodeEntry.Unfocus();
     }
-    private void TapGestureRecognizer_Tapped_1(object sender, TappedEventArgs e)
+
+    private void EditWatchedEpisode_Tapped(object sender, TappedEventArgs e)
     {
         ratingExpander.IsExpanded = !ratingExpander.IsExpanded;
         OnCloseCommand();
     }
-    private void TapGestureRecognizer_Tapped_2(object sender, TappedEventArgs e)
+
+    private void ReloadPage_Tapped(object sender, TappedEventArgs e)
     {
-        ReloadPage();
+        Behavior toRemove = favoriteImage.Behaviors.FirstOrDefault(b => b is IconTintColorBehavior);
+        if (toRemove != null)
+        {
+            favoriteImage.Behaviors.Remove(toRemove);
+        }
+        else { favoriteImage.Behaviors.Add(new IconTintColorBehavior { TintColor = Color.FromArgb("#ACACAC") }); }
+    }
+
+    private string GetStateString(bool isOver)
+    {
+        if (isOver)
+        {
+            return String.Format("Пометить как непросмотренное");
+        }
+        return String.Format("Пометить как просмотренное");
     }
 }

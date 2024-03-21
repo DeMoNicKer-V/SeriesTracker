@@ -162,7 +162,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         }
         else
         {
-            currentSeries.currentEpisode = 1;
+            currentSeries.currentEpisode = 0;
             currentSeries.overDate = string.Empty;
         }
         currentSeries.isOver = !currentSeries.isOver;
