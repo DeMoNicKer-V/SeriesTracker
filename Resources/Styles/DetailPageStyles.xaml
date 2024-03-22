@@ -17,8 +17,9 @@
 
     <Style Class="labelCell" TargetType="Label">
         <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontFamily" Value="NunitoItalic" />
         <Setter Property="VerticalTextAlignment" Value="Center" />
         <Setter Property="Margin" Value="0,1,0,0" />
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray100}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray200}}" />
     </Style>
 </ResourceDictionary>

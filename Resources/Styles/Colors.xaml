@@ -15,8 +15,8 @@
     <Color x:Key="ActivePageLightStroke">#F5F5F5</Color>
     <Color x:Key="ActivePageDarkStroke">#202020</Color>
     <Color x:Key="LineSeparatorColor">#F2F2F2</Color>
-    <Color x:Key="LightDetailBorderStroke">#EDEDED</Color>
-    <Color x:Key="DarkDetailBorderStroke">#222222</Color>
+    <Color x:Key="LightDetailBorderStroke">#EAEAEA</Color>
+    <Color x:Key="DarkDetailBorderStroke">#212121</Color>
     <Color x:Key="ActivePageLightBorderBackground">#FBFBFB</Color>
     <Color x:Key="ActivePageDarkBorderBackground">#151515</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>

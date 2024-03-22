@@ -63,7 +63,7 @@
                     Grid.Column="0"
                     Margin="0,15,0,0"
                     Padding="10"
-                    Background="#212121"
+                    Background="{StaticResource DarkDetailBorderStroke}"
                     HorizontalOptions="End"
                     Opacity="0.6"
                     Stroke="Transparent"
@@ -75,7 +75,7 @@
                         VerticalOptions="Start"
                         WidthRequest="15">
                         <Image.Behaviors>
-                            <toolkit:IconTintColorBehavior TintColor="#999999" />
+                            <toolkit:IconTintColorBehavior TintColor="{StaticResource Gray300}" />
                         </Image.Behaviors>
                     </Image>
                     <Border.StrokeShape>
@@ -90,7 +90,7 @@
                     Grid.Column="2"
                     Margin="0,15,0,0"
                     Padding="10"
-                    Background="#212121"
+                    Background="{StaticResource DarkDetailBorderStroke}"
                     HorizontalOptions="Start"
                     Opacity="0.6"
                     Stroke="Transparent"
@@ -335,7 +335,7 @@
                             Margin="5,5,3,0"
                             StyleClass="subText"
                             Text="просмотрено:" />
-                        <Label StyleClass="labelCell" Text="{Binding Series.GetOverDate, Mode=OneWay, TargetNullValue='еще нет'}" />
+                        <Label StyleClass="labelCell" Text="{Binding Series.GetOverDate, Mode=OneWay, TargetNullValue='смотрю'}" />
                     </HorizontalStackLayout>
                 </Grid>
 
@@ -352,14 +352,14 @@
                                 x:Name="descriptionCaption"
                                 FontFamily="NunitoItalic"
                                 Text="Открыть описание"
-                                TextColor="{StaticResource Gray500}" />
+                                TextColor="{StaticResource Gray600}" />
                             <Image
                                 x:Name="descriptionImage"
                                 HeightRequest="20"
                                 Source="downarrow.png"
                                 WidthRequest="20">
                                 <Image.Behaviors>
-                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray100}}" />
+                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
                                 </Image.Behaviors>
                             </Image>
                         </HorizontalStackLayout>
