@@ -7,7 +7,7 @@ namespace SeriesTracker.Views;
 
 public partial class DetailSeriesPage : ContentPage
 {
-    private DetailSeriesPageViewModel detailSeriesPageView;
+    private readonly DetailSeriesPageViewModel detailSeriesPageView;
 
     private int rotate = 0;
     private int MenuImageRotation
@@ -50,11 +50,9 @@ public partial class DetailSeriesPage : ContentPage
         detailSeriesPageView.OnAppearing();
     }
 
-    private async void editEpisodeEntry_Unfocused(object sender, FocusEventArgs e)
+    private async void EditEpisodeEntry_Unfocused(object sender, FocusEventArgs e)
     {
         editEpisodeEntry.IsVisible = false;
-        editEpisodeEntry.Text = placeHolder.Text;
-        placeHolder.IsVisible = true;
         await editEpisodeEntry.HideKeyboardAsync(CancellationToken.None);
     }
 
@@ -109,12 +107,13 @@ public partial class DetailSeriesPage : ContentPage
         BottomSheet.IsVisible = true;
     }
 
-    private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    private void EditEpisodeEntry_Tapped(object sender, TappedEventArgs e)
     {
         editEpisodeEntry.IsVisible = !editEpisodeEntry.IsVisible;
         placeHolder.IsVisible = !placeHolder.IsVisible;
         if (editEpisodeEntry.IsVisible)
         {
+            editEpisodeEntry.Text = placeHolder.Text;
             editEpisodeEntry.Focus();
             editEpisodeEntry.CursorPosition = editEpisodeEntry.Text.Length;
         }

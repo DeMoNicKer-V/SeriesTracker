@@ -52,6 +52,7 @@
 	  <None Remove="Resources\Images\aboutbold.png" />
 	  <None Remove="Resources\Images\accept.png" />
 	  <None Remove="Resources\Images\add.png" />
+	  <None Remove="Resources\Images\addedcalendar.png" />
 	  <None Remove="Resources\Images\addposter.png" />
 	  <None Remove="Resources\Images\ageLimit\g0.png" />
 	  <None Remove="Resources\Images\ageLimit\none.png" />
@@ -79,6 +80,7 @@
 	  <None Remove="Resources\Images\myanimelist.png" />
 	  <None Remove="Resources\Images\noimage.png" />
 	  <None Remove="Resources\Images\ratestar.png" />
+	  <None Remove="Resources\Images\releasecalendar.png" />
 	  <None Remove="Resources\Images\search.png" />
 	  <None Remove="Resources\Images\settings.png" />
 	  <None Remove="Resources\Images\shikimori.png" />
@@ -153,6 +155,9 @@
 	  </MauiXaml>
 	  <MauiXaml Update="Controls\SearchImageResult\SearchImageResult.xaml">
 	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Resources\Styles\DetailPageStyles.xaml">
+	    <Generator></Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ActiveSeriesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>

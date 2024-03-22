@@ -144,9 +144,7 @@
                         FontFamily="NunitoRegular"
                         FontSize="22"
                         HorizontalTextAlignment="Center"
-                        Text="{Binding Series.seriesName}"
-                        TextColor="{AppThemeBinding Light={StaticResource Black},
-                                                    Dark={StaticResource White}}" />
+                        Text="{Binding Series.seriesName}" />
 
                     <toolkit:Expander x:Name="ratingExpander">
                         <controls:RatingSlider
@@ -160,7 +158,8 @@
                     <StackLayout Margin="5">
                         <Line
                             HorizontalOptions="Center"
-                            Stroke="#999999"
+                            Stroke="{AppThemeBinding Light={StaticResource LineSeparatorColor},
+                                                     Dark={StaticResource ActivePageDarkGradient}}"
                             StrokeThickness="1.2"
                             X2="350" />
                     </StackLayout>
@@ -176,14 +175,13 @@
                         <RowDefinition Height="40" />
                         <RowDefinition Height="30" />
                         <RowDefinition Height="30" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="20" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="10" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="30" />
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="10" />
                     </Grid.ColumnDefinitions>
 
                     <HorizontalStackLayout
@@ -192,8 +190,10 @@
                         Grid.ColumnSpan="2"
                         HorizontalOptions="FillAndExpand">
                         <Border
+                            x:Name="favoriteBorder"
                             BackgroundColor="Transparent"
-                            Stroke="{StaticResource Gray300}"
+                            Stroke="{AppThemeBinding Light={StaticResource LightDetailBorderStroke},
+                                                     Dark={StaticResource DarkDetailBorderStroke}}"
                             StrokeThickness="1">
                             <HorizontalStackLayout Padding="5,0,5,0" HorizontalOptions="Start">
                                 <Label Text="Избранное" VerticalTextAlignment="Center" />
@@ -215,7 +215,8 @@
                         </Border>
                         <Border
                             BackgroundColor="Transparent"
-                            Stroke="{StaticResource Gray300}"
+                            Stroke="{AppThemeBinding Light={StaticResource LightDetailBorderStroke},
+                                                     Dark={StaticResource DarkDetailBorderStroke}}"
                             StrokeThickness="1.2">
                             <HorizontalStackLayout Padding="5,0,5,0">
                                 <Label Text="Просмотрено: " VerticalTextAlignment="Center" />
@@ -234,7 +235,7 @@
                                     ReturnCommand="{Binding EditEpisodeCommand}"
                                     ReturnCommandParameter="{Binding Text, Source={x:Reference editEpisodeEntry}}"
                                     Text="{Binding Series.currentEpisode, Mode=TwoWay}"
-                                    Unfocused="editEpisodeEntry_Unfocused"
+                                    Unfocused="EditEpisodeEntry_Unfocused"
                                     VerticalOptions="Center"
                                     VerticalTextAlignment="End" />
                                 <Label Text=" из " VerticalTextAlignment="Center" />
@@ -248,7 +249,7 @@
                                 <RoundRectangle CornerRadius="5" />
                             </Border.StrokeShape>
                             <Border.GestureRecognizers>
-                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TapGestureRecognizer_Tapped" />
+                                <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="EditEpisodeEntry_Tapped" />
                             </Border.GestureRecognizers>
                         </Border>
                     </HorizontalStackLayout>
@@ -256,28 +257,22 @@
                         x:Name="menuButton"
                         Grid.Row="0"
                         Grid.Column="2"
-                        Margin="10,0,0,0"
                         Clicked="ShowBottomSheet_Clicked"
                         HeightRequest="20"
-                        HorizontalOptions="End"
                         Rotation="90"
                         Source="dots.png"
-                        VerticalOptions="Center"
                         WidthRequest="20">
                         <ImageButton.Behaviors>
-                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
                         </ImageButton.Behaviors>
                     </ImageButton>
                     <Image
                         Grid.Row="1"
                         Grid.Column="0"
-                        Margin="0,0,5,0"
-                        HeightRequest="22"
-                        HorizontalOptions="Center"
                         Source="episode.png"
-                        WidthRequest="22">
+                        StyleClass="imageCell">
                         <Image.Behaviors>
-                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray100}}" />
                         </Image.Behaviors>
                     </Image>
                     <HorizontalStackLayout
@@ -287,31 +282,22 @@
                         HorizontalOptions="Start">
                         <Label
                             Margin="0,5,3,0"
-                            FontAttributes="Italic"
-                            FontSize="9"
-                            Text="всего эп."
-                            TextColor="Grey"
-                            VerticalTextAlignment="Center" />
-                        <Label Text="{Binding Series.lastEpisode, Mode=OneWay}" VerticalTextAlignment="Center" />
+                            StyleClass="subText"
+                            Text="всего эп." />
+                        <Label StyleClass="labelCell" Text="{Binding Series.lastEpisode, Mode=OneWay}" />
                         <Label
                             Margin="5,5,3,0"
-                            FontAttributes="Italic"
-                            FontSize="9"
-                            Text="ср. продолж."
-                            TextColor="Grey"
-                            VerticalTextAlignment="Center" />
-                        <Label Text="{Binding Series.seriesDuration, Mode=OneWay, StringFormat='~{0} мин.'}" VerticalTextAlignment="Center" />
+                            StyleClass="subText"
+                            Text="ср. продолж." />
+                        <Label StyleClass="labelCell" Text="{Binding Series.seriesDuration, Mode=OneWay, StringFormat='~{0} мин.'}" />
                     </HorizontalStackLayout>
                     <Image
                         Grid.Row="2"
                         Grid.Column="0"
-                        Margin="0,0,5,0"
-                        HeightRequest="22"
-                        HorizontalOptions="Center"
-                        Source="calendar.png"
-                        WidthRequest="22">
+                        Source="releasecalendar.png"
+                        StyleClass="imageCell">
                         <Image.Behaviors>
-                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray100}}" />
                         </Image.Behaviors>
                     </Image>
                     <HorizontalStackLayout
@@ -321,51 +307,35 @@
                         HorizontalOptions="Start">
                         <Label
                             Margin="0,5,3,0"
-                            FontAttributes="Italic"
-                            FontSize="9"
-                            Text="дата выхода:"
-                            TextColor="Grey"
-                            VerticalTextAlignment="Center" />
-                        <Label Text="{Binding Series.GetReleaseDate, Mode=OneWay}" VerticalTextAlignment="Center" />
+                            StyleClass="subText"
+                            Text="дата выхода:" />
+                        <Label StyleClass="labelCell" Text="{Binding Series.GetReleaseDate, Mode=OneWay}" />
                     </HorizontalStackLayout>
 
-                    <HorizontalStackLayout
+                    <Image
                         Grid.Row="3"
                         Grid.Column="0"
-                        Grid.ColumnSpan="3"
-                        HorizontalOptions="FillAndExpand">
-                        <Label
-                            Margin="0,0,5,0"
-                            FontAttributes="Italic"
-                            FontSize="11"
-                            HorizontalOptions="Start"
-                            Text="Добавлено:"
-                            VerticalTextAlignment="Center" />
-                        <Label
-                            FontAttributes="Italic"
-                            FontSize="11"
-                            HorizontalOptions="Start"
-                            Text="{Binding Series.GetAddedDate, Mode=OneWay}"
-                            VerticalTextAlignment="Center" />
-                    </HorizontalStackLayout>
+                        Source="addedcalendar.png"
+                        StyleClass="imageCell">
+                        <Image.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray100}}" />
+                        </Image.Behaviors>
+                    </Image>
                     <HorizontalStackLayout
-                        Grid.Row="4"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="3"
-                        HorizontalOptions="FillAndExpand">
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        HorizontalOptions="Start">
                         <Label
-                            Margin="0,0,5,0"
-                            FontAttributes="Italic"
-                            FontSize="11"
-                            HorizontalOptions="Start"
-                            Text="Просмотрено:"
-                            VerticalTextAlignment="Center" />
+                            Margin="0,5,3,0"
+                            StyleClass="subText"
+                            Text="добавлено:" />
+                        <Label StyleClass="labelCell" Text="{Binding Series.GetAddedDate, Mode=OneWay}" />
                         <Label
-                            FontAttributes="Italic"
-                            FontSize="11"
-                            HorizontalOptions="Start"
-                            Text="{Binding Series.GetOverDate, Mode=OneWay, TargetNullValue='еще нет'}"
-                            VerticalTextAlignment="Center" />
+                            Margin="5,5,3,0"
+                            StyleClass="subText"
+                            Text="просмотрено:" />
+                        <Label StyleClass="labelCell" Text="{Binding Series.GetOverDate, Mode=OneWay, TargetNullValue='еще нет'}" />
                     </HorizontalStackLayout>
                 </Grid>
 
@@ -373,24 +343,23 @@
                     x:Name="descriptionExpander"
                     Grid.Row="4"
                     Grid.ColumnSpan="3"
-                    Margin="15,-10,15,0"
+                    Padding="15,0,15,0"
                     ExpandedChanged="DescriptionAreaChanged"
                     VerticalOptions="CenterAndExpand">
                     <toolkit:Expander.Header>
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
                             <Label
                                 x:Name="descriptionCaption"
-                                FontAttributes="Italic"
                                 FontFamily="NunitoItalic"
-                                FontSize="14"
-                                Text="Открыть описание" />
+                                Text="Открыть описание"
+                                TextColor="{StaticResource Gray500}" />
                             <Image
                                 x:Name="descriptionImage"
                                 HeightRequest="20"
                                 Source="downarrow.png"
                                 WidthRequest="20">
                                 <Image.Behaviors>
-                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray100}}" />
                                 </Image.Behaviors>
                             </Image>
                         </HorizontalStackLayout>
