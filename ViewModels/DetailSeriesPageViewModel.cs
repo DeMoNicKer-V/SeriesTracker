@@ -13,26 +13,14 @@ namespace SeriesTracker.ViewModels
 {
     public partial class DetailSeriesPageViewModel : BaseSeriesModel
     {
-        public Command CloseCommand { get; }
-
-        public Command DeleteCommand { get; }
-
-        public Command DetachCommand { get; }
-
-        public Command EditCommand { get; }
-
-        public Command BackCommand { get; }
         public Command ChangeRatingCommand { get; }
 
         public DetailSeriesPageViewModel(INavigation navigation)
         {
             Navigation = navigation;
-            BackCommand = new Command(OnBackCommand);
-            EditCommand = new Command(OnEditCommand);
-            DeleteCommand = new Command(OnDeleteCommand);
-            DetachCommand = new Command(OnDetachCommand);
+            DeleteCommand = new Command(OnDetailDeleteCommand);
+            DetachCommand = new Command(OnDetailDetachCommand);
             ChangeRatingCommand = new Command(OnChangeRating);
-            Series = new Series();
         }
 
         public void OnAppearing()
@@ -66,45 +54,14 @@ namespace SeriesTracker.ViewModels
             await App.SeriesService.AddUpdateSeriesAsync(Series);
         }
 
-        private async void OnDeleteCommand()
+        private async void OnDetailDeleteCommand() 
         {
-            if (!CheckSeries(Series)) { return; }
-            new Journal(new DeleteItem(Series.SyncUid)).JournalToJson();
-            await App.SeriesService.DeleteSeriesAsync(Series.seriesId);
+            OnDeleteCommand();
             await Shell.Current.GoToAsync("..");
         }
-
-        private bool CheckSeries(Series series)
+        private async void OnDetailDetachCommand()
         {
-            if (series is null) return false;
-            else return true;
-        }
-
-        private async void OnDetachCommand()
-        {
-            if (!CheckSeries(Series)) { return; }
-            if (!Series.isOver)
-            {
-                Series.currentEpisode = Series.lastEpisode;
-                Series.overDate = DateTime.Now.ToString();
-            }
-            else
-            {
-                Series.currentEpisode = 0;
-                Series.overDate = string.Empty;
-            }
-            Series.isOver = !Series.isOver;
-            await App.SeriesService.AddUpdateSeriesAsync(Series);
-            await Shell.Current.GoToAsync("..");
-        }
-
-        private async void OnEditCommand()
-        {
-            await Navigation.PushAsync(new NewSeriesPage(Series));
-        }
-
-        private async void OnBackCommand()
-        {
+            OnDetachCommand();
             await Shell.Current.GoToAsync("..");
         }
     }

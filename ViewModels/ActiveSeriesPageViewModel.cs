@@ -47,15 +47,14 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     [RelayCommand]
     private async Task AdditionalAction(Series series)
     {
+        Series = series;
         activeSeriesPagePopUp = new ActivePagePopUp();
         activeSeriesPagePopUp.ContentPageBehavior = _page;
-        activeSeriesPagePopUp.EditCommand = new Command(OnEditCommand);
-        activeSeriesPagePopUp.DeleteCommand = new Command(OnDeleteCommand);
-        activeSeriesPagePopUp.DetachCommand = new Command(OnDetachCommand);
-        activeSeriesPagePopUp.Title = series.seriesName;
-        currentSeries = series;
+        activeSeriesPagePopUp.EditCommand = EditCommand;
+        activeSeriesPagePopUp.DeleteCommand = new Command(OnActiveDeleteCommand);
+        activeSeriesPagePopUp.DetachCommand = new Command(OnActiveDetachCommand);
+        activeSeriesPagePopUp.Title = Series.seriesName;
         await _page.ShowPopupAsync(activeSeriesPagePopUp);
-        return;
     }
 
     [RelayCommand]
@@ -132,15 +131,9 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         }
     }
 
-    private async void OnDeleteCommand()
+    private async void OnActiveDeleteCommand()
     {
-        if (currentSeries is null)
-        {
-            return;
-        }
-        new Journal(new DeleteItem(currentSeries.SyncUid)).JournalToJson();
-
-        await App.SeriesService.DeleteSeriesAsync(currentSeries.seriesId);
+        OnDeleteCommand();
         if (SeriesList.Count() == 1)
         {
             SkipItem -=5;
@@ -148,31 +141,10 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         await OnAppearing();
     }
 
-    private async void OnDetachCommand()
+    private async void OnActiveDetachCommand()
     {
-        if (currentSeries is null)
-        {
-            return;
-        }
-
-        if (WachedFlag == false)
-        {
-            currentSeries.currentEpisode = currentSeries.lastEpisode;
-            currentSeries.overDate = DateTime.Now.ToString();
-        }
-        else
-        {
-            currentSeries.currentEpisode = 0;
-            currentSeries.overDate = string.Empty;
-        }
-        currentSeries.isOver = !currentSeries.isOver;
-        await App.SeriesService.AddUpdateSeriesAsync(currentSeries);
+        OnDetachCommand();
         await OnAppearing();
-    }
-
-    private async void OnEditCommand()
-    {
-        await Navigation.PushAsync(new NewSeriesPage(currentSeries));
     }
 
     [RelayCommand]
