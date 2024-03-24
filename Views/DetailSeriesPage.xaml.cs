@@ -10,6 +10,7 @@ public partial class DetailSeriesPage : ContentPage
     private readonly DetailSeriesPageViewModel detailSeriesPageView;
 
     private int rotate = 0;
+
     private int MenuImageRotation
     {
         get => rotate; set
@@ -21,6 +22,7 @@ public partial class DetailSeriesPage : ContentPage
             else rotate = value;
         }
     }
+
     public DetailSeriesPage()
     {
         InitializeComponent();
@@ -38,6 +40,7 @@ public partial class DetailSeriesPage : ContentPage
             BottomSheet.Title = series.seriesName;
             BottomSheet.DetachText = GetStateString(series.isOver);
             detailSeriesPageView.Series = series;
+            percentLabel.Text = series.currentEpisode > 0 ? string.Format("{0}%", Math.Round(((double)series.currentEpisode / series.lastEpisode) * 100, 2)) : null;
 
             if (!series.isFavourite) { favoriteImage.Behaviors.Add(new IconTintColorBehavior { TintColor = Color.FromArgb("#ACACAC") }); }
             if (series.seriesRating < 1) { ratingLabel.IsVisible = false; ratingImage.Behaviors.Add(new IconTintColorBehavior { TintColor = Color.FromArgb("#ACACAC") }); }
@@ -65,6 +68,8 @@ public partial class DetailSeriesPage : ContentPage
             editEpisodeEntry.Text = placeHolder.Text;
             return;
         }
+        percentLabel.Text = Convert.ToInt32(editEpisodeEntry.Text).Equals(0) ? null : 
+            string.Format("{0}%", Math.Round(((double)detailSeriesPageView.Series.currentEpisode / detailSeriesPageView.Series.lastEpisode) * 100, 2));
         placeHolder.Text = editEpisodeEntry.Text;
     }
 
@@ -89,6 +94,7 @@ public partial class DetailSeriesPage : ContentPage
         await BottomSheet.CloseBottomSheet();
         BottomSheet.IsVisible = false;
     }
+
     private void ShowBottomSheet_Clicked(object sender, EventArgs e)
     {
         descriptionExpander.IsExpanded = false;
@@ -97,7 +103,7 @@ public partial class DetailSeriesPage : ContentPage
         MenuImageRotation = 180;
         menuButton.RotateXTo(MenuImageRotation, 200);
 
-        if (!BottomSheet.IsVisible) { ShowBottomSheet();}
+        if (!BottomSheet.IsVisible) { ShowBottomSheet(); }
         else { OnCloseCommand(); }
     }
 

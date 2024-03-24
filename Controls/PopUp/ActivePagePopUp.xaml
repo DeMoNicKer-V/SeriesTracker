@@ -13,6 +13,7 @@
             Padding="10"
             BackgroundColor="{AppThemeBinding Light={StaticResource LightPopUpBackground},
                                               Dark={StaticResource DarkPopUpBackground}}"
+            MinimumWidthRequest="350"
             Stroke="Transparent">
             <Grid VerticalOptions="EndAndExpand">
                 <Grid.RowDefinitions>

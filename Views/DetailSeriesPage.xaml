@@ -136,7 +136,7 @@
                     Grid.ColumnSpan="3"
                     BackgroundColor="{AppThemeBinding Light={StaticResource White},
                                                       Dark={StaticResource Black}}"
-                    HorizontalOptions="Center"
+                    HorizontalOptions="Fill"
                     VerticalOptions="StartAndExpand">
                     <Label
                         x:Name="labelSeriesName"
@@ -144,9 +144,11 @@
                         FontFamily="NunitoRegular"
                         FontSize="22"
                         HorizontalTextAlignment="Center"
-                        Text="{Binding Series.seriesName}" />
+                        Text="{Binding Series.seriesName}"
+                        TextColor="{AppThemeBinding Light={StaticResource Gray900},
+                                                    Dark={StaticResource Gray200}}" />
 
-                    <toolkit:Expander x:Name="ratingExpander">
+                    <toolkit:Expander x:Name="ratingExpander" BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}">
                         <controls:RatingSlider
                             AcceptCommand="{Binding ChangeRatingCommand}"
                             ExpanderBehavior="{Binding Source={x:Reference ratingExpander}, Path=IsExpanded}"
@@ -336,6 +338,11 @@
                             StyleClass="subText"
                             Text="просмотрено:" />
                         <Label StyleClass="labelCell" Text="{Binding Series.GetOverDate, Mode=OneWay, TargetNullValue='смотрю'}" />
+                        <Label
+                            x:Name="percentLabel"
+                            Margin="2,0,0,0"
+                            IsVisible="{Binding Series.isOver, Converter={service:InverseBoolConverter}}"
+                            StyleClass="subText" />
                     </HorizontalStackLayout>
                 </Grid>
 

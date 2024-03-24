@@ -8,7 +8,7 @@
     x:Name="this">
 
     <VerticalStackLayout>
-        <Grid Margin="5" Padding="5">
+        <Grid Padding="15,10,15,10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="20" />
                 <RowDefinition Height="30" />
@@ -29,9 +29,9 @@
                     ItemSize="20"
                     ItemSpacing="6"
                     RatedFillColor="#FFDD45"
-                    StrokeColor="Black"
+                    StrokeColor="#E8C526"
                     StrokeWidth="1"
-                    UnRatedFillColor="#dddbde">
+                    UnRatedFillColor="#F3F3F3">
                     <controls:RatingView.Value>
                         <Binding Path="Value" Source="{x:Reference BaseSlider}" />
                     </controls:RatingView.Value>
@@ -76,11 +76,11 @@
                 Grid.Column="2"
                 Margin="3,-1,0,0"
                 Clicked="AcceptButton_Clicked"
-                HeightRequest="18"
+                HeightRequest="16"
                 HorizontalOptions="Center"
                 Source="accept.png"
                 VerticalOptions="Center"
-                WidthRequest="18">
+                WidthRequest="16">
                 <ImageButton.Behaviors>
                     <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
                 </ImageButton.Behaviors>

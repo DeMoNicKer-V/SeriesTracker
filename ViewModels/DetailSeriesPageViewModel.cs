@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using SeriesTracker.Models;
 using SeriesTracker.Services.SyncJournal;
 using SeriesTracker.Views;
