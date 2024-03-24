@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <toolkit:Popup
-    x:Class="SeriesTracker.Controls.DeleteAlert.DeleteAlert"
+    x:Class="SeriesTracker.Controls.PopUp.CustomAlert"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
@@ -8,20 +8,21 @@
     Color="Transparent">
     <StackLayout>
         <Border
-            Margin="20,25,20,25"
+            Margin="15,20,15,20"
             Padding="10"
             BackgroundColor="{AppThemeBinding Light={StaticResource LightPopUpBackground},
                                               Dark={StaticResource DarkPopUpBackground}}"
             Stroke="Transparent">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="45" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="40" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="10" />
                 </Grid.ColumnDefinitions>
                 <Label
                     x:Name="TitleLabel"
@@ -41,7 +42,7 @@
                     Grid.Column="0"
                     HeightRequest="22"
                     HorizontalOptions="Center"
-                    Source="delete.png"
+                    Source="about.png"
                     WidthRequest="22">
                     <Image.Behaviors>
                         <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
@@ -56,30 +57,32 @@
                     FontSize="16"
                     HorizontalOptions="FillAndExpand"
                     HorizontalTextAlignment="Start"
-                    Text="Вы точно хотите удалить данный сериал?"
+                    LineBreakMode="WordWrap"
+                    Text="{Binding Source={x:Reference this}, Path=Text}"
                     TextColor="{AppThemeBinding Light={StaticResource Gray950},
                                                 Dark={StaticResource Gray200}}"
                     VerticalTextAlignment="Center" />
                 <HorizontalStackLayout
                     Grid.Row="2"
-                    Grid.ColumnSpan="2"
+                    Grid.ColumnSpan="3"
                     HorizontalOptions="End">
-                    <Button
-                        x:Name="deny"
-                        BackgroundColor="Transparent"
-                        Clicked="deny_Clicked"
-                        FontAttributes="Bold"
-                        FontSize="14"
-                        Text="Отмена"
-                        TextColor="{StaticResource Gray500}" />
                     <Button
                         x:Name="confirm"
                         BackgroundColor="Transparent"
                         Clicked="confirm_Clicked"
                         FontAttributes="Bold"
                         FontSize="14"
-                        Text="Удалить"
-                        TextColor="{StaticResource Red}" />
+                        IsVisible="{Binding Source={x:Reference this}, Path=ConfirmButton}"
+                        Text="{Binding Source={x:Reference this}, Path=ConfirmText}"
+                        TextColor="{StaticResource Gray500}" />
+                    <Button
+                        x:Name="deny"
+                        BackgroundColor="Transparent"
+                        Clicked="deny_Clicked"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Text="{Binding Source={x:Reference this}, Path=DenyText}"
+                        TextColor="{StaticResource Gray500}" />
                 </HorizontalStackLayout>
             </Grid>
             <Border.StrokeShape>

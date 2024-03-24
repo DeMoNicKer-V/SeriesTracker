@@ -3,6 +3,7 @@ using CommunityToolkit.Maui.Behaviors;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Core.Platform;
 using CommunityToolkit.Maui.Views;
+using SeriesTracker.Controls.PopUp;
 using SeriesTracker.Controls.SearchImageResult;
 using SeriesTracker.Models;
 using SeriesTracker.Services.GoogleApi;
@@ -53,7 +54,6 @@ public partial class NewSeriesPage : ContentPage
         {
             durationEntry.Text = "24";
         }
-        //durationEntry.Style = (Style)Application.Current.Resources["BasicEntryStyle"];
     }
 
     private async Task<bool> CheckInternetAccess()
@@ -133,7 +133,7 @@ public partial class NewSeriesPage : ContentPage
     {
         if (!string.IsNullOrWhiteSpace(e.NewTextValue))
         {
-            bool isValid = e.NewTextValue.ToCharArray().All(x => char.IsDigit(x)); //Make sure all characters are numbers
+            bool isValid = e.NewTextValue.ToCharArray().All(x => char.IsDigit(x));
 
             ((Entry)sender).Text = isValid ? e.NewTextValue : e.NewTextValue.Remove(e.NewTextValue.Length - 1);
         }
@@ -183,12 +183,13 @@ public partial class NewSeriesPage : ContentPage
     {
         try
         {
-            bool displayResult = await DisplayAlert("Поиск изображения", "Искать изображение в интеренте?", "Да", "Нет");
-            if (displayResult == true)
+            var displayResult = await this.ShowPopupAsync(new CustomAlert("Поиск изображения", "Искать изображение в интеренте?", "Нет", "Да"));
+            if (displayResult is bool boolResult)
             {
+                if (boolResult == false) return;
                 if (string.IsNullOrWhiteSpace(nameEditor.Text))
                 {
-                    await DisplayAlert("Ошибка!", "Заполните название сериала", "Оk");
+                    await this.ShowPopupAsync(new CustomAlert("Произошла ошибка", "Сначала заполните название сериала", "Закрыть"));
                     return;
                 }
                 string searchImgName = string.Concat(nameEditor.Text);
@@ -208,7 +209,6 @@ public partial class NewSeriesPage : ContentPage
         }
         catch (Exception ex)
         {
-            var ee = ex.Message;
         }
     }
 }

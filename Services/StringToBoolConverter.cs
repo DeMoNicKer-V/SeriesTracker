@@ -7,23 +7,20 @@ using System.Threading.Tasks;
 
 namespace SeriesTracker.Services
 {
-    public class DecreaseIntConverter : IValueConverter
+    public class StringToBoolConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((Int32)value < (Int32)parameter)
+            if (string.IsNullOrEmpty((string)value))
             {
-                return ((Int32)value - 1);
+                return true;
             }
-            return ((Int32)value);
+            return false;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value;
-
-            // Converting back rarely happens, a lot of the converters will throw an exception
-            //throw new NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

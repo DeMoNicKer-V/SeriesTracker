@@ -190,7 +190,7 @@
                                     Source="downarrow.png"
                                     WidthRequest="20">
                                     <Image.Behaviors>
-                                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                                        <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
                                     </Image.Behaviors>
                                 </Image>
                             </HorizontalStackLayout>
@@ -235,7 +235,7 @@
                         Grid.ColumnSpan="2"
                         Margin="0,0,20,0"
                         HorizontalOptions="Center"
-                        Label="Текущая серия"
+                        Label="Уже просмотрено"
                         Text="{Binding Series.currentEpisode, Mode=TwoWay}" />
 
 
@@ -246,7 +246,7 @@
                         Grid.ColumnSpan="2"
                         Margin="20,0,0,0"
                         HorizontalOptions="Center"
-                        Label="Последняя серия"
+                        Label="Финальная серия"
                         Text="{Binding Series.lastEpisode, Mode=TwoWay}" />
 
                     <StackLayout

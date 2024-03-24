@@ -3,23 +3,25 @@
     x:Class="SeriesTracker.Controls.SearchImageResult.SearchImageResult"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:service="clr-namespace:SeriesTracker.Services"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    x:Name="this" Opened="this_Opened"
+    x:Name="this"
+    Opened="this_Opened"
     Color="Transparent">
 
     <VerticalStackLayout>
         <Border
-            Margin="5"
+            Margin="15,25,15,25"
             BackgroundColor="{AppThemeBinding Light=#f5f5f5,
                                               Dark=#151515}"
             Stroke="Transparent">
             <Border.StrokeShape>
-                <RoundRectangle CornerRadius="5" />
+                <RoundRectangle CornerRadius="10" />
             </Border.StrokeShape>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50" />
-                    <RowDefinition Height="160" />
+                    <RowDefinition Height="140" />
                     <RowDefinition Height="15" />
                     <RowDefinition Height="50" />
                 </Grid.RowDefinitions>
@@ -32,7 +34,7 @@
                     Grid.Row="0"
                     Grid.ColumnSpan="2"
                     Margin="10,5,10,5"
-                    FontSize="17"
+                    FontSize="16"
                     HorizontalOptions="Start"
                     Text="Выберите одно из изображений"
                     VerticalOptions="Center"
@@ -67,11 +69,11 @@
                     Grid.Column="0"
                     Margin="5"
                     BackgroundColor="Transparent"
-                    HeightRequest="160"
+                    HeightRequest="140"
                     HorizontalOptions="Center"
                     Stroke="Transparent"
                     StrokeThickness="2"
-                    WidthRequest="115">
+                    WidthRequest="100">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="10" />
                     </Border.StrokeShape>
@@ -94,11 +96,11 @@
                     Grid.Column="1"
                     Margin="5"
                     BackgroundColor="Transparent"
-                    HeightRequest="160"
+                    HeightRequest="140"
                     HorizontalOptions="Center"
                     Stroke="Transparent"
                     StrokeThickness="2"
-                    WidthRequest="115">
+                    WidthRequest="100">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="10" />
                     </Border.StrokeShape>
@@ -120,11 +122,11 @@
                     Grid.Column="2"
                     Margin="5"
                     BackgroundColor="Transparent"
-                    HeightRequest="160"
+                    HeightRequest="140"
                     HorizontalOptions="Center"
                     Stroke="Transparent"
                     StrokeThickness="2"
-                    WidthRequest="115">
+                    WidthRequest="100">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="10" />
                     </Border.StrokeShape>
@@ -141,15 +143,42 @@
                         </DataTrigger>
                     </Border.Triggers>
                 </Border>
+                <ActivityIndicator
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="5"
+                    HeightRequest="40"
+                    HorizontalOptions="Center"
+                    IsRunning="{Binding Source={x:Reference this}, Path=FirstImageSource, Converter={service:StringToBoolConverter}}"
+                    VerticalOptions="Center"
+                    WidthRequest="40" />
+                <ActivityIndicator
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="5"
+                    HeightRequest="40"
+                    HorizontalOptions="Center"
+                    IsRunning="{Binding Source={x:Reference this}, Path=SecondImageSource, Converter={service:StringToBoolConverter}}"
+                    VerticalOptions="Center"
+                    WidthRequest="40" />
+                <ActivityIndicator
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Margin="5"
+                    HeightRequest="40"
+                    HorizontalOptions="Center"
+                    IsRunning="{Binding Source={x:Reference this}, Path=ThirdImageSource, Converter={service:StringToBoolConverter}}"
+                    VerticalOptions="Center"
+                    WidthRequest="40" />
                 <Label
                     Grid.Row="2"
                     Grid.Column="0"
-                    FontAttributes="Italic"
+                    FontFamily="NunitoItalic"
                     FontSize="11"
                     HorizontalOptions="Center"
                     HorizontalTextAlignment="Center"
                     IsEnabled="False"
-                    Text="Изображение 1 "
+                    Text="Изображение 1"
                     VerticalOptions="Start"
                     VerticalTextAlignment="Start">
                     <Label.Triggers>
@@ -158,19 +187,19 @@
                             TargetType="Label"
                             Value="0">
                             <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
-                            <Setter Property="FontSize" Value="13" />
+                            <Setter Property="FontSize" Value="12" />
                         </DataTrigger>
                     </Label.Triggers>
                 </Label>
                 <Label
                     Grid.Row="2"
                     Grid.Column="1"
-                    FontAttributes="Italic"
+                    FontFamily="NunitoItalic"
                     FontSize="11"
                     HorizontalOptions="Center"
                     HorizontalTextAlignment="Center"
                     IsEnabled="False"
-                    Text="Изображение 2 "
+                    Text="Изображение 2"
                     VerticalOptions="Start"
                     VerticalTextAlignment="Start">
                     <Label.Triggers>
@@ -179,19 +208,19 @@
                             TargetType="Label"
                             Value="1">
                             <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
-                            <Setter Property="FontSize" Value="13" />
+                            <Setter Property="FontSize" Value="12" />
                         </DataTrigger>
                     </Label.Triggers>
                 </Label>
                 <Label
                     Grid.Row="2"
                     Grid.Column="2"
-                    FontAttributes="Italic"
+                    FontFamily="NunitoItalic"
                     FontSize="11"
                     HorizontalOptions="Center"
                     HorizontalTextAlignment="Center"
                     IsEnabled="False"
-                    Text="Изображение 3 "
+                    Text="Изображение 3"
                     VerticalOptions="Start"
                     VerticalTextAlignment="Start">
                     <Label.Triggers>
@@ -200,7 +229,7 @@
                             TargetType="Label"
                             Value="2">
                             <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
-                            <Setter Property="FontSize" Value="13" />
+                            <Setter Property="FontSize" Value="12" />
                         </DataTrigger>
                     </Label.Triggers>
                 </Label>
@@ -208,7 +237,6 @@
                     Grid.Row="4"
                     Grid.ColumnSpan="3"
                     HorizontalOptions="End">
-
                     <Button
                         x:Name="confirm"
                         BackgroundColor="Transparent"
@@ -223,8 +251,7 @@
                         Clicked="DenyBtn_Clicked"
                         FontSize="14"
                         Text="Отмена"
-                        TextColor="{AppThemeBinding Light={StaticResource Primary},
-                                                    Dark={StaticResource PrimaryDark}}" />
+                        TextColor="{StaticResource Gray500}" />
 
                 </HorizontalStackLayout>
             </Grid>

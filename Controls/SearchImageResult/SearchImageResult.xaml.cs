@@ -102,6 +102,7 @@ public partial class SearchImageResult : Popup
 
     private async void ConfirmBtn_Clicked(object sender, EventArgs e)
     {
+        if (Images == null || Images.Any(s => s == null)) { await CloseAsync(false); return; }
         await CloseAsync(true);
     }
     private int serchPageParam;
