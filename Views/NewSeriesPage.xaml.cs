@@ -6,7 +6,6 @@ using CommunityToolkit.Maui.Views;
 using SeriesTracker.Controls.PopUp;
 using SeriesTracker.Controls.SearchImageResult;
 using SeriesTracker.Models;
-using SeriesTracker.Services.GoogleApi;
 using SeriesTracker.ViewModels;
 using Color = Microsoft.Maui.Graphics.Color;
 
@@ -43,7 +42,7 @@ public partial class NewSeriesPage : ContentPage
     private void ChangePosterAttributes()
     {
         tipPosterLabel.IsVisible = false;
-        posterBorder.HeightRequest = 220;
+        posterBorder.HeightRequest = 230;
         posterImage.Aspect = Aspect.Fill;
     }
 
@@ -76,15 +75,6 @@ public partial class NewSeriesPage : ContentPage
         return true;
     }
 
-    private void descriptionEditor_Focused(object sender, FocusEventArgs e)
-    {
-        descriptionUnderline.HeightRequest = 2;
-    }
-
-    private void descriptionEditor_Unfocused(object sender, FocusEventArgs e)
-    {
-        descriptionUnderline.HeightRequest = 1;
-    }
 
     private async void descriptionExpander_ExpandedChanged(object sender, CommunityToolkit.Maui.Core.ExpandedChangedEventArgs e)
     {
@@ -119,15 +109,6 @@ public partial class NewSeriesPage : ContentPage
         await Navigation.PushAsync(new SeriesListPage(false));
     }
 
-    private void nameEditor_Focused(object sender, FocusEventArgs e)
-    {
-        nameUnderline.HeightRequest = 2;
-    }
-
-    private void nameEditor_Unfocused(object sender, FocusEventArgs e)
-    {
-        nameUnderline.HeightRequest = 1;
-    }
 
     private void RemoveSignsTextChanged(object sender, TextChangedEventArgs e)
     {
@@ -156,13 +137,9 @@ public partial class NewSeriesPage : ContentPage
         var result = await this.ShowPopupAsync(imageResultPopUp);
         if (result is bool boolResult)
         {
-            if (boolResult)
+            if (boolResult == true)
             {
                 SetImageParams(imageResultPopUp.Images.ElementAt(imageResultPopUp.ActiveImage));
-            }
-            else
-            {
-                return;
             }
         }
     }
@@ -179,36 +156,34 @@ public partial class NewSeriesPage : ContentPage
         ChangePosterAttributes();
     }
 
-    private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    private async void SelectPosterImage_Tapped(object sender, TappedEventArgs e)
     {
-        try
+        var displayResult = await this.ShowPopupAsync(new CustomAlert("Поиск изображения", "Искать изображение в интеренте?", "Нет", "Да"));
+        if (displayResult is bool boolResult)
         {
-            var displayResult = await this.ShowPopupAsync(new CustomAlert("Поиск изображения", "Искать изображение в интеренте?", "Нет", "Да"));
-            if (displayResult is bool boolResult)
+            if (boolResult == true)
             {
-                if (boolResult == false) return;
                 if (string.IsNullOrWhiteSpace(nameEditor.Text))
                 {
                     await this.ShowPopupAsync(new CustomAlert("Произошла ошибка", "Сначала заполните название сериала", "Закрыть"));
                     return;
                 }
-                string searchImgName = string.Concat(nameEditor.Text);
-                await SearchImages(searchImgName);
+                await SearchImages(nameEditor.Text);
                 return;
             }
-            PickOptions options = new()
+            else
             {
-                PickerTitle = "Пожалуйста, выбирите изображение для сериала!",
-                FileTypes = FilePickerFileType.Images,
-            };
-            var result = await FilePicker.Default.PickAsync(options);
-            if (result != null)
-            {
-                SetImageParams(result.FullPath);
+                PickOptions options = new()
+                {
+                    PickerTitle = "Пожалуйста, выбирите изображение для сериала!",
+                    FileTypes = FilePickerFileType.Images,
+                };
+                var result = await FilePicker.Default.PickAsync(options);
+                if (result != null)
+                {
+                    SetImageParams(result.FullPath);
+                }
             }
-        }
-        catch (Exception ex)
-        {
         }
     }
 }

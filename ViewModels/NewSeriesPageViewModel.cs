@@ -3,21 +3,19 @@ using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.Input;
 using SeriesTracker.Models;
 using SeriesTracker.Services.SyncJournal;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+
 #if ANDROID
+
 using static Android.Media.MediaRouter;
+
 #endif
 
 namespace SeriesTracker.ViewModels
 {
     public partial class NewSeriesPageViewModel : BaseSeriesModel
     {
+        private static readonly string DateNow = DateTime.Now.ToString();
+
         public NewSeriesPageViewModel()
         {
             Series = new Series();
@@ -26,45 +24,33 @@ namespace SeriesTracker.ViewModels
         [RelayCommand]
         public async Task SaveSeries()
         {
-            var newSeries = Series;
-            if (newSeries is null)
-                return;
-
-            var (isValid, errorMessage) = newSeries.Validate();
-            if (!isValid)
+            var (isValid, errorMessage) = Series.Validate();
+            if (isValid == false)
             {
-                await NewSeriesPageViewModel.ShowToast(errorMessage);
+                await ShowToast(errorMessage);
                 return;
             }
-            var old = await App.SeriesService.GetSeriesAsyncByName(newSeries.seriesName.ToLower().TrimEnd());
-            if (old != null) { await NewSeriesPageViewModel.ShowToast("Сериал со схожим названием уже есть в базе");
-                return;
-            }
-            var date = DateTime.Now.ToString();
-            newSeries.hiddenSeriesName = newSeries.seriesName.ToLower();
-            newSeries.addedDate = newSeries.addedDate == null ? date : newSeries.addedDate;
-            if (newSeries.SyncUid == 0)
+            Series.hiddenSeriesName = Series.seriesName.ToLower().TrimEnd();
+            if (Series.SyncUid == 0)
             {
-                newSeries.SyncUid = (newSeries.seriesName.ToLower().GetHashCode());
-                new Journal(new AddUpdateItem(newSeries.SyncUid, newSeries.SyncUid)).JournalToJson();
+                Series.SyncUid = (Series.hiddenSeriesName.ToLower().GetHashCode());
+                Series.addedDate = DateNow;
+                new Journal(new AddUpdateItem(Series.SyncUid, Series.SyncUid)).JournalToJson();
             }
             else
             {
-                new Journal(new AddUpdateItem(newSeries.hiddenSeriesName.GetHashCode(), newSeries.SyncUid), new DeleteItem(newSeries.SyncUid)).JournalToJson();
+                new Journal(new AddUpdateItem(Series.hiddenSeriesName.GetHashCode(), Series.SyncUid), new DeleteItem(Series.SyncUid)).JournalToJson();
             }
-            newSeries.ChangedDate = date;
+            Series.ChangedDate = DateNow;
 
-            await App.SeriesService.AddUpdateSeriesAsync(newSeries);
-            await Shell.Current.GoToAsync("..//..");
+            if (await App.SeriesService.AddUpdateSeriesAsync(Series) == false) { await ShowToast("Запись с таким названием уже есть в БД"); }
+            else await Shell.Current.GoToAsync("..//..");
         }
 
         private static async Task ShowToast(string text)
         {
-
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-
             var toast = Toast.Make(text, ToastDuration.Short, 14);
-
             await toast.Show(cancellationTokenSource.Token);
         }
     }

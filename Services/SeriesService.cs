@@ -1,7 +1,6 @@
 ﻿using SeriesTracker.Models;
 using SeriesTracker.Services.SyncJournal;
 using SQLite;
-using System.Security.Cryptography.X509Certificates;
 using static SeriesTracker.Services.Extensions.SeriesEqualExtension;
 
 namespace SeriesTracker.Services;
@@ -18,20 +17,23 @@ public class SeriesService : ISeriesRepository
     }
 
     /// <summary>
-    /// Adds an <see cref="Series"/> element to database.
+    /// Add or update an <see cref="Series"/> element to database.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="content"></param>
     /// <returns></returns>
     public async Task<bool> AddUpdateSeriesAsync(Series series)
     {
-        if (series.seriesId > 0)
+        switch (series.seriesId)
         {
-            await _database.UpdateAsync(series);
-        }
-        else
-        {
-            await _database.InsertAsync(series);
+            case > 0:
+                await _database.UpdateAsync(series);
+                break;
+
+            case <= 0:
+                if (await _database.Table<Series>().Where(n => n.hiddenSeriesName == series.hiddenSeriesName).FirstOrDefaultAsync() != null) return await Task.FromResult(false);
+                await _database.InsertAsync(series);
+                break;
         }
         return await Task.FromResult(true);
     }
@@ -100,6 +102,12 @@ public class SeriesService : ISeriesRepository
         return await _database.Table<Series>().Where(n => n.seriesId == seriesId).FirstOrDefaultAsync();
     }
 
+    /// <summary>
+    /// Returns an <see cref="Series"/> filtered by Series name.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="content"></param>
+    /// <returns></returns>
     public async Task<Series> GetSeriesAsyncByName(string name)
     {
         return await _database.Table<Series>().Where(n => n.hiddenSeriesName == name).FirstOrDefaultAsync();
