@@ -14,6 +14,12 @@ public partial class SettingsPage : ContentPage
         this.BindingContext = settingsPageViewModel = new SettingsPageViewModel(Navigation, this, fileSaver);
     }
 
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await settingsPageViewModel.OnAppearing();
+    }
+
     private void Picker_SelectedIndexChanged(object sender, EventArgs e)
     {
         Preferences.Set("AppTheme", SettingsService.Instance.Theme.AppTheme.ToString());

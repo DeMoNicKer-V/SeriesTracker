@@ -78,6 +78,29 @@ namespace SeriesTracker.ViewModels
         {
             await App.FirebaseService.OutSynchronize();
         }
+
+        [RelayCommand]
+        private async Task FullSync()
+        {
+            await App.FirebaseService.InSynchronize();
+            await App.FirebaseService.OutSynchronize();
+        }
+
+        [RelayCommand]
+        private async Task DeleteAllCloud()
+        {
+            await App.FirebaseService.DeleteAll();
+        }
+        [RelayCommand]
+        private async Task DeleteAllDataBase()
+        {
+            await App.SeriesService.DeleteAll();
+        }
+
+        public async Task OnAppearing()
+        {
+            AllSeriesCount = await App.SeriesService.GetAllSeriesCountSync();
+        }
         [RelayCommand]
         private async Task<FileResult> PickAndShow()
         {

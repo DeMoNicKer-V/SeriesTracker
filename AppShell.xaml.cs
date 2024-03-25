@@ -1,8 +1,5 @@
-﻿using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using SeriesTracker.Services.Constant;
-using SeriesTracker.ViewModels;
 using SeriesTracker.Views;
 using System.Windows.Input;
 using static SeriesTracker.Services.Constant.SeriesBaseParameters;
@@ -16,9 +13,10 @@ public partial class AppShell : Shell
         InitializeComponent();
         BindingContext = this;
     }
-    public ICommand CenterViewCommand { get; } = new Command(async () => await Shell.Current.GoToAsync(nameof(NewSeriesPage)));
-    [RelayCommand]
 
+    public ICommand CenterViewCommand { get; } = new Command(async () => await Shell.Current.GoToAsync(nameof(NewSeriesPage)));
+
+    [RelayCommand]
     protected override void OnNavigated(ShellNavigatedEventArgs args)
     {
         base.OnNavigated(args);
@@ -28,6 +26,7 @@ public partial class AppShell : Shell
             WeakReferenceMessenger.Default.Send(new TabbarChangedMessage(true));
         }
     }
+
     protected override void OnNavigating(ShellNavigatingEventArgs args)
     {
         base.OnNavigating(args);
@@ -36,16 +35,13 @@ public partial class AppShell : Shell
         {
             WeakReferenceMessenger.Default.Send(new TabbarChangedMessage(false));
         }
-        if (args.Target != null)
+        if (args.Target.Location.OriginalString.Contains("MainPage"))
         {
-            if (args.Target.Location.OriginalString.Contains("MainPage"))
-            {
-                WachedFlag = false;
-            }
-            else if (args.Target.Location.OriginalString.Contains("SecondPage"))
-            {
-                WachedFlag = true;
-            }    
+            WachedFlag = false;
+        }
+        else if (args.Target.Location.OriginalString.Contains("SecondPage"))
+        {
+            WachedFlag = true;
         }
     }
 }

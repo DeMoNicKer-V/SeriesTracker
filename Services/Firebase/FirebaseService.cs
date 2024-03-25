@@ -31,6 +31,12 @@ namespace SeriesTracker.Services.Firebase
 
         private FirebaseClient ActiveFirebaseClient { get; set; }
 
+        public async Task<bool> DeleteAll()
+        {
+            await ActiveFirebaseClient.Child("Series").DeleteAsync();
+            return await Task.FromResult(true);
+        }
+
         public async Task<bool> AddUpdateSeriesAsync(Series series)
         {
             if (series == null) return await Task.FromResult(false);

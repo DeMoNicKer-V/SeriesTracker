@@ -129,11 +129,11 @@
                 </Grid>
             </Border>
 
+
             <Border
                 Margin="20,10,20,10"
                 BackgroundColor="{AppThemeBinding Light=#f7f7f7,
                                                   Dark=#1e1e1e}"
-                HeightRequest="50"
                 Stroke="{AppThemeBinding Light=#f7f7f7,
                                          Dark=#1e1e1e}">
                 <Border.StrokeShape>
@@ -143,8 +143,153 @@
                     Margin="5"
                     Padding="5"
                     ColumnSpacing="10"
-                    RowSpacing="-10">
+                    RowSpacing="10">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="50" />
+                    </Grid.ColumnDefinitions>
+                    <Image
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        HeightRequest="25"
+                        HorizontalOptions="Center"
+                        Source="insync.png"
+                        VerticalOptions="Center"
+                        WidthRequest="25">
+                        <Image.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        </Image.Behaviors>
+                    </Image>
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        FontSize="16"
+                        HorizontalTextAlignment="Start"
+                        Text="Входящая синхронизация"
+                        VerticalTextAlignment="Center" />
+                    <ActivityIndicator
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        HeightRequest="40"
+                        IsRunning="False"
+                        WidthRequest="40" />
+                    <ImageButton
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Command="{Binding InPutSyncCommand}"
+                        HeightRequest="20"
+                        HorizontalOptions="Center"
+                        Source="fullcircle.png"
+                        VerticalOptions="Center"
+                        WidthRequest="20">
+                        <ImageButton.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                        </ImageButton.Behaviors>
+                    </ImageButton>
+                    <Image
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        HeightRequest="25"
+                        HorizontalOptions="Center"
+                        Source="outsync.png"
+                        VerticalOptions="Center"
+                        WidthRequest="25">
+                        <Image.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        </Image.Behaviors>
+                    </Image>
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        FontSize="16"
+                        HorizontalTextAlignment="Start"
+                        Text="Исходящая синхронизация"
+                        VerticalTextAlignment="Center" />
+                    <ActivityIndicator
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        HeightRequest="40"
+                        IsRunning="False"
+                        WidthRequest="40" />
+                    <ImageButton
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Command="{Binding InPutSyncCommand}"
+                        HeightRequest="20"
+                        HorizontalOptions="Center"
+                        Source="fullcircle.png"
+                        VerticalOptions="Center"
+                        WidthRequest="20">
+                        <ImageButton.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                        </ImageButton.Behaviors>
+                    </ImageButton>
+                    <Image
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        HeightRequest="25"
+                        HorizontalOptions="Center"
+                        Source="fullsync.png"
+                        VerticalOptions="Center"
+                        WidthRequest="25">
+                        <Image.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        </Image.Behaviors>
+                    </Image>
+                    <Label
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        FontSize="16"
+                        HorizontalTextAlignment="Start"
+                        Text="Полная синхронизация"
+                        VerticalTextAlignment="Center" />
+                    <ActivityIndicator
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        HeightRequest="40"
+                        IsRunning="False"
+                        WidthRequest="40" />
+                    <ImageButton
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Command="{Binding FullSyncCommand}"
+                        HeightRequest="20"
+                        HorizontalOptions="Center"
+                        Source="fullcircle.png"
+                        VerticalOptions="Center"
+                        WidthRequest="20">
+                        <ImageButton.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                        </ImageButton.Behaviors>
+                    </ImageButton>
+                </Grid>
+            </Border>
+
+
+
+
+            <Border
+                Margin="20,10,20,10"
+                BackgroundColor="{AppThemeBinding Light=#f7f7f7,
+                                                  Dark=#1e1e1e}"
+                Stroke="{AppThemeBinding Light=#f7f7f7,
+                                         Dark=#1e1e1e}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="5" />
+                </Border.StrokeShape>
+                <Grid
+                    Margin="5"
+                    Padding="5"
+                    ColumnSpacing="10"
+                    RowSpacing="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
@@ -169,7 +314,33 @@
                         FontAttributes="Bold"
                         FontSize="16"
                         HorizontalTextAlignment="Center"
-                        Text="Удалить ВСЕ данные"
+                        Text="Удалить ВСЕ данные в БД"
+                        TextColor="Red"
+                        VerticalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PickAndShowCommand}" NumberOfTapsRequired="1" />
+                        </Label.GestureRecognizers>
+
+                    </Label>
+                    <Image
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        HeightRequest="30"
+                        HorizontalOptions="Center"
+                        Source="importjson.png"
+                        VerticalOptions="Center"
+                        WidthRequest="30">
+                        <Image.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
+                        </Image.Behaviors>
+                    </Image>
+                    <Label
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Text="Удалить ВСЕ данные в облаке"
                         TextColor="Red"
                         VerticalTextAlignment="Center">
                         <Label.GestureRecognizers>
@@ -224,13 +395,14 @@
                         FontSize="13"
                         Text="Всего в базе данных:" />
                     <Label
+                        x:Name="mykey"
                         Grid.Row="0"
                         Grid.Column="2"
                         FontAttributes="Bold"
                         FontSize="13"
                         HorizontalOptions="End"
                         HorizontalTextAlignment="End"
-                        Text="999 записей" />
+                        Text="{Binding AllSeriesCount, StringFormat='{0} записей'}" />
 
                     <Image
                         Grid.Row="1"
@@ -263,68 +435,6 @@
                         Text="25 сентября, 2024 г." />
                 </Grid>
             </Border>
-
-            <Grid
-                Margin="20,10,20,10"
-                Padding="5"
-                RowSpacing="-10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="20" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <ActivityIndicator
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    HeightRequest="40"
-                    IsRunning="True"
-                    WidthRequest="40" />
-                <ImageButton
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Command="{Binding InPutSyncCommand}"
-                    HeightRequest="30"
-                    HorizontalOptions="Center"
-                    Source="cross.png"
-                    VerticalOptions="Center"
-                    WidthRequest="30" />
-                <Label
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    FontSize="10"
-                    HorizontalOptions="Center"
-                    IsEnabled="False"
-                    Text="Обновить данные в приложении"
-                    VerticalOptions="Center" />
-
-                <ActivityIndicator
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    HeightRequest="40"
-                    IsRunning="True"
-                    WidthRequest="40" />
-                <ImageButton
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    Command="{Binding OutPutSyncCommand}"
-                    HeightRequest="30"
-                    HorizontalOptions="Center"
-                    Source="cross.png"
-                    VerticalOptions="Center"
-                    WidthRequest="30" />
-                <Label
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    FontSize="10"
-                    HorizontalOptions="Center"
-                    IsEnabled="False"
-                    Text="Обновить данные в облаке"
-                    VerticalOptions="Center" />
-            </Grid>
         </StackLayout>
     </ScrollView>
 </ContentPage>

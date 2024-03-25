@@ -76,9 +76,13 @@
 	  <None Remove="Resources\Images\episode.png" />
 	  <None Remove="Resources\Images\exclamation.png" />
 	  <None Remove="Resources\Images\exportjson.png" />
+	  <None Remove="Resources\Images\fullcircle.png" />
+	  <None Remove="Resources\Images\fullsync.png" />
 	  <None Remove="Resources\Images\genres.png" />
+	  <None Remove="Resources\Images\insync.png" />
 	  <None Remove="Resources\Images\myanimelist.png" />
 	  <None Remove="Resources\Images\noimage.png" />
+	  <None Remove="Resources\Images\outsync.png" />
 	  <None Remove="Resources\Images\ratestar.png" />
 	  <None Remove="Resources\Images\releasecalendar.png" />
 	  <None Remove="Resources\Images\search.png" />

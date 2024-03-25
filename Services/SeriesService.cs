@@ -9,11 +9,17 @@ public class SeriesService : ISeriesRepository
 {
     public SQLiteAsyncConnection _database;
     public int relativeItemsCount;
+    public int AllDatabaseItemsCount;
 
     public SeriesService(string dbPath)
     {
         _database = new SQLiteAsyncConnection(dbPath);
         _database.CreateTableAsync<Series>().Wait();
+    }
+    public async Task<bool> DeleteAll() 
+    {
+        await _database.DeleteAllAsync<Series>();
+        return await Task.FromResult(true);
     }
 
     /// <summary>
@@ -172,6 +178,12 @@ public class SeriesService : ISeriesRepository
     /// <returns></returns>
     public async Task<int> GetAllSeriesCount(bool overFlag)
     {
+        AllDatabaseItemsCount = await _database.Table<Series>().CountAsync();
         return await Task.FromResult(await _database.Table<Series>().Where(s => s.isOver == overFlag).CountAsync());
+    }
+    public async Task<int> GetAllSeriesCountSync()
+    {
+
+        return await Task.FromResult(await _database.Table<Series>().CountAsync());
     }
 }

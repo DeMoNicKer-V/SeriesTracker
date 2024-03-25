@@ -183,7 +183,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="30" />
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
                     <HorizontalStackLayout
@@ -261,6 +261,7 @@
                         Grid.Column="2"
                         Clicked="ShowBottomSheet_Clicked"
                         HeightRequest="20"
+                        HorizontalOptions="End"
                         Rotation="90"
                         Source="dots.png"
                         WidthRequest="20">
