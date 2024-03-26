@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Maui.Storage;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SeriesTracker.Models;
@@ -12,10 +14,12 @@ namespace SeriesTracker.ViewModels
     public partial class SettingsPageViewModel : BaseSeriesModel
     {
         private readonly ContentPage _page;
-        private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        private static readonly CancellationTokenSource cancellationTokenSource = new();
         private IFileSaver fileSaver;
+
         [ObservableProperty]
         public int activeIndicator = 0;
+
         public SettingsPageViewModel(INavigation navigation, ContentPage contentPageBehavior, IFileSaver fileSaver)
         {
             Navigation = navigation;
@@ -59,7 +63,7 @@ namespace SeriesTracker.ViewModels
                 var newSeriesList = await App.SeriesService.GetSeriesAsync();
                 foreach (var item in newSeriesList)
                 {
-                    if (flag == true) item.seriesId = 0; 
+                    if (flag == true) item.seriesId = 0;
                     seriesList.Add(item);
                 }
             }
@@ -74,38 +78,39 @@ namespace SeriesTracker.ViewModels
         private async Task InPutSync()
         {
             IsBusy = true;
+            ActiveIndicator = 1;
             try
             {
                 await App.FirebaseService.InSynchronize();
             }
             catch (Exception)
             {
-
                 throw;
             }
-            finally { await OnAppearing();  }
+            finally { await OnAppearing(); await ShowToast("Входящая синхронизация выполнена"); }
         }
 
         [RelayCommand]
         private async Task OutPutSync()
         {
             IsBusy = true;
+            ActiveIndicator = 2;
             try
             {
                 await App.FirebaseService.OutSynchronize();
             }
             catch (Exception)
             {
-
                 throw;
             }
-            finally { await OnAppearing(); }
+            finally { await OnAppearing(); await ShowToast("Истодящая синхронизация выполнена"); }
         }
 
         [RelayCommand]
         private async Task FullSync()
         {
             IsBusy = true;
+            ActiveIndicator = 3;
             try
             {
                 await App.FirebaseService.InSynchronize();
@@ -113,10 +118,9 @@ namespace SeriesTracker.ViewModels
             }
             catch (Exception)
             {
-
                 throw;
             }
-            finally { await OnAppearing(); }
+            finally { await OnAppearing(); await ShowToast("Полная синхронизация выполнена"); }
         }
 
         [RelayCommand]
@@ -124,12 +128,15 @@ namespace SeriesTracker.ViewModels
         {
             await App.FirebaseService.DeleteAll();
             await OnAppearing();
+            await ShowToast("Все данные в облаке удалены");
         }
+
         [RelayCommand]
         private async Task OnDeleteAllDataBase()
         {
             await App.SeriesService.DeleteAll();
             await OnAppearing();
+            await ShowToast("Все данные в БД удалены");
         }
 
         public async Task OnAppearing()
@@ -138,6 +145,7 @@ namespace SeriesTracker.ViewModels
             AllSeriesCount = await App.SeriesService.GetAllSeriesCountSync();
             ActiveIndicator = 0;
         }
+
         [RelayCommand]
         private async Task<FileResult> PickAndShow()
         {
@@ -177,7 +185,6 @@ namespace SeriesTracker.ViewModels
                                 await App.SeriesService.AddUpdateSeriesAsync(series);
                             }
                         }
-                        //await Shell.Current.DisplayAlert("Данные импортированы", $"Кол-во импортированных сериалов: {pSeriesList.Count}", "Ок");
                     }
                 }
                 await OnAppearing();
@@ -185,11 +192,16 @@ namespace SeriesTracker.ViewModels
             }
             catch (Exception ex)
             {
-                // The user canceled or something went wrong
                 Debug.WriteLine(ex.Message);
             }
 
             return null;
+        }
+
+        private static async Task ShowToast(string text)
+        {
+            var toast = Toast.Make(text, ToastDuration.Short, 14);
+            await toast.Show(cancellationTokenSource.Token);
         }
     }
 }

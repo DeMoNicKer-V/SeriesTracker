@@ -28,19 +28,4 @@ public partial class SettingsPage : ContentPage
     {
         Preferences.Set("SyncType", SettingsService.Instance.Sync.SyncId);
     }
-
-    private void InPutSyncButton_Clicked(object sender, EventArgs e)
-    {
-        settingsPageViewModel.ActiveIndicator = 1;
-    }
-
-    private void OutPutSyncButton_Clicked(object sender, EventArgs e)
-    {
-        settingsPageViewModel.ActiveIndicator = 2;
-    }
-
-    private void FullSyncButton_Clicked(object sender, EventArgs e)
-    {
-        settingsPageViewModel.ActiveIndicator = 3;
-    }
 }

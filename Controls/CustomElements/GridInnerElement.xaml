@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="SeriesTracker.Controls.CustomElements.GridInnerElement"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Name="this">
+    <ContentView.Resources>
+        <Style x:Key="ImageCircleBtn" TargetType="ImageButton">
+            <Style.Triggers>
+                <DataTrigger
+                    Binding="{Binding IsBusy, Source={x:Reference this}}"
+                    TargetType="ImageButton"
+                    Value="True">
+                    <Setter Property="IsEnabled" Value="False" />
+                    <Setter Property="Source" Value="fullcircle.png" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+    </ContentView.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="50" />
+        </Grid.ColumnDefinitions>
+        <Image
+            Grid.Row="0"
+            Grid.Column="0"
+            HeightRequest="25"
+            HorizontalOptions="Center"
+            Source="{Binding ImageSource, Source={x:Reference this}}"
+            VerticalOptions="Center"
+            WidthRequest="25">
+            <Image.Behaviors>
+                <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
+            </Image.Behaviors>
+        </Image>
+        <Label
+            Grid.Row="0"
+            Grid.Column="1"
+            FontSize="16"
+            HorizontalTextAlignment="Start"
+            Text="{Binding Text, Source={x:Reference this}}"
+            VerticalTextAlignment="Center" />
+        <ImageButton
+            x:Name="SyncButton"
+            Grid.Row="0"
+            Grid.Column="2"
+            Clicked="ImageButton_Clicked"
+            HeightRequest="20"
+            HorizontalOptions="Center"
+            Source="circle.png"
+            Style="{StaticResource ImageCircleBtn}"
+            VerticalOptions="Center"
+            WidthRequest="20">
+            <ImageButton.Behaviors>
+                <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+            </ImageButton.Behaviors>
+        </ImageButton>
+    </Grid>
+</ContentView>
