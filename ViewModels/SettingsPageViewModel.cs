@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui.Storage;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SeriesTracker.Models;
 using System.Diagnostics;
@@ -13,6 +14,8 @@ namespace SeriesTracker.ViewModels
         private readonly ContentPage _page;
         private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private IFileSaver fileSaver;
+        [ObservableProperty]
+        public int activeIndicator = 0;
         public SettingsPageViewModel(INavigation navigation, ContentPage contentPageBehavior, IFileSaver fileSaver)
         {
             Navigation = navigation;
@@ -70,36 +73,70 @@ namespace SeriesTracker.ViewModels
         [RelayCommand]
         private async Task InPutSync()
         {
-            await App.FirebaseService.InSynchronize();
+            IsBusy = true;
+            try
+            {
+                await App.FirebaseService.InSynchronize();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally { await OnAppearing();  }
         }
 
         [RelayCommand]
         private async Task OutPutSync()
         {
-            await App.FirebaseService.OutSynchronize();
+            IsBusy = true;
+            try
+            {
+                await App.FirebaseService.OutSynchronize();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally { await OnAppearing(); }
         }
 
         [RelayCommand]
         private async Task FullSync()
         {
-            await App.FirebaseService.InSynchronize();
-            await App.FirebaseService.OutSynchronize();
+            IsBusy = true;
+            try
+            {
+                await App.FirebaseService.InSynchronize();
+                await App.FirebaseService.OutSynchronize();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally { await OnAppearing(); }
         }
 
         [RelayCommand]
-        private async Task DeleteAllCloud()
+        private async Task OnDeleteAllCloud()
         {
             await App.FirebaseService.DeleteAll();
+            await OnAppearing();
         }
         [RelayCommand]
-        private async Task DeleteAllDataBase()
+        private async Task OnDeleteAllDataBase()
         {
             await App.SeriesService.DeleteAll();
+            await OnAppearing();
         }
 
         public async Task OnAppearing()
         {
+            IsBusy = false;
             AllSeriesCount = await App.SeriesService.GetAllSeriesCountSync();
+            ActiveIndicator = 0;
         }
         [RelayCommand]
         private async Task<FileResult> PickAndShow()
@@ -143,7 +180,7 @@ namespace SeriesTracker.ViewModels
                         //await Shell.Current.DisplayAlert("Данные импортированы", $"Кол-во импортированных сериалов: {pSeriesList.Count}", "Ок");
                     }
                 }
-
+                await OnAppearing();
                 return result;
             }
             catch (Exception ex)

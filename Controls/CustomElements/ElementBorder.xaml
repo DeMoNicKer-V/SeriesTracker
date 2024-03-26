@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="SeriesTracker.Controls.CustomElements.ElementBorder"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Name="this">
+    <Border BackgroundColor="{AppThemeBinding Light={StaticResource LightElementBorderBackground}, Dark={StaticResource DarkElementBorderBackground}}" Stroke="{AppThemeBinding Light={StaticResource LightElementBorderBackground}, Dark={StaticResource DarkElementBorderBackground}}">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="5" />
+        </Border.StrokeShape>
+        <Grid
+            Margin="5"
+            Padding="5"
+            ColumnSpacing="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image
+                Grid.Row="0"
+                Grid.Column="0"
+                HeightRequest="30"
+                HorizontalOptions="Center"
+                Source="{Binding ImageSource, Source={x:Reference this}}"
+                VerticalOptions="Center"
+                WidthRequest="30">
+                <Image.Behaviors>
+                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
+                </Image.Behaviors>
+            </Image>
+            <Label
+                Grid.Row="0"
+                Grid.Column="1"
+                FontSize="16"
+                HorizontalTextAlignment="Center"
+                Text="{Binding Text, Source={x:Reference this}}"
+                TextColor="{Binding TextColor, Source={x:Reference this}}"
+                VerticalTextAlignment="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1" Tapped="TextLabelTapped" />
+                </Label.GestureRecognizers>
+
+            </Label>
+        </Grid>
+    </Border>
+</ContentView>

@@ -142,6 +142,9 @@
 	  <MauiXaml Update="Controls\CircularProgressBar\CircularProgressBar.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Controls\CustomElements\ElementBorder.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Controls\CustomEmptyView\CustomEmptyView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
