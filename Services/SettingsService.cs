@@ -35,9 +35,8 @@ namespace SeriesTracker.Services
             switch (syncId)
             {
                 case 0: return Sync.Off;
-                case 1: return Sync.AfterClose;
-                case 2: return Sync.OneDay;
-                case 3: return Sync.OneWeek;
+                case 1: return Sync.OneDay;
+                case 2: return Sync.OneWeek;
                 default: return Sync.Off;
             }
         }

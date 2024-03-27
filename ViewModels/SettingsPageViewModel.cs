@@ -13,24 +13,54 @@ namespace SeriesTracker.ViewModels
 {
     public partial class SettingsPageViewModel : BaseSeriesModel
     {
-        private readonly ContentPage _page;
-        private static readonly CancellationTokenSource cancellationTokenSource = new();
-        private IFileSaver fileSaver;
-
         [ObservableProperty]
         public int activeIndicator = 0;
 
-        public SettingsPageViewModel(INavigation navigation, ContentPage contentPageBehavior, IFileSaver fileSaver)
+        [ObservableProperty]
+        public string dateSyncLast;
+
+        private static readonly CancellationTokenSource cancellationTokenSource = new();
+        private static readonly string DateNow = DateTime.Now.ToString();
+        private readonly IFileSaver fileSaver;
+        private List<Series> SeriesList { get; set; } = new List<Series>();
+
+        public SettingsPageViewModel(IFileSaver fileSaver)
         {
-            Navigation = navigation;
-            _page = contentPageBehavior;
-            seriesList = new List<Series>();
             this.fileSaver = fileSaver;
+            var lastDate = Preferences.Get("LastSyncDate", "");
+            DateSyncLast = string.IsNullOrEmpty(lastDate) ? null : DateTime.Parse(lastDate).ToString("d MMMM, yyyy" + " г.");
         }
 
-        public List<Series> seriesList
+        public async Task OnAppearing()
         {
-            get;
+            IsBusy = false;
+            AllSeriesCount = await App.SeriesService.GetAllSeriesCountSync();
+            ActiveIndicator = 0;
+        }
+
+        private static async Task ShowToast(string text)
+        {
+            var toast = Toast.Make(text, ToastDuration.Short, 14);
+            await toast.Show(cancellationTokenSource.Token);
+        }
+
+        private async Task AfterSyncUpdate(string message)
+        {
+            await OnAppearing(); SetSyncLastDate(); await ShowToast(message);
+            var lastDate = Preferences.Get("LastSyncDate", "");
+            DateSyncLast = string.IsNullOrEmpty(lastDate) ? null : DateTime.Parse(lastDate).ToString("d MMMM, yyyy" + " г.");
+        }
+
+        private async Task<bool> CheckInternetAccess()
+        {
+            NetworkAccess accessType = Connectivity.Current.NetworkAccess;
+
+            if (accessType != NetworkAccess.Internet)
+            {
+                await ShowToast("Отсутствует интернет подключение");
+                return false;
+            }
+            return true;
         }
 
         [RelayCommand]
@@ -39,11 +69,11 @@ namespace SeriesTracker.ViewModels
             try
             {
                 await GetSeriesList(true);
-                if (seriesList.Count == 0)
+                if (SeriesList.Count == 0)
                 {
                     await Shell.Current.DisplayAlert("Произошла ошибка", "В базе данных не найдено элементов для экспорта.", "Ок");
                 }
-                var json = JsonSerializer.Serialize(seriesList);
+                var json = JsonSerializer.Serialize(SeriesList);
 
                 using var stream = new MemoryStream(Encoding.Default.GetBytes(json));
                 var path = await fileSaver.SaveAsync("SeriesTrackerData.json", stream, cancellationTokenSource.Token);
@@ -54,17 +84,35 @@ namespace SeriesTracker.ViewModels
             }
         }
 
+        [RelayCommand]
+        private async Task FullSync()
+        {
+            if (await CheckInternetAccess() == false) return;
+            IsBusy = true;
+            ActiveIndicator = 3;
+            try
+            {
+                await App.FirebaseService.InSynchronize();
+                await App.FirebaseService.OutSynchronize();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally { await AfterSyncUpdate("Полная синхронизация выполнена"); }
+        }
+
         private async Task GetSeriesList(bool flag)
         {
             IsBusy = true;
             try
             {
-                seriesList.Clear();
+                SeriesList.Clear();
                 var newSeriesList = await App.SeriesService.GetSeriesAsync();
                 foreach (var item in newSeriesList)
                 {
                     if (flag == true) item.seriesId = 0;
-                    seriesList.Add(item);
+                    SeriesList.Add(item);
                 }
             }
             catch (Exception ex)
@@ -77,6 +125,7 @@ namespace SeriesTracker.ViewModels
         [RelayCommand]
         private async Task InPutSync()
         {
+            if (await CheckInternetAccess() == false) return;
             IsBusy = true;
             ActiveIndicator = 1;
             try
@@ -87,45 +136,13 @@ namespace SeriesTracker.ViewModels
             {
                 throw;
             }
-            finally { await OnAppearing(); await ShowToast("Входящая синхронизация выполнена"); }
-        }
-
-        [RelayCommand]
-        private async Task OutPutSync()
-        {
-            IsBusy = true;
-            ActiveIndicator = 2;
-            try
-            {
-                await App.FirebaseService.OutSynchronize();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally { await OnAppearing(); await ShowToast("Истодящая синхронизация выполнена"); }
-        }
-
-        [RelayCommand]
-        private async Task FullSync()
-        {
-            IsBusy = true;
-            ActiveIndicator = 3;
-            try
-            {
-                await App.FirebaseService.InSynchronize();
-                await App.FirebaseService.OutSynchronize();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally { await OnAppearing(); await ShowToast("Полная синхронизация выполнена"); }
+            finally { await AfterSyncUpdate("Полная синхронизация выполнена"); }
         }
 
         [RelayCommand]
         private async Task OnDeleteAllCloud()
         {
+            if (await CheckInternetAccess() == false) return;
             await App.FirebaseService.DeleteAll();
             await OnAppearing();
             await ShowToast("Все данные в облаке удалены");
@@ -139,13 +156,22 @@ namespace SeriesTracker.ViewModels
             await ShowToast("Все данные в БД удалены");
         }
 
-        public async Task OnAppearing()
+        [RelayCommand]
+        private async Task OutPutSync()
         {
-            IsBusy = false;
-            AllSeriesCount = await App.SeriesService.GetAllSeriesCountSync();
-            ActiveIndicator = 0;
+            if (await CheckInternetAccess() == false) return;
+            IsBusy = true;
+            ActiveIndicator = 2;
+            try
+            {
+                await App.FirebaseService.OutSynchronize();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally { await AfterSyncUpdate("Полная синхронизация выполнена"); }
         }
-
         [RelayCommand]
         private async Task<FileResult> PickAndShow()
         {
@@ -178,7 +204,7 @@ namespace SeriesTracker.ViewModels
                         {
                             string jsonfileData = reader.ReadToEnd();
                             var pSeriesList = JsonSerializer.Deserialize<List<Series>>(jsonfileData);
-                            var resultList = pSeriesList.Except(seriesList, new SeriesSyncComparer()).ToList();
+                            var resultList = pSeriesList.Except(SeriesList, new SeriesSyncComparer()).ToList();
 
                             foreach (Series series in resultList)
                             {
@@ -198,10 +224,9 @@ namespace SeriesTracker.ViewModels
             return null;
         }
 
-        private static async Task ShowToast(string text)
+        private void SetSyncLastDate()
         {
-            var toast = Toast.Make(text, ToastDuration.Short, 14);
-            await toast.Show(cancellationTokenSource.Token);
+            Preferences.Set("LastSyncDate", DateNow);
         }
     }
 }

@@ -10,7 +10,7 @@ public partial class SettingsPage : ContentPage
     public SettingsPage(IFileSaver fileSaver)
     {
         InitializeComponent();
-        this.BindingContext = settingsPageViewModel = new SettingsPageViewModel(Navigation, this, fileSaver);
+        this.BindingContext = settingsPageViewModel = new SettingsPageViewModel(fileSaver);
     }
 
     protected override async void OnAppearing()

@@ -1,8 +1,12 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using SeriesTracker.Views;
+using System.Threading;
 using System.Windows.Input;
 using static SeriesTracker.Services.Constant.SeriesBaseParameters;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SeriesTracker;
 
@@ -43,5 +47,36 @@ public partial class AppShell : Shell
         {
             WachedFlag = true;
         }
+    }
+
+    private async Task Sync(string date, int daysCount) 
+    {
+        if (string.IsNullOrWhiteSpace(date)) return;
+        var lastDate = DateTime.Parse(date);
+        if (lastDate.AddDays(daysCount) < DateTime.Now)
+        {
+            await ShowToast("Идет синхронизация");
+            await App.FirebaseService.InSynchronize();
+            await App.FirebaseService.OutSynchronize();
+            await ShowToast("Синхронизация завершена");
+        }
+    }
+    private async void Shell_Loaded(object sender, EventArgs e)
+    {
+        if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet) return;
+        var SyncType = Preferences.Get("SyncType", 0);
+        switch (SyncType)
+        {
+            case 0: return; 
+            case 1: await Sync(Preferences.Get("LastSyncDate", ""),1); return;
+            case 2: await Sync(Preferences.Get("LastSyncDate", ""),7); return;
+            default:
+                return;
+        }
+    }
+    private static async Task ShowToast(string text)
+    {
+        var toast = Toast.Make(text, ToastDuration.Short, 14);
+        await toast.Show(new CancellationTokenSource().Token);
     }
 }

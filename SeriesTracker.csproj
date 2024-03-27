@@ -148,6 +148,9 @@
 	  <MauiXaml Update="Controls\CustomElements\GridInnerElement.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Controls\CustomElements\GridInnerElementLabel.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Controls\CustomEmptyView\CustomEmptyView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

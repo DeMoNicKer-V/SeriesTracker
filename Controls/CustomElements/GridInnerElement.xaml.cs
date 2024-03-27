@@ -5,16 +5,16 @@ namespace SeriesTracker.Controls.CustomElements;
 public partial class GridInnerElement : ContentView
 {
     public static readonly BindableProperty TextProperty =
-        BindableProperty.Create(nameof(Text), typeof(string), typeof(ElementBorder), string.Empty);
+        BindableProperty.Create(nameof(Text), typeof(string), typeof(GridInnerElement), string.Empty);
 
     public static readonly BindableProperty ImageSourceProperty =
-        BindableProperty.Create(nameof(ImageSource), typeof(string), typeof(ElementBorder), string.Empty);
+        BindableProperty.Create(nameof(ImageSource), typeof(string), typeof(GridInnerElement), string.Empty);
 
     public static readonly BindableProperty ClickCommandProperty =
-        BindableProperty.Create(nameof(ClickCommand), typeof(ICommand), typeof(ElementBorder), null);
+        BindableProperty.Create(nameof(ClickCommand), typeof(ICommand), typeof(GridInnerElement), null);
 
     public static readonly BindableProperty IsBusyProperty =
-        BindableProperty.Create(nameof(IsBusy), typeof(bool), typeof(ElementBorder), false);
+        BindableProperty.Create(nameof(IsBusy), typeof(bool), typeof(GridInnerElement), false);
 
     public GridInnerElement()
     {

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="SeriesTracker.Controls.CustomElements.GridInnerElementLabel"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Name="this">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="80" />
+        </Grid.ColumnDefinitions>
+
+        <Image
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="0,-5,0,0"
+            HeightRequest="25"
+            HorizontalOptions="Center"
+            Source="{Binding ImageSource, Source={x:Reference this}}"
+            VerticalOptions="Start"
+            WidthRequest="25">
+            <Image.Behaviors>
+                <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
+            </Image.Behaviors>
+        </Image>
+        <Label
+            Grid.Row="0"
+            Grid.Column="1"
+            FontAttributes="Bold"
+            FontSize="13"
+            Text="{Binding MainText, Source={x:Reference this}}" />
+        <Label
+            Grid.Row="0"
+            Grid.Column="2"
+            FontAttributes="Bold"
+            FontSize="13"
+            HorizontalOptions="End"
+            HorizontalTextAlignment="End"
+            Text="{Binding SubText, Source={x:Reference this}}" />
+    </Grid>
+</ContentView>

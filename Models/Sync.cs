@@ -3,9 +3,8 @@
     public sealed class Sync
     {
         public static readonly Sync Off = new(0, "Отключена");
-        public static readonly Sync AfterClose = new(1, "После закрытия");
-        public static readonly Sync OneDay = new(2, "Раз в день");
-        public static readonly Sync OneWeek = new(3, "Раз в неделю");
+        public static readonly Sync OneDay = new(1, "Раз в день");
+        public static readonly Sync OneWeek = new(2, "Раз в 7 дней");
 
         private Sync(int syncId, string displayName)
         {
@@ -19,7 +18,6 @@
         } = new()
     {
         Off,
-        AfterClose,
         OneDay,
         OneWeek
     };
