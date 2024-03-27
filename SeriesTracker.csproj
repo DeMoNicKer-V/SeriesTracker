@@ -67,8 +67,11 @@
 	  <None Remove="Resources\Images\category.png" />
 	  <None Remove="Resources\Images\circle.png" />
 	  <None Remove="Resources\Images\circumference.png" />
+	  <None Remove="Resources\Images\clouddelete.png" />
 	  <None Remove="Resources\Images\cross.png" />
+	  <None Remove="Resources\Images\databasearray.png" />
 	  <None Remove="Resources\Images\delete.png" />
+	  <None Remove="Resources\Images\deletedatabase.png" />
 	  <None Remove="Resources\Images\dot.png" />
 	  <None Remove="Resources\Images\downArrow.png" />
 	  <None Remove="Resources\Images\edit.png" />
@@ -80,6 +83,7 @@
 	  <None Remove="Resources\Images\fullsync.png" />
 	  <None Remove="Resources\Images\genres.png" />
 	  <None Remove="Resources\Images\insync.png" />
+	  <None Remove="Resources\Images\lastsync.png" />
 	  <None Remove="Resources\Images\myanimelist.png" />
 	  <None Remove="Resources\Images\noimage.png" />
 	  <None Remove="Resources\Images\outsync.png" />
@@ -89,6 +93,7 @@
 	  <None Remove="Resources\Images\settings.png" />
 	  <None Remove="Resources\Images\shikimori.png" />
 	  <None Remove="Resources\Images\star.png" />
+	  <None Remove="Resources\Images\sync.png" />
 	  <None Remove="Resources\Images\telegram.png" />
 	  <None Remove="Resources\Images\view.png" />
 	  <None Remove="Resources\Images\vision.png" />

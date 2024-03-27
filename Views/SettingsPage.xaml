@@ -141,12 +141,12 @@
         </Border>
 
         <custom:ElementBorder
-            ImageSource="exportjson.png"
+            ImageSource="deletedatabase.png"
             TappedCommand="{Binding DeleteAllDataBaseCommand}"
             Text="Удалить ВСЕ данные в БД"
             TextColor="{StaticResource Red}" />
         <custom:ElementBorder
-            ImageSource="importjson.png"
+            ImageSource="clouddelete.png"
             TappedCommand="{Binding DeleteAllCloudCommand}"
             Text="Удалить ВСЕ данные в облаке"
             TextColor="{StaticResource Red}" />
@@ -172,14 +172,14 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    ImageSource="tag.png"
+                    ImageSource="databasearray.png"
                     MainText="Всего в базе данных:"
                     SubText="{Binding AllSeriesCount, StringFormat='{0} записей'}" />
                 <custom:GridInnerElementLabel
                     Grid.Row="1"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    ImageSource="license.png"
+                    ImageSource="lastsync.png"
                     MainText="Последняя синхронизация:"
                     SubText="{Binding DateSyncLast, TargetNullValue='Отсутствует'}" />
                 <Line
@@ -194,7 +194,7 @@
                     Grid.Column="0"
                     HeightRequest="25"
                     HorizontalOptions="Center"
-                    Source="license.png"
+                    Source="sync.png"
                     VerticalOptions="Center"
                     WidthRequest="25">
                     <Image.Behaviors>
