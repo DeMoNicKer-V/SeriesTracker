@@ -200,8 +200,7 @@
                     <Border
                         Margin="10"
                         BackgroundColor="{AppThemeBinding Light={StaticResource ActivePageLightBorderBackground},
-                                                          Dark={StaticResource ActivePageDarkBorderBackground}}"
-                        HeightRequest="195">
+                                                          Dark={StaticResource ActivePageDarkBorderBackground}}" >
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="10" />
                         </Border.StrokeShape>

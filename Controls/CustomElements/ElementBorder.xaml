@@ -9,10 +9,7 @@
         <Border.StrokeShape>
             <RoundRectangle CornerRadius="5" />
         </Border.StrokeShape>
-        <Grid
-            Margin="5"
-            Padding="5"
-            ColumnSpacing="10">
+        <Grid Margin="5" Padding="5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>

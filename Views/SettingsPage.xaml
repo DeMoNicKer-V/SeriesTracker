@@ -9,8 +9,8 @@
     xmlns:settings="clr-namespace:SeriesTracker.Services"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     Title=""
-    BackgroundColor="{AppThemeBinding Light=#ffffff,
-                                      Dark=#121212}">
+    BackgroundColor="{AppThemeBinding Light={StaticResource White},
+                                      Dark={StaticResource DarkBackground}}">
     <ContentPage.Resources>
         <Style x:Key="ImageCircleBtn" TargetType="ImageButton">
             <Style.Triggers>
@@ -24,9 +24,8 @@
             </Style.Triggers>
         </Style>
     </ContentPage.Resources>
-    <StackLayout Margin="20,30,20,40" Spacing="10">
+    <StackLayout Margin="20,40,20,40" Spacing="10">
         <VerticalStackLayout
-            Margin="0,10,0,0"
             Padding="30,0"
             Spacing="25"
             VerticalOptions="Start">
@@ -214,10 +213,10 @@
                     x:DataType="{x:Null}"
                     BindingContext="{Binding Source={x:Static models:Sync.AvailableSyncs}}"
                     HorizontalOptions="End"
-                    SelectedIndexChanged="Picker_SelectedIndexChanged_1"
                     HorizontalTextAlignment="End"
                     ItemDisplayBinding="{Binding DisplayName}"
                     ItemsSource="{Binding Source={x:Static models:Sync.AvailableSyncs}}"
+                    SelectedIndexChanged="Picker_SelectedIndexChanged_1"
                     SelectedItem="{Binding Path=Sync, Source={x:Static settings:SettingsService.Instance}}"
                     VerticalOptions="Center" />
             </Grid>

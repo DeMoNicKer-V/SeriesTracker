@@ -95,6 +95,7 @@
 	  <None Remove="Resources\Images\star.png" />
 	  <None Remove="Resources\Images\sync.png" />
 	  <None Remove="Resources\Images\telegram.png" />
+	  <None Remove="Resources\Images\userrating.png" />
 	  <None Remove="Resources\Images\view.png" />
 	  <None Remove="Resources\Images\vision.png" />
 	  <None Remove="Resources\Images\watched.png" />

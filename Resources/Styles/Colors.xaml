@@ -23,7 +23,7 @@
     <Color x:Key="ActivePageDarkBorderBackground">#151515</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
     <Color x:Key="Tertiary">#2B0B98</Color>
-    <Color x:Key="White">#FAFAFA</Color>
+    <Color x:Key="White">#FFFFFF</Color>
     <Color x:Key="Black">Black</Color>
     <Color x:Key="Gray100">#E1E1E1</Color>
     <Color x:Key="Gray200">#C8C8C8</Color>

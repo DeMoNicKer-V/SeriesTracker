@@ -22,13 +22,12 @@ namespace SeriesTracker.ViewModels
         public int offset;
         public string quaryText;
         private MALBase MALBase;
-        private ObservableCollection<AnimeBase> seriesList = new ObservableCollection<AnimeBase>();
         private ShikimoriBase ShikimoriBase;
+        public ObservableCollection<AnimeBase> SeriesList { get; set; } = new ObservableCollection<AnimeBase>();
         public SeriesListPageViewModel(INavigation navigation, bool what)
         {
             Navigation = navigation;
             AnimeWhat = what;
-            BackCommand = new Command(OnBackCommand);
             ShikimoriBase = new ShikimoriBase();
             MALBase = new MALBase();
             Series = new Series();
@@ -36,42 +35,27 @@ namespace SeriesTracker.ViewModels
             offset = 0;
         }
 
-        public Command BackCommand { get; }
-        public ObservableCollection<AnimeBase> SeriesList
-        {
-            get
-            {
-                return seriesList;
-            }
-            set
-            {
-                seriesList = value;
-                OnPropertyChanged();
-            }
-        }
 
         [RelayCommand]
         public async Task AddSeries(AnimeBase anime)
         {
-            var newSeries = Series;
+            if (Series is null)  return;
             var _anime = anime;
-            if (newSeries is null)
-                return;
-            newSeries.seriesName = anime.Title;
-            newSeries.seriesDescription = anime.Description;
-            newSeries.imagePath = anime.PictureUrl;
-            newSeries.lastEpisode = anime.Episodes;
-            newSeries.releaseDate = DateTime.Parse(anime.StartDate);
-            var (isValid, errorMessage) = newSeries.Validate();
+            Series.seriesName = anime.Title;
+            Series.seriesDescription = anime.Description;
+            Series.imagePath = anime.PictureUrl;
+            Series.lastEpisode = anime.Episodes;
+            Series.releaseDate = DateTime.Parse(anime.StartDate);
+            var (isValid, errorMessage) = Series.Validate();
             if (!isValid)
             {
-                await SeriesListPageViewModel.ShowToast(errorMessage);
+                await ShowToast(errorMessage);
                 return;
             }
 
-            newSeries.hiddenSeriesName = newSeries.seriesName.ToLower();
-            newSeries.addedDate = DateTime.Now.ToString();
-            await App.SeriesService.AddUpdateSeriesAsync(newSeries);
+            Series.hiddenSeriesName = Series.seriesName.ToLower();
+            Series.addedDate = DateTime.Now.ToString();
+            await App.SeriesService.AddUpdateSeriesAsync(Series);
 
             await Shell.Current.GoToAsync("..//..");
         }
@@ -150,11 +134,6 @@ namespace SeriesTracker.ViewModels
             CurrentPage = 1;
             offset = 0;
             await OnAppearing();
-        }
-
-        private async void OnBackCommand()
-        {
-            await Shell.Current.GoToAsync("..");
         }
 
         [RelayCommand]
