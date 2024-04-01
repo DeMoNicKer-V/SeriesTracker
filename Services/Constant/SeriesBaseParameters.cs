@@ -24,6 +24,7 @@ namespace SeriesTracker.Services.Constant
         public static bool FavoriteFlag { get; set; }
 
         public static string QueryText { get; set; } = string.Empty;
+        public static string RequestText { get; set; } = string.Empty;
 
         public static async Task ShowToast(string text)
         {

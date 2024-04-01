@@ -9,7 +9,6 @@ namespace SeriesTracker.Classes.Shikimori
         [JsonProperty("poster")] public Poster poster = new();
         [JsonProperty("genres")] public Genre[] Genre { get; set; }
 
-
         [JsonIgnore]
         public override string Genres
         {
@@ -20,15 +19,19 @@ namespace SeriesTracker.Classes.Shikimori
 
         [JsonIgnore] public override string Description { get { return string.IsNullOrEmpty(description) ? description : Regex.Replace(description, @" ?\[.*?\]", " "); } set { } }
         [JsonProperty("duration")] public override double Duration { get; set; }
-        [JsonProperty("episodes")] public override int Episodes { get; set; }
+        [JsonProperty("episodes")] public int EpisodesInfo { get; set; }
+        [JsonIgnore] public override int Episodes { get { return EpisodesInfo > 0 ? EpisodesInfo : 1; } set { } }
 
         [JsonProperty("kind")] public override string Kind { get; set; }
         [JsonProperty("status")] public string StatuscInfo { get; set; }
-        [JsonIgnore] public override string Status
+
+        [JsonIgnore]
+        public override string Status
         {
             get { return ConvertStatusToDefault(StatuscInfo); }
             set { }
         }
+
         [JsonIgnore] public override string PictureUrl { get { return poster.OriginalUrl; } }
 
         [JsonIgnore]
@@ -54,6 +57,7 @@ namespace SeriesTracker.Classes.Shikimori
             }
             set { }
         }
+
         [JsonProperty("name")] public override string SubTitle { get; set; }
         [JsonProperty("russian")] public override string Title { get; set; }
         [JsonProperty("description")] private string description { get; set; }

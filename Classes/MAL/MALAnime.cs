@@ -1,18 +1,14 @@
 ﻿using SeriesTracker.Classes.Shikimori;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace SeriesTracker.Classes.MAL
 {
-    public class MALAnime :AnimeBase
+    public class MALAnime : AnimeBase
     {
-        [JsonPropertyName("title")] public override  string Title { get; set; }
+        [JsonPropertyName("title")] public override string Title { get; set; }
         [JsonPropertyName("mean")] public override double Score { get; set; }
-        [JsonPropertyName("num_episodes")] public override int Episodes { get; set; }
+        [JsonPropertyName("num_episodes")] public int EpisodesInfo { get; set; }
+        [JsonIgnore] public override int Episodes { get { return EpisodesInfo > 0 ? EpisodesInfo : 1; } set { } }
         [JsonPropertyName("start_date")] public string StartDateInfo { get; set; }
 
         [JsonIgnore]
@@ -28,10 +24,10 @@ namespace SeriesTracker.Classes.MAL
             }
             set { }
         }
+
         [JsonPropertyName("average_episode_duration")] public int SecondDuration { get; set; }
 
         [JsonPropertyName("genres")] public Genre[] Genre { get; set; }
-
 
         [JsonIgnore]
         public override string Genres
@@ -47,27 +43,31 @@ namespace SeriesTracker.Classes.MAL
             get { return SecondDuration > 0 ? Math.Floor(SecondDuration / 60.0) : SecondDuration; }
             set { }
         }
+
         [JsonPropertyName("synopsis")] public override string Description { get; set; }
         [JsonPropertyName("rating")] public string RatingInfo { get; set; }
 
-        [JsonIgnore] public override string Rating {
+        [JsonIgnore]
+        public override string Rating
+        {
             get { return ConvertRatingToImageName(RatingInfo); }
             set { }
         }
 
         [JsonPropertyName("status")] public string StatusInfo { get; set; }
-        
+
         [JsonIgnore]
         public override string Status
         {
             get { return ConvertStatusToDefault(StatusInfo); }
             set { }
         }
+
         [JsonPropertyName("media_type")] public override string Kind { get; set; }
         [JsonPropertyName("main_picture")] public PictureInfo Picture { get; set; } = new();
         [JsonIgnore] public override string PictureUrl { get { return Picture != null ? Picture.large : string.Empty; } }
         [JsonPropertyName("alternative_titles")] public AlternativeTitle AlternativeTitles { get; set; } = new();
-        [JsonIgnore] public override string SubTitle { get { return AlternativeTitles.EngTitle != null ? AlternativeTitles.EngTitle : AlternativeTitles.JapTitle;  } set { } }
+        [JsonIgnore] public override string SubTitle { get { return AlternativeTitles.EngTitle != null ? AlternativeTitles.EngTitle : AlternativeTitles.JapTitle; } set { } }
 
         protected override string ConvertRatingToImageName(string ratingName)
         {
@@ -93,6 +93,7 @@ namespace SeriesTracker.Classes.MAL
                     return ratingName;
             }
         }
+
         protected override string ConvertStatusToDefault(string statusName)
         {
             switch (statusName)
@@ -112,5 +113,4 @@ namespace SeriesTracker.Classes.MAL
             }
         }
     }
-
 }
