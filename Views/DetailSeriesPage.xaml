@@ -347,7 +347,6 @@
                     x:Name="descriptionExpander"
                     Grid.Row="4"
                     Grid.ColumnSpan="3"
-                    Padding="15,0,15,0"
                     ExpandedChanged="DescriptionAreaChanged"
                     VerticalOptions="CenterAndExpand">
                     <toolkit:Expander.Header>
@@ -370,13 +369,12 @@
                     </toolkit:Expander.Header>
                     <Label
                         x:Name="descriptionText"
-                        Margin="0,10,0,0"
-                        FontAutoScalingEnabled="True"
+                        Margin="10"
                         FontSize="14"
-                        HorizontalOptions="CenterAndExpand"
-                        HorizontalTextAlignment="Start"
+                        HorizontalTextAlignment="Center"
                         Text="{Binding Series.seriesDescription, TargetNullValue='..Описание отсутсвует..'}"
-                        VerticalOptions="FillAndExpand" />
+                        TextColor="{AppThemeBinding Light={StaticResource Gray900},
+                                                    Dark={StaticResource Gray200}}" />
                 </toolkit:Expander>
             </Grid>
 

@@ -3,7 +3,8 @@
     x:Class="SeriesTracker.Views.AnimeDetailPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:control="clr-namespace:SeriesTracker.Controls"
+    xmlns:controls="clr-namespace:SeriesTracker.Controls"
+    xmlns:service="clr-namespace:SeriesTracker.Services"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vModels="clr-namespace:SeriesTracker.ViewModels"
     Title=""
@@ -14,40 +15,52 @@
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsEnabled="False" IsVisible="False" />
     </Shell.BackButtonBehavior>
-    <ScrollView x:Name="baseContainer" VerticalScrollBarVisibility="Never">
+    <ScrollView
+        x:Name="baseContainer"
+        Margin="0,0,0,40"
+        VerticalScrollBarVisibility="Never">
         <VerticalStackLayout>
             <Grid x:Name="gridContainer">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25" />
-                    <RowDefinition Height="350" />
+                    <RowDefinition Height="330" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="25" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="260" />
+                    <ColumnDefinition Width="250" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Image
+
+                <Grid
                     Grid.Row="0"
                     Grid.RowSpan="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
-                    Aspect="Fill"
-                    Opacity="0.8"
-                    Source="{Binding Anime.PictureUrl}">
-                    <Image.Behaviors>
-                        <control:BlurBehavior Radius="50" />
-                    </Image.Behaviors>
-                </Image>
+                    HeightRequest="440"
+                    VerticalOptions="Start">
+                    <Image Aspect="Fill" Source="{Binding Anime.PictureUrl}">
+                        <Image.Behaviors>
+                            <controls:BlurBehavior Radius="10" />
+                        </Image.Behaviors>
+                    </Image>
+                    <Grid BackgroundColor="Transparent">
+                        <Grid.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Offset="0.3" Color="Transparent" />
+                                <GradientStop Offset="0.8" Color="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
+                            </LinearGradientBrush>
+                        </Grid.Background>
+                    </Grid>
+                </Grid>
                 <Border
                     Grid.Row="1"
                     Grid.Column="0"
                     Margin="0,15,0,0"
                     Padding="10"
-                    Background="#212121"
+                    Background="{StaticResource DarkDetailBorderStroke}"
                     HorizontalOptions="End"
                     Opacity="0.6"
                     Stroke="Transparent"
@@ -59,7 +72,7 @@
                         VerticalOptions="Start"
                         WidthRequest="15">
                         <Image.Behaviors>
-                            <toolkit:IconTintColorBehavior TintColor="#999999" />
+                            <toolkit:IconTintColorBehavior TintColor="{StaticResource Gray300}" />
                         </Image.Behaviors>
                     </Image>
                     <Border.StrokeShape>
@@ -72,16 +85,16 @@
                 <Border
                     Grid.Row="1"
                     Grid.Column="2"
-                    Margin="-10,15,0,0"
+                    Margin="0,15,0,0"
                     Padding="10"
-                    Background="#212121"
+                    Background="{StaticResource DarkDetailBorderStroke}"
                     HorizontalOptions="Start"
                     Opacity="0.6"
                     Stroke="Transparent"
                     VerticalOptions="Start">
                     <HorizontalStackLayout>
                         <Label
-                            x:Name="myLabel2"
+                            x:Name="ratingLabel"
                             Margin="0,0,5,0"
                             FontFamily="NunitoItalic"
                             FontSize="12"
@@ -109,14 +122,15 @@
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="10" />
                     </Border.StrokeShape>
-                    <Image Aspect="Fill" Source="{Binding Anime.PictureUrl}" />
+                    <Image Aspect="Fill" Source="{Binding Anime.PictureUrl, TargetNullValue='noimage.png'}" />
                 </Border>
 
                 <VerticalStackLayout
                     Grid.Row="2"
                     Grid.ColumnSpan="3"
-                    Margin="10,-5,10,0"
-                    HorizontalOptions="Center"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White},
+                                                      Dark={StaticResource Black}}"
+                    HorizontalOptions="Fill"
                     VerticalOptions="StartAndExpand">
                     <Label
                         x:Name="labelSeriesName"
@@ -125,13 +139,13 @@
                         FontSize="22"
                         HorizontalTextAlignment="Center"
                         Text="{Binding Anime.Title}"
-                        TextColor="{AppThemeBinding Light={StaticResource Black},
-                                                    Dark={StaticResource White}}" />
-
+                        TextColor="{AppThemeBinding Light={StaticResource Gray900},
+                                                    Dark={StaticResource Gray200}}" />
                     <StackLayout Margin="5">
                         <Line
-                            HorizontalOptions="Fill"
-                            Stroke="#999999"
+                            HorizontalOptions="Center"
+                            Stroke="{AppThemeBinding Light={StaticResource LineSeparatorColor},
+                                                     Dark={StaticResource ActivePageDarkGradient}}"
                             StrokeThickness="1.2"
                             X2="350" />
                     </StackLayout>
@@ -140,12 +154,15 @@
                 <Grid
                     Grid.Row="3"
                     Grid.ColumnSpan="3"
-                    Margin="15,0,15,0">
+                    Padding="15,0,15,0"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource White},
+                                                      Dark={StaticResource Black}}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30" />
                         <RowDefinition Height="30" />
                         <RowDefinition Height="30" />
                         <RowDefinition Height="30" />
+                        <RowDefinition Height="10" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="30" />
@@ -153,30 +170,30 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="40" />
                     </Grid.ColumnDefinitions>
-
                     <Border
                         Grid.Row="0"
                         Grid.RowSpan="2"
                         Grid.Column="3"
+                        Padding="5"
                         BackgroundColor="Transparent"
                         HeightRequest="40"
-                        Stroke="{StaticResource Gray300}"
+                        Stroke="{AppThemeBinding Light={StaticResource LightDetailBorderStroke},
+                                                 Dark={StaticResource DarkDetailBorderStroke}}"
                         VerticalOptions="Start"
                         WidthRequest="40">
                         <Label
                             x:Name="addAnimeBtn"
-                            Margin="0,-2,0,0"
+                            Margin="0,-7,0,0"
                             BackgroundColor="Transparent"
                             FontSize="30"
-                            HorizontalOptions="Fill"
                             HorizontalTextAlignment="Center"
                             Text="+"
-                            TextColor="{StaticResource Gray400}"
-                            VerticalOptions="Fill"
+                            TextColor="{AppThemeBinding Light={StaticResource Primary},
+                                                        Dark={StaticResource PrimaryDark}}"
                             VerticalTextAlignment="Center">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vModels:AnimeDetailPageViewModel}}, Path=AddSeriesCommand}"
+                                    Command="{Binding AddSeriesCommand}"
                                     CommandParameter="{Binding Anime}"
                                     NumberOfTapsRequired="1" />
                             </Label.GestureRecognizers>
@@ -188,27 +205,19 @@
                     <Image
                         Grid.Row="1"
                         Grid.Column="0"
-                        Margin="0,0,5,0"
-                        HeightRequest="25"
-                        HorizontalOptions="Center"
-                        Source="genres.png"
-                        VerticalOptions="Center"
-                        WidthRequest="25">
+                        Source="boldgenre.png"
+                        StyleClass="imageCell">
                         <Image.Behaviors>
-                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray100}}" />
                         </Image.Behaviors>
                     </Image>
                     <Image
                         Grid.Row="0"
                         Grid.Column="0"
-                        Margin="0,0,5,0"
-                        HeightRequest="25"
-                        HorizontalOptions="Center"
-                        Source="about.png"
-                        VerticalOptions="Center"
-                        WidthRequest="25">
+                        Source="info.png"
+                        StyleClass="imageCell">
                         <Image.Behaviors>
-                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray100}}" />
                         </Image.Behaviors>
                     </Image>
                     <HorizontalStackLayout
@@ -216,90 +225,72 @@
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
                         HorizontalOptions="Start">
+
                         <Label
                             Margin="0,5,3,0"
-                            FontAttributes="Italic"
-                            FontSize="9"
-                            Text="статус: "
-                            TextColor="Grey"
-                            VerticalTextAlignment="Center" />
-                        <Label Text="{Binding Anime.Status, Mode=OneWay}" VerticalTextAlignment="Center" />
+                            StyleClass="subText"
+                            Text="статус:" />
+                        <Label StyleClass="labelCell" Text="{Binding Anime.Status, Mode=OneWay}" />
                         <Label
-                            Margin="0,5,3,0"
-                            FontAttributes="Italic"
-                            FontSize="9"
-                            Text="дата выхода"
-                            TextColor="Grey"
-                            VerticalTextAlignment="Center" />
-                        <Label Text="{Binding Anime.StartDate, Mode=OneWay}" VerticalTextAlignment="Center" />
+                            Margin="5,5,3,0"
+                            StyleClass="subText"
+                            Text="дата выхода" />
+                        <Label StyleClass="labelCell" Text="{Binding Anime.StartDate, Mode=OneWay}" />
                     </HorizontalStackLayout>
                     <Image
                         Grid.Row="3"
                         Grid.Column="0"
-                        Margin="0,0,5,0"
-                        HeightRequest="25"
-                        HorizontalOptions="Center"
-                        Source="calendar.png"
-                        WidthRequest="25">
+                        Source="releasecalendar.png"
+                        StyleClass="imageCell">
                         <Image.Behaviors>
-                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray100}}" />
                         </Image.Behaviors>
                     </Image>
-
                     <Label
                         Grid.Row="1"
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
-                        FontAttributes="Italic"
-                        FontSize="14"
-                        HorizontalOptions="Start"
                         LineBreakMode="TailTruncation"
                         MaxLines="1"
-                        Text="{Binding Anime.Genres, StringFormat='{0} '}"
-                        TextColor="Grey"
-                        VerticalTextAlignment="Center" />
+                        StyleClass="labelCell"
+                        Text="{Binding Anime.Genres}" />
                     <HorizontalStackLayout
                         Grid.Row="0"
                         Grid.Column="1"
                         HorizontalOptions="Start">
                         <Label
-                            Text="Сериал"
-                            TextColor="Grey"
-                            VerticalTextAlignment="Center" />
+                            FontSize="14"
+                            StyleClass="labelCell"
+                            Text="{Binding Anime.Kind}"
+                            TextTransform="Uppercase" />
                         <Image
                             Margin="3,0,0,0"
                             HeightRequest="20"
                             Source="{Binding Anime.Rating, StringFormat='@ageLimit/{0}.png'}"
+                            StyleClass="imageCell"
                             WidthRequest="20">
                             <Image.Behaviors>
-                                <toolkit:IconTintColorBehavior TintColor="Grey" />
+                                <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray100}}" />
                             </Image.Behaviors>
                         </Image>
-
                     </HorizontalStackLayout>
 
                     <Label
                         Grid.Row="0"
                         Grid.Column="2"
-                        FontAttributes="Italic"
                         FontSize="14"
-                        HorizontalOptions="Start"
                         LineBreakMode="TailTruncation"
                         MaxLines="1"
-                        Text="{Binding Anime.SubTitle, StringFormat=', {0}'}"
-                        TextColor="Grey"
-                        VerticalTextAlignment="Center" />
+                        StyleClass="labelCell"
+                        Text="{Binding Anime.SubTitle, StringFormat=', {0}'}" />
 
                     <Image
                         Grid.Row="2"
                         Grid.Column="0"
-                        Margin="0,0,5,0"
-                        HeightRequest="25"
-                        HorizontalOptions="Center"
                         Source="episode.png"
-                        WidthRequest="25">
+                        StyleClass="imageCell">
                         <Image.Behaviors>
-                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                            <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray100}}" />
                         </Image.Behaviors>
                     </Image>
                     <HorizontalStackLayout
@@ -309,20 +300,14 @@
                         HorizontalOptions="Start">
                         <Label
                             Margin="0,5,3,0"
-                            FontAttributes="Italic"
-                            FontSize="9"
-                            Text="всего эп."
-                            TextColor="Grey"
-                            VerticalTextAlignment="Center" />
-                        <Label Text="{Binding Anime.Episodes, Mode=OneWay}" VerticalTextAlignment="Center" />
+                            StyleClass="subText"
+                            Text="всего эп." />
+                        <Label StyleClass="labelCell" Text="{Binding Anime.Episodes, Mode=OneWay}" />
                         <Label
                             Margin="5,5,3,0"
-                            FontAttributes="Italic"
-                            FontSize="9"
-                            Text="ср. продолж."
-                            TextColor="Grey"
-                            VerticalTextAlignment="Center" />
-                        <Label Text="{Binding Anime.Duration, Mode=OneWay, StringFormat='~{0} мин.'}" VerticalTextAlignment="Center" />
+                            StyleClass="subText"
+                            Text="ср. продолжительность:" />
+                        <Label StyleClass="labelCell" Text="{Binding Anime.Duration, Mode=OneWay, StringFormat='~{0} мин.'}" />
                     </HorizontalStackLayout>
                 </Grid>
 
@@ -330,37 +315,34 @@
                     x:Name="descriptionExpander"
                     Grid.Row="4"
                     Grid.ColumnSpan="3"
-                    Margin="15,0,15,10"
-                    ExpandedChanged="descriptionExpander_ExpandedChanged"
-                    MinimumHeightRequest="290"
+                    ExpandedChanged="DescriptionAreaChanged"
                     VerticalOptions="CenterAndExpand">
                     <toolkit:Expander.Header>
                         <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
                             <Label
                                 x:Name="descriptionCaption"
-                                FontAttributes="Italic"
                                 FontFamily="NunitoItalic"
-                                FontSize="14"
-                                Text="Открыть описание" />
+                                Text="Открыть описание"
+                                TextColor="{StaticResource Gray600}" />
                             <Image
                                 x:Name="descriptionImage"
                                 HeightRequest="20"
                                 Source="downarrow.png"
                                 WidthRequest="20">
                                 <Image.Behaviors>
-                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
                                 </Image.Behaviors>
                             </Image>
                         </HorizontalStackLayout>
                     </toolkit:Expander.Header>
                     <Label
                         x:Name="descriptionText"
-                        FontAutoScalingEnabled="True"
+                        Margin="10"
                         FontSize="14"
-                        HorizontalOptions="CenterAndExpand"
-                        HorizontalTextAlignment="Start"
-                        Text="{Binding Anime.Description}"
-                        VerticalOptions="FillAndExpand" />
+                        HorizontalTextAlignment="Center"
+                        Text="{Binding Anime.Description, TargetNullValue='..Описание отсутсвует..'}"
+                        TextColor="{AppThemeBinding Light={StaticResource Gray900},
+                                                    Dark={StaticResource Gray200}}" />
                 </toolkit:Expander>
             </Grid>
         </VerticalStackLayout>

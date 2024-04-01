@@ -24,7 +24,7 @@ public partial class AnimeDetailPage : ContentPage
         }
     }
 
-    private async void descriptionExpander_ExpandedChanged(object sender, CommunityToolkit.Maui.Core.ExpandedChangedEventArgs e)
+    private async void DescriptionAreaChanged(object sender, CommunityToolkit.Maui.Core.ExpandedChangedEventArgs e)
     {
         if (descriptionExpander.IsExpanded)
         {
@@ -34,7 +34,6 @@ public partial class AnimeDetailPage : ContentPage
         }
         else
         {
-            await baseContainer.ScrollToAsync(gridContainer, ScrollToPosition.Start, false);
             descriptionCaption.Text = "Открыть описание";
             await descriptionImage.RotateXTo(0, 200);
         }

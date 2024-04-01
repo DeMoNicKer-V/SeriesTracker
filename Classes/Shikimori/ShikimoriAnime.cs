@@ -21,7 +21,14 @@ namespace SeriesTracker.Classes.Shikimori
         [JsonIgnore] public override string Description { get { return string.IsNullOrEmpty(description) ? description : Regex.Replace(description, @" ?\[.*?\]", " "); } set { } }
         [JsonProperty("duration")] public override double Duration { get; set; }
         [JsonProperty("episodes")] public override int Episodes { get; set; }
+
         [JsonProperty("kind")] public override string Kind { get; set; }
+        [JsonProperty("status")] public string StatuscInfo { get; set; }
+        [JsonIgnore] public override string Status
+        {
+            get { return ConvertStatusToDefault(StatuscInfo); }
+            set { }
+        }
         [JsonIgnore] public override string PictureUrl { get { return poster.OriginalUrl; } }
 
         [JsonIgnore]
@@ -47,8 +54,6 @@ namespace SeriesTracker.Classes.Shikimori
             }
             set { }
         }
-
-        [JsonProperty("status")] public string Status { get; set; }
         [JsonProperty("name")] public override string SubTitle { get; set; }
         [JsonProperty("russian")] public override string Title { get; set; }
         [JsonProperty("description")] private string description { get; set; }
@@ -75,6 +80,25 @@ namespace SeriesTracker.Classes.Shikimori
                 case null: return "none";
                 default:
                     return ratingName;
+            }
+        }
+
+        protected override string ConvertStatusToDefault(string statusName)
+        {
+            switch (statusName)
+            {
+                case "anons":
+                    return "Анонс";
+
+                case "ongoing":
+                    return "Онгоинг";
+
+                case "released":
+                    return "Вышло";
+
+                case null: return "Неизвестно";
+                default:
+                    return statusName;
             }
         }
     }

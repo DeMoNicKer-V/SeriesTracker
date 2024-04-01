@@ -203,7 +203,6 @@
                             <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
                                 <Label
                                     x:Name="descriptionCaption"
-                                    FontAttributes="Italic"
                                     FontFamily="NunitoItalic"
                                     FontSize="14"
                                     Text="Открыть описание"

@@ -61,6 +61,8 @@
 	  <None Remove="Resources\Images\ageLimit\rplus.png" />
 	  <None Remove="Resources\Images\ageLimit\rx.png" />
 	  <None Remove="Resources\Images\backarrow.png" />
+	  <None Remove="Resources\Images\boldgenre.png" />
+	  <None Remove="Resources\Images\boldinfo.png" />
 	  <None Remove="Resources\Images\bookmark.png" />
 	  <None Remove="Resources\Images\calendar.png" />
 	  <None Remove="Resources\Images\cancel.png" />

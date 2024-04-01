@@ -13,7 +13,21 @@ namespace SeriesTracker.Classes.MAL
         [JsonPropertyName("title")] public override  string Title { get; set; }
         [JsonPropertyName("mean")] public override double Score { get; set; }
         [JsonPropertyName("num_episodes")] public override int Episodes { get; set; }
-        [JsonPropertyName("start_date")] public override string StartDate { get; set; }
+        [JsonPropertyName("start_date")] public string StartDateInfo { get; set; }
+
+        [JsonIgnore]
+        public override string StartDate
+        {
+            get
+            {
+                if (StartDateInfo != null)
+                {
+                    return DateTime.Parse(StartDateInfo).ToString("d MMMM, yyyy") + " г.";
+                }
+                return StartDateInfo;
+            }
+            set { }
+        }
         [JsonPropertyName("average_episode_duration")] public int SecondDuration { get; set; }
 
         [JsonPropertyName("genres")] public Genre[] Genre { get; set; }
@@ -40,8 +54,16 @@ namespace SeriesTracker.Classes.MAL
             get { return ConvertRatingToImageName(RatingInfo); }
             set { }
         }
+
+        [JsonPropertyName("status")] public string StatusInfo { get; set; }
+        
+        [JsonIgnore]
+        public override string Status
+        {
+            get { return ConvertStatusToDefault(StatusInfo); }
+            set { }
+        }
         [JsonPropertyName("media_type")] public override string Kind { get; set; }
-        [JsonPropertyName("status")] public string Status { get; set; }
         [JsonPropertyName("main_picture")] public PictureInfo Picture { get; set; } = new();
         [JsonIgnore] public override string PictureUrl { get { return Picture != null ? Picture.large : string.Empty; } }
         [JsonPropertyName("alternative_titles")] public AlternativeTitle AlternativeTitles { get; set; } = new();
@@ -69,6 +91,24 @@ namespace SeriesTracker.Classes.MAL
                 case null: return "none";
                 default:
                     return ratingName;
+            }
+        }
+        protected override string ConvertStatusToDefault(string statusName)
+        {
+            switch (statusName)
+            {
+                case "not_yet_aired":
+                    return "Анонсировано";
+
+                case "currently_airing":
+                    return "Онгоинг";
+
+                case "finished_airing":
+                    return "Вышло";
+
+                case null: return "Неизвестно";
+                default:
+                    return statusName;
             }
         }
     }

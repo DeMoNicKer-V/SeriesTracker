@@ -31,9 +31,8 @@ namespace SeriesTracker.ViewModels
             }
             Series.hiddenSeriesName = Series.seriesName.ToLower();
             Series.addedDate = DateTime.Now.ToString();
-            await App.SeriesService.AddUpdateSeriesAsync(Series);
-
-            await Shell.Current.GoToAsync("..//..//..");
+            if (await App.SeriesService.AddUpdateSeriesAsync(Series) == false) { await ShowToast("Запись с таким названием уже есть в БД"); }
+            else await Shell.Current.GoToAsync("..//..//..");
         }
     }
 }

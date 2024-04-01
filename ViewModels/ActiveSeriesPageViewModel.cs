@@ -30,6 +30,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     {
         Navigation = navigation;
         _page = contentPageBehavior;
+        QueryText = string.Empty;
     }
 
     public async Task OnAppearing()
