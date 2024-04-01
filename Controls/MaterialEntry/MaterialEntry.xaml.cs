@@ -1,4 +1,4 @@
-namespace SeriesTracker.Controls.MaterialEntry;
+namespace SeriesTracker.Controls;
 
 public partial class MaterialEntry : ContentView
 {

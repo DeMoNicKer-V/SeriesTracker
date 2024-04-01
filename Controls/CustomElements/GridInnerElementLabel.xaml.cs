@@ -1,6 +1,6 @@
 using static System.Net.Mime.MediaTypeNames;
 
-namespace SeriesTracker.Controls.CustomElements;
+namespace SeriesTracker.Controls;
 
 public partial class GridInnerElementLabel : ContentView
 {

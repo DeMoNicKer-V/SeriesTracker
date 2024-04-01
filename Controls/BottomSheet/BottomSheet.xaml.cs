@@ -1,7 +1,7 @@
-using SeriesTracker.Controls;
 using CommunityToolkit.Maui.Views;
+using SeriesTracker.Controls.CustomPopUp;
 
-namespace SeriesTracker.Controls.BottomSheet;
+namespace SeriesTracker.Controls;
 
 public partial class BottomSheet : ContentView
 {
@@ -104,7 +104,7 @@ public partial class BottomSheet : ContentView
 
     private async void DeleteButton_Clicked(object sender, EventArgs e)
     {
-        var popup = new SeriesTracker.Controls.DeleteAlert.DeleteAlert();
+        var popup = new DeleteAlert();
         popup.Title = Title;
         var result = await ContentPageBehavior.ShowPopupAsync(popup);
 

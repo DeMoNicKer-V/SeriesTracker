@@ -145,9 +145,6 @@
 	  <MauiXaml Update="Controls\BottomSheet\BottomSheet.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Controls\CircularProgressBar\CircularProgressBar.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Controls\CustomElements\ElementBorder.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -160,19 +157,19 @@
 	  <MauiXaml Update="Controls\CustomEmptyView\CustomEmptyView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Controls\DeleteAlert\DeleteAlert.xaml">
+	  <MauiXaml Update="Controls\CustomPopUp\DeleteAlert.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Controls\MaterialEntry\MaterialEntry.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Controls\PopUp\ActivePagePopUp.xaml">
+	  <MauiXaml Update="Controls\CustomPopUp\ActivePagePopUp.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Controls\PopUp\CustomAlert.xaml">
+	  <MauiXaml Update="Controls\CustomPopUp\CustomAlert.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Controls\RatingSlider.xaml">
+	  <MauiXaml Update="Controls\RatingSlider\RatingSlider.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Controls\SearchImageResult\SearchImageResult.xaml">

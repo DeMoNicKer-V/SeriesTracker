@@ -1,6 +1,6 @@
 using System.Windows.Input;
 
-namespace SeriesTracker.Controls.CustomElements;
+namespace SeriesTracker.Controls;
 
 public partial class ElementBorder : ContentView
 {

@@ -1,6 +1,6 @@
 using CommunityToolkit.Maui.Views;
 
-namespace SeriesTracker.Controls.PopUp;
+namespace SeriesTracker.Controls.CustomPopUp;
 
 public partial class CustomAlert : Popup
 {

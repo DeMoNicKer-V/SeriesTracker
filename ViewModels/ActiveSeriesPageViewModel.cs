@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.Input;
-using SeriesTracker.Controls.PopUp;
+using SeriesTracker.Controls.CustomPopUp;
 using SeriesTracker.Models;
 using SeriesTracker.Views;
 using System.Collections.ObjectModel;
@@ -12,7 +12,6 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
 {
     private readonly ContentPage _page;
     private ActivePagePopUp activeSeriesPagePopUp;
-    private Series currentSeries;
 
     private ObservableCollection<Series> seriesList = new();
     public ObservableCollection<Series> SeriesList

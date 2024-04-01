@@ -3,7 +3,7 @@
     x:Class="SeriesTracker.Views.AnimeDetailPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:BlurBehavior="clr-namespace:SeriesTracker.Behaviors"
+    xmlns:control="clr-namespace:SeriesTracker.Controls"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vModels="clr-namespace:SeriesTracker.ViewModels"
     Title=""
@@ -39,7 +39,7 @@
                     Opacity="0.8"
                     Source="{Binding Anime.PictureUrl}">
                     <Image.Behaviors>
-                        <BlurBehavior:BlurBehavior Radius="50" />
+                        <control:BlurBehavior Radius="50" />
                     </Image.Behaviors>
                 </Image>
                 <Border

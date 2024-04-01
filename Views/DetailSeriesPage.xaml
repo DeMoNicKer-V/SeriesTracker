@@ -3,11 +3,7 @@
     x:Class="SeriesTracker.Views.DetailSeriesPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:BlurBehavior="clr-namespace:SeriesTracker.Behaviors"
-    xmlns:cProgressBar="clr-namespace:SeriesTracker.Controls.CircularProgressBar"
     xmlns:controls="clr-namespace:SeriesTracker.Controls"
-    xmlns:local="clr-namespace:SeriesTracker.Controls.BottomSheet"
-    xmlns:mEntry="clr-namespace:SeriesTracker.Controls.MaterialEntry"
     xmlns:service="clr-namespace:SeriesTracker.Services"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     Title=""
@@ -46,7 +42,7 @@
                     VerticalOptions="Start">
                     <Image Aspect="Fill" Source="{Binding Series.imagePath}">
                         <Image.Behaviors>
-                            <BlurBehavior:BlurBehavior Radius="10" />
+                            <controls:BlurBehavior Radius="10" />
                         </Image.Behaviors>
                     </Image>
                     <Grid BackgroundColor="Transparent">
@@ -384,7 +380,7 @@
                 </toolkit:Expander>
             </Grid>
 
-            <local:BottomSheet
+            <controls:BottomSheet
                 x:Name="BottomSheet"
                 toolkit:DockLayout.DockPosition="Bottom"
                 CloseCommand="{Binding CloseCommand}"

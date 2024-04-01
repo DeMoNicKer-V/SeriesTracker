@@ -2,9 +2,8 @@
 using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Storage;
 using SeriesTracker.Views;
-using SeriesTracker.Controls.MaterialEntry;
+using SeriesTracker.Controls;
 using Microsoft.Maui.LifecycleEvents;
-using SeriesTracker.Behaviors;
 
 namespace SeriesTracker;
 public static class MauiProgram

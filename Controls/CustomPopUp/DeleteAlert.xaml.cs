@@ -1,6 +1,6 @@
 using CommunityToolkit.Maui.Views;
 
-namespace SeriesTracker.Controls.DeleteAlert;
+namespace SeriesTracker.Controls.CustomPopUp;
 
 public partial class DeleteAlert : Popup
 {

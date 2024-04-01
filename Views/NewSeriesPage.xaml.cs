@@ -1,10 +1,9 @@
-using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Behaviors;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Core.Platform;
 using CommunityToolkit.Maui.Views;
-using SeriesTracker.Controls.PopUp;
-using SeriesTracker.Controls.SearchImageResult;
+using SeriesTracker.Controls.CustomPopUp;
+using SeriesTracker.Controls;
 using SeriesTracker.Models;
 using SeriesTracker.ViewModels;
 using Color = Microsoft.Maui.Graphics.Color;

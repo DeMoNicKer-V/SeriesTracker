@@ -3,7 +3,7 @@ using SeriesTracker.Services.Exceptions;
 using SeriesTracker.Services.GoogleApi;
 using System.Xml.Linq;
 
-namespace SeriesTracker.Controls.SearchImageResult;
+namespace SeriesTracker.Controls;
 
 public partial class SearchImageResult : Popup
 {

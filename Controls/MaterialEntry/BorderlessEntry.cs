@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SeriesTracker.Controls.MaterialEntry
+namespace SeriesTracker.Controls
 {
     public class BorderlessEntry : Entry
     {

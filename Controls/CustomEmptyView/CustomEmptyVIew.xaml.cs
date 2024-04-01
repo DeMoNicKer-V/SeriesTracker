@@ -1,4 +1,4 @@
-namespace SeriesTracker.Controls.CustomEmptyView;
+namespace SeriesTracker.Controls;
 
 public partial class CustomEmptyView : ContentView
 {

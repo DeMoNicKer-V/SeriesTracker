@@ -2,7 +2,7 @@ using CommunityToolkit.Maui.Views;
 using SeriesTracker.Services.Constant;
 using static SeriesTracker.Services.Constant.SeriesBaseParameters;
 
-namespace SeriesTracker.Controls.PopUp;
+namespace SeriesTracker.Controls.CustomPopUp;
 
 public partial class ActivePagePopUp : Popup
 {
@@ -93,8 +93,10 @@ public partial class ActivePagePopUp : Popup
     private async void DeleteButton_Clicked(object sender, EventArgs e)
     {
         this.Close();
-        var popup = new SeriesTracker.Controls.DeleteAlert.DeleteAlert();
-        popup.Title = Title;
+        var popup = new DeleteAlert
+        {
+            Title = Title
+        };
         var result = await ContentPageBehavior.ShowPopupAsync(popup);
 
         if (result is bool boolResult)
