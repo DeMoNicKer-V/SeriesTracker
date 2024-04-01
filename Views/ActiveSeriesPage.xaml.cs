@@ -6,12 +6,12 @@ namespace SeriesTracker.Views;
 
 public partial class ActiveSeriesPage : ContentPage
 {
-    private ActiveSeriesPageViewModel activeSeriesPageViewModel;
+    private readonly ActiveSeriesPageViewModel activeSeriesPageViewModel;
 
     public ActiveSeriesPage()
     {
         InitializeComponent();
-        this.BindingContext = activeSeriesPageViewModel = new ActiveSeriesPageViewModel(Navigation, this);
+        BindingContext = activeSeriesPageViewModel = new ActiveSeriesPageViewModel(Navigation, this);
     }
 
     protected override async void OnAppearing()
@@ -25,7 +25,6 @@ public partial class ActiveSeriesPage : ContentPage
         if (string.IsNullOrWhiteSpace(e.NewTextValue))
         {
             searchbarClearBtn.IsVisible = false;
-            QueryText = string.Empty;
         }
         else searchbarClearBtn.IsVisible = true;
     }
@@ -35,9 +34,10 @@ public partial class ActiveSeriesPage : ContentPage
         searchBar.Unfocus();
         if (!string.IsNullOrWhiteSpace(QueryText))
         {
-            searchBar.Text = string.Empty;
+            QueryText = string.Empty;
             OnAppearing();
         }
+        searchBar.Text = string.Empty;
     }
 
     private void SearchBar_Completed(object sender, EventArgs e)

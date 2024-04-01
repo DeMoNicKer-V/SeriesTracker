@@ -10,24 +10,22 @@ using SeriesTracker.Services.MALBase;
 using SeriesTracker.Services.ShikimoriBase;
 using SeriesTracker.Views;
 using System.Collections.ObjectModel;
+using static SeriesTracker.Services.Constant.SeriesBaseParameters;
 
 namespace SeriesTracker.ViewModels
 {
     public partial class SeriesListPageViewModel : BaseSeriesModel
     {
-        public bool AnimeWhat = false;
+
         [ObservableProperty]
         public int currentPage;
-
         public int offset;
-        public string quaryText;
         private MALBase MALBase;
         private ShikimoriBase ShikimoriBase;
         public ObservableCollection<AnimeBase> SeriesList { get; set; } = new ObservableCollection<AnimeBase>();
-        public SeriesListPageViewModel(INavigation navigation, bool what)
+        public SeriesListPageViewModel(INavigation navigation)
         {
             Navigation = navigation;
-            AnimeWhat = what;
             ShikimoriBase = new ShikimoriBase();
             MALBase = new MALBase();
             Series = new Series();
@@ -40,7 +38,6 @@ namespace SeriesTracker.ViewModels
         public async Task AddSeries(AnimeBase anime)
         {
             if (Series is null)  return;
-            var _anime = anime;
             Series.seriesName = anime.Title;
             Series.seriesDescription = anime.Description;
             Series.imagePath = anime.PictureUrl;
@@ -66,15 +63,6 @@ namespace SeriesTracker.ViewModels
             await LoadSeries();
         }
 
-        private static async Task ShowToast(string text)
-        {
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-
-            var toast = Toast.Make(text, ToastDuration.Short, 14);
-
-            await toast.Show(cancellationTokenSource.Token);
-        }
-
         [RelayCommand]
         private async Task DetailView(AnimeBase anime)
         {
@@ -86,14 +74,14 @@ namespace SeriesTracker.ViewModels
             IsBusy = true;
             try
             {
-                if (AnimeWhat == false)
+                if (AnimeSourceSite == false)
                 {
                     var graphQLResponse = new GraphQLResponse<AnimeList<ShikimoriAnime>>();
-                    if (string.IsNullOrEmpty(quaryText))
+                    if (string.IsNullOrEmpty(QueryText))
                     {
                         graphQLResponse = await ShikimoriBase.GetAnimes(CurrentPage);
                     }
-                    else { graphQLResponse = await ShikimoriBase.GetAnimesByName(CurrentPage, quaryText); }
+                    else { graphQLResponse = await ShikimoriBase.GetAnimesByName(CurrentPage, QueryText); }
                     var shikimoriAnimes = graphQLResponse.Data.Animes;
                     if (shikimoriAnimes != null && shikimoriAnimes.Count() > 0)
                     {
@@ -105,7 +93,7 @@ namespace SeriesTracker.ViewModels
                 }
                 else
                 {
-                    var request = new MALRequest { Limit = 5, Offset = offset, Search = quaryText };
+                    var request = new MALRequest { Limit = 5, Offset = offset, Search = QueryText };
                     var result = await MALBase.GetAnimes(request);
                     var shikimoriAnimes = result.Animes;
                     if (shikimoriAnimes != null && shikimoriAnimes.Count() > 0)
@@ -130,7 +118,7 @@ namespace SeriesTracker.ViewModels
         [RelayCommand]
         private async Task LoadSeriesByname(string query)
         {
-            quaryText = new string(query.ToLower());
+            QueryText = new string(query.ToLower());
             CurrentPage = 1;
             offset = 0;
             await OnAppearing();

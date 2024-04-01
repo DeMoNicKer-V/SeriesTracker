@@ -8,28 +8,29 @@ using SeriesTracker.Controls.SearchImageResult;
 using SeriesTracker.Models;
 using SeriesTracker.ViewModels;
 using Color = Microsoft.Maui.Graphics.Color;
+using static SeriesTracker.Services.Constant.SeriesBaseParameters;
 
 namespace SeriesTracker.Views;
 
 public partial class NewSeriesPage : ContentPage
 {
     private SearchImageResult imageResultPopUp;
-
+    private readonly NewSeriesPageViewModel newSeriesPageViewModel;
     public NewSeriesPage()
     {
         InitializeComponent();
-        BindingContext = new NewSeriesPageViewModel();
+        BindingContext = newSeriesPageViewModel = new NewSeriesPageViewModel();
         posterImage.Behaviors.Add(new IconTintColorBehavior { TintColor = Color.FromArgb("#919191") });
     }
 
     public NewSeriesPage(Series series)
     {
         InitializeComponent();
-        this.BindingContext = new NewSeriesPageViewModel();
+        BindingContext = newSeriesPageViewModel = new NewSeriesPageViewModel();
 
         if (series != null)
         {
-            ((NewSeriesPageViewModel)BindingContext).Series = series;
+            newSeriesPageViewModel.Series = series;
             if (Convert.ToInt32(durationEntry.Text) > 0) { durationCheckBox.IsChecked = true; }
             if (!string.IsNullOrWhiteSpace(series.imagePath))
             {
@@ -55,28 +56,20 @@ public partial class NewSeriesPage : ContentPage
         }
     }
 
-    private async Task<bool> CheckInternetAccess()
+    private static async Task<bool> CheckInternetAccess()
     {
         NetworkAccess accessType = Connectivity.Current.NetworkAccess;
 
         if (accessType != NetworkAccess.Internet)
         {
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-
-            string text = "Отсутствует интернет подключение";
-            ToastDuration duration = ToastDuration.Short;
-            double fontSize = 14;
-
-            var toast = Toast.Make(text, duration, fontSize);
-
-            await toast.Show(cancellationTokenSource.Token);
+            await ShowToast("Отсутствует интернет подключение");
             return false;
         }
         return true;
     }
 
 
-    private async void descriptionExpander_ExpandedChanged(object sender, CommunityToolkit.Maui.Core.ExpandedChangedEventArgs e)
+    private async void DescriptionExpander_ExpandedChanged(object sender, ExpandedChangedEventArgs e)
     {
         if (descriptionExpander.IsExpanded)
         {
@@ -97,7 +90,8 @@ public partial class NewSeriesPage : ContentPage
         {
             return;
         }
-        await Navigation.PushAsync(new SeriesListPage(true));
+        AnimeSourceSite = true;
+        await Navigation.PushAsync(new SeriesListPage());
     }
 
     private async void ImageButton_Clicked_1(object sender, EventArgs e)
@@ -106,7 +100,8 @@ public partial class NewSeriesPage : ContentPage
         {
             return;
         }
-        await Navigation.PushAsync(new SeriesListPage(false));
+        AnimeSourceSite = false;
+        await Navigation.PushAsync(new SeriesListPage());
     }
 
 
@@ -120,7 +115,7 @@ public partial class NewSeriesPage : ContentPage
         }
     }
 
-    private void durationEntry_TextChanged(object sender, TextChangedEventArgs e)
+    private void DurationEntry_TextChanged(object sender, TextChangedEventArgs e)
     {
         RemoveSignsTextChanged(sender, e);
     }
@@ -131,9 +126,11 @@ public partial class NewSeriesPage : ContentPage
         {
             return;
         }
-        imageResultPopUp = new SearchImageResult();
-        imageResultPopUp.SearchName = name;
-        imageResultPopUp.Page = this;
+        imageResultPopUp = new SearchImageResult
+        {
+            SearchName = name,
+            Page = this
+        };
         var result = await this.ShowPopupAsync(imageResultPopUp);
         if (result is bool boolResult)
         {
@@ -152,7 +149,7 @@ public partial class NewSeriesPage : ContentPage
             posterImage.Behaviors.Remove(toRemove);
         }
         posterImage.Source = urlImage;
-        ((NewSeriesPageViewModel)BindingContext).Series.imagePath = urlImage;
+        newSeriesPageViewModel.Series.imagePath = urlImage;
         ChangePosterAttributes();
     }
 

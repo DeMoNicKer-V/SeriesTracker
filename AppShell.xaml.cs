@@ -3,10 +3,8 @@ using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using SeriesTracker.Views;
-using System.Threading;
 using System.Windows.Input;
 using static SeriesTracker.Services.Constant.SeriesBaseParameters;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace SeriesTracker;
 
@@ -73,10 +71,5 @@ public partial class AppShell : Shell
             default:
                 return;
         }
-    }
-    private static async Task ShowToast(string text)
-    {
-        var toast = Toast.Make(text, ToastDuration.Short, 14);
-        await toast.Show(new CancellationTokenSource().Token);
     }
 }

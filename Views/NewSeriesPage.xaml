@@ -197,7 +197,7 @@
                         Grid.Row="3"
                         Grid.ColumnSpan="3"
                         Padding="10,0,10,10"
-                        ExpandedChanged="descriptionExpander_ExpandedChanged"
+                        ExpandedChanged="DescriptionExpander_ExpandedChanged"
                         VerticalOptions="CenterAndExpand">
                         <toolkit:Expander.Header>
                             <HorizontalStackLayout HorizontalOptions="CenterAndExpand">
@@ -299,7 +299,7 @@
                                 Keyboard="Numeric"
                                 MaxLength="3"
                                 Text="{Binding Series.seriesDuration, Mode=TwoWay}"
-                                TextChanged="durationEntry_TextChanged">
+                                TextChanged="DurationEntry_TextChanged">
                                 <Entry.Behaviors>
                                     <toolkit:CharactersValidationBehavior
                                         CharacterType="Digit"

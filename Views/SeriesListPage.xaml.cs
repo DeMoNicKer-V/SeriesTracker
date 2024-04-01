@@ -1,58 +1,61 @@
 using CommunityToolkit.Maui.Core.Platform;
-using GraphQL;
-using GraphQL.Client.Http;
-using GraphQL.Client.Serializer.Newtonsoft;
-using SeriesTracker.Classes.Shikimori;
-using SeriesTracker.Models;
-using SeriesTracker.Services.ShikimoriBase;
 using SeriesTracker.ViewModels;
+using static SeriesTracker.Services.Constant.SeriesBaseParameters;
 
 namespace SeriesTracker.Views;
 
 public partial class SeriesListPage : ContentPage
 {
-    SeriesListPageViewModel seriesListPageViewModel;
-    public SeriesListPage(bool what)
+    private readonly SeriesListPageViewModel seriesListPageViewModel;
+    public SeriesListPage()
     {
         InitializeComponent();
-        this.BindingContext = seriesListPageViewModel = new SeriesListPageViewModel(Navigation, what);
+        this.BindingContext = seriesListPageViewModel = new SeriesListPageViewModel(Navigation);
     }
-
 
     private void searchBar_TextChanged(object sender, TextChangedEventArgs e)
     {
         if (string.IsNullOrWhiteSpace(e.NewTextValue))
         {
             searchbarClearBtn.IsVisible = false;
-
         }
+        else searchbarClearBtn.IsVisible = true;
     }
     protected override async void OnAppearing()
     {
-        searchBar.Text = string.Empty;
         base.OnAppearing();
         await seriesListPageViewModel.OnAppearing();
     }
 
     private void searchbarClearBtn_Clicked(object sender, EventArgs e)
     {
-        seriesListPageViewModel.quaryText = string.Empty;
-        seriesListPageViewModel.CurrentPage = 1;
-        seriesListPageViewModel.offset = 0;
-        searchBar.Text = string.Empty;
         searchBar.Unfocus();
-        OnAppearing();
+        if (!string.IsNullOrWhiteSpace(QueryText))
+        {
+            QueryText = string.Empty;
+            seriesListPageViewModel.CurrentPage = 1;
+            seriesListPageViewModel.offset = 0;
+            OnAppearing();
+        }
+        searchBar.Text = string.Empty;
 
     }
 
     private void searchBar_Completed(object sender, EventArgs e)
     {
         if (string.IsNullOrWhiteSpace(searchBar.Text)) { searchBar.Unfocus(); return; }
+        else
+        {
+            SeriesEmptyView.MainText = "По вашему запросу ничего не найдено :( ";
+            SeriesEmptyView.SubText = "Попытаете удачу еще раз?";
+        }
     }
 
     private async void searchBar_Unfocused(object sender, FocusEventArgs e)
     {
         searchbarClearBtn.IsVisible = false;
+        SeriesEmptyView.MainText = "Получаем данные...";
+        SeriesEmptyView.SubText = "Это может занять некоторое время. Пожалуйста, подождите!";
         await searchImage.RotateTo(0, 200);
         await searchBar.HideKeyboardAsync(CancellationToken.None);
     }

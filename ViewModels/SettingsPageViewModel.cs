@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core;
-using CommunityToolkit.Maui.Storage;
+﻿using CommunityToolkit.Maui.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SeriesTracker.Models;
@@ -8,6 +6,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using static SeriesTracker.Services.Extensions.SeriesEqualExtension;
+using static SeriesTracker.Services.Constant.SeriesBaseParameters;
 
 namespace SeriesTracker.ViewModels
 {
@@ -36,12 +35,6 @@ namespace SeriesTracker.ViewModels
             IsBusy = false;
             AllSeriesCount = await App.SeriesService.GetAllSeriesCountSync();
             ActiveIndicator = 0;
-        }
-
-        private static async Task ShowToast(string text)
-        {
-            var toast = Toast.Make(text, ToastDuration.Short, 14);
-            await toast.Show(cancellationTokenSource.Token);
         }
 
         private async Task AfterSyncUpdate(string message)

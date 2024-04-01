@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 
 namespace SeriesTracker.Services.Constant
 {
     public static class SeriesBaseParameters
     {
-        public static bool WachedFlag = false;
+        public static bool WachedFlag { get; set; } = false;
+        public static bool AnimeSourceSite { get; set; } = false;
         public static readonly string FilePath = Environment.GetFolderPath(
                    Environment.SpecialFolder.LocalApplicationData);
 
@@ -22,8 +20,16 @@ namespace SeriesTracker.Services.Constant
                 else { skipItem = value; }
             }
         }
+
         public static bool FavoriteFlag { get; set; }
 
         public static string QueryText { get; set; } = string.Empty;
+
+        public static async Task ShowToast(string text)
+        {
+            CancellationTokenSource cancellationTokenSource = new();
+            var toast = Toast.Make(text, ToastDuration.Short, 14);
+            await toast.Show(cancellationTokenSource.Token);
+        }
     }
 }

@@ -1,14 +1,7 @@
-﻿using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using SeriesTracker.Models;
 using SeriesTracker.Services.SyncJournal;
-
-#if ANDROID
-
-using static Android.Media.MediaRouter;
-
-#endif
+using static SeriesTracker.Services.Constant.SeriesBaseParameters;
 
 namespace SeriesTracker.ViewModels
 {
@@ -45,13 +38,6 @@ namespace SeriesTracker.ViewModels
 
             if (await App.SeriesService.AddUpdateSeriesAsync(Series) == false) { await ShowToast("Запись с таким названием уже есть в БД"); }
             else await Shell.Current.GoToAsync("..//..");
-        }
-
-        private static async Task ShowToast(string text)
-        {
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-            var toast = Toast.Make(text, ToastDuration.Short, 14);
-            await toast.Show(cancellationTokenSource.Token);
         }
     }
 }

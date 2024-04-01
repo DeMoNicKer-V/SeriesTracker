@@ -1,8 +1,7 @@
-﻿using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using SeriesTracker.Classes;
-using SeriesTracker.Classes.Shikimori;
+using SeriesTracker.Models;
+using static SeriesTracker.Services.Constant.SeriesBaseParameters;
 
 
 namespace SeriesTracker.ViewModels
@@ -12,49 +11,29 @@ namespace SeriesTracker.ViewModels
         public AnimeDetailPageViewModel(INavigation navigation)
         { 
             Navigation = navigation;
-    
-            Series = new Models.Series();
-            BackCommand = new Command(OnBackCommand); 
-        }
-
-        public Command BackCommand { get; }
-        private async void OnBackCommand()
-        {
-            await Shell.Current.GoToAsync("..");
+            Series = new Series();
         }
 
         [RelayCommand]
         public async Task AddSeries(AnimeBase anime)
         {
-            var newSeries = Series;
-            if (newSeries is null)
-                return;
-            newSeries.seriesName = anime.Title;
-            newSeries.seriesDescription = anime.Description;
-            newSeries.imagePath = anime.PictureUrl;
-            newSeries.lastEpisode = anime.Episodes;
-            newSeries.releaseDate = DateTime.Parse(anime.StartDate);
-            var (isValid, errorMessage) = newSeries.Validate();
+            if (Series is null) return;
+            Series.seriesName = anime.Title;
+            Series.seriesDescription = anime.Description;
+            Series.imagePath = anime.PictureUrl;
+            Series.lastEpisode = anime.Episodes;
+            Series.releaseDate = DateTime.Parse(anime.StartDate);
+            var (isValid, errorMessage) = Series.Validate();
             if (!isValid)
             {
-                await AnimeDetailPageViewModel.ShowToast(errorMessage);
+                await ShowToast(errorMessage);
                 return;
             }
-
-            newSeries.hiddenSeriesName = newSeries.seriesName.ToLower();
-            newSeries.addedDate = DateTime.Now.ToString();
-            await App.SeriesService.AddUpdateSeriesAsync(newSeries);
+            Series.hiddenSeriesName = Series.seriesName.ToLower();
+            Series.addedDate = DateTime.Now.ToString();
+            await App.SeriesService.AddUpdateSeriesAsync(Series);
 
             await Shell.Current.GoToAsync("..//..//..");
-        }
-        private static async Task ShowToast(string text)
-        {
-
-            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-
-            var toast = Toast.Make(text, ToastDuration.Short, 14);
-
-            await toast.Show(cancellationTokenSource.Token);
         }
     }
 }

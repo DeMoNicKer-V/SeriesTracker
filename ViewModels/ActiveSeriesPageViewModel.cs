@@ -1,10 +1,7 @@
 ﻿using CommunityToolkit.Maui.Views;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SeriesTracker.Controls.PopUp;
 using SeriesTracker.Models;
-using SeriesTracker.Services.Constant;
-using SeriesTracker.Services.SyncJournal;
 using SeriesTracker.Views;
 using System.Collections.ObjectModel;
 using static SeriesTracker.Services.Constant.SeriesBaseParameters;

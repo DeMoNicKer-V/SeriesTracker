@@ -8,8 +8,8 @@
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:vModels="clr-namespace:SeriesTracker.ViewModels"
     Title=""
-    BackgroundColor="{AppThemeBinding Light=#ffffff,
-                                      Dark=#121212}"
+    BackgroundColor="{AppThemeBinding Light={StaticResource White},
+                                      Dark={StaticResource DarkBackground}}"
     Shell.FlyoutBehavior="Disabled"
     Shell.TabBarIsVisible="False">
 
@@ -32,7 +32,7 @@
                     <RowDefinition Height="15" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="35" />
+                    <ColumnDefinition Width="40" />
                     <ColumnDefinition Width="35" />
                     <ColumnDefinition Width="230" />
                     <ColumnDefinition Width="35" />
@@ -41,10 +41,10 @@
                     Grid.Row="1"
                     Grid.Column="0"
                     Command="{Binding BackCommand}"
-                    HeightRequest="25"
+                    HeightRequest="20"
                     HorizontalOptions="Start"
                     Source="backarrow.png"
-                    WidthRequest="25">
+                    WidthRequest="20">
                     <ImageButton.Behaviors>
                         <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray200}}" />
                     </ImageButton.Behaviors>
@@ -81,10 +81,10 @@
                     Grid.Row="1"
                     Grid.Column="3"
                     Clicked="searchbarClearBtn_Clicked"
-                    HeightRequest="25"
+                    HeightRequest="20"
                     IsVisible="false"
                     Source="cross.png"
-                    WidthRequest="25">
+                    WidthRequest="20">
                     <ImageButton.Behaviors>
                         <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />
                     </ImageButton.Behaviors>
@@ -93,10 +93,9 @@
                 <Line
                     x:Name="myLine"
                     Grid.Row="2"
-                    Grid.Column="1"
-                    Grid.ColumnSpan="3"
-                    BackgroundColor="{StaticResource Gray600}"
-                    HorizontalOptions="Fill" />
+                    Grid.Column="0"
+                    Grid.ColumnSpan="4"
+                    BackgroundColor="{StaticResource Gray600}" />
 
                 <ImageButton
                     Grid.Row="4"
@@ -108,7 +107,7 @@
                     VerticalOptions="Start"
                     WidthRequest="15">
                     <ImageButton.Behaviors>
-                        <toolkit:IconTintColorBehavior TintColor="#999999" />
+                        <toolkit:IconTintColorBehavior TintColor="{StaticResource Gray300}" />
                     </ImageButton.Behaviors>
                 </ImageButton>
                 <Label
@@ -138,7 +137,7 @@
                     VerticalOptions="Start"
                     WidthRequest="15">
                     <ImageButton.Behaviors>
-                        <toolkit:IconTintColorBehavior TintColor="#999999" />
+                        <toolkit:IconTintColorBehavior TintColor="{StaticResource Gray300}" />
                     </ImageButton.Behaviors>
                 </ImageButton>
             </Grid>
@@ -157,15 +156,13 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="classes:ShikimoriAnime">
                     <Border Margin="10" BackgroundColor="{AppThemeBinding Light={StaticResource ActivePageLightBorderBackground}, Dark={StaticResource ActivePageDarkBorderBackground}}">
-
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="10" />
                         </Border.StrokeShape>
-
                         <Border.Stroke>
                             <LinearGradientBrush EndPoint="0,1">
                                 <GradientStop Offset="0.1" Color="{AppThemeBinding Light={StaticResource ActivePageLightGradient}, Dark={StaticResource ActivePageDarkGradient}}" />
-                                <GradientStop Color="{AppThemeBinding Light=#F5F5F5, Dark={StaticResource PrimaryDark}}">
+                                <GradientStop Color="{AppThemeBinding Light={StaticResource ActivePageLightStroke}, Dark={StaticResource PrimaryDark}}">
                                     <GradientStop.Offset>1.0</GradientStop.Offset>
                                 </GradientStop>
                             </LinearGradientBrush>
@@ -173,7 +170,6 @@
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer NumberOfTapsRequired="1" />
                         </Border.GestureRecognizers>
-
                         <Grid Margin="5" Padding="5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />

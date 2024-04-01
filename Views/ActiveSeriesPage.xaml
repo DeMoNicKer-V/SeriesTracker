@@ -197,10 +197,7 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Series">
-                    <Border
-                        Margin="10"
-                        BackgroundColor="{AppThemeBinding Light={StaticResource ActivePageLightBorderBackground},
-                                                          Dark={StaticResource ActivePageDarkBorderBackground}}" >
+                    <Border Margin="10" BackgroundColor="{AppThemeBinding Light={StaticResource ActivePageLightBorderBackground}, Dark={StaticResource ActivePageDarkBorderBackground}}">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="10" />
                         </Border.StrokeShape>
@@ -353,7 +350,7 @@
                         <Border.Stroke>
                             <LinearGradientBrush EndPoint="0,1">
                                 <GradientStop Offset="0.1" Color="{AppThemeBinding Light={StaticResource ActivePageLightGradient}, Dark={StaticResource ActivePageDarkGradient}}" />
-                                <GradientStop Color="{AppThemeBinding Light=#F5F5F5, Dark={StaticResource PrimaryDark}}">
+                                <GradientStop Color="{AppThemeBinding Light={StaticResource ActivePageLightStroke}, Dark={StaticResource PrimaryDark}}">
                                     <GradientStop.Offset>1.0</GradientStop.Offset>
                                 </GradientStop>
                             </LinearGradientBrush>
