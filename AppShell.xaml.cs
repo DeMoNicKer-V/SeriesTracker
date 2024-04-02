@@ -54,7 +54,7 @@ public partial class AppShell : Shell
         {
             await ShowToast("Идет синхронизация");
             await App.FirebaseService.InSynchronize();
-            await Services.Firebase.FirebaseService.OutSynchronize();
+            await App.FirebaseService.OutSynchronize();
             await ShowToast("Синхронизация завершена");
         }
     }

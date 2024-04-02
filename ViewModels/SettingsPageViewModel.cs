@@ -86,7 +86,7 @@ namespace SeriesTracker.ViewModels
             try
             {
                 await App.FirebaseService.InSynchronize();
-                await Services.Firebase.FirebaseService.OutSynchronize();
+                await App.FirebaseService.OutSynchronize();
             }
             catch (Exception ex)
             {
@@ -159,7 +159,7 @@ namespace SeriesTracker.ViewModels
             ActiveIndicator = 2;
             try
             {
-                await Services.Firebase.FirebaseService.OutSynchronize();
+                await App.FirebaseService.OutSynchronize();
             }
             catch (Exception ex)
             {
