@@ -367,3 +367,4 @@ FodyWeavers.xsd
 /Services/APIConfig.cs
 /Services/GoogleApi/GoogleCustomSearchApiConfiguration.cs
 /Services/Firebase/FirebaseConsts.cs
+/Services/Constant/APIConfig.cs
