@@ -1,8 +1,7 @@
-﻿using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using SeriesTracker.Views;
+using SeriesTracker.Services;
 using System.Windows.Input;
 using static SeriesTracker.Services.Constant.SeriesBaseParameters;
 
@@ -55,7 +54,7 @@ public partial class AppShell : Shell
         {
             await ShowToast("Идет синхронизация");
             await App.FirebaseService.InSynchronize();
-            await App.FirebaseService.OutSynchronize();
+            await Services.Firebase.FirebaseService.OutSynchronize();
             await ShowToast("Синхронизация завершена");
         }
     }

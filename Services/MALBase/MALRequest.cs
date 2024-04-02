@@ -28,7 +28,7 @@ namespace SeriesTracker.Services.MALBase
                 foreach (var x in Fields)
                 {
                     sb.Append(x);
-                    if (x != Fields.Last()) sb.Append(",");
+                    if (x != Fields.Last()) sb.Append(',');
                 }
                 result += "&fields=" + sb.ToString();
             }

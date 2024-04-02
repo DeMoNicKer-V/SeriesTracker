@@ -34,7 +34,6 @@ namespace SeriesTracker.Services.GoogleApi
             }
             catch (Exception)
             {
-
                 throw new LimitQuotaCustomSeachException();
             }
    

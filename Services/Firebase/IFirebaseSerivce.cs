@@ -1,18 +1,42 @@
 ﻿using SeriesTracker.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeriesTracker.Services.Firebase
 {
-    interface IFirebaseService
+    internal interface IFirebaseService
     {
+        /// <summary>
+        /// Add <see cref="Series"/> element to FireBase database.
+        /// (Needs Internet connection)
+        /// </summary>
+        /// <returns></returns>
         Task<bool> AddUpdateSeriesAsync(Series series);
-       /* Task<bool> DeleteSeriesAsync(int seriesId);
-        Task<Series> GetSeriesAsyncById(int seriesId);
-        Task<IEnumerable<Series>> GetSeriesListAsync();
-        Task<int> GetAllSeriesCount();*/
+
+        /// <summary>
+        /// Delete all <see cref="Series"/> elements from FireBase database.
+        /// (Needs Internet connection)
+        /// </summary>
+        /// <returns></returns>
+        Task<bool> DeleteAll();
+
+        /// <summary>
+        /// Delete <see cref="Series"/> element from FireBase database by Id.
+        /// (Needs Internet connection)
+        /// </summary>
+        /// <returns></returns>
+        Task<bool> DeleteSeriesAsync(int seriesId);
+
+        /// <summary>
+        /// Upload FireBase cloud database data to SQLite database.
+        /// (Needs Internet Connection)
+        /// </summary>
+        /// <returns></returns>
+        Task InSynchronize();
+
+        /// <summary>
+        /// Upload database data to FireBase cloud database.
+        /// (Needs Internet Connection)
+        /// </summary>
+        /// <returns></returns>
+        Task OutSynchronize();
     }
 }

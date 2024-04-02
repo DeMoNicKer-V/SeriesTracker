@@ -1,10 +1,8 @@
 ﻿using Android.App;
-using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using CommunityToolkit.Maui.Core;
 using Microsoft.Maui.Platform;
 
 namespace SeriesTracker;
@@ -23,11 +21,11 @@ public class MainActivity : MauiAppCompatActivity
 
             foreach (var editor in editors)
             {
-                // Initialize EditText screen position 
+                // Initialize EditText screen position
                 int[] pos = new int[2];
-                // Set EditText screen position 
+                // Set EditText screen position
                 editor.GetLocationOnScreen(pos);
-                // Create hit test rectangle 
+                // Create hit test rectangle
                 Rect hitRect = new Rect(pos[0], pos[1], editor.Width, editor.Height);
                 // Judge hit test
                 bool isHitTest = hitRect.Contains(e.GetX(), e.GetY());
@@ -44,12 +42,11 @@ public class MainActivity : MauiAppCompatActivity
     }
 
     protected override void OnCreate(Bundle savedInstanceState)
-     {
-
+    {
         base.OnCreate(savedInstanceState);
         this.Window.SetFlags(Android.Views.WindowManagerFlags.LayoutNoLimits, Android.Views.WindowManagerFlags.LayoutNoLimits);
-         this.Window.AddFlags(Android.Views.WindowManagerFlags.TranslucentStatus);
-         this.Window.AddFlags(Android.Views.WindowManagerFlags.TranslucentNavigation);
-         this.Window.SetStatusBarColor(Android.Graphics.Color.Transparent);
+        this.Window.AddFlags(Android.Views.WindowManagerFlags.TranslucentStatus);
+        this.Window.AddFlags(Android.Views.WindowManagerFlags.TranslucentNavigation);
+        this.Window.SetStatusBarColor(Android.Graphics.Color.Transparent);
     }
 }

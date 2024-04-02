@@ -2,7 +2,7 @@
 
 #pragma warning disable CS0169
 #pragma warning disable CS0414
-namespace SeriesTracker
+namespace SeriesTracker.Controls
 {
     public partial class CustomTabBar : TabBar
     {

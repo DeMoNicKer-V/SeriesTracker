@@ -69,9 +69,9 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
             SkipItem = 0;
             await OnAppearing();
         }
-        catch (Exception) 
-        { 
-
+        catch (Exception ex) 
+        {
+            await ShowErrorAlert(Shell.Current, ex.Message);
         }
         finally 
         { 
@@ -85,7 +85,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
         IsBusy = true;
         try
         {
-            AllSeriesCount = await App.SeriesService.GetAllSeriesCount(WachedFlag);
+            AllSeriesCount = await App.SeriesService.GetAllSeriesCountByFlag(WachedFlag);
             if (AllSeriesCount == 0) 
             { 
                 IsBusy = false; 
@@ -93,7 +93,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
             }
 
             IEnumerable<Series> newSeriesList = await App.SeriesService.GetSeriesAsync(WachedFlag, SkipItem, QueryText, FavoriteFlag);
-            if (newSeriesList is not null && newSeriesList.Count() > 0)
+            if (newSeriesList is not null && newSeriesList.Any())
             {
                 foreach (var item in newSeriesList)
                 {
@@ -101,10 +101,11 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
                 }
             }
             SeriesCount = App.SeriesService.relativeItemsCount;
-            ViewedSeriesCount = SeriesList.Count() + SkipItem;
+            ViewedSeriesCount = SeriesList.Count + SkipItem;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            await ShowErrorAlert(Shell.Current, ex.Message);
         }
         finally
         {
@@ -131,7 +132,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     private async void OnActiveDeleteCommand()
     {
         OnDeleteCommand();
-        if (SeriesList.Count() == 1)
+        if (SeriesList.Count == 1)
         {
             SkipItem -=5;
         }
@@ -147,7 +148,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     [RelayCommand]
     private async Task OnIncSeriesList()
     {
-        if (SeriesList.Count() == 5 & (SeriesList.Count() + SkipItem) < SeriesCount)
+        if (SeriesList.Count == 5 & (SeriesList.Count + SkipItem) < SeriesCount)
         {
             SkipItem += 5;
             await OnAppearing();

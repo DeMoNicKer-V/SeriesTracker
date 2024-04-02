@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 namespace SeriesTracker.Views;
 
 public partial class InfoPage : ContentPage
@@ -31,9 +29,8 @@ public partial class InfoPage : ContentPage
             Uri uri = new Uri(Url);
             Browser.Default.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            Debug.WriteLine(ex.Message);
             Shell.Current.DisplayAlert("Произошла ошибка", "Пожалуйста, проверьте Интернет соединение.", "Ок");
             return;
         }

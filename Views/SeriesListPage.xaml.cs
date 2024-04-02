@@ -1,6 +1,5 @@
 using CommunityToolkit.Maui.Core.Platform;
 using SeriesTracker.ViewModels;
-using static SeriesTracker.Services.Constant.SeriesBaseParameters;
 
 namespace SeriesTracker.Views;
 
@@ -30,11 +29,11 @@ public partial class SeriesListPage : ContentPage
     private void searchbarClearBtn_Clicked(object sender, EventArgs e)
     {
         searchBar.Unfocus();
-        if (!string.IsNullOrWhiteSpace(QueryText))
+        if (!string.IsNullOrWhiteSpace(seriesListPageViewModel.RequestText))
         {
-            QueryText = string.Empty;
+            seriesListPageViewModel.RequestText = string.Empty;
             seriesListPageViewModel.CurrentPage = 1;
-            seriesListPageViewModel.offset = 0;
+            seriesListPageViewModel.OffSet = 0;
             OnAppearing();
         }
         searchBar.Text = string.Empty;

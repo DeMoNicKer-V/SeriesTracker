@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GraphQL;
 using SeriesTracker.Classes;
@@ -16,13 +14,26 @@ namespace SeriesTracker.ViewModels
 {
     public partial class SeriesListPageViewModel : BaseSeriesModel
     {
-
         [ObservableProperty]
         public int currentPage;
-        public int offset;
-        private MALBase MALBase;
-        private ShikimoriBase ShikimoriBase;
+
+        private int offSet;
+
+        public int OffSet
+        {
+            get => offSet;
+            set
+            {
+                if (offSet < 0) { offSet = 0; }
+                else { offSet = value; }
+            }
+        }
+
+        public string RequestText { get; set; } = string.Empty;
+        private readonly MALBase MALBase;
+        private readonly ShikimoriBase ShikimoriBase;
         public ObservableCollection<AnimeBase> SeriesList { get; set; } = new ObservableCollection<AnimeBase>();
+
         public SeriesListPageViewModel(INavigation navigation)
         {
             Navigation = navigation;
@@ -30,15 +41,13 @@ namespace SeriesTracker.ViewModels
             MALBase = new MALBase();
             Series = new Series();
             CurrentPage = 1;
-            offset = 0;
-            RequestText = string.Empty;
+            OffSet = 0;
         }
-
 
         [RelayCommand]
         public async Task AddSeries(AnimeBase anime)
         {
-            if (Series is null)  return;
+            if (Series is null) return;
             Series.seriesName = anime.Title;
             Series.seriesDescription = anime.Description;
             Series.imagePath = anime.PictureUrl;
@@ -83,7 +92,7 @@ namespace SeriesTracker.ViewModels
                     }
                     else { graphQLResponse = await ShikimoriBase.GetAnimesByName(CurrentPage, RequestText); }
                     var shikimoriAnimes = graphQLResponse.Data.Animes;
-                    if (shikimoriAnimes != null && shikimoriAnimes.Count() > 0)
+                    if (graphQLResponse.Data.Animes.Any())
                     {
                         foreach (var item in shikimoriAnimes)
                         {
@@ -93,21 +102,21 @@ namespace SeriesTracker.ViewModels
                 }
                 else
                 {
-                    var request = new MALRequest { Limit = 5, Offset = offset, Search = RequestText };
+                    var request = new MALRequest { Limit = 5, Offset = OffSet, Search = RequestText };
                     var result = await MALBase.GetAnimes(request);
-                    var shikimoriAnimes = result.Animes;
-                    if (shikimoriAnimes != null && shikimoriAnimes.Count() > 0)
+                    var malAnimes = result.Animes;
+                    if (malAnimes.Any())
                     {
-                        foreach (var item in shikimoriAnimes)
+                        foreach (var item in malAnimes)
                         {
                             SeriesList.Add(item.Node);
                         }
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-
+                await ShowErrorAlert(Shell.Current, ex.Message);
             }
             finally
             {
@@ -120,7 +129,7 @@ namespace SeriesTracker.ViewModels
         {
             RequestText = new string(query.ToLower());
             CurrentPage = 1;
-            offset = 0;
+            OffSet = 0;
             await OnAppearing();
         }
 
@@ -129,21 +138,18 @@ namespace SeriesTracker.ViewModels
         {
             if (CurrentPage > 1)
             {
-                CurrentPage = CurrentPage - 1;
+                CurrentPage--;
                 await OnAppearing();
             }
-            if (offset >= 5)
-            {
-                offset = offset - 5;
-                await OnAppearing();
-            }
+            OffSet -= 5;
+            await OnAppearing();
         }
 
         [RelayCommand]
         private async Task OnIncSeriesList()
         {
-            CurrentPage = CurrentPage + 1;
-            offset = offset + 5;
+            CurrentPage++;
+            OffSet += 5;
             await OnAppearing();
         }
     }

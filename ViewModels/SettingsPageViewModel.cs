@@ -33,7 +33,7 @@ namespace SeriesTracker.ViewModels
         public async Task OnAppearing()
         {
             IsBusy = false;
-            AllSeriesCount = await App.SeriesService.GetAllSeriesCountSync();
+            AllSeriesCount = await App.SeriesService.GetAllSeriesCount();
             ActiveIndicator = 0;
         }
 
@@ -86,13 +86,14 @@ namespace SeriesTracker.ViewModels
             try
             {
                 await App.FirebaseService.InSynchronize();
-                await App.FirebaseService.OutSynchronize();
+                await Services.Firebase.FirebaseService.OutSynchronize();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                await ShowErrorAlert(Shell.Current, ex.Message);
+                return;
             }
-            finally { await AfterSyncUpdate("Полная синхронизация выполнена"); }
+            await AfterSyncUpdate("Полная синхронизация выполнена");
         }
 
         private async Task GetSeriesList(bool flag)
@@ -110,7 +111,7 @@ namespace SeriesTracker.ViewModels
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                await ShowErrorAlert(Shell.Current, ex.Message);
             }
             finally { IsBusy = false; }
         }
@@ -125,11 +126,12 @@ namespace SeriesTracker.ViewModels
             {
                 await App.FirebaseService.InSynchronize();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                await ShowErrorAlert(Shell.Current, ex.Message);
+                return;
             }
-            finally { await AfterSyncUpdate("Полная синхронизация выполнена"); }
+            await AfterSyncUpdate("Входящая синхронизация выполнена");
         }
 
         [RelayCommand]
@@ -157,13 +159,14 @@ namespace SeriesTracker.ViewModels
             ActiveIndicator = 2;
             try
             {
-                await App.FirebaseService.OutSynchronize();
+                await Services.Firebase.FirebaseService.OutSynchronize();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                await ShowErrorAlert(Shell.Current, ex.Message);
+                return;
             }
-            finally { await AfterSyncUpdate("Полная синхронизация выполнена"); }
+            await AfterSyncUpdate("Исходящая синхронизация выполнена"); 
         }
         [RelayCommand]
         private async Task<FileResult> PickAndShow()
@@ -211,7 +214,7 @@ namespace SeriesTracker.ViewModels
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                await ShowErrorAlert(Shell.Current, ex.Message);
             }
 
             return null;

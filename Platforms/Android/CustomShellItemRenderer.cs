@@ -6,10 +6,13 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Maui.Controls.Platform;
 using Microsoft.Maui.Controls.Platform.Compatibility;
 using Microsoft.Maui.Platform;
+using SeriesTracker.Controls;
+using SeriesTracker.Services;
 using Button = Android.Widget.Button;
 using View = Android.Views.View;
 
 namespace SeriesTracker;
+
 internal class CustomShellItemRenderer : ShellItemRenderer
 {
     public CustomShellItemRenderer(IShellContext context) : base(context)
@@ -42,8 +45,6 @@ internal class CustomShellItemRenderer : ShellItemRenderer
             };
             WeakReferenceMessenger.Default.Register<TabbarChangedMessage>(this, (r, m) =>
             {
-
-
                 if (m.Value.Equals(false))
                 {
                     middleView.Visibility = ViewStates.Invisible;
@@ -51,11 +52,7 @@ internal class CustomShellItemRenderer : ShellItemRenderer
                 else
                 {
                     middleView.Visibility = ViewStates.Visible;
-
-
                 }
-
-
             });
             middleView.Click += delegate
             {
@@ -87,4 +84,3 @@ internal class CustomShellItemRenderer : ShellItemRenderer
         return view;
     }
 }
-
