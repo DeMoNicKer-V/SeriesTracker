@@ -17,14 +17,14 @@ namespace SeriesTracker.Services.ShikimoriBase
             graphQLClient = new GraphQLHttpClient(apiUrl, new NewtonsoftJsonSerializer());
         }
 
-        public async Task<GraphQLResponse<AnimeList<ShikimoriAnime>>> GetAnimes(int page)
+        public async Task<GraphQLResponse<ShikimoriAnimeList>> GetAnimes(int page)
         {
-            return await graphQLClient.SendQueryAsync<AnimeList<ShikimoriAnime>>(GetRequest(page));
+            return await graphQLClient.SendQueryAsync<ShikimoriAnimeList>(GetRequest(page));
         }
 
-        public async Task<GraphQLResponse<AnimeList<ShikimoriAnime>>> GetAnimesByName(int page, string name)
+        public async Task<GraphQLResponse<ShikimoriAnimeList>> GetAnimesByName(int page, string name)
         {
-            return await graphQLClient.SendQueryAsync<AnimeList<ShikimoriAnime>>(GetRequest(page, name));
+            return await graphQLClient.SendQueryAsync<ShikimoriAnimeList>(GetRequest(page, name));
         }
 
         private static GraphQLRequest GetRequest(int page)

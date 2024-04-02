@@ -21,10 +21,10 @@ namespace SeriesTracker.Services.MALBase
             _httpClient.DefaultRequestHeaders.Add("X-MAL-CLIENT-ID", APIConfig.ClientId);
         }
 
-        public async Task<AnimeList<MALAnimeItem>> GetAnimes(MALRequest request)
+        public async Task<MALAnimeList> GetAnimes(MALRequest request)
         {
             HttpResponseMessage response = await _httpClient.GetAsync(request.FormURL());
-            return await response.Content.ReadFromJsonAsync<AnimeList<MALAnimeItem>>();
+            return await response.Content.ReadFromJsonAsync<MALAnimeList>();
         }
     }
 }
