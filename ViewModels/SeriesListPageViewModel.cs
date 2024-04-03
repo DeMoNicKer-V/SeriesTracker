@@ -133,10 +133,22 @@ namespace SeriesTracker.ViewModels
         [RelayCommand]
         private async Task LoadSeriesByname(string query)
         {
-            RequestText = new string(query.ToLower());
-            CurrentPage = 1;
-            OffSet = 0;
-            await OnAppearing();
+            if (string.IsNullOrEmpty(query)) return;
+            try
+            {
+                RequestText = new string(query.ToLower());
+                CurrentPage = 1;
+                OffSet = 0;
+                await OnAppearing();
+            }
+            catch (Exception ex)
+            {
+                await ShowErrorAlert(Shell.Current, ex.Message);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         [RelayCommand]

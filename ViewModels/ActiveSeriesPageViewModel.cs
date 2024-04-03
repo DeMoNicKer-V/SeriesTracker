@@ -63,6 +63,7 @@ public partial class ActiveSeriesPageViewModel : BaseSeriesModel
     [RelayCommand]
     private async Task FilterSeries(string query)
     {
+        if (string.IsNullOrEmpty(query)) return;
         try
         {
             QueryText = new string(query.ToLower());
