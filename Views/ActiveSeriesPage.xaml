@@ -115,25 +115,19 @@
                         Grid.Row="4"
                         Grid.Column="1"
                         Grid.ColumnSpan="2"
-                        FontAttributes="Italic"
+                        FontFamily="NunitoItalic"
                         FontSize="12"
                         HorizontalOptions="Start"
                         TextColor="{AppThemeBinding Light={StaticResource Gray600},
                                                     Dark={StaticResource Gray300}}"
                         VerticalTextAlignment="Center">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span FontAttributes="Italic">
-                                    <Span.Text>
-                                        <MultiBinding StringFormat="Показано: {0} из {1} | Всего: {2}">
-                                            <Binding Path="ViewedSeriesCount" />
-                                            <Binding Path="SeriesCount" />
-                                            <Binding Path="AllSeriesCount" />
-                                        </MultiBinding>
-                                    </Span.Text>
-                                </Span>
-                            </FormattedString>
-                        </Label.FormattedText>
+                        <Label.Text>
+                            <MultiBinding StringFormat="Показано: {0} из {1} | Всего: {2}">
+                                <Binding Path="ViewedSeriesCount" />
+                                <Binding Path="SeriesCount" />
+                                <Binding Path="AllSeriesCount" />
+                            </MultiBinding>
+                        </Label.Text>
                     </Label>
                     <ImageButton
                         Grid.Row="4"
@@ -290,21 +284,18 @@
                                 </HorizontalStackLayout>
 
                                 <Label
+                                    FontFamily="NunitoItalic"
                                     FontSize="12"
                                     IsVisible="{Binding isOver, Converter={service:InverseBoolConverter}}"
+                                    TextColor="{AppThemeBinding Light={StaticResource Gray950},
+                                                                Dark={StaticResource White}}"
                                     VerticalOptions="Center">
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span FontAttributes="Italic" TextColor="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource White}}">
-                                                <Span.Text>
-                                                    <MultiBinding StringFormat="Просмотрено: {0} из {1} эп.">
-                                                        <Binding Path="currentEpisode" />
-                                                        <Binding Path="lastEpisode" />
-                                                    </MultiBinding>
-                                                </Span.Text>
-                                            </Span>
-                                        </FormattedString>
-                                    </Label.FormattedText>
+                                    <Label.Text>
+                                        <MultiBinding StringFormat="Просмотрено: {0} из {1} эп.">
+                                            <Binding Path="currentEpisode" />
+                                            <Binding Path="lastEpisode" />
+                                        </MultiBinding>
+                                    </Label.Text>
                                 </Label>
 
 
@@ -327,7 +318,7 @@
                                         WidthRequest="15" />
                                 </HorizontalStackLayout>
                             </HorizontalStackLayout>
-                            <Line
+                            <StackLayout
                                 Grid.Row="3"
                                 Grid.Column="1"
                                 Grid.ColumnSpan="4"

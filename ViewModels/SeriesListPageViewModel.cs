@@ -6,6 +6,7 @@ using SeriesTracker.Classes.Shikimori;
 using SeriesTracker.Models;
 using SeriesTracker.Services.MALBase;
 using SeriesTracker.Services.ShikimoriBase;
+using SeriesTracker.Services.SyncJournal;
 using SeriesTracker.Views;
 using System.Collections.ObjectModel;
 using static SeriesTracker.Services.Constant.SeriesBaseParameters;
@@ -24,8 +25,8 @@ namespace SeriesTracker.ViewModels
             get => offSet;
             set
             {
+                offSet = value;
                 if (offSet < 0) { offSet = 0; }
-                else { offSet = value; }
             }
         }
 
@@ -33,6 +34,7 @@ namespace SeriesTracker.ViewModels
         private readonly MALBase MALBase;
         private readonly ShikimoriBase ShikimoriBase;
         public ObservableCollection<AnimeBase> SeriesList { get; set; } = new ObservableCollection<AnimeBase>();
+        private static readonly string DateNow = DateTime.Now.ToString();
 
         public SeriesListPageViewModel(INavigation navigation)
         {
@@ -48,7 +50,7 @@ namespace SeriesTracker.ViewModels
         public async Task AddSeries(AnimeBase anime)
         {
             if (Series is null) return;
-            Series.seriesName = anime.Title;
+            Series.seriesName = anime.Title.TrimEnd();
             Series.seriesDescription = anime.Description;
             Series.imagePath = anime.PictureUrl;
             Series.lastEpisode = anime.Episodes;
@@ -61,9 +63,13 @@ namespace SeriesTracker.ViewModels
             }
 
             Series.hiddenSeriesName = Series.seriesName.ToLower();
-            Series.addedDate = DateTime.Now.ToString();
+            Series.SyncUid = Series.hiddenSeriesName.GetHashCode();
+            Series.addedDate = DateNow;
+            new Journal(new AddUpdateItem(Series.SyncUid, Series.SyncUid)).JournalToJson();
+
+            Series.ChangedDate = DateNow;
             if (await App.SeriesService.AddUpdateSeriesAsync(Series) == false) { await ShowToast("Запись с таким названием уже есть в БД"); }
-            else await Shell.Current.GoToAsync("..//..");
+            else await Shell.Current.GoToAsync("..//..//..");
         }
 
         public async Task OnAppearing()

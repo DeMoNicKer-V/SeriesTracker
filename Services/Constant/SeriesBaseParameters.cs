@@ -18,8 +18,8 @@ namespace SeriesTracker.Services.Constant
             get => skipItem;
             set
             {
+                skipItem = value;
                 if (skipItem < 0) { skipItem = 0; }
-                else { skipItem = value; }
             }
         }
 

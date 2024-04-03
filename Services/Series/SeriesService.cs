@@ -135,7 +135,6 @@ public class SeriesService : ISeriesRepository
                 await App.FirebaseService.AddUpdateSeriesAsync(series);
             }
         }
-        //await App.FirebaseService.AddJournal(Action);
         return await Task.FromResult(true);
     }
 }

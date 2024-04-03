@@ -181,7 +181,7 @@
                     ImageSource="lastsync.png"
                     MainText="Последняя синхронизация:"
                     SubText="{Binding DateSyncLast, TargetNullValue='Отсутствует'}" />
-                <Line
+                <StackLayout
                     Grid.Row="2"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"

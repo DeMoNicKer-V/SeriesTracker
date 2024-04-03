@@ -42,7 +42,7 @@
                     Grid.Column="0"
                     HeightRequest="22"
                     HorizontalOptions="Center"
-                    Source="about.png"
+                    Source="info.png"
                     WidthRequest="22">
                     <Image.Behaviors>
                         <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray300}}" />

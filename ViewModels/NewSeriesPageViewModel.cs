@@ -26,7 +26,7 @@ namespace SeriesTracker.ViewModels
             Series.hiddenSeriesName = Series.seriesName.ToLower().TrimEnd();
             if (Series.SyncUid == 0)
             {
-                Series.SyncUid = (Series.hiddenSeriesName.ToLower().GetHashCode());
+                Series.SyncUid = (Series.hiddenSeriesName.GetHashCode());
                 Series.addedDate = DateNow;
                 new Journal(new AddUpdateItem(Series.SyncUid, Series.SyncUid)).JournalToJson();
             }

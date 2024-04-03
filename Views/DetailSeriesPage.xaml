@@ -25,6 +25,7 @@
                     <RowDefinition Height="340" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="10" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -153,13 +154,8 @@
                             RatingPicture="{Binding Source={x:Reference ratingImage}, Mode=TwoWay}"
                             Value="{Binding Series.seriesRating, Mode=TwoWay}" />
                     </toolkit:Expander>
-                    <StackLayout Margin="5">
-                        <Line
-                            HorizontalOptions="Center"
-                            Stroke="{AppThemeBinding Light={StaticResource LineSeparatorColor},
-                                                     Dark={StaticResource ActivePageDarkGradient}}"
-                            StrokeThickness="1.2"
-                            X2="350" />
+                    <StackLayout Margin="10">
+                        <Line BackgroundColor="{AppThemeBinding Light={StaticResource LineSeparatorColor}, Dark={StaticResource ActivePageDarkGradient}}" HorizontalOptions="Fill" />
                     </StackLayout>
                 </VerticalStackLayout>
 
@@ -174,7 +170,7 @@
                         <RowDefinition Height="30" />
                         <RowDefinition Height="30" />
                         <RowDefinition Height="30" />
-                        <RowDefinition Height="10" />
+
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="30" />
@@ -217,9 +213,10 @@
                                                      Dark={StaticResource DarkDetailBorderStroke}}"
                             StrokeThickness="1.2">
                             <HorizontalStackLayout Padding="5,0,5,0">
-                                <Label Text="Просмотрено: " VerticalTextAlignment="Center" />
+                                <Label Text="Просмотрено:" VerticalTextAlignment="Center" />
                                 <Label
                                     x:Name="placeHolder"
+                                    Margin="2,0,0,0"
                                     Text="{Binding Series.currentEpisode, Mode=OneWay}"
                                     VerticalTextAlignment="Center" />
                                 <Entry
@@ -345,7 +342,7 @@
 
                 <toolkit:Expander
                     x:Name="descriptionExpander"
-                    Grid.Row="4"
+                    Grid.Row="5"
                     Grid.ColumnSpan="3"
                     ExpandedChanged="DescriptionAreaChanged"
                     VerticalOptions="CenterAndExpand">

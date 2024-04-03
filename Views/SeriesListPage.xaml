@@ -114,18 +114,13 @@
                     Grid.Row="4"
                     Grid.Column="1"
                     Grid.ColumnSpan="2"
-                    FontAttributes="Italic"
+                    FontFamily="NunitoItalic"
                     FontSize="12"
                     HorizontalOptions="Start"
+                    Text="{Binding CurrentPage, StringFormat='Страница: {0}'}"
                     TextColor="{AppThemeBinding Light={StaticResource Gray600},
                                                 Dark={StaticResource Gray300}}"
-                    VerticalTextAlignment="Center">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span FontAttributes="Italic" Text="{Binding CurrentPage, StringFormat='Страница: {0}'}" />
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
+                    VerticalTextAlignment="Center" />
                 <ImageButton
                     Grid.Row="4"
                     Grid.Column="3"

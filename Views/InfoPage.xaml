@@ -87,7 +87,7 @@
                     Grid.Column="1"
                     Grid.ColumnSpan="2"
                     Text="Если у вас есть вопросы, то вы можете связаться с разработчиком приложения." />
-                <Line
+                <StackLayout
                     Grid.Row="3"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
