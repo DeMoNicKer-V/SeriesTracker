@@ -24,6 +24,7 @@ namespace SeriesTracker.ViewModels
                 return;
             }
             Series.hiddenSeriesName = Series.seriesName.ToLower().TrimEnd();
+            Series.seriesDescription = string.IsNullOrEmpty(Series.seriesDescription) ? null : Series.seriesDescription;
             if (Series.SyncUid == 0)
             {
                 Series.SyncUid = (Series.hiddenSeriesName.GetHashCode());

@@ -36,6 +36,7 @@ public partial class AppShell : Shell
         {
             WeakReferenceMessenger.Default.Send(new TabbarChangedMessage(false));
         }
+        SkipItem = 0;
         if (args.Target.Location.OriginalString.Contains("MainPage"))
         {
             WachedFlag = false;

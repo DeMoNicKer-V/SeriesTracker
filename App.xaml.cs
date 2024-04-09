@@ -2,6 +2,7 @@
 using SeriesTracker.Services.Firebase;
 using SeriesTracker.Views;
 using System.ComponentModel;
+using static SeriesTracker.Services.Constant.SeriesBaseParameters;
 
 namespace SeriesTracker;
 
@@ -47,11 +48,20 @@ public partial class App : Application
     }
 
 
-    private void OnSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
+    private async void OnSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(SettingsService.Theme))
         {
-            SetTheme();
+            try
+            {
+                SetTheme();
+            }
+            catch (Exception ex)
+            {
+                await ShowErrorAlert(Shell.Current, ex.Message);
+                UserAppTheme = AppTheme.Unspecified;
+            }
+           
         }
     }
 
