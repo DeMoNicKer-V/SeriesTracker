@@ -68,16 +68,18 @@
 
 <div>
 </br>
-    <p float="left">
+    <p align="center">
       <img src="images/frame1.png" height="400"  alt="screenshot"/>
       <img src="images/frame2.png" height="400"  alt="screenshot"/>
       <img src="images/frame3.png" height="400"  alt="screenshot"/>
-      <img src="images/frame4.png" height="400"  alt="screenshot"/>
     </p>
-    <p float="left">
+    <p align="center">
+      <img src="images/frame4.png" height="400"  alt="screenshot"/>
       <img src="images/frame5.png" height="400"  alt="screenshot"/>
       <img src="images/frame6.png" height="400"  alt="screenshot"/>
-      <img src="images/frame7.png" height="400"  alt="screenshot"/>
+    </p>
+    <p align="center">
+        <img src="images/frame7.png" height="400"  alt="screenshot"/>
     </p>
   </div>
 </details>
