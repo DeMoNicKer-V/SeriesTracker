@@ -33,7 +33,6 @@ public partial class SeriesListPage : ContentPage
         {
             seriesListPageViewModel.RequestText = string.Empty;
             seriesListPageViewModel.CurrentPage = 1;
-            seriesListPageViewModel.OffSet = 0;
             OnAppearing();
         }
         searchBar.Text = string.Empty;
@@ -64,6 +63,4 @@ public partial class SeriesListPage : ContentPage
         searchbarClearBtn.IsVisible = true;
         await searchImage.RotateTo(90, 200);
     }
-
-
 }

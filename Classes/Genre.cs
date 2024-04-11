@@ -11,7 +11,6 @@ namespace SeriesTracker.Classes.Shikimori
     public class Genre
     {
         [JsonProperty("id")] public long Id { get; set; }
-        [JsonPropertyName("name")] public string English { get; set; }
         [JsonProperty("russian")] public string Russian { get; set; }
     }
 }

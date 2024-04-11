@@ -111,6 +111,7 @@
                     </ImageButton.Behaviors>
                 </ImageButton>
                 <Label
+                    x:Name="pageCountLabel"
                     Grid.Row="4"
                     Grid.Column="1"
                     Grid.ColumnSpan="2"

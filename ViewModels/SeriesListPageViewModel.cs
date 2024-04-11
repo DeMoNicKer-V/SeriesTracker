@@ -16,18 +16,6 @@ namespace SeriesTracker.ViewModels
         [ObservableProperty]
         public int currentPage;
 
-        private int offSet;
-
-        public int OffSet
-        {
-            get => offSet;
-            set
-            {
-                offSet = value;
-                if (offSet < 0) { offSet = 0; }
-            }
-        }
-
         public string RequestText { get; set; } = string.Empty;
         private readonly ShikimoriBase ShikimoriBase;
         public ObservableCollection<AnimeBase> SeriesList { get; set; } = new ObservableCollection<AnimeBase>();
@@ -39,7 +27,6 @@ namespace SeriesTracker.ViewModels
             ShikimoriBase = new ShikimoriBase();
             Series = new Series();
             CurrentPage = 1;
-            OffSet = 0;
         }
 
         [RelayCommand]
@@ -116,7 +103,6 @@ namespace SeriesTracker.ViewModels
             {
                 RequestText = new string(query.ToLower());
                 CurrentPage = 1;
-                OffSet = 0;
                 await OnAppearing();
             }
             catch (Exception ex)
@@ -137,15 +123,15 @@ namespace SeriesTracker.ViewModels
                 CurrentPage--;
                 await OnAppearing();
             }
-            OffSet -= 5;
             await OnAppearing();
         }
 
         [RelayCommand]
         private async Task OnIncSeriesList()
         {
+            if (SeriesList.Count < 5) return;
+            
             CurrentPage++;
-            OffSet += 5;
             await OnAppearing();
         }
     }
