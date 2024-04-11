@@ -21,7 +21,7 @@ namespace SeriesTracker.Services.GoogleApi
 
             var listRequest = searchService.Cse.List();
             listRequest.Cx = _configuration.Cx;
-            listRequest.Q = searchPhrase;
+            listRequest.Q = string.Concat(searchPhrase, " ", "cover");
             listRequest.SearchType = Google.Apis.CustomSearchAPI.v1.CseResource.ListRequest.SearchTypeEnum.Image;
             listRequest.Num = pageSize < 10 ? pageSize : 10;
             listRequest.Start = (pageNumber - 1) * pageSize;

@@ -10,7 +10,6 @@
     <Color x:Key="LightPopUpBackground">#F6F6F6</Color>
     <Color x:Key="LightElementBorderBackground">#F7F7F7</Color>
     <Color x:Key="DarkElementBorderBackground">#1E1E1E</Color>
-    <Color x:Key="LightBottomSheetBackground">#F5F5F5</Color>
     <Color x:Key="DarkBottomSheetBackground">#0D0D0D</Color>
     <Color x:Key="ActivePageLightGradient">#F8F8F8</Color>
     <Color x:Key="ActivePageDarkGradient">#181818</Color>

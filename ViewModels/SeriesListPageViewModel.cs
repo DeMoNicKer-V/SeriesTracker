@@ -166,6 +166,8 @@ namespace SeriesTracker.ViewModels
         [RelayCommand]
         private async Task OnIncSeriesList()
         {
+            if (SeriesList.Count < 5) return;
+
             CurrentPage++;
             OffSet += 5;
             await OnAppearing();
