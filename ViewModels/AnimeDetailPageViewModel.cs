@@ -1,8 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using SeriesTracker.Classes;
 using SeriesTracker.Models;
-using SeriesTracker.Services.SyncJournal;
-using static SeriesTracker.Services.Constant.SeriesBaseParameters;
 
 
 namespace SeriesTracker.ViewModels

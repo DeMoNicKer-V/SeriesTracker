@@ -16,7 +16,6 @@ namespace SeriesTracker.Services
         private SettingsService()
         {
             Theme = SelectTheme(Preferences.Get("AppTheme", "Unspecified"));
-            Sync = SelectSync(Preferences.Get("SyncType", 0));
         }
 
         private Theme SelectTheme(string preferenceValue)
@@ -30,22 +29,9 @@ namespace SeriesTracker.Services
             }
         }
 
-        private Sync SelectSync(int syncId)
-        {
-            switch (syncId)
-            {
-                case 0: return Sync.Off;
-                case 1: return Sync.OneDay;
-                case 2: return Sync.OneWeek;
-                default: return Sync.Off;
-            }
-        }
-
 
         [ObservableProperty]
         private Theme _theme;
-        [ObservableProperty]
-        private Sync _sync;
     }
 
 }

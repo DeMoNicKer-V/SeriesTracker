@@ -4,9 +4,7 @@ using GraphQL;
 using SeriesTracker.Classes;
 using SeriesTracker.Classes.Shikimori;
 using SeriesTracker.Models;
-using SeriesTracker.Services.MALBase;
 using SeriesTracker.Services.ShikimoriBase;
-using SeriesTracker.Services.SyncJournal;
 using SeriesTracker.Views;
 using System.Collections.ObjectModel;
 using static SeriesTracker.Services.Constant.SeriesBaseParameters;
@@ -31,7 +29,6 @@ namespace SeriesTracker.ViewModels
         }
 
         public string RequestText { get; set; } = string.Empty;
-        private readonly MALBase MALBase;
         private readonly ShikimoriBase ShikimoriBase;
         public ObservableCollection<AnimeBase> SeriesList { get; set; } = new ObservableCollection<AnimeBase>();
         private static readonly string DateNow = DateTime.Now.ToString();
@@ -40,7 +37,6 @@ namespace SeriesTracker.ViewModels
         {
             Navigation = navigation;
             ShikimoriBase = new ShikimoriBase();
-            MALBase = new MALBase();
             Series = new Series();
             CurrentPage = 1;
             OffSet = 0;
@@ -63,9 +59,7 @@ namespace SeriesTracker.ViewModels
             }
 
             Series.hiddenSeriesName = Series.seriesName.ToLower();
-            Series.SyncUid = Series.hiddenSeriesName.GetHashCode();
             Series.addedDate = DateNow;
-            new Journal(new AddUpdateItem(Series.SyncUid, Series.SyncUid)).JournalToJson();
 
             Series.ChangedDate = DateNow;
             if (await App.SeriesService.AddUpdateSeriesAsync(Series) == false) { await ShowToast("Запись с таким названием уже есть в БД"); }
@@ -89,8 +83,6 @@ namespace SeriesTracker.ViewModels
             IsBusy = true;
             try
             {
-                if (AnimeSourceSite == false)
-                {
                     var graphQLResponse = new GraphQLResponse<ShikimoriAnimeList>();
                     if (string.IsNullOrEmpty(RequestText))
                     {
@@ -105,20 +97,6 @@ namespace SeriesTracker.ViewModels
                             SeriesList.Add(item);
                         }
                     }
-                }
-                else
-                {
-                    var request = new MALRequest { Limit = 5, Offset = OffSet, Search = RequestText };
-                    var result = await MALBase.GetAnimes(request);
-                    var malAnimes = result.Animes;
-                    if (malAnimes.Any())
-                    {
-                        foreach (var item in malAnimes)
-                        {
-                            SeriesList.Add(item.Node);
-                        }
-                    }
-                }
             }
             catch (Exception ex)
             {

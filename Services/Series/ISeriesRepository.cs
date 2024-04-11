@@ -62,18 +62,4 @@ internal interface ISeriesRepository
     /// </summary>
     /// <returns></returns>
     Task<Series> GetSeriesAsyncByName(string name);
-
-    /// <summary>
-    /// Upload FireBase cloud database data to SQLite database.
-    /// (Needs Internet Connection)
-    /// </summary>
-    /// <returns></returns>
-    Task<bool> InSeriesAsyncSynchonize(IEnumerable<Series> syncSeriesList);
-
-    /// <summary>
-    /// Upload database data to FireBase cloud database.
-    /// (Needs Internet Connection)
-    /// </summary>
-    /// <returns></returns>
-    Task<bool> OutSeriesAsyncSynchonize();
 }

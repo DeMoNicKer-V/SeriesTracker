@@ -1,5 +1,4 @@
 ﻿using SeriesTracker.Models;
-using SeriesTracker.Services.SyncJournal;
 using SQLite;
 using static SeriesTracker.Services.Extensions.SeriesEqualExtension;
 
@@ -98,43 +97,4 @@ public class SeriesService : ISeriesRepository
         return await _database.Table<Series>().Where(n => n.hiddenSeriesName == name).FirstOrDefaultAsync();
     }
 
-    public async Task<bool> InSeriesAsyncSynchonize(IEnumerable<Series> syncSeriesList)
-    {
-        var allSeries = await _database.Table<Series>().ToListAsync();
-        var seriesByName = syncSeriesList.Except(allSeries, new SeriesSyncComparer()).ToList();
-
-        foreach (var item in seriesByName)
-        {
-            await AddUpdateSeriesAsync(item);
-        }
-        new Journal().UpdateJournal();
-        return await Task.FromResult(true);
-    }
-
-    public async Task<bool> OutSeriesAsyncSynchonize()
-    {
-        var Action = new Journal().GetJournal();
-        if (Action == null)
-        {
-            return await Task.FromResult(false);
-        }
-        foreach (var item in Action.DeleteItems)
-        {
-            await App.FirebaseService.DeleteSeriesAsync(item.Id);
-        }
-        foreach (var item in Action.UpdateItems)
-        {
-            var series = await _database.Table<Series>().Where(n => n.SyncUid == item.PrevId).FirstOrDefaultAsync();
-            if (series != null)
-            {
-                if (!series.hiddenSeriesName.GetHashCode().Equals(series.SyncUid))
-                {
-                    series.SyncUid = series.hiddenSeriesName.GetHashCode();
-                    await _database.UpdateAsync(series);
-                }
-                await App.FirebaseService.AddUpdateSeriesAsync(series);
-            }
-        }
-        return await Task.FromResult(true);
-    }
 }

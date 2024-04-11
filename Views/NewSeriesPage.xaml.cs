@@ -13,7 +13,6 @@ namespace SeriesTracker.Views;
 
 public partial class NewSeriesPage : ContentPage
 {
-    private SearchImageResult imageResultPopUp;
     private readonly NewSeriesPageViewModel newSeriesPageViewModel;
     public NewSeriesPage()
     {
@@ -83,23 +82,12 @@ public partial class NewSeriesPage : ContentPage
         }
     }
 
-    private async void ImageButton_Clicked(object sender, EventArgs e)
-    {
-        if (!await CheckInternetAccess())
-        {
-            return;
-        }
-        AnimeSourceSite = true;
-        await Navigation.PushAsync(new SeriesListPage());
-    }
-
     private async void ImageButton_Clicked_1(object sender, EventArgs e)
     {
         if (!await CheckInternetAccess())
         {
             return;
         }
-        AnimeSourceSite = false;
         await Navigation.PushAsync(new SeriesListPage());
     }
 
@@ -119,26 +107,6 @@ public partial class NewSeriesPage : ContentPage
         RemoveSignsTextChanged(sender, e);
     }
 
-    private async Task SearchImages(string name)
-    {
-        if (!await CheckInternetAccess())
-        {
-            return;
-        }
-        imageResultPopUp = new SearchImageResult
-        {
-            SearchName = name,
-            Page = this
-        };
-        var result = await this.ShowPopupAsync(imageResultPopUp);
-        if (result is bool boolResult)
-        {
-            if (boolResult == true)
-            {
-                SetImageParams(imageResultPopUp.Images.ElementAt(imageResultPopUp.ActiveImage));
-            }
-        }
-    }
 
     private void SetImageParams(string urlImage)
     {
@@ -154,21 +122,6 @@ public partial class NewSeriesPage : ContentPage
 
     private async void SelectPosterImage_Tapped(object sender, TappedEventArgs e)
     {
-        var displayResult = await this.ShowPopupAsync(new CustomAlert("Поиск изображения", "Искать изображение в интеренте?", "Нет", "Да"));
-        if (displayResult is bool boolResult)
-        {
-            if (boolResult == true)
-            {
-                if (string.IsNullOrWhiteSpace(nameEditor.Text))
-                {
-                    await this.ShowPopupAsync(new CustomAlert("Произошла ошибка", "Сначала заполните название сериала", "Закрыть"));
-                    return;
-                }
-                await SearchImages(nameEditor.Text);
-                return;
-            }
-            else
-            {
                 PickOptions options = new()
                 {
                     PickerTitle = "Пожалуйста, выбирите изображение для сериала!",
@@ -178,8 +131,6 @@ public partial class NewSeriesPage : ContentPage
                 if (result != null)
                 {
                     SetImageParams(result.FullPath);
-                }
-            }
-        }
+                } 
     }
 }

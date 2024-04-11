@@ -14,7 +14,10 @@
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsEnabled="False" IsVisible="False" />
     </Shell.BackButtonBehavior>
-    <ScrollView x:Name="baseContainer" VerticalScrollBarVisibility="Never">
+    <ScrollView
+        x:Name="baseContainer"
+        Margin="0,0,0,30"
+        VerticalScrollBarVisibility="Never">
         <toolkit:DockLayout>
             <Grid x:Name="gridContainer">
                 <Grid.RowDefinitions>
@@ -24,7 +27,6 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="10" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="50" />
                     <RowDefinition Height="40" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>

@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using SeriesTracker.Models;
-using SeriesTracker.Services.SyncJournal;
 using static SeriesTracker.Services.Constant.SeriesBaseParameters;
 
 namespace SeriesTracker.ViewModels
@@ -25,16 +24,7 @@ namespace SeriesTracker.ViewModels
             }
             Series.hiddenSeriesName = Series.seriesName.ToLower().TrimEnd();
             Series.seriesDescription = string.IsNullOrEmpty(Series.seriesDescription) ? null : Series.seriesDescription;
-            if (Series.SyncUid == 0)
-            {
-                Series.SyncUid = (Series.hiddenSeriesName.GetHashCode());
-                Series.addedDate = DateNow;
-                new Journal(new AddUpdateItem(Series.SyncUid, Series.SyncUid)).JournalToJson();
-            }
-            else
-            {
-                new Journal(new AddUpdateItem(Series.hiddenSeriesName.GetHashCode(), Series.SyncUid), new DeleteItem(Series.SyncUid)).JournalToJson();
-            }
+            Series.addedDate = string.IsNullOrEmpty(Series.addedDate) ? DateNow : Series.addedDate;
             Series.ChangedDate = DateNow;
 
             if (await App.SeriesService.AddUpdateSeriesAsync(Series) == false) { await ShowToast("Запись с таким названием уже есть в БД"); }

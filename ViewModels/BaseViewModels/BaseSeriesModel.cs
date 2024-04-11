@@ -1,10 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using SeriesTracker.Classes;
-using SeriesTracker.Classes.Shikimori;
 using SeriesTracker.Models;
-using SeriesTracker.Services.SyncJournal;
 using SeriesTracker.Views;
-using System.Collections.ObjectModel;
 
 namespace SeriesTracker.ViewModels;
 
@@ -52,7 +49,6 @@ public partial class BaseSeriesModel : BaseViewModel
     public async void OnDeleteCommand()
     {
         if (!BaseSeriesModel.CheckSeries(Series)) { return; }
-        new Journal(new DeleteItem(Series.SyncUid)).JournalToJson();
         await App.SeriesService.DeleteSeriesAsync(Series.seriesId);
     }
 

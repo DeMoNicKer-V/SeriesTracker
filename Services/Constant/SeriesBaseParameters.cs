@@ -8,7 +8,6 @@ namespace SeriesTracker.Services.Constant
     public static class SeriesBaseParameters
     {
         public static bool WachedFlag { get; set; } = false;
-        public static bool AnimeSourceSite { get; set; } = false;
         public static readonly string FilePath = Environment.GetFolderPath(
                    Environment.SpecialFolder.LocalApplicationData);
 

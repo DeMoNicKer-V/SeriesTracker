@@ -23,9 +23,4 @@ public partial class SettingsPage : ContentPage
     {
         Preferences.Set("AppTheme", SettingsService.Instance.Theme.AppTheme.ToString());
     }
-
-    private void Picker_SelectedIndexChanged_1(object sender, EventArgs e)
-    {
-        Preferences.Set("SyncType", SettingsService.Instance.Sync.SyncId);
-    }
 }

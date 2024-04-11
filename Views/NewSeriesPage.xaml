@@ -118,26 +118,6 @@
                             WidthRequest="170" />
                     </StackLayout>
                     <StackLayout Grid.Row="1" Grid.Column="2">
-                        <Border
-                            Margin="10,20,0,0"
-                            Padding="5"
-                            BackgroundColor="Transparent"
-                            HorizontalOptions="Center"
-                            Stroke="{AppThemeBinding Light={StaticResource Primary},
-                                                     Dark={StaticResource PrimaryDark}}"
-                            StrokeShape="RoundRectangle 50"
-                            StrokeThickness="1"
-                            VerticalOptions="Start">
-                            <ImageButton
-                                Clicked="ImageButton_Clicked"
-                                HeightRequest="30"
-                                Source="myanimelist.png"
-                                WidthRequest="30">
-                                <ImageButton.Behaviors>
-                                    <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
-                                </ImageButton.Behaviors>
-                            </ImageButton>
-                        </Border>
 
                         <Border
                             Margin="10,20,0,0"

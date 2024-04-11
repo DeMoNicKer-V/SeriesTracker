@@ -50,7 +50,6 @@
 	  <None Remove="Platforms\Android\Resources\values\styles.xml" />
 	  <None Remove="Resources\Images\aboutbold.png" />
 	  <None Remove="Resources\Images\accept.png" />
-	  <None Remove="Resources\Images\add.png" />
 	  <None Remove="Resources\Images\addedcalendar.png" />
 	  <None Remove="Resources\Images\addposter.png" />
 	  <None Remove="Resources\Images\ageLimit\g0.png" />
@@ -66,9 +65,7 @@
 	  <None Remove="Resources\Images\calendar.png" />
 	  <None Remove="Resources\Images\cancel.png" />
 	  <None Remove="Resources\Images\category.png" />
-	  <None Remove="Resources\Images\circle.png" />
 	  <None Remove="Resources\Images\circumference.png" />
-	  <None Remove="Resources\Images\clouddelete.png" />
 	  <None Remove="Resources\Images\cross.png" />
 	  <None Remove="Resources\Images\databasearray.png" />
 	  <None Remove="Resources\Images\delete.png" />
@@ -81,20 +78,14 @@
 	  <None Remove="Resources\Images\exclamation.png" />
 	  <None Remove="Resources\Images\exportjson.png" />
 	  <None Remove="Resources\Images\fullcircle.png" />
-	  <None Remove="Resources\Images\fullsync.png" />
 	  <None Remove="Resources\Images\genres.png" />
-	  <None Remove="Resources\Images\insync.png" />
-	  <None Remove="Resources\Images\lastsync.png" />
-	  <None Remove="Resources\Images\myanimelist.png" />
 	  <None Remove="Resources\Images\noimage.png" />
-	  <None Remove="Resources\Images\outsync.png" />
 	  <None Remove="Resources\Images\ratestar.png" />
 	  <None Remove="Resources\Images\releasecalendar.png" />
 	  <None Remove="Resources\Images\search.png" />
 	  <None Remove="Resources\Images\settings.png" />
 	  <None Remove="Resources\Images\shikimori.png" />
 	  <None Remove="Resources\Images\star.png" />
-	  <None Remove="Resources\Images\sync.png" />
 	  <None Remove="Resources\Images\telegram.png" />
 	  <None Remove="Resources\Images\userrating.png" />
 	  <None Remove="Resources\Images\view.png" />
@@ -116,16 +107,11 @@
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="5.3.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
-		<PackageReference Include="FirebaseDatabase.net" Version="4.2.0" />
-		<PackageReference Include="Google.Apis" Version="1.66.0" />
-		<PackageReference Include="Google.Apis.CustomSearchAPI.v1" Version="1.66.0.3290" />
 		<PackageReference Include="GraphQL.Client" Version="6.0.2" />
 		<PackageReference Include="GraphQL.Client.Serializer.Newtonsoft" Version="6.0.2" />
-		<PackageReference Include="HtmlAgilityPack" Version="1.11.59" />
 		<PackageReference Include="Microsoft.Extensions.Http.Polly" Version="7.0.15" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="RestSharp" Version="110.2.0" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
 		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.6" />
 		<PackageReference Include="SQLitePCLRaw.core" Version="2.1.6" />
@@ -147,12 +133,6 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Controls\CustomElements\ElementBorder.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Controls\CustomElements\GridInnerElement.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Controls\CustomElements\GridInnerElementLabel.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Controls\CustomEmptyView\CustomEmptyView.xaml">

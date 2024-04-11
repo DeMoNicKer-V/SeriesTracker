@@ -54,100 +54,11 @@
             Text="Импортировать данные"
             TextColor="{AppThemeBinding Light={StaticResource Black},
                                         Dark={StaticResource White}}" />
-        <Border BackgroundColor="{AppThemeBinding Light=#f7f7f7, Dark=#1e1e1e}" Stroke="{AppThemeBinding Light=#f7f7f7, Dark=#1e1e1e}">
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="5" />
-            </Border.StrokeShape>
-            <Grid
-                Margin="5"
-                Padding="5"
-                ColumnSpacing="10"
-                RowSpacing="10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="50" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="50" />
-                </Grid.ColumnDefinitions>
-                <control:GridInnerElement
-                    Grid.Row="0"
-                    Grid.ColumnSpan="3"
-                    ClickCommand="{Binding InPutSyncCommand}"
-                    ImageSource="insync.png"
-                    IsBusy="{Binding IsBusy}"
-                    Text="Входящая синхронизация" />
-                <control:GridInnerElement
-                    Grid.Row="1"
-                    Grid.ColumnSpan="3"
-                    ClickCommand="{Binding OutPutSyncCommand}"
-                    ImageSource="outsync.png"
-                    IsBusy="{Binding IsBusy}"
-                    Text="Исходящая синхронизация" />
-                <control:GridInnerElement
-                    Grid.Row="2"
-                    Grid.ColumnSpan="3"
-                    ClickCommand="{Binding FullSyncCommand}"
-                    ImageSource="fullsync.png"
-                    IsBusy="{Binding IsBusy}"
-                    Text="Полная синхронизация" />
-                <ActivityIndicator
-                    Grid.Row="0"
-                    Grid.Column="2"
-                    HeightRequest="40"
-                    WidthRequest="40">
-                    <ActivityIndicator.Triggers>
-                        <DataTrigger
-                            Binding="{Binding ActiveIndicator}"
-                            TargetType="ActivityIndicator"
-                            Value="1">
-                            <Setter Property="IsRunning" Value="True" />
-                        </DataTrigger>
-                    </ActivityIndicator.Triggers>
-                </ActivityIndicator>
-                <ActivityIndicator
-                    Grid.Row="1"
-                    Grid.Column="2"
-                    HeightRequest="40"
-                    WidthRequest="40">
-                    <ActivityIndicator.Triggers>
-                        <DataTrigger
-                            Binding="{Binding ActiveIndicator}"
-                            TargetType="ActivityIndicator"
-                            Value="2">
-                            <Setter Property="IsRunning" Value="True" />
-                        </DataTrigger>
-                    </ActivityIndicator.Triggers>
-                </ActivityIndicator>
-                <ActivityIndicator
-                    Grid.Row="2"
-                    Grid.Column="2"
-                    HeightRequest="40"
-                    WidthRequest="40">
-                    <ActivityIndicator.Triggers>
-                        <DataTrigger
-                            Binding="{Binding ActiveIndicator}"
-                            TargetType="ActivityIndicator"
-                            Value="3">
-                            <Setter Property="IsRunning" Value="True" />
-                        </DataTrigger>
-                    </ActivityIndicator.Triggers>
-                </ActivityIndicator>
-            </Grid>
-        </Border>
 
         <control:ElementBorder
             ImageSource="deletedatabase.png"
             TappedCommand="{Binding DeleteAllDataBaseCommand}"
             Text="Удалить ВСЕ данные в БД"
-            TextColor="{StaticResource Red}" />
-        <control:ElementBorder
-            ImageSource="clouddelete.png"
-            TappedCommand="{Binding DeleteAllCloudCommand}"
-            Text="Удалить ВСЕ данные в облаке"
             TextColor="{StaticResource Red}" />
 
         <Border BackgroundColor="{AppThemeBinding Light=#f7f7f7, Dark=#1e1e1e}" Stroke="{AppThemeBinding Light=#f7f7f7, Dark=#1e1e1e}">
@@ -156,9 +67,6 @@
             </Border.StrokeShape>
             <Grid Margin="5" Padding="5">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="35" />
-                    <RowDefinition Height="40" />
-                    <RowDefinition Height="1" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -167,59 +75,35 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <control:GridInnerElementLabel
+                <Image
                     Grid.Row="0"
                     Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    ImageSource="databasearray.png"
-                    MainText="Всего в базе данных:"
-                    SubText="{Binding AllSeriesCount, StringFormat='{0} записей'}" />
-                <control:GridInnerElementLabel
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    ImageSource="lastsync.png"
-                    MainText="Последняя синхронизация:"
-                    SubText="{Binding DateSyncLast, TargetNullValue='Отсутствует'}" />
-                <StackLayout
-                    Grid.Row="2"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    BackgroundColor="{AppThemeBinding Light=Black,
-                                                      Dark=White}"
-                    HorizontalOptions="Fill" />
-                <Image
-                    Grid.Row="3"
-                    Grid.Column="0"
+                    Margin="0,-5,0,0"
                     HeightRequest="25"
                     HorizontalOptions="Center"
-                    Source="sync.png"
-                    VerticalOptions="Center"
+                    Source="databasearray.png"
+                    VerticalOptions="Start"
                     WidthRequest="25">
                     <Image.Behaviors>
                         <toolkit:IconTintColorBehavior TintColor="{AppThemeBinding Light=Black, Dark=White}" />
                     </Image.Behaviors>
                 </Image>
                 <Label
-                    Grid.Row="3"
+                    Grid.Row="0"
                     Grid.Column="1"
                     FontAttributes="Bold"
                     FontSize="13"
-                    Text="Авто синхронизация:"
-                    VerticalTextAlignment="Center" />
-                <Picker
-                    Grid.Row="3"
+                    Text="Всего в базе данных:" />
+                <Label
+                    Grid.Row="0"
                     Grid.Column="2"
-                    x:DataType="{x:Null}"
-                    BindingContext="{Binding Source={x:Static models:Sync.AvailableSyncs}}"
+                    FontAttributes="Bold"
+                    FontSize="13"
                     HorizontalOptions="End"
                     HorizontalTextAlignment="End"
-                    ItemDisplayBinding="{Binding DisplayName}"
-                    ItemsSource="{Binding Source={x:Static models:Sync.AvailableSyncs}}"
-                    SelectedIndexChanged="Picker_SelectedIndexChanged_1"
-                    SelectedItem="{Binding Path=Sync, Source={x:Static settings:SettingsService.Instance}}"
-                    VerticalOptions="Center" />
+                    Text="{Binding AllSeriesCount, StringFormat='{0} записей'}" />
             </Grid>
+
         </Border>
     </StackLayout>
 </ContentPage>

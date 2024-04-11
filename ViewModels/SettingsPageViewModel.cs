@@ -77,25 +77,6 @@ namespace SeriesTracker.ViewModels
             }
         }
 
-        [RelayCommand]
-        private async Task FullSync()
-        {
-            if (await CheckInternetAccess() == false) return;
-            IsBusy = true;
-            ActiveIndicator = 3;
-            try
-            {
-                await App.FirebaseService.InSynchronize();
-                await App.FirebaseService.OutSynchronize();
-            }
-            catch (Exception ex)
-            {
-                await ShowErrorAlert(Shell.Current, ex.Message);
-                return;
-            }
-            await AfterSyncUpdate("Полная синхронизация выполнена");
-        }
-
         private async Task GetSeriesList(bool flag)
         {
             IsBusy = true;
@@ -117,33 +98,6 @@ namespace SeriesTracker.ViewModels
         }
 
         [RelayCommand]
-        private async Task InPutSync()
-        {
-            if (await CheckInternetAccess() == false) return;
-            IsBusy = true;
-            ActiveIndicator = 1;
-            try
-            {
-                await App.FirebaseService.InSynchronize();
-            }
-            catch (Exception ex)
-            {
-                await ShowErrorAlert(Shell.Current, ex.Message);
-                return;
-            }
-            await AfterSyncUpdate("Входящая синхронизация выполнена");
-        }
-
-        [RelayCommand]
-        private async Task OnDeleteAllCloud()
-        {
-            if (await CheckInternetAccess() == false) return;
-            await App.FirebaseService.DeleteAll();
-            await OnAppearing();
-            await ShowToast("Все данные в облаке удалены");
-        }
-
-        [RelayCommand]
         private async Task OnDeleteAllDataBase()
         {
             await App.SeriesService.DeleteAll();
@@ -151,23 +105,6 @@ namespace SeriesTracker.ViewModels
             await ShowToast("Все данные в БД удалены");
         }
 
-        [RelayCommand]
-        private async Task OutPutSync()
-        {
-            if (await CheckInternetAccess() == false) return;
-            IsBusy = true;
-            ActiveIndicator = 2;
-            try
-            {
-                await App.FirebaseService.OutSynchronize();
-            }
-            catch (Exception ex)
-            {
-                await ShowErrorAlert(Shell.Current, ex.Message);
-                return;
-            }
-            await AfterSyncUpdate("Исходящая синхронизация выполнена"); 
-        }
         [RelayCommand]
         private async Task<FileResult> PickAndShow()
         {

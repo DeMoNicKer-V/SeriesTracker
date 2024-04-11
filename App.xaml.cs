@@ -1,5 +1,4 @@
 ﻿using SeriesTracker.Services;
-using SeriesTracker.Services.Firebase;
 using SeriesTracker.Views;
 using System.ComponentModel;
 using static SeriesTracker.Services.Constant.SeriesBaseParameters;
@@ -16,23 +15,9 @@ public partial class App : Application
             if (_seriesService == null)
             {
                 _seriesService = new SeriesService(Path.Combine(Environment.GetFolderPath(
-                   Environment.SpecialFolder.LocalApplicationData), "time_is_money.db"));
+                   Environment.SpecialFolder.LocalApplicationData), "seriestracker.db"));
             }
             return _seriesService;
-
-        }
-    }
-    private static FirebaseService _firebaseService;
-    public static FirebaseService FirebaseService
-    {
-        get
-        {
-            if (_firebaseService == null)
-            {
-                FirebaseSettings firebaseSettings = new FirebaseSettings(appSecret: FirebaseConsts.appSecret, baseUrl: FirebaseConsts.baseUrl);
-                _firebaseService = new FirebaseService(firebaseSettings);
-            }
-            return _firebaseService;
 
         }
     }
