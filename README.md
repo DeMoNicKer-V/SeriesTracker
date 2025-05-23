@@ -133,7 +133,7 @@ FirebaseSettings(appSecret: "your_database_secret", baseUrl: "your_projecturl");
 ```
 
  var listRequest = searchService.Cse.List();
-            listRequest.Cx = "your_search_engine_id";
+ listRequest.Cx = "your_search_engine_id";
 
 ```
 </li>
@@ -150,7 +150,7 @@ FirebaseSettings(appSecret: "your_database_secret", baseUrl: "your_projecturl");
 
 #### Приложение создано на языке C#.
 
-Приложение использует чистую архитектуру с шаблоном проектирования MVVM и разделено на 3 основных уровня.
+Приложение использует архитектуру с шаблоном проектирования MVVM и разделено на 3 основных уровня.
 
 ## Лицензия
 
